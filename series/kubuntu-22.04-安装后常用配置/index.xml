@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Kubuntu 22.04 安装后常用配置 on 奇风岁月</title><link>https://travisbikkle.pages.dev/series/kubuntu-22.04-%E5%AE%89%E8%A3%85%E5%90%8E%E5%B8%B8%E7%94%A8%E9%85%8D%E7%BD%AE/</link><description>Recent content in Kubuntu 22.04 安装后常用配置 on 奇风岁月</description><generator>Hugo -- gohugo.io</generator><language>zh-hans</language><copyright>Copyright © 2022-{year} Travis Bikkle. All Rights Reserved.</copyright><lastBuildDate>Wed, 15 Nov 2023 11:24:33 +0800</lastBuildDate><atom:link href="https://travisbikkle.pages.dev/series/kubuntu-22.04-%E5%AE%89%E8%A3%85%E5%90%8E%E5%B8%B8%E7%94%A8%E9%85%8D%E7%BD%AE/index.xml" rel="self" type="application/rss+xml"/><item><title>Kubuntu Vscode 鼠标列编辑设置</title><link>https://travisbikkle.pages.dev/2023/11/kubuntu-vscode-mouse/</link><pubDate>Wed, 15 Nov 2023 11:24:33 +0800</pubDate><guid>https://travisbikkle.pages.dev/2023/11/kubuntu-vscode-mouse/</guid><description>鼠标中键是某些操作系统的默认粘贴快捷键，这导致在VSCode中无法使用鼠标中键进入列编辑模式。
+点击 文件-首选项-设置 点击右上角，打开json文件 添加如下行
+1&amp;#34;editor.selectionClipboard&amp;#34;: false 关闭 VSCode 并重新打开，测试是否生效。</description></item><item><title>Kubuntu 软件源在哪里修改</title><link>https://travisbikkle.pages.dev/2023/11/kubuntu2204-software-resources-bug/</link><pubDate>Wed, 08 Nov 2023 11:24:30 +0800</pubDate><guid>https://travisbikkle.pages.dev/2023/11/kubuntu2204-software-resources-bug/</guid><description>Kubuntu 22.04 的软件源可以在 Discover 中的如下位置设置。 但是如果你的 Discover 不显示以上界面，可以通过如下方法来修复。
+编辑如下文件
+1vi /usr/share/applications/software-properties-qt.desktop 将以下内容替换到源文件
+1[Desktop Entry] 2Name=Software Sources 3GenericName=Software Sources 4Comment=Configure the sources for installable software and updates 5Exec=pkexec env DISPLAY=$DISPLAY XAUTHORITY=$XAUTHORITY software-properties-qt 6Icon=applications-other 7NoDisplay=false 8Terminal=false 9X-MultipleArgs=false 10Type=Application 11Categories=System;Settings; 12MimeType=text/x-apt-sources-list; 13X-KDE-SubstituteUID=false 14X-Ubuntu-Gettext-Domain=software-properties 如此，在 Discover可以显示软件源的界面，在菜单中也可以搜索到在其它发行版中常见的 软件源 菜单项。</description></item><item><title>Kubuntu 22.04 中文输入法</title><link>https://travisbikkle.pages.dev/2023/11/kubuntu2204-chiness-im/</link><pubDate>Wed, 08 Nov 2023 11:24:29 +0800</pubDate><guid>https://travisbikkle.pages.dev/2023/11/kubuntu2204-chiness-im/</guid><description>继续使用 fcitx5（推荐） 安装 fcitx5 中文输入法
+1sudo apt install fcitx5-chinese-addons \ 2fcitx5-frontend-gtk4 fcitx5-frontend-gtk3 fcitx5-frontend-gtk2 \ 3fcitx5-frontend-qt5 $(check-language-support) check-language-support 同时安装了系统中缺失的中文语言包（在 区域设置-语言 中点击安装缺失的语言包没有反应），这样才能在第3步中看到 输入法 的选项。
+启用 fcitx5 注意，不要相信网上任何要你更改.xinputrc或者在某些文件中添加如下变量的话
+GTK_IM_MODULE=fcitx
+QT_IM_MODULE=fcitx
+XMODIFIERS=@im=fcitx
+请直接使用你登录的用户执行以下命令
+1im-config 在弹出的窗口中，依次选择确定，是，选择如下选项即可。 重启系统 在 系统设置-区域设置-输入法 中添加 拼音 或者 pinyin
+解决 Intellij Idea 中使用 fcitx5 候选框不跟随的问题
+可以将如下项目的release文件解压缩到JetBrain产品的jbr目录中（可能导致markdown无法预览）
+1https://github.com/RikudouPatrickstar/JetBrainsRuntime-for-Linux-x64 程序员推荐在如下配置中关闭简繁切换快捷键
+系统设置-区域设置-输入法-配置附加组件-简繁切换 中删除CTRL SHIFT F的简繁切换快捷键。
+解决中 Visual Studio Code 中无法使用任何中文输入法的问题
+如果你中 Discover 软件管理工具中下载了 VSCode，请卸载后，在官网下载 deb 包安装，即可解决无法输入中文的问题。
+使用 fcitx4 卸载 fcitx5
+1sudo apt-get remove fcitx5 安装谷歌拼音输入法</description></item><item><title>Ubuntu 改键</title><link>https://travisbikkle.pages.dev/2023/10/remaps-keys-in-ubuntu/</link><pubDate>Tue, 17 Oct 2023 11:24:32 +0800</pubDate><guid>https://travisbikkle.pages.dev/2023/10/remaps-keys-in-ubuntu/</guid><description>在 Ubuntu Software 中搜索 Gnome Tweaks 并安装。 点击 Keyboard &amp;amp; Mouse 点击 Additional Layout Options 在弹出的窗口中，勾选 Ctrl position 中的 Swap Ctrl and Caps Lock 本文基于 Ubuntu 22.04 LTS 及 Gnome Tweaks 3.34.0 编写。
+补充：使用kde更加的方便，该设置已经被集成到系统设置中，无需下载 Gnome Tweaks。</description></item><item><title>常用包管理软件代理或国内镜像设置</title><link>https://travisbikkle.pages.dev/2018/10/common-pakage-manager-proxy/</link><pubDate>Sat, 13 Oct 2018 11:24:31 +0800</pubDate><guid>https://travisbikkle.pages.dev/2018/10/common-pakage-manager-proxy/</guid><description>npm 代理
+1 # 使用家目录下的默认rc文件配置，不使用 npm config set.. 2 vi ~/.npmrc 3 ## add these lines to .npmrc 4 ## privoxy and shadowsocks [如何配置 privoxy 详见另一篇博文]() 5 proxy=http://localhost:8118 6 https_proxy=https://localhost:8118 7 strict-ssl=false npm 国内镜像-淘宝
+1 vi ~/.npmrc 2 registry=https://registry.npm.taobao.org 3 ## proxy=http://localhost:8118 4 ## https_proxy=https://localhost:8118 5 ## strict-ssl=false yarn 代理
+1 vi ~/.yarnrc 2 ## add these lines to .yarnrc 3 env: 4 proxy &amp;#39;http://localhost:8118&amp;#39; 5 https_proxy &amp;#39;https://localhost:8118&amp;#39; 6 strict-ssl false yarn 使用国内镜像</description></item></channel></rss>
