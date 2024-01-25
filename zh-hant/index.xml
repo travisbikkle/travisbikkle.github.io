@@ -1,0 +1,362 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>博客 on 奇风岁月</title><link>https://travisbikkle.pages.dev/zh-hant/</link><description>Recent content in 博客 on 奇风岁月</description><generator>Hugo -- gohugo.io</generator><language>zh-hant</language><copyright>Copyright © 2022-{year} Travis Bikkle. All Rights Reserved.</copyright><lastBuildDate>Sun, 26 Feb 2023 18:24:31 +0800</lastBuildDate><atom:link href="https://travisbikkle.pages.dev/zh-hant/index.xml" rel="self" type="application/rss+xml"/><item><title>使用 Adobe Premiere 製作 GIF 文件</title><link>https://travisbikkle.pages.dev/zh-hant/2024/01/adobe-premiere-gif/</link><pubDate>Mon, 22 Jan 2024 11:24:28 +0800</pubDate><guid>https://travisbikkle.pages.dev/zh-hant/2024/01/adobe-premiere-gif/</guid><description> 雙擊左下角媒體瀏覽器，將視頻素材導入 在左上角編輯窗口，點擊如圖所示按鈕，標記入點與出點（開始與結束） 將左上角的內容拖動到右下角時間軸內 右鍵點擊時間軸內的波段，點擊取消鏈接，再次右鍵，選擇清除聲音軌道的波紋，以刪除聲音 選擇 文件-&amp;gt;導出-&amp;gt;媒體，選擇 動畫GIF 格式，調整大小後導出</description></item><item><title>Unity Editor Scripting 樣例</title><link>https://travisbikkle.pages.dev/zh-hant/2024/01/unity-editor-scripting-demo/</link><pubDate>Thu, 04 Jan 2024 11:24:36 +0800</pubDate><guid>https://travisbikkle.pages.dev/zh-hant/2024/01/unity-editor-scripting-demo/</guid><description>Unity 的官方文檔非常詳細，但是不是所有人學習Unity都是從頭看到尾看文檔過來的。 我最近剛接觸Unity,最近想給編輯器擴展一些功能，比如點擊Inspector面板，在Project窗口中高亮選擇Prefab或者Script。 這麼小小的一個需求，查遍了中文互聯網，不得其果。大家要麼在CSDN上貼一些零碎的、沒有格式化的代碼，要麼互相複製粘貼。結果不言而喻。 看外網，似乎大家提到了一些代碼，但是Unity論壇上的人都是高手，作爲一個新手看到了代碼都不知道放在哪，怎麼用，非常苦惱。 今天我把自己折騰了幾個小時的一點小代碼貼上，作爲記錄。如果大家對於編輯器擴展有大量需求，建議還是系統地學習一下官方的教程，不要像我，只求快，結果花費的時間更多。
+擴展代碼需要放到Editor文件夾下 這個Editor文件夾你可以建到任意的地方，我放到了Assets/Scripts/Editor下面，在其中創建一個C#文件，命名隨意。 將以下代碼粘貼進文件，保存，即可在Inspect面板點擊掛載腳本時高亮腳本。
+1using UnityEditor; 2using UnityEditor.UIElements; 3using UnityEngine; 4using UnityEngine.UIElements; 5 6 7[CustomEditor(typeof(MonoBehaviour), true)] 8public class HighlightItem : Editor { 9 public override VisualElement CreateInspectorGUI() { 10 var root = new VisualElement(); 11 InspectorElement.FillDefaultInspector(root, serializedObject, this); 12 root.Add(new Label(&amp;#34;點擊以高亮&amp;#34;)); 13 root.RegisterCallback&amp;lt;ClickEvent&amp;gt;(Highlight); 14 15 return root; 16 } 17 18 private void Highlight(ClickEvent evt) { 19 var script = MonoScript.FromMonoBehaviour((MonoBehaviour)target); 20 21 UnityEditor.EditorGUIUtility.PingObject(script); 22 //UnityEditor.</description></item><item><title>HB 卡片主題已發佈</title><link>https://travisbikkle.pages.dev/zh-hant/2023/12/hb-%E5%8D%A1%E7%89%87%E4%B8%BB%E9%A1%8C%E5%B7%B2%E7%99%BC%E4%BD%88/</link><pubDate>Tue, 05 Dec 2023 13:14:52 +0800</pubDate><guid>https://travisbikkle.pages.dev/zh-hant/2023/12/hb-%E5%8D%A1%E7%89%87%E4%B8%BB%E9%A1%8C%E5%B7%B2%E7%99%BC%E4%BD%88/</guid><description>我們很榮幸地宣佈，我們的新</description></item><item><title>Vmware 中 Intellij Idea 快捷鍵錯誤</title><link>https://travisbikkle.pages.dev/zh-hant/2023/12/idea-shortkey-error-in-vmware/</link><pubDate>Fri, 01 Dec 2023 11:24:32 +0800</pubDate><guid>https://travisbikkle.pages.dev/zh-hant/2023/12/idea-shortkey-error-in-vmware/</guid><description>在VMware中，CTRL ALT是默認的將鼠標焦點從虛擬機中移開的熱鍵，這將導致一切在Vmware中運行的虛擬機系統中以該組合鍵 位開頭的熱鍵不可用。比如Intellij Idea的默認後退快捷鍵CTRL ALT LEFT。
+一開始我以爲是KDE熱鍵衝突的問題，因爲KDE默認有很多的快捷鍵，但是經過查看KDE的系統設置，並沒有發現熱鍵佔用的情況：
+直到我意識到screenkey也沒有提示，這說明我的KDE根本沒有接收到CTRL ALT LEFT按鍵。答案顯而易見，是Vmware的問題了。 爲了防止衝突，在Vmware的 編輯-首選項-熱鍵 中可以將這四個按鍵都勾選上。</description></item><item><title>Vmware Power-ON 腳本啓動失敗</title><link>https://travisbikkle.pages.dev/zh-hant/2023/11/vmware-poweron-script/</link><pubDate>Thu, 16 Nov 2023 11:24:33 +0800</pubDate><guid>https://travisbikkle.pages.dev/zh-hant/2023/11/vmware-poweron-script/</guid><description>VMware 的開機腳本位於 /etc/vmware-tools/ 下。如果你的虛擬機報錯啓動客戶機腳本失敗，你可以在虛擬機-電源-開機中開機，然後進入該目錄調試。
+如果你的vmware-tools進行過升級，但是升級過程中出現了問題，可能導致腳本沒有正確命名。比如，下面是開機、關機等操作對應的腳本名稱
+1poweroff-vm-default 2poweron-vm-default 3resume-vm-default 4suspend-vm-default 5vgauth.conf 而你的機器上可能是
+1poweroff-vm-default.dpkg-dist 2poweron-vm-default.dpkg-dist 3resume-vm-default.dpkg-dist 4suspend-vm-default.dpkg-dist 5vgauth.conf.dpkg-dist 那麼請執行以下命令重命名即可
+1find /etc/vmware-tools/ -name &amp;#34;*.dpkg-dist&amp;#34; -exec sh -c &amp;#39;x={}; cp &amp;#34;$x&amp;#34; $(echo $x | sed &amp;#39;s/\.dpkg-dist//g&amp;#39;)&amp;#39; \; 另外你還可能需要檢查 /etc/vmware-tools/scripts/vmware 以及各個腳本是否具有可執行權限。</description></item><item><title>Kubuntu Vscode 鼠標列編輯設置</title><link>https://travisbikkle.pages.dev/zh-hant/2023/11/kubuntu-vscode-mouse/</link><pubDate>Wed, 15 Nov 2023 11:24:33 +0800</pubDate><guid>https://travisbikkle.pages.dev/zh-hant/2023/11/kubuntu-vscode-mouse/</guid><description>鼠標中鍵是某些操作系統的默認粘貼快捷鍵，這導致在VSCode中無法使用鼠標中鍵進入列編輯模式。
+點擊 文件-首選項-設置 點擊右上角，打開json文件 添加如下行
+1&amp;#34;editor.selectionClipboard&amp;#34;: false 關閉 VSCode 並重新打開，測試是否生效。</description></item><item><title>Android Studio Emulator 啓動失敗</title><link>https://travisbikkle.pages.dev/zh-hant/2023/11/android-studio-emulator-failed/</link><pubDate>Wed, 15 Nov 2023 11:24:23 +0800</pubDate><guid>https://travisbikkle.pages.dev/zh-hant/2023/11/android-studio-emulator-failed/</guid><description>報錯現象 :::danger ERROR The emulator process for AVD Pixel_3a_API_34_extension_level_7_x86_64 has terminated. ::: 沒有任何的報錯信息，如果不知道日誌在哪裏，該如何排查呢？
+解決辦法 在你的家目錄如下位置，執行如下命令，通過命令行查詢出虛擬設備並啓動，將報錯信息打印到前臺
+1yourname@v:~/Android/Sdk/emulator$ ./emulator -list-avds 2Pixel_3a_API_34_extension_level_7_x86_64 3yourname@v:~/Android/Sdk/emulator$ ./emulator @Pixel_3a_API_34_extension_level_7_x86_64 4INFO | Android emulator version 32.1.15.0 (build_id 10696886) (CL:N/A) 5INFO | Found systemPath /home/yourname/Android/Sdk/system-images/android-34/google_apis/x86_64/ 6INFO | Storing crashdata in: /tmp/android-yourname/emu-crash.db, detection is enabled 7INFO | Duplicate loglines will be removed, if you wish to see each indiviudal line launch with the -log-nofilter flag. 8WARNING | Please update the emulator to one that supports the feature(s): SupportPixelFold 9ERROR | Not enough space to create userdata partition.</description></item><item><title>Windows Vmware Amd-V 開啓</title><link>https://travisbikkle.pages.dev/zh-hant/2023/11/win11-vmware-amd-v/</link><pubDate>Tue, 14 Nov 2023 11:24:35 +0800</pubDate><guid>https://travisbikkle.pages.dev/zh-hant/2023/11/win11-vmware-amd-v/</guid><description>報錯現象 我在 Win 11 中安裝了 Vmware，並在Vmware中安裝了 Kubuntu 22.04 虛擬機。 當我在虛擬機設置的cpu設置中開啓AMD-V的時候，Vmware提示如下錯誤： 起初我並沒有在意，只是感覺虛擬機的性能有些差，直到我在虛擬機中嘗試使用Android Studio附帶的安卓模擬器時，遇到了問題。
+無法開啓 AMD-V 或 Intel VT-x 的影響 性能下降
+虛擬機的性能將受到限制，因爲它不能充分利用硬件虛擬化擴展，指令執行和內存管理開銷可能增加。 這個性能下降是肉眼可見的，你在點擊、挪動鼠標的時候會感覺到有一種難以察覺的遲滯感，非常難受。
+兼容性問題
+某些操作系統和應用程序可能無法正常運行或可能出現不穩定的情況。
+如果你在虛擬機中開發 Android，你可能無法在虛擬機中再開啓一個模擬器。
+安全性問題
+虛擬機之間的隔離性可能會下降，從而增加了安全風險。
+如何解決 確認你的主板支持 AMD-V 或者 Intel VT-x
+現在的主板基本都支持，你需要通過搜索引擎，搜索你的主板該如何確認是否已經開啓該功能。 關閉組策略中的如下設置
+在開始菜單中搜索 gpedit，打開組策略編輯器： 在 計算機配置-管理模板-系統-Device Guard 中，雙擊打開 基於虛擬化的安全，設置爲 已禁用： 關閉 Windows 安全中心 中的內存完整性保護
+將以下內存完整性的開關關閉，然後重啓系統。 如果你曾經開啓過Hyper-V，還需要在 控制面板-程序和功能-啓用或關閉Windows功能 中，去掉勾選Hyper-V</description></item><item><title>Intellij Idea 啓動報錯</title><link>https://travisbikkle.pages.dev/zh-hant/2023/11/idea-start-error/</link><pubDate>Tue, 14 Nov 2023 11:24:23 +0800</pubDate><guid>https://travisbikkle.pages.dev/zh-hant/2023/11/idea-start-error/</guid><description>Intellij Idea 2023.2 啓動報錯：
+::: danger ERROR Error while opening intellij &amp;ldquo;Cannot connect to already running IDE instance. Exception: Process 2,837 is still running&amp;rdquo; :::
+youtrack 跟蹤 https://youtrack.jetbrains.com/issue/IDEA-330531
+解決辦法 在菜單中編輯啓動項，在idea.sh前加入一個前置的腳本，在其中刪除不該存在的.lock文件
+1/opt/idea-IU-232.10203.10/bin/prestart.sh; /opt/idea-IU-232.10203.10/bin/idea.sh 腳本的內容爲
+1#!/bin/bash 2rm ~/.config/JetBrains/IntelliJIdea2023.2/.lock</description></item><item><title>Kubuntu 軟件源在哪裏修改</title><link>https://travisbikkle.pages.dev/zh-hant/2023/11/kubuntu2204-software-resources-bug/</link><pubDate>Wed, 08 Nov 2023 11:24:30 +0800</pubDate><guid>https://travisbikkle.pages.dev/zh-hant/2023/11/kubuntu2204-software-resources-bug/</guid><description>Kubuntu 22.04 的軟件源可以在 Discover 中的如下位置設置。 但是如果你的 Discover 不顯示以上界面，可以通過如下方法來修復。
+編輯如下文件
+1vi /usr/share/applications/software-properties-qt.desktop 將以下內容替換到源文件
+1[Desktop Entry] 2Name=Software Sources 3GenericName=Software Sources 4Comment=Configure the sources for installable software and updates 5Exec=pkexec env DISPLAY=$DISPLAY XAUTHORITY=$XAUTHORITY software-properties-qt 6Icon=applications-other 7NoDisplay=false 8Terminal=false 9X-MultipleArgs=false 10Type=Application 11Categories=System;Settings; 12MimeType=text/x-apt-sources-list; 13X-KDE-SubstituteUID=false 14X-Ubuntu-Gettext-Domain=software-properties 如此，在 Discover可以顯示軟件源的界面，在菜單中也可以搜索到在其它發行版中常見的 軟件源 菜單項。</description></item><item><title>Kubuntu 22.04 中文輸入法</title><link>https://travisbikkle.pages.dev/zh-hant/2023/11/kubuntu2204-chiness-im/</link><pubDate>Wed, 08 Nov 2023 11:24:29 +0800</pubDate><guid>https://travisbikkle.pages.dev/zh-hant/2023/11/kubuntu2204-chiness-im/</guid><description>繼續使用 fcitx5（推薦） 安裝 fcitx5 中文輸入法
+1sudo apt install fcitx5-chinese-addons \ 2fcitx5-frontend-gtk4 fcitx5-frontend-gtk3 fcitx5-frontend-gtk2 \ 3fcitx5-frontend-qt5 啓用 fcitx5 注意，不要相信網上任何要你更改.xinputrc或者在某些文件中添加如下變量的話
+GTK_IM_MODULE=fcitx
+QT_IM_MODULE=fcitx
+XMODIFIERS=@im=fcitx
+請直接使用你登錄的用戶執行以下命令
+1im-config 在彈出的窗口中，依次選擇確定，是，選擇如下選項即可。 重啓系統 在 系統設置-區域設置-輸入法 中添加 拼音 或者 pinyin
+解決 Intellij Idea 中使用 fcitx5 候選框不跟隨的問題
+可以將如下項目的release文件解壓縮到JetBrain產品的jbr目錄中（可能導致markdown無法預覽）
+1https://github.com/RikudouPatrickstar/JetBrainsRuntime-for-Linux-x64 程序員推薦中如下配置中關閉簡繁切換快捷鍵
+系統設置-區域設置-輸入法-配置附加組件-簡繁切換 中刪除CTRL SHIFT F的簡繁切換快捷鍵。
+解決中 Visual Studio Code 中無法使用任何中文輸入法的問題
+如果你中 Discover 軟件管理工具中下載了 VSCode,請卸載後，中官網下載 deb 包安裝，即可解決無法輸入中文的問題。
+使用 fcitx4 卸載 fcitx5
+1sudo apt-get remove fcitx5 安裝谷歌拼音輸入法
+1sudo apt-get install fcitx-googlepinyin 參考 繼續使用 fcitx5 中的第二步，啓用fcitx4</description></item><item><title>右鍵添加 Cygwin</title><link>https://travisbikkle.pages.dev/zh-hant/2023/10/cygwin-right-click-menu/</link><pubDate>Tue, 31 Oct 2023 11:24:35 +0800</pubDate><guid>https://travisbikkle.pages.dev/zh-hant/2023/10/cygwin-right-click-menu/</guid><description>本文基於 Windows 10。
+效果展示 方法 重新運行 cygwin 安裝程序，勾選 chere 安裝包 安裝完成後，使用管理員身份運行 cygwin，執行以下命令 1chere -i -t mintty -s bash 此時右鍵菜單應該有 &amp;ldquo;Bash Prompt Here&amp;rdquo; 菜單選項，如果您想更改爲中文，可以在更改此處註冊表 1計算機\HKEY_LOCAL_MACHINE\SOFTWARE\Classes\Directory\background\shell\cygwin64_bash 增加 Icon 字符串以顯示菜單圖標，並更改中文描述，達到上圖菜單效果。</description></item><item><title>Windows 常用命令</title><link>https://travisbikkle.pages.dev/zh-hant/2023/10/windows-common-commands/</link><pubDate>Tue, 31 Oct 2023 11:24:34 +0800</pubDate><guid>https://travisbikkle.pages.dev/zh-hant/2023/10/windows-common-commands/</guid><description>在右鍵菜單中添加管理員獲得所有權 打開記事本，將以下內容粘貼 1Windows Registry Editor Version 5.00 2[HKEY_CLASSES_ROOT\*\shell\runas] 3@=&amp;#34;管理員取得所有權&amp;#34; 4&amp;#34;NoWorkingDirectory&amp;#34;=&amp;#34;&amp;#34; 5[HKEY_CLASSES_ROOT\*\shell\runas\command] 6@=&amp;#34;cmd.exe /c takeown /f \&amp;#34;%1\&amp;#34; &amp;amp;&amp;amp; icacls \&amp;#34;%1\&amp;#34; /grant administrators:F&amp;#34; 7&amp;#34;IsolatedCommand&amp;#34;=&amp;#34;cmd.exe /c takeown /f \&amp;#34;%1\&amp;#34; &amp;amp;&amp;amp; icacls \&amp;#34;%1\&amp;#34; /grant administrators:F&amp;#34; 8[HKEY_CLASSES_ROOT\exefile\shell\runas2] 9@=&amp;#34;管理員取得所有權&amp;#34; 10&amp;#34;NoWorkingDirectory&amp;#34;=&amp;#34;&amp;#34; 11[HKEY_CLASSES_ROOT\exefile\shell\runas2\command] 12@=&amp;#34;cmd.exe /c takeown /f \&amp;#34;%1\&amp;#34; &amp;amp;&amp;amp; icacls \&amp;#34;%1\&amp;#34; /grant administrators:F&amp;#34; 13&amp;#34;IsolatedCommand&amp;#34;=&amp;#34;cmd.exe /c takeown /f \&amp;#34;%1\&amp;#34; &amp;amp;&amp;amp; icacls \&amp;#34;%1\&amp;#34; /grant administrators:F&amp;#34; 14[HKEY_CLASSES_ROOT\Directory\shell\runas] 15@=&amp;#34;管理員取得所有權&amp;#34; 16&amp;#34;NoWorkingDirectory&amp;#34;=&amp;#34;&amp;#34; 17[HKEY_CLASSES_ROOT\Directory\shell\runas\command] 18@=&amp;#34;cmd.exe /c takeown /f \&amp;#34;%1\&amp;#34; /r /d y &amp;amp;&amp;amp; icacls \&amp;#34;%1\&amp;#34; /grant administrators:F /t&amp;#34; 19&amp;#34;IsolatedCommand&amp;#34;=&amp;#34;cmd.</description></item><item><title>Ubuntu 改鍵</title><link>https://travisbikkle.pages.dev/zh-hant/2023/10/remaps-keys-in-ubuntu/</link><pubDate>Tue, 17 Oct 2023 11:24:32 +0800</pubDate><guid>https://travisbikkle.pages.dev/zh-hant/2023/10/remaps-keys-in-ubuntu/</guid><description>在 Ubuntu Software 中搜索 Gnome Tweaks 並安裝。 點擊 Keyboard &amp;amp; Mouse 點擊 Additional Layout Options 在彈出的窗口中，勾選 Ctrl position 中的 Swap Ctrl and Caps Lock 本文基於 Ubuntu 22.04 LTS 及 Gnome Tweaks 3.34.0 編寫。
+補充：使用kde更加的方便，該設置已經被集成到系統設置中，無需下載 Gnome Tweaks。</description></item><item><title>Code Server Nginx Ssl Error</title><link>https://travisbikkle.pages.dev/zh-hant/2023/10/code-server-nginx-ssl-error-1006/</link><pubDate>Tue, 17 Oct 2023 11:24:30 +0800</pubDate><guid>https://travisbikkle.pages.dev/zh-hant/2023/10/code-server-nginx-ssl-error-1006/</guid><description>1An unexpected error occurred that requires a reload of this page. 2The workbench failed to connect to the server (Error: WebSocket close with status code 1006) Code server popped up a websocket error when I exposed code-server using a custom domain and a custom port via nginx.
+Here is part of my nginx.conf.
+1 upstream code{ 2 server xxxxxxxxx; 3 } 4 server { 5 listen 40032 ssl; 6 server_name xxxxxxxx; 7 ssl_certificate certs/mycert.</description></item><item><title>How to add samba entry in /etc/fstab</title><link>https://travisbikkle.pages.dev/zh-hant/2023/10/fatab-samba/</link><pubDate>Tue, 17 Oct 2023 11:24:29 +0800</pubDate><guid>https://travisbikkle.pages.dev/zh-hant/2023/10/fatab-samba/</guid><description>Configure Samba On Ubuntu
+1. install necessary tools 1sudo apt install cifs-utils 2. prepare credentials 1sudo mkdir /mnt/samba 2sudo vi /root/.smb_credentials 3. put next 2 lines into /root/.smb_credentials 1username=&amp;lt;your user name&amp;gt; 2password=&amp;lt;your password&amp;gt; 4. change credential file permission for security reason 1chmod 600 /root/.smb_credentials 5. configure /etc/fstab 1sudo vi /etc/fstab 6. put next line into /etc/fstab. add noauto to options if you don&amp;rsquo;t want to let Ubuntu auto mount this path 1#&amp;lt;shared path&amp;gt; &amp;lt;mount point&amp;gt; &amp;lt;type&amp;gt; &amp;lt;options&amp;gt; 2//192.</description></item><item><title>Vuepress .x 使用 Pangu.js 實現中英文自動空格</title><link>https://travisbikkle.pages.dev/zh-hant/2023/05/vuepress-pangu/</link><pubDate>Thu, 25 May 2023 11:24:27 +0800</pubDate><guid>https://travisbikkle.pages.dev/zh-hant/2023/05/vuepress-pangu/</guid><description>偏執狂的自述 如果你跟我一樣，每次看到網頁上的中文字和英文、數字、符號擠在一塊，就會坐立難安，忍不住想在它們之間加個空格。這個外掛（支援 Chrome 和 Firefox）正是你在網路世界走跳所需要的東西，它會自動替你在網頁中所有的中文字和半形的英文、數字、符號之間插入空白。
+漢學家稱這個空白字元為「盤古之白」，因為它劈開了全形字和半形字之間的混沌。另有研究顯示，打字的時候不喜歡在中文和英文之間加空格的人，感情路都走得很辛苦，有七成的比例會在 34 歲的時候跟自己不愛的人結婚，而其餘三成的人最後只能把遺產留給自己的貓。畢竟愛情跟書寫都需要適時地留白。
+與大家共勉之。
+以上這段惡毒的獨白來自 https://github.com/vinta/pangu.js/ 的偏執狂作者 vinta，但依然不能充分的表達有追求的傑青們看到中英文和符號擠在一塊的不適。
+好在現在可以使用 pangu.js 來幫你規避辛苦的感情路或者孤獨終老的風險，趕快來看看如何在 VuePress 中使用吧！
+VuePress 1.x VuePress 1.x 版本可以參考 https://shigma.github.io/markdown-it-pangu/vuepress.html 配置。
+VuePress 2.x 以上插件並沒有適配 VuePress 2.x 的版本，但是好在 VuePress 2.x 預留了 hook，查看 markdown-it-pangu 的代碼之後，我發現可以使用如下方法，略過插件，達成在 VuePress 2.x 中調用 pangu.js 的能力。
+1// 以下代碼在 config.ts 或者 config.js 中 2import panguPlugin from &amp;#39;markdown-it-pangu&amp;#39; 3// ... 省略 4export default defineUserConfig({ 5 extendsMarkdown: (md) =&amp;gt; { 6 md.use(panguPlugin) 7 }, 8// ... 省略 可以在任一 markdown 文件中測試，如：</description></item><item><title>Vuepress Algolia</title><link>https://travisbikkle.pages.dev/zh-hant/2023/05/vuepress-algolia/</link><pubDate>Wed, 24 May 2023 11:24:28 +0800</pubDate><guid>https://travisbikkle.pages.dev/zh-hant/2023/05/vuepress-algolia/</guid><description>Algolia 是一個優秀的靜態網站搜索插件，非常適用於沒有後臺的靜態網頁博客系統（比如github pages）。
+經過一定的申請步驟後（見下文鏈接），Algolia 通過爬蟲定期爬取網站的數據將其存放到自己的數據庫中。用戶在網站上搜索的時候，就可以調用爬取的數據，顯示搜索結果。但是 Algolia 有個缺點：它不是開箱即用的。參考以下兩個鏈接，可以申請 Algolia 並在 VuePress 中做初步的配置。
+VuePress 博客優化之開啓 Algolia 全文搜索
+VuePress 官網
+但是每個人的環境、步驟可能都不一樣，尤其是如果你經歷過從 VuePress 1.x 遷移過 VuePress 2.x，可能你會發現無論如何都無法搜索出結果，並且無法從網絡上得到答案。
+如果你遇到了這個問題，可以參考以下步驟進行排障：
+確定你的 VuePress 版本是 1.x 還是 2.x 可以在你的博客代碼中的 package.json 中查看。 進入 https://crawler.Algolia.com/admin/ 編輯器檢查以下三處配置 2.1 pathsToMatch 這一行默認帶了一級 docs，請確認你的網站是否包含，如果不包含請刪掉這裏的docs 2.2 確認 lvl0.selectors 這一行，是 .sidebar-heading.active 還是 p.sidebar-heading.open。前者對應的是 VuePress 2.x 版本，後者適配的是 VuePress 1.x 版本，如果錯用，在此界面點擊 URL Tester 的測試時將可以爬取到 URL 但是無法爬取到 index。如果確認錯配了，請在該網站找到正確的示例代碼覆蓋（注意替換爲你的網站信息） 2.3 確認你的 appId，apiKey，indexName 等是否正確。 以下是我的配置，基於 VuePress 2.x，請參考。 1new Crawler({ 2 appId: &amp;#34;xxxxxx&amp;#34;, 3 apiKey: &amp;#34;xxxxxx&amp;#34;, 4 rateLimit: 8, 5 maxDepth: 10, 6 startUrls: [&amp;#34;https://travisbikkle.</description></item><item><title>數據結構</title><link>https://travisbikkle.pages.dev/zh-hant/2023/05/data-structure/</link><pubDate>Mon, 01 May 2023 11:24:02 +0800</pubDate><guid>https://travisbikkle.pages.dev/zh-hant/2023/05/data-structure/</guid><description>Doubly Linked List 什麼是雙向鏈表 雙向鏈表是一種特殊的鏈表，其中的每個節點都包含前一個和後一個節點的引用。 下面是一個雙向鏈表的簡單示例：
+1// Class for Doubly Linked List 2public class DLL { 3 // Head of list 4 Node head; 5 // Doubly Linked list Node 6 class Node { 7 int data; 8 Node prev; 9 Node next; 10 // Constructor to create a new node 11 // next and prev is by default initialized as null 12 Node(int d) { data = d; } 13 } 14} 1# Node of a doubly linked list 2class Node: 3 def __init__(self, next=None, prev=None, data=None): 4 # reference to next node in DLL 5 self.</description></item><item><title>Ubuntu Vnc</title><link>https://travisbikkle.pages.dev/zh-hant/2023/04/ubuntu-vnc/</link><pubDate>Mon, 10 Apr 2023 11:24:31 +0800</pubDate><guid>https://travisbikkle.pages.dev/zh-hant/2023/04/ubuntu-vnc/</guid><description>本文基於 Ubuntu 20.04 編寫。
+安裝 vncserver 和要使用的桌面管理器 xfce 1apt install tightvncserver xfce4 xfce4-goodies 更改密碼 1vncpasswd 配置 vnc 以便客戶端連接時使用 xfce 桌面 編輯 ~/.vnc/xstartup，輸入以下內容 1#!/bin/sh 2unset SESSION_MANAGER 3unset DBUS_SESSION_BUS_ADDRESS 4startxfce4 &amp;amp; 執行以下命令 1chmod +x ~/.vnc/xstartup 禁用休眠 1systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target 啓動服務器 1vncserver -localhost no -geometry 1920x1080 參考 https://linuxconfig.org/vnc-server-on-ubuntu-20-04-focal-fossa-linux</description></item><item><title>端口轉發的一些方法</title><link>https://travisbikkle.pages.dev/zh-hant/2023/02/port-forward/</link><pubDate>Wed, 01 Feb 2023 11:24:24 +0800</pubDate><guid>https://travisbikkle.pages.dev/zh-hant/2023/02/port-forward/</guid><description>在《如何抓包分析 vrrp 報文是否中斷》中我們使用了 iptables 進行指定協議的報文日誌記錄功能，此處新增一個好用的命令。
+我們在開發過程中，可能經常需要經過堡壘機、跳板機等中轉一次，才能訪問到處於小網中的服務，如數據庫。使用以下命令，可以在不借助第三方軟件的情況下，完成端口轉發，實現直連小網服務。
+iptables 假設 192.168.1.3 是你的小網機器，端口是 15432
+1iptables -t nat -A PREROUTING -p tcp --dport 15432 -j DNAT --to-destination 192.168.1.3:15432 2iptables -t nat -A POSTROUTING -p tcp -m tcp --dport 15432 -j MASQUERADE nginx upstream 192.168.1.3 { server 192.168.1.3:15432; } server { listen 15432; proxy_pass 192.168.1.3; proxy_connect_timeout 1h; proxy_timeout 1h; } 或者用 go 自己寫了一些小工具來轉發，我自己還寫了一個自動生成 xshell 配置的工具，因爲在公司內網，不便共享。</description></item><item><title>如何寫一個 K8s Operator</title><link>https://travisbikkle.pages.dev/zh-hant/2022/05/operator-dev/</link><pubDate>Thu, 26 May 2022 11:24:26 +0800</pubDate><guid>https://travisbikkle.pages.dev/zh-hant/2022/05/operator-dev/</guid><description>使用過 k8s 的同學可能執行過以下命令：
+1kubectl edit sts myapp # 編輯一個名稱爲 myapp 的 StatefulSet 2kubectl describe sts myapp # 查看一個名稱爲 myapp 的 StatefulSet StatefulSet 是 k8s 定義的一種資源，類似的還有 Deployment、Job、ConfigMap 等。當你執行 edit 命令編輯這些資源後，k8s 會通過不停輪詢的方式（核心概念：control loop），將目標資源調整（核心概念：reconcile）到你期望的狀態。
+例如，你按了空調的遙控器，希望將房間的溫度下調到 20℃。空調的壓縮機開始工作，並且同時不停的檢測當前實際的溫度與你期望的溫度之間的差異，直到溫度達到20℃，這就是一個 control loop 的例子。
+很簡單，對吧？
+設想一下如果不是這樣，你將一手拿着溫度計，然後不停的告訴空調溫度仍然很高，或者已經變得過低了。
+這就是聲明式 API 的好處，用戶只需要告訴程序你的期望，剩下的交給程序來做（對於程序開發者來說是雷鋒行爲），而程序實現目標最省力的方式，就是採用 control loop 的方式，不停的對比期望與現實的差距。
+Operator 是什麼 試想我們不再滿足於 k8s 提供的默認的資源，我們想利用這種省心省力的方式，來管理我們自己的資源，如：數據庫的一個用戶。
+你可能想說，數據庫的用戶存在於數據庫內，我知道數據庫的集羣可以定義爲 StatefulSet 然後由 k8s 管理，用戶又怎麼使用 k8s 管理呢？爲什麼要用 k8s 來管理呢？
+爲什麼要用 k8s 管理用戶資源？
+以 MySql 爲例，通常我們創建用戶，是使用 root 用戶登錄到數據庫，執行 sql 語句創建用戶。但是設想以下幾種場景：
+你不知道 root 用戶的密碼，或者因爲安全要求，不能提供給你 你不知道 MySql 的 IP 你知道以上信息，但是因爲沒有開啓相應的節點權限，你無法登錄數據庫 你完成了以上所有步驟，結果其中某些登錄或者創建步驟失敗了，你和數據庫運維人員開始扯皮 看到了吧？這些都是生產環境中，真實會遇到的事情。而使用以下步驟，我們就可以一舉解決這些問題。</description></item><item><title>vrrp 報文抓包的方法</title><link>https://travisbikkle.pages.dev/zh-hant/2022/02/vrrp-cap/</link><pubDate>Tue, 01 Feb 2022 11:24:24 +0800</pubDate><guid>https://travisbikkle.pages.dev/zh-hant/2022/02/vrrp-cap/</guid><description>keepalived 的主機和備機，會每隔3s通過單播，向對方發送 vrrp 報文，當備機在 3次*每次心跳間隔（keepalived.conf中的adver_int參數） 都收不到主機的廣播，自己將會升主。
+以下兩種可能都會存在：
+主機沒有發送廣播 主機發送了廣播，備機沒有收到 因此，在主備都需要監控vrrp的發送（out）或接收（in）記錄。 使用以下兩種方式，都可以監控每次 vrrp 報文的內容，以便定位問題。
+iptables 在主機和備機都添加監控vrrp發送和接收的iptables日誌（該規則僅抓取vrrp行爲，沒有其它副作用） 1iptables -t raw -A PREROUTING -p vrrp -j LOG --log-level 6 --log-prefix &amp;#34;VRRP: &amp;#34; 2iptables -t raw -A OUTPUT -p vrrp -j LOG --log-level 6 --log-prefix &amp;#34;VRRP: &amp;#34; 使用以下命令檢測是否添加成功： 1iptables -L -t raw -n 在/var/log/messages可以查看vrrp的記錄。如果是suse或其它操作系統，該日誌中沒有vrrp記錄的話，可以在dmesg或者/var/log/的目錄中grep VRRP查看。 定位完問題後，執行以下命令刪除添加的iptables規則 1iptables -t raw -D PREROUTING -p vrrp -j LOG --log-level 6 --log-prefix &amp;#34;VRRP: &amp;#34; 2iptables -t raw -D OUTPUT -p vrrp -j LOG --log-level 6 --log-prefix &amp;#34;VRRP: &amp;#34; tcpdump wireshark tcpdump 命令需要自行獲取，wireshark 需要自行下載，這部分僅記錄常用命令和注意點，由於在公司內網，圖片無法放上來。</description></item><item><title>一個數據庫主備頻繁切換案例</title><link>https://travisbikkle.pages.dev/zh-hant/2022/01/a-case-of-database-switch/</link><pubDate>Thu, 20 Jan 2022 11:24:25 +0800</pubDate><guid>https://travisbikkle.pages.dev/zh-hant/2022/01/a-case-of-database-switch/</guid><description>問題現象 某集團某局點分別部署了某數據庫的主備實例，業務發現偶爾訪問數據庫報錯。
+定位結論 其中一個節點使用的某物理機型，網卡存在故障，發生了多次復位，致使某數據庫備機的keepalived雙機軟件接收不到對端的vrrp信號，備機在網卡復位期間短暫升主，兩臺機器都出現了vip，導致業務訪問某數據庫失敗。
+需要聯繫廠商，針對以下疑問給出答覆：
+節點A（某品牌F）和節點B（某品牌L）使用的網卡型號一樣，但是爲什麼某品牌F的固件版本要比某品牌L的新？
+某品牌L的網卡信息，和某品牌L官網該型號的機器的認證信息不一致，見下表。
+表1-1 某品牌F機型、某品牌L機型和某品牌L官網認證信息對比
+項目 節點A 節點B 某品牌L官網認證信息 服務器型號 某品牌F FiberHome R2200 V5 某品牌L Inspur NF8480M5 某品牌L Inspur NF8480M5 網卡驅動 ixgbe 5.1.0-k ixgbe 5.1.0-k igb.ko 5.6.0-k 網卡固件 0x800006da 1.1824.0 0x800003df - 是否發生過重啓 否 是 - 定位過程 查看兩個節點的keepalived日誌
+1cd /xx/xx/xx/logs 2zgrep Entering keepalived* 發現主機（節點A）上無異常，備機的keepalived在master、backup、fault三個狀態頻繁切換。
+當keepalived進入master狀態，會將vip綁定到網卡上。這樣主機和備機都有vip，業務訪問某數據庫將會出現問題。
+在備機上使用如下命令可以抓到短暫出現的vip：
+1while true;do ip a s bond1|grep x.x.x.x;sleep 0.2;done 查看備機的keepalived.log，發現備機無法接收到主機的vrrp廣播。
+keepalived的主備機都會每3s發送一次vrrp協議的廣播，當備機連續3次（9s）接收不到主機的廣播，就會將自己升主。
+查看主機的keepalived.log，發現主機在正常發送vrrp廣播。
+使用tcpdump在主機和備機同時抓包，問題復現後，發現主機確實發送了vrrp的廣播，但是備機在(15:46:14-15:46:32)有18s的時間沒有接收到任何來自主機的廣播（此處應該有圖，但是不放了）。
+使用如下命令，查看備機上keepalived接收vrrp廣播的網卡情況，發現是一張由eth4和eth8組成的active-backup模式的邏輯網卡，：
+1cat /proc/net/bonding/bond1 查看/var/log/messages中兩張物理網卡的信息，發現eth4和eth8網卡發生了多次復位，復位時間和gauss-datacube出現異常的時間能夠對應的上（此處應該有圖，但是不放了）。
+查看節點B的服務器型號及網卡型號、固件版本（此處應該有圖，但是不放了）。 節點B和節點A對比，發現節點A的這臺某品牌F機型，比節點B的某品牌L機型使用的網卡固件要更新： 節點B和某品牌L官網認證信息(https://www.suse.com/nbswebapp/yesBulletin.jsp?bulletinNumber=148996)對比，發現節點B節點使用的網卡driver name和認證信息不符： 除了某局點節點B的某品牌L機型節點，我們還在其它局點的appdb的節點的某品牌L機型上，也發現了網卡重啓的現象，該現象在某品牌F機型上未發現，判斷是某品牌L的這批機器網卡存在故障。 這種短暫網卡重啓的問題，由於tcp重連的特性，對於普通的應用感知不大，但是對於數據庫這樣包含雙機軟件的敏感應用，影響較大。</description></item><item><title>Diff Patch 應用</title><link>https://travisbikkle.pages.dev/zh-hant/2021/07/diff-patch/</link><pubDate>Wed, 14 Jul 2021 11:24:27 +0800</pubDate><guid>https://travisbikkle.pages.dev/zh-hant/2021/07/diff-patch/</guid><description>假設有三個文件，你需要將修復的bug的代碼，合入到file_1.1中，生成一個名爲file_1.1.fix的文件。
+文件名 說明 file_1.0.orgin 舊版本的原始文件 file_1.0.fix 舊版本的修正文件，修改了一些 bug file_1.1 新版本的原始文件 參考以下命令 diff 用於對比生成補丁
+1diff -urN old new &amp;gt; patch 2diff -urN file_1.0.origin file_1.0.fix &amp;gt; bug_patch patch 用於將補丁應用到新文件
+1patch new -i patch -o target 2patch file_1.1 -i bug_patch -o file_1.1.fix diff path 是 linux 標準命令，windows 可以下載 git-bash 後使用。</description></item><item><title>Blktrace</title><link>https://travisbikkle.pages.dev/zh-hant/2021/04/blktrace/</link><pubDate>Mon, 19 Apr 2021 11:24:25 +0800</pubDate><guid>https://travisbikkle.pages.dev/zh-hant/2021/04/blktrace/</guid><description>可以用來定位 I/O 性能問題的工具有很多。常見的有 fio, dd, atop, iotop, iostat, vmstat 等。vmstat 可以提供系統性能的一個概覽，一般可以看出來性能問題究竟是不是 I/O 的鍋。想要具體查看每個設備的 I/O 情況，如 average request size, reads or writes per second，可以使用 iostat。
+blktrace 介紹 更細粒度的分析，可以使用 blktrace。 blktrace 可以記錄在 I/O 棧的多個階段分別耗時多少。blktrace 的輸出結果是二進制文件，可以用 blkparse 解析，但是它仍然很難讀，需要使用 btt 來進一步轉換成更易讀的形式。
+btt 輸出結果涉及到的一些基礎知識 btt 會對 I/O 棧 的不同階段的耗時做分析，這些階段是指：
+Q — A block I/O is Queued G — Get Request M — A block I/O is Merged with an existing request. I — A request is Inserted into the device&amp;#39;s queue.</description></item><item><title>mount磁盤被秒umount的一個問題</title><link>https://travisbikkle.pages.dev/zh-hant/2019/09/a-case-of-mount-disk/</link><pubDate>Wed, 18 Sep 2019 11:24:22 +0800</pubDate><guid>https://travisbikkle.pages.dev/zh-hant/2019/09/a-case-of-mount-disk/</guid><description>問題描述 在 ubuntu 18.04 的機器上，自己搭了一個 samba 服務器。有一天要添加一塊磁盤，因爲服務器上還運行了一些其他服務，不想重啓，因此使用 partprobe 動態掃描了磁盤，分區，寫入 /etc/fstab，一切正常。 執行 mount -a，沒有任何報錯，不過磁盤就是沒有掛載上去。
+解決思路 使用 mount 命令，可以手動掛載 無任何報錯出現，使用 umount 提示並未掛載 查看 journalctl -xe，發現是 systemd 在 umount 磁盤 在修改 /etc/fstab 後應該執行 systemctl daemon-reload 解決後，重新mount -a 解決 解決方案來自 https://unix.stackexchange.com/questions/169909/systemd-keeps-unmounting-a-removable-drive</description></item><item><title>使用Nginx代理k8s Cadvisor一例</title><link>https://travisbikkle.pages.dev/zh-hant/2019/09/nginx-k8s-cadvisor/</link><pubDate>Wed, 18 Sep 2019 11:24:20 +0800</pubDate><guid>https://travisbikkle.pages.dev/zh-hant/2019/09/nginx-k8s-cadvisor/</guid><description>k8s 自帶 cadvisor 監控，UI 界面監聽在 4194 端口，不過 HW 的 k8s 這裏監聽的地址是 127.0.0.1，因此相當於是一個擺設。使用開源的 nginx 可以代理該 url 並暴露在一個可以訪問的網卡上，不過出於學習的目的，使用我們自己編譯的類似於 nginx 的一個 NSP 來實現這個目的。
+着手 包地址在內網，無法提供。運行此包有三個限制：
+使用名稱爲 lb 的用戶執行，否則會報錯 getpwnam(&amp;ldquo;lb&amp;rdquo;)，因爲他們編譯寫死了執行用戶
+LD_LIBRARY_PATH要加上包目錄中的 lib, luajit/lib, lualib/ 三個目錄
+包最好放在 /usr/local，因爲編譯寫死了這個路徑…
+配置 配置好在仍然兼容開源 nginx，關鍵配置如下：
+upstream my_server { server 127.0.0.1:4194; keepalive 2000; } server { listen 4195; server_name 172.200.8.173; client_max_body_size 1024M; location / { proxy_pass http://127.0.0.1:4194; index index.html; } } 然後使用瀏覽器，訪問 http://172.200.8.173:4195，即可出現 cadvisor 的頁面。</description></item><item><title>一次ssh免密無法登錄的問題</title><link>https://travisbikkle.pages.dev/zh-hant/2019/08/ssh-cant-login/</link><pubDate>Sat, 10 Aug 2019 11:24:17 +0800</pubDate><guid>https://travisbikkle.pages.dev/zh-hant/2019/08/ssh-cant-login/</guid><description>自研數據庫升級的過程中，需要配置一次ssh免密登錄，以便在其中一臺機器，很方便的升級集羣所有服務器。但是在測試過程中，創建免密登錄的腳本失效了。
+問題定位 通過手動創建公鑰，拷貝到其它機器的authrized_keys，發現仍然需要輸入密碼登錄；
+通過ssh -v user@ip，查看詳細信息，發現其提示： Authentication can continue: publickey, gssapi-key…..password try publickey .ssh/….. try publickey .ssh/….. using password:
+而正常的服務器上，該行爲： Servert accepted key…
+看日誌，懷疑ssh客戶端沒有找到正確的公鑰文件，但是該文件確實存在在正確的路徑，且擁有正確的600權限。
+嘗試使用其它端口，啓動服務端的sshd，發現可以免密登錄
+嘗試在客戶端新建其它用戶，並使用22默認端口，一樣可以免密登錄
+執行以下命令，對比新建用戶的目錄，和問題用戶的目錄，發現問題
+ls -laZ 在問題用戶的目錄中，.ssh目錄的label爲unlabel，而正常用戶的.ssh，爲user_t。通過查詢及測試，發現該目錄爲user_t或者ssh_home_t的標籤，都可以測試通過，但是爲ublabeled不行。 那麼該目錄爲什麼爲unlabel呢？畢竟我們執行的只是ssh-keygen，目錄並非我們生成。 其實這個目錄的標籤，會繼承父目錄的標籤，而父目錄的標籤，由於未知原因，丟失了。因此，selinux的機制不允許ssh使用該目錄作爲公鑰目錄。該問題可以通過以下兩種方法解決：
+restorecon -vv -r ~/.ssh
+setenforce 0等關閉selinux</description></item><item><title>使用 Shell 腳本計算 Ip 網段</title><link>https://travisbikkle.pages.dev/zh-hant/2019/06/shell-calculate-ip/</link><pubDate>Mon, 10 Jun 2019 11:24:11 +0800</pubDate><guid>https://travisbikkle.pages.dev/zh-hant/2019/06/shell-calculate-ip/</guid><description>背景 當無法使用 ipcalc 時，可以考慮使用 shell 實現一個 ipcalc.sh。
+ipcalc.sh.
+#!/bin/bash net=&amp;quot;$1&amp;quot; ip=(${net%/*}) cdr=(${net##*/}) cdr2mask(){ #set -- $((5-(&amp;quot;$1&amp;quot;/8))) 255 255 255 255 $((2**8-2**(8-&amp;quot;$1&amp;quot;%8))) 0 0 0 set -- $(( 5-(&amp;quot;$1&amp;quot;/8) )) 255 255 255 255 $(( (255 &amp;lt;&amp;lt; (8-(&amp;quot;$1&amp;quot;%8))) &amp;amp; 255 )) 0 0 0 [[ $1 -gt 1 ]] &amp;amp;&amp;amp; shift $1 || shift #echo $#:$@ #255 255 255 255 253 0 0 0 shift #^_____________^ 255.255.255.255 shift # ^_____________^ 255.255.255.253 shift 2 # ^___________^ 255.</description></item><item><title>Mysql 性能測試報告慘不忍睹的一次原因</title><link>https://travisbikkle.pages.dev/zh-hant/2019/06/a-case-of-mysql-performance/</link><pubDate>Sat, 01 Jun 2019 11:24:20 +0800</pubDate><guid>https://travisbikkle.pages.dev/zh-hant/2019/06/a-case-of-mysql-performance/</guid><description>背景 新版本發佈在即，新增與kafka，zk，redis等其它服務合設的場景，因此需要性能測試探個底。但是性能測試人員反饋，分設與合設性能差距數萬倍。
+問題 安裝兩套某版本的MySQL，分別是與redis等服務合設的一套（32U64G），MySQL單獨安裝的一套（8U16G）。
+使用jmeter並且採用同樣的測試模型，對服務進行長穩測試，其中合設的一套資源，其它服務也會跑長穩。
+觀察jmeter報告，發現合設的MySQL中，平均時間average爲20s以上，throughput在10個/秒以下。而獨立的MySQL，average爲ms級別，throughput爲數萬個。
+此時應該隨報告提供環境cpu，磁盤，內存，網絡帶寬，測試模型等情況。但是由於某些原因，測試同學無法提供。
+測試模型和環境 該測試模型很簡單，1個int主鍵，20個varchar（256）字段共100w的數據。 使用select * from xxx where id in random(1, 100w); 進行1000併發測試。
+因爲某些原因，測試同學無法提供定位問題需要的幫助，因此，我們只收集了以下幾種信息。
+cpu及內存（top）
+iostat -x 1 以及其它 /dev/mysqllv(mysql 數據掛載磁盤)
+查看jmeter併發服務器的jmap histro
+查看mysql show processlist，show status like &amp;ldquo;%Thread%&amp;ldquo;等
+定位過程 cpu，內存等資源佔用不高。
+iostat 磁盤讀寫速度不高，但是%util佔比居高不下
+單獨執行一條sql語句，偶爾很快，偶爾很慢
+show processlist反饋，大量連接停留在freeing items的狀態，說明連接在等候io操作，與上述iostat結論不謀而合
+hdparm -Tt 合設機器只有60m/s的磁盤速度（未停服務，不準確）
+查詢審計日誌，發現審計日誌大量積壓，5M/2分鐘的速度在持續增加
+走管理手段，要求測試人員提供獨立 MySQL 機器信息，其反饋非其本人測試並且已卸載。我們強烈要求重新安裝獨立mysql
+獨立mysql表現也慢，與合設無異（說明測試沒有控制好變量）
+最終發現，其獨立mysql測試版本爲較老版本
+結論 新版本mysql開啓audit日誌，並且安全部門參照公司《mysql 安全加固規範》中的必須修改項——審計日誌的策略 audit_log_strategy 必須爲 SYNCHRONOUS , 利用自動化工具掃描並發現我們的mysql沒有開啓此項，提了單。修改人員在修改時因爲經驗不足，未多想，便直接修改。
+該項的另一個可選值爲ASYNCHRONOUS，即異步。與主從複製的同步，半同步及異步類似，作用不言自明。改爲該值後，問題消失。</description></item><item><title>Mysql Jdbc 報錯 Operation Not Allowed After Statement Closed</title><link>https://travisbikkle.pages.dev/zh-hant/2019/06/mysql-jdbc-operation-not-allowed/</link><pubDate>Sat, 01 Jun 2019 11:24:19 +0800</pubDate><guid>https://travisbikkle.pages.dev/zh-hant/2019/06/mysql-jdbc-operation-not-allowed/</guid><description>背景 業務上來說，連你們的mysql連不上，連別人的（其它部門的mysql）都能連上。查看其日誌，報了一行錯誤&amp;quot;No operations allowed after statement closed&amp;quot;。 這句話的意思，說的很清楚，不應該用關閉後的statement執行查詢。但是因爲我們是服務化的mysql，公司在遇到問題甩鍋給其它部門的習慣由來已久，所以還是要幫業務解決。
+大致代碼 class Main { private static connection; private static statement; static { connection = getConnection(); statement = connection.createStatement(); } public static query(){ statement.executeUpdate(&amp;quot;xxxx&amp;quot;); statement.close(); } } 定位 首先，業務反饋的是“連接不上”，但是報錯位置其實是在executeUpdate一行，在此鄙視這些人，日誌都不看清楚就開始推脫責任。在其代碼中加入debug日誌
+public static query(){ log(statement.isClosed()); statement.executeUpdate(&amp;quot;xxxx&amp;quot;); statement.close(); } 發現日誌打了兩次，第一次爲false，第二次爲true並報錯。 查看該類引用位置，發現爲一個定義了init-method的bean，類似於
+&amp;lt;bean id=&amp;quot;xxxx&amp;quot; class=&amp;quot;xxxx&amp;quot; init-method=&amp;quot;query&amp;quot; /&amp;gt; 最終建議：
+將bean的scope更改爲singleton
+重構Main類類似如下
+class Main { private static connection; private static statement; private static void getConnection { DriverManager.xxxx statement = connection.</description></item><item><title>Mysql Order By 對同一值的 Varchar 列排序問題</title><link>https://travisbikkle.pages.dev/zh-hant/2019/05/mysql-order-by-varchar/</link><pubDate>Fri, 24 May 2019 11:24:03 +0800</pubDate><guid>https://travisbikkle.pages.dev/zh-hant/2019/05/mysql-order-by-varchar/</guid><description>背景 TODO
+數據 DROP TABLE IF EXISTS `tbl_rn_log`; /*!40101 SET @saved_cs_client = @@character_set_client */; /*!40101 SET character_set_client = utf8 */; CREATE TABLE `tbl_rn_log` ( `SN` bigint(20) NOT NULL AUTO_INCREMENT, `STATUS` varchar(20) COLLATE utf8_bin NOT NULL, `SENDER` varchar(128) COLLATE utf8_bin DEFAULT NULL, `SENDTIME` bigint(20) NOT NULL, `SENDIP` varchar(128) COLLATE utf8_bin DEFAULT NULL, `OPERATIONUSER` varchar(128) COLLATE utf8_bin DEFAULT NULL, `ADDRESSES` varchar(1024) COLLATE utf8_bin NOT NULL, `BRIEFINFO` varchar(1024) COLLATE utf8_bin DEFAULT NULL, `TENANTID` varchar(50) COLLATE utf8_bin DEFAULT NULL, `PROJECT` varchar(32) COLLATE utf8_bin DEFAULT 'global', PRIMARY KEY (`SN`), KEY `TBL_RN_LOG_SENDTIME_INDEX` (`SENDTIME`) ) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=utf8 COLLATE=utf8_bin; /*!</description></item><item><title>Mysql 主從複製異常恢復</title><link>https://travisbikkle.pages.dev/zh-hant/2019/04/recover-mysql-from-replication-error/</link><pubDate>Thu, 25 Apr 2019 11:24:16 +0800</pubDate><guid>https://travisbikkle.pages.dev/zh-hant/2019/04/recover-mysql-from-replication-error/</guid><description>檢查版本 如果版本較老，基於binlog而不是gtid的版本， 數據量較小，可以參考 基於binlog的老版本。
+基於binlog的老版本 1. 登錄主機數據庫， mysql --login-path=local 執行 mysql&amp;gt; stop slave; mysql&amp;gt; show master status; 記錄以上master status的 log_file 和 log_pos 信息 mysql&amp;gt; exit; 2. 進入備份腳本目錄（根據版本不同，可能在以下位置） cd /opt/backup/mysql/backup_script 或者 cd /opt/backup/mysql/backup_script 執行 ./backupandDelete.sh 3. 找到最新備份的文件，如 cd /opt/backup/mysql/backup_data/xxxxx 或者 cd /opt/backup/mysql/backup_data/xxxxx 找到備份文件 xxxxx.sql.gz 將其拷貝到另外一臺機器 scp .. .. 4. 在另外一臺機器，解壓 gunzip -d xxxx.sql.gz 得到如 /root/xxxx.sql 的文件 5. 登錄MySQL mysql --login-path=local 執行(注意替換路徑，和ip，端口，密碼等信息) mysql&amp;gt; set sql_log_bin=0; mysql&amp;gt; source /root/xxxx.sql mysql&amp;gt; select user,host from mysql.</description></item><item><title>Suse 安裝 Nginx</title><link>https://travisbikkle.pages.dev/zh-hant/2019/04/suse12-nginx/</link><pubDate>Thu, 18 Apr 2019 11:24:22 +0800</pubDate><guid>https://travisbikkle.pages.dev/zh-hant/2019/04/suse12-nginx/</guid><description>http://nginx.org/packages/mainline/ http://nginx.org/packages/mainline/sles/12/x86_64/ http://nginx.org/packages/mainline/sles/12/x86_64/RPMS/nginx-1.15.12-1.sles12.ngx.x86_64.rpm
+rpm -ivh nginx-1.15.12-1.sles12.ngx.x86_64.rpm
+autoindex vi /etc/nginx/conf.d/default.conf
+location / { root /var/www/html; index index.html index.htm; autoindex on; autoindex_exact_size off; autoindex_localtime on; } chmod -R 777 /var/www /usr/sbin/nginx -c /etc/nginx/nginx.conf</description></item><item><title>Susesp 編譯 Apache ..</title><link>https://travisbikkle.pages.dev/zh-hant/2019/04/suse11sp1-compile-apache/</link><pubDate>Thu, 18 Apr 2019 11:24:11 +0800</pubDate><guid>https://travisbikkle.pages.dev/zh-hant/2019/04/suse11sp1-compile-apache/</guid><description>背景：suse 11 sp1 機器編譯安裝帶有指定模塊的 apache 2.4.34. 暫時沒有bicp代碼訪問權限，先放這裏 == 第一步 安裝openssl
+cd /data/bicpinstall/ tar zxvf openssl-1.1.0i.tar.gz cd openssl-1.1.0i export LDFLAGS=-ldl export LIBPATH=&amp;quot;/data/bicpinstall/ssl&amp;quot; export LIBS=&amp;quot;-L/data/bicpinstall/ssl&amp;quot; export SSL_LIBS=&amp;quot;-L/data/bicpinstall/ssl&amp;quot; export CPPFLAGS=&amp;quot;-I/data/bicpinstall/ssl/include/openssl&amp;quot; ./config --prefix=/data/bicpinstall/ssl shared make &amp;amp;&amp;amp; make install rm -rf /data/bicpinstall/ssl/ssl/man 第二步 生成證書 cd /data/bicpinstall/ssl/bin openssl genrsa -passout pass:cHpxHUm+v5teANoYurlMvA2+Gdg+ifm -des3 -out server.key 1024 openssl req -new -out server.csr -key server.key -passin pass:cHpxHUm+v5teANoYurlMvA2+Gdg+ifm -passout pass:cHpxHUm+v5teANoYurlMvA2+Gdg+ifm -subj /C=CN/O=huawei/CN=10.139.200.36 -config ../ssl/openssl.cnf openssl x509 -req -days 3650 -in server.</description></item><item><title>Mysql 原廠檢查清單</title><link>https://travisbikkle.pages.dev/zh-hant/2019/04/mysql-check-list/</link><pubDate>Tue, 16 Apr 2019 11:24:03 +0800</pubDate><guid>https://travisbikkle.pages.dev/zh-hant/2019/04/mysql-check-list/</guid><description>1) MySQL配置文件 （my.cnf 或 my.ini）
+2) MySQL完整的錯誤日誌文件 （error log file）.（如果文件太大，可以壓縮後上傳）
+3) MySQL的 slow query log 文件 （如果已經配置收集的話）.
+4) 生成下面的mysql_output.txt文本文件（請在查詢性能低、響應慢時運行）：
+（請使用具有SUPER權限的MySQL用戶（如root）登錄MySQL命令行客戶端並運行） TEE mysql_output0416.txt; select now(),@@version,@@version_comment,@@hostname,@@port,@@basedir,@@datadir,@@tmpdir,@@log_error, @@slow_query_log_file,user(),current_user(),/*!50600 @@server_uuid,*/@@server_id\G SHOW GLOBAL VARIABLES; SHOW GLOBAL STATUS; SHOW ENGINES\G SHOW PLUGINS\G select benchmark(50000000,(1234*5678/37485-1298+8596^2)); #should take less than 20 seconds SELECT ENGINE, COUNT(*), SUM(DATA_LENGTH), SUM(INDEX_LENGTH) FROM information_schema.TABLES GROUP BY ENGINE; SHOW ENGINE INNODB STATUS; /*!50503 SHOW ENGINE performance_schema STATUS */; /*!50503 SELECT * FROM performance_schema.setup_instruments WHERE name LIKE 'wait/sync%' AND (enabled='yes' OR timed='yes')*/; -- Info on transactions and locks SELECT r.</description></item><item><title>Mysql 問題與源碼</title><link>https://travisbikkle.pages.dev/zh-hant/2019/04/mysql-problem-and-source-code/</link><pubDate>Sat, 13 Apr 2019 11:24:17 +0800</pubDate><guid>https://travisbikkle.pages.dev/zh-hant/2019/04/mysql-problem-and-source-code/</guid><description>問題1: 連接數爲214， 登錄經常報錯 too many connections 在公司MySQL企業版服務化開發的初期，我們曾經遇到一個問題，即在連接MySQL的時候報錯 too many connections, 即使是新安裝的MySQL。在以前的社區版MySQL也曾經遇到過類似的問題，當時MySQL是用rpm安裝並使用systemd啓動的方式。 此次企業版的MySQL啓動並未託管到systemd，因此解決辦法不能照搬。
+定位過程 爲了能夠登錄，首先只能重啓MySQL，執行
+show variables like &amp;quot;max_conne%&amp;quot;; 發現連接數並非配置文件中定義的 2000，而是一個奇怪的數字 214；
+執行 ulimit -a 或者 cat /proc/pidof mysqld/limits
+發現 open files 爲一個較低的默認值 1024；（代碼中有改動該值的邏輯，但是最終並未生效，最終發現是公司系統鏡 像/etc/security/limits.d/...的默認值有問題，此處不延伸） core file size (blocks, -c) 0 data seg size (kbytes, -d) unlimited scheduling priority (-e) 0 file size (blocks, -f) unlimited pending signals (-i) 23883 max locked memory (kbytes, -l) 64 max memory size (kbytes, -m) unlimited open files (-n) 1024 pipe size (512 bytes, -p) 8 POSIX message queues (bytes, -q) 819200 real-time priority (-r) 0 stack size (kbytes, -s) 8192 cpu time (seconds, -t) unlimited max user processes (-u) 23883 virtual memory (kbytes, -v) unlimited file locks (-x) unlimited</description></item><item><title>讓 Git 在 Windows 上使用 Lf 換行符</title><link>https://travisbikkle.pages.dev/zh-hant/2019/03/git-windows-lf/</link><pubDate>Fri, 22 Mar 2019 11:24:10 +0800</pubDate><guid>https://travisbikkle.pages.dev/zh-hant/2019/03/git-windows-lf/</guid><description>1git config --global core.eol lf 2git config --global core.autocrlf input For repos that were checked out after those global settings were set, everything will be checked out as whatever it is in the repo — hopefully LF (\n). Any CRLF will be converted to just LF on checkin.
+With an existing repo that you have already checked out — that has the correct line endings in the repo but not your working copy — you can run the following commands to fix it:</description></item><item><title>Centos Docker 入門</title><link>https://travisbikkle.pages.dev/zh-hant/2019/02/centos7-docker-getstart/</link><pubDate>Sun, 17 Feb 2019 11:24:08 +0800</pubDate><guid>https://travisbikkle.pages.dev/zh-hant/2019/02/centos7-docker-getstart/</guid><description>快速上手 install(offline).
+# 在有網絡的機器上，執行以下命令，獲取安裝所需的包 $ yum install --downloadonly --downloaddir=/opt/utils yum-utils device-mapper-persistent-data lvm2 $ yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo $ yum install --downloadonly --downloaddir=/opt/all_packages docker-ce docker-ce-cli containerd.io root@192.168.31.201:/opt/all_packages #0$ l audit-libs-python-2.8.4-4.el7.x86_64.rpm libcgroup-0.41-20.el7.x86_64.rpm checkpolicy-2.5-8.el7.x86_64.rpm libsemanage-python-2.5-14.el7.x86_64.rpm containerd.io-1.2.2-3.3.el7.x86_64.rpm policycoreutils-2.5-29.el7_6.1.x86_64.rpm container-selinux-2.74-1.el7.noarch.rpm policycoreutils-python-2.5-29.el7_6.1.x86_64.rpm docker-ce-18.09.2-3.el7.x86_64.rpm python-IPy-0.75-6.el7.noarch.rpm docker-ce-cli-18.09.2-3.el7.x86_64.rpm setools-libs-3.3.8-4.el7.x86_64.rpm root@192.168.31.201:/opt/all_packages #0$ l ../utils/ device-mapper-1.02.149-10.el7_6.3.x86_64.rpm lvm2-2.02.180-10.el7_6.3.x86_64.rpm device-mapper-event-1.02.149-10.el7_6.3.x86_64.rpm lvm2-libs-2.02.180-10.el7_6.3.x86_64.rpm device-mapper-event-libs-1.02.149-10.el7_6.3.x86_64.rpm python-chardet-2.2.1-1.el7_1.noarch.rpm device-mapper-libs-1.02.149-10.el7_6.3.x86_64.rpm python-kitchen-1.1.1-5.el7.noarch.rpm libxml2-python-2.9.1-6.el7_2.3.x86_64.rpm yum-utils-1.1.31-50.el7.noarch.rpm # 在離線機器上， 執行以下命令以安裝 $ yum localinstall /opt/utils/*.rpm $ yum localinstall /opt/all_packages/*.rpm install docker-compose.
+$ curl -L &amp;quot;https://github.com/docker/compose/releases/download/1.23.2/docker-compose-$(uname -s)-$(uname -m)&amp;quot; \ -o /usr/local/bin/docker-compose chmod +x /usr/local/bin/docker-compose $ docker-compose --version install docker-machine.</description></item><item><title>Mysqldump 使用案例</title><link>https://travisbikkle.pages.dev/zh-hant/2019/02/a-case-of-mysqldump/</link><pubDate>Sun, 10 Feb 2019 11:24:21 +0800</pubDate><guid>https://travisbikkle.pages.dev/zh-hant/2019/02/a-case-of-mysqldump/</guid><description>背景 客戶N在使用H部門提供的MySQL遇到部分性能問題後，未得到H部門的及時支撐。機緣巧合，我們的服務化MySQL剛剛發佈第一版，客戶N有意切換我們的MySQL。由於部門策略調整，我們準備由原來的社區MySQL切換爲部門R的商業版MySQL，其間對接問題不提，客戶提出的首要問題是前期嘗試通過mysqldump備份數據，發現有報錯並且很慢，我們的策略是 爲拓展業務先把鍋接下來吧 答應先提供數據遷移方案供客戶評估。
+機器、數據、應用情況 源機器cpu核心數16，內存32G；
+兩臺機器，一個是master，一個是slave；未配置互爲主備；
+開啓了基於GTID的主從複製；
+從鏡像庫來看，數據量3800W左右，實際生產環境每天還會增加約不到100w；
+0-1w
+1w-10w
+10w-50w
+50w-100w
+100w-1000w
+&amp;gt;1000w
+表數量約
+2105
+83
+28
+5
+6
+1
+MySQL爲社區版5.7.23，所有表均爲INNODB引擎；
+據客戶N的業務人員反饋，他們嘗試使用mysqldump可能會報錯。
+一些準備工作 爲了能夠順滑的開展後期工作，我習慣先整理一些常用的命令，以備隨時複製粘貼…
+-- 查詢所有業務數據庫的表名，數據庫，存儲引擎信息 select table_name,table_schema,engine from information_schema.tables where engine='innodb' and table_schema not in('mysql','information_schema','performance_schema','sys'); -- 查詢所有業務數據庫的表的數量 select count(*) from information_schema.tables where engine='innodb' and table_schema not in('mysql','information_schema','performance_schema','sys'); -- 查詢所有表的數據量 SELECT CONCAT(TABLE_SCHEMA,'.',TABLE_NAME) AS table_name, IFNULL(TABLE_ROWS,0) as table_rows FROM information_schema.tables WHERE TABLE_SCHEMA NOT IN ('mysql','information_schema','performance_schema','sys') ORDER BY 2; -- 查詢所有業務數據庫的視圖數量 select table_name,table_schema from information_schema.</description></item><item><title>Suse 新增磁盤</title><link>https://travisbikkle.pages.dev/zh-hant/2019/02/suse-add-a-disk/</link><pubDate>Sun, 10 Feb 2019 11:24:14 +0800</pubDate><guid>https://travisbikkle.pages.dev/zh-hant/2019/02/suse-add-a-disk/</guid><description>fdisk -l DISK=vdb disk_list=(`cat /proc/partitions | sort | grep -v &amp;quot;name&amp;quot; |grep -v &amp;quot;loop&amp;quot; |awk '{print $4}'| sed /^[[:space:]]*$/d | grep -v &amp;quot;[[:digit:]]&amp;quot; | uniq`) parted -s /dev/${DISK} mklabel gpt parted -s /dev/${DISK} print |grep softhome |wc -l DISKSIZE=`parted -s /dev/${DISK} unit GB print | grep '^Disk' |grep GB | awk '{print $3}'` DISK1=`echo ${DISK}1` # parted -s /dev/${DISK} mkpart softhome 0G $DISKSIZE parted -s /dev/${DISK} set 1 lvm vgname=`echo &amp;quot;/opt&amp;quot; | awk -F'/' '{print $NF}'` vgname=&amp;quot;${vgname}vg&amp;quot; # optvg lvname=`echo &amp;quot;/opt&amp;quot; | awk -F'/' '{print $NF}'` lvname=&amp;quot;${lvname}lv&amp;quot; # optlv echo y | pvcreate /dev/${DISK1} vgcreate &amp;quot;$vgname&amp;quot; /dev/${DISK1} free=`vgdisplay &amp;quot;$vgname&amp;quot; |grep &amp;quot;Total PE&amp;quot; |awk '{print $3}'` echo y | lvcreate -l &amp;quot;$free&amp;quot; -n &amp;quot;$lvname&amp;quot; &amp;quot;$vgname&amp;quot; lvPath=`lvdisplay &amp;quot;$vgname&amp;quot; | grep &amp;quot;LV Path&amp;quot; | awk '{print $3}'` #格式化 mkfs.</description></item><item><title>Mysql . 主從同步</title><link>https://travisbikkle.pages.dev/zh-hant/2019/02/mysql5replication/</link><pubDate>Sun, 10 Feb 2019 11:24:12 +0800</pubDate><guid>https://travisbikkle.pages.dev/zh-hant/2019/02/mysql5replication/</guid><description>大綱 本文參考或翻譯自： https://dev.mysql.com/doc/refman/5.7/en/replication.html
+MySQL 5.7 支持多種主從複製的方法
+傳統方法：依賴binlog文件和文件的position保持同步 （https://dev.mysql.com/doc/refman/5.7/en/replication-configuration.html）
+新方法： 依賴全局事務id即global transaction identifer（GTIDs） （https://dev.mysql.com/doc/refman/5.7/en/replication-gtids.html）
+replication 支持不同類型的同步
+異步複製（asynchronous，默認）
+同步複製（只有 NDB 集羣纔有的一種特性）
+半同步複製（semisynchronous，是對異步複製的一種補充）
+With semisynchronous replication, a commit performed on the master blocks before returning to the session that performed the transaction until at least one slave acknowledges that it has received and logged the events for the transaction; see Semisynchronous Replication(https://dev.mysql.com/doc/refman/5.7/en/replication-semisync.html). MySQL 5.7 also supports delayed replication such that a slave server deliberately lags behind the master by at least a specified amount of time; see Section 16.</description></item><item><title>一次 Mysql 死鎖問題解決</title><link>https://travisbikkle.pages.dev/zh-hant/2019/02/mysql-dead-lock-troubleshoot-case/</link><pubDate>Sun, 10 Feb 2019 11:24:09 +0800</pubDate><guid>https://travisbikkle.pages.dev/zh-hant/2019/02/mysql-dead-lock-troubleshoot-case/</guid><description>一個業務反應，環境多次出現大量服務不可使用，如app導入不響應，用戶更新超時，bpm創單超時等等。查看數據庫的processlist，發現有大量的處於Waiting for table metadata lock狀態的查詢，其中包含T_APP_INFO、TBL_UM_USER、T_TICKET_BASICINFO等表，跟故障服務一致，確定故障原因是數據庫鎖表引起； 業務自行導出所有的阻塞task，並按照阻塞時間排序，發現第一條引起阻塞的是一條來來自於localhost的 由root用戶發起的批量鎖表語句，疑似是問題根因。
+上面這段是業務說的，已經排查的比較深入了，給個贊。
+我之前通過直接kill掉這個query線程，他們的業務就正常走下去了，因爲忙其他事情，所以就沒有再關注。後面他們又出現了這個問題，這次必須要解決了。所以記錄一下定位過程。
+定位思路 [WHAT] root@localhost 的進程在做什麼？
+MySQL 所有“卡住”問題，先看進程列表：.
+show processlist; +---------+------+-----------+------+---------+------+----------+------------------+ | Id | User | Host | db | Command | Time | State | Info | +---------+------+-----------+------+---------+------+----------+------------------+ | 3467133 | root | localhost | NULL | Query | 320400 | Waiting for table metadata lock | LOCK TABLES `....| +---------+------+-----------+------+---------+------+----------+------------------+ 看到 root@localhost 的用戶，有一條狀態爲 Waiting for table metadata lock 的查詢。查詢語句爲“LOCK TABLES……”。
+猜測：是後臺備份進程在鎖表，由於也有可能業務自己登陸後臺鎖表，所以需要證明這個確實是備份工具發起的語句。</description></item><item><title>Vmware Centos 雙網卡平面設置</title><link>https://travisbikkle.pages.dev/zh-hant/2019/02/vmware-centos7-interfaces/</link><pubDate>Sun, 10 Feb 2019 11:24:05 +0800</pubDate><guid>https://travisbikkle.pages.dev/zh-hant/2019/02/vmware-centos7-interfaces/</guid><description>[root@host1 ~]# ip a 1: lo: &amp;lt;LOOPBACK,UP,LOWER_UP&amp;gt; mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000 link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00 inet 127.0.0.1/8 scope host lo valid_lft forever preferred_lft forever inet6 ::1/128 scope host valid_lft forever preferred_lft forever 2: ens33: &amp;lt;BROADCAST,MULTICAST,UP,LOWER_UP&amp;gt; mtu 1500 qdisc pfifo_fast state UP group default qlen 1000 link/ether 00:0c:29:7d:ba:48 brd ff:ff:ff:ff:ff:ff inet 192.168.17.101/24 brd 192.168.17.255 scope global noprefixroute ens33 valid_lft forever preferred_lft forever inet6 fe80::64ee:1323:6aaa:61da/64 scope link noprefixroute valid_lft forever preferred_lft forever 3: ens37: &amp;lt;BROADCAST,MULTICAST,UP,LOWER_UP&amp;gt; mtu 1500 qdisc pfifo_fast state UP group default qlen 1000 link/ether 00:0c:29:7d:ba:52 brd ff:ff:ff:ff:ff:ff inet 192.</description></item><item><title>Mysql 查詢鎖狀態常用命令</title><link>https://travisbikkle.pages.dev/zh-hant/2019/02/mysql-lock-status-commands/</link><pubDate>Sun, 10 Feb 2019 11:24:04 +0800</pubDate><guid>https://travisbikkle.pages.dev/zh-hant/2019/02/mysql-lock-status-commands/</guid><description>show status like '%lock%; select * from information_schema.processlist; select * from information_schema.processlist where state like &amp;quot;%Waiting%&amp;quot;; select * from information_schema.innodb_trx; SELECT * FROM INFORMATION_SCHEMA.INNODB_LOCK_WAITS; SELECT INNODB_LOCKS.* FROM INNODB_LOCKS JOIN INNODB_LOCK_WAITS ON (INNODB_LOCKS.LOCK_TRX_ID = INNODB_LOCK_WAITS.BLOCKING_TRX_ID); SELECT * FROM INNODB_LOCKS WHERE LOCK_TABLE = db_name.table_name; SELECT TRX_ID, TRX_REQUESTED_LOCK_ID, TRX_MYSQL_THREAD_ID, TRX_QUERY FROM INNODB_TRX WHERE TRX_STATE = 'LOCK WAIT'; show engine innodb status;</description></item><item><title>Mysql 遠程無法連接問題定位記錄</title><link>https://travisbikkle.pages.dev/zh-hant/2019/02/mysql-remote-connect-failed/</link><pubDate>Fri, 01 Feb 2019 11:24:09 +0800</pubDate><guid>https://travisbikkle.pages.dev/zh-hant/2019/02/mysql-remote-connect-failed/</guid><description>某業務通過Hibernate訪問mysql，後臺報錯 Access denied for user matexxx@xxxx (using password: YES); 一般搞過開發的人都知道，這種問題不是密碼錯了，就是遠程連接未打開，這兩者其實都屬於一個問題，就是用戶的grant權限問題，但是此業務情況稍特殊。定位過程如下。
+查看用戶 SELECT USER,HOST FROM MYSQL.USER; 發現用戶matexxx對應的host爲 %，說明遠程連接已經打開；詢問業務是否更改過密碼，引出問題背景： 業務曾重裝過mysql，使用mysqldump將舊庫數據備份，並且只在新庫的master上執行了一次恢復操作。
+查看主從複製的狀態 SHOW SLAVE STATUS\G 發現互爲主備的mysql機器，其中一臺的slave io狀態爲connecting，Last_IO_Error 顯示覆制用戶 replicator 禁止登錄。既然複製用戶和業務用戶都無法登錄，懷疑點聚焦在用戶的grant語句方面，原因可能是其備份恢復過程中出現錯誤操作，其要求緊急恢復，原因就暫不深挖。
+【解決】 主從複製的問題要先解決。錯誤產生的原因很可能是其使用mysqldump &amp;ndash;all-databases備份，然後在配置好主從的機器上直接恢復，導致兩邊的機器replicator主從複製用戶的ip並不正確（實際應該配置對方ip）。恢復方法：
+請將下面語句中的變量替換爲實際的值.
+GRANT REPLICATION SLAVE ON *.* TO '${repl_user_name}'@'${IP}' IDENTIFIED BY '${repl_user_pwd}'; FLUSH PRIVILEGES; SHOW MASTER LOGS; --在master(互爲主備的機器，master就是你要複製的機器，請自行理解)上執行 -- 記錄上面執行語句的結果，例如 -- Log_name：mysql-bin.000002 -- File_size：483 STOP SLAVE; --在出錯的機器上，執行 CHANGE MASTER TO MASTER_HOST='${master_ip}',MASTER_PORT='3306',MASTER_LOG_FILE='mysql-bin.000002',MASTER_LOG_POS=483; START SLAVE; 回到主要問題 重啓業務應用（反正已經壞了）發現仍然無法登錄，查看進程列表，發現大量連接狀態都爲 Waiting in connection_control plugin，而且在另一臺機器C上面使用matexxx登錄一直卡住，而使用root卻沒有問題，證明此用戶登錄失敗，被拒絕後觸發了 connection_control 的機制。</description></item><item><title>使用 Systemd 託管的 Mysql 最大連接數問題</title><link>https://travisbikkle.pages.dev/zh-hant/2019/01/systemd-mysql-maxconnections/</link><pubDate>Sun, 20 Jan 2019 11:24:15 +0800</pubDate><guid>https://travisbikkle.pages.dev/zh-hant/2019/01/systemd-mysql-maxconnections/</guid><description>最大連接數問題
+背景： mysql 最大連接數在設置爲2000的情況下，併發始終只能達到480多； 其它遇到過類似情況的項目組更改ulimit -s（stack size）到1024可以解決問題，但是我們經過測試無效； 據說前期定位人員諮詢過mysql原廠的人，沒發現有什麼配置問題。
+測試工具 mysqlslap -h127.0.0.1 -uroot -p123456789 &amp;ndash;concurrency=5000 &amp;ndash;iterations=1 &amp;ndash;auto-generate-sql &amp;ndash;auto-generate-sql-load-type=mixed &amp;ndash;auto-generate-sql-add-autoincrement &amp;ndash;engine=innodb &amp;ndash;number-of-queries=1000000
+show status like &amp;ldquo;%Thread%&amp;rdquo;&amp;quot;;
+排查過程 ulimit cat /proc/pidof mysqld/limits /etc/systemd/system.conf /etc/systemd/user.conf systemctl edit mysql.service /usr/lib/systemd/system/mysql.service
+直接使用mysqld啓動，不用service，發現正常。最終在參照不使用service啓動的mysql pid limits更改mysql.service所有ulimit到最大值也沒用。 systemctl show mysql.service 發現TasksMax字段值爲512，與480比較相近。
+文檔： https://www.freedesktop.org/software/systemd/man/systemd.resource-control.html
+嘗試在/usr/lib/systemd/system/mysql.service加入以下配置
+TasksMax=infinity 問題解決。
+後續/深入 The mappings of systemd limits to ulimit Directive ulimit equivalent Unit LimitCPU= ulimit -t Seconds LimitFSIZE= ulimit -f Bytes LimitDATA= ulimit -d Bytes LimitSTACK= ulimit -s Bytes LimitCORE= ulimit -c Bytes LimitRSS= ulimit -m Bytes LimitNOFILE= ulimit -n Number of File Descriptors LimitAS= ulimit -v Bytes LimitNPROC= ulimit -u Number of Processes LimitMEMLOCK= ulimit -l Bytes LimitLOCKS= ulimit -x Number of Locks LimitSIGPENDING= ulimit -i Number of Queued Signals LimitMSGQUEUE= ulimit -q Bytes LimitNICE= ulimit -e Nice Level LimitRTPRIO= ulimit -r Realtime Priority LimitRTTIME= No equivalent</description></item><item><title>Tcpdump 常用命令</title><link>https://travisbikkle.pages.dev/zh-hant/2019/01/tcpdump-common-commands/</link><pubDate>Sat, 12 Jan 2019 11:24:18 +0800</pubDate><guid>https://travisbikkle.pages.dev/zh-hant/2019/01/tcpdump-common-commands/</guid><description>man tcpdump
+https://en.wikipedia.org/wiki/Multicast_address
+https://en.wikipedia.org/wiki/Subnetwork
+[ip address classes] (http://www.vlsm-calc.net/ipclasses.php)
+http://vod.sjtu.edu.cn/help/Article_Print.asp?ArticleID=631
+tcpdump usage ``` tcpdump # print number like ip and port tcpdump -n tcpdump -c 4 tcpdump -i eth1 tcpdump -i any tcpdump host 100.107.166.116 tcpdump src host 100.107.166.116 tcpdump -n -i any dst port 3306 or dst port 22 tcpdump -n -i any dst port 3306 || dst port 22 tcpdump -n -i any (dst port 3306 || dst port 22) and dst host 100.</description></item><item><title>Mysql Load Data 數據膨脹</title><link>https://travisbikkle.pages.dev/zh-hant/2018/12/mysql-load-data-size-too-big/</link><pubDate>Sat, 29 Dec 2018 11:24:14 +0800</pubDate><guid>https://travisbikkle.pages.dev/zh-hant/2018/12/mysql-load-data-size-too-big/</guid><description>發現問題 100w 100字段數據 後臺膨脹係數較大。 用膨脹係數表示load data後MySQL後臺 表名.ibd 文件的大小與所 load 的 data.xdr 文件的比值。 膨脹係數(50f100w)代表使用了50個字段100w行的數據進行測試。
+分解問題 是否是數據量較大，導致膨脹係數較大？ 構造 10f10w 和 10f100w 進行對比，排除單純因數據量導致膨脹的推測。
+數據模型（字段數）
+數據模型（行數）
+數據文件大小（MB）
+load 時長(s)
+表文件大小(MB)
+單次導入增加
+字段類型
+10
+10w
+58.9
+3.02
+76
+76
+"3 int,
+3 double(20,2),
+4 VARCHAR(256)
+"
+10
+100w
+592
+33.96
+688
+688
+"3 int,
+3 double(20,2),
+4 VARCHAR(256)
+"
+是否是因字段數不同，導致膨脹係數較大？ 數據模型 create table loadtest10f( record_001 VARCHAR(256), record_002 VARCHAR(256), record_003 VARCHAR(256), record_004 VARCHAR(256), record_005 VARCHAR(256), record_006 VARCHAR(256), record_007 VARCHAR(256), record_008 VARCHAR(256), record_009 VARCHAR(256), record_010 VARCHAR(256), .</description></item><item><title>在 Asciidoc 文檔中使用 Latex</title><link>https://travisbikkle.pages.dev/zh-hant/2018/11/asciidoc-latex/</link><pubDate>Tue, 06 Nov 2018 11:24:19 +0800</pubDate><guid>https://travisbikkle.pages.dev/zh-hant/2018/11/asciidoc-latex/</guid><description>本文基於 asciidoctor 1.5.7.13，其通過 mathjax 實現 LaTex 字體的顯示，方法和 markdown 差不多，區別是 markdown（不同差距實現方法不同）使用 $$ 或者 $``$ 包圍 LaTex 語法，而 asciidoctor 使用 stem:[] 包圍 LaTex 語法。
+單個符號對照表 渲染後
+源碼
+stem:[\cdot]
+stem:[\cdot]
+stem:[\times]
+stem:[\times]
+stem:[a^{prime} a]
+stem:[a^{prime} a]
+stem:[a’’]
+stem:[a’’]
+stem:[a’’’]
+stem:[a’’’]
+stem:[\pm]
+stem:[\pm]
+stem:[\mp]
+stem:[\mp]
+stem:[!]
+stem:[!]
+stem:[\dots]
+stem:[\dots]
+stem:[\ldots]
+stem:[\ldots]
+stem:[\cdots]
+stem:[\cdots]
+stem:[\vdots]
+stem:[\vdots]
+stem:[\ddots]
+stem:[\ddots]
+行列式 渲染後
+源碼
+15\\ 7 \end{array}right) \vec{a} = \left[\begin{array}{rrrr} 15\\ 7 \end{array}\right) [latexmath] ++++ \begin{cases} \ u_{tt}(x,t)= b(t)\triangle u(x,t-4)&amp;amp;\\ \ \hspace{42pt}- q(x,t)f[u(x,t-3)]+te^{-t}\sin^2 x, &amp;amp; t \neq t_k; \\ \ u(x,t_k^+) - u(x,t_k^-) = c_k u(x,t_k), &amp;amp; k=1,2,3\ldots ;\\ \ u_{t}(x,t_k^+) - u_{t}(x,t_k^-) =c_k u_{t}(x,t_k), &amp;amp; k=1,2,3\ldots\ .</description></item><item><title>Btrace 使用教程</title><link>https://travisbikkle.pages.dev/zh-hant/2018/10/btrace-manual/</link><pubDate>Fri, 19 Oct 2018 11:24:06 +0800</pubDate><guid>https://travisbikkle.pages.dev/zh-hant/2018/10/btrace-manual/</guid><description>BTrace 是 Java 的一個診斷工具，可以在不重啓應用的情況下，對應用進行時間耗費、參數及結果跟蹤、方法調用跟蹤等分析。
+BTrace 術語 Probe Point
+位置
+Trace Actions or Actions
+追蹤語句
+Action Methods
+追蹤語句所在的靜態方法
+BTrace 程序結構 一個 BTrace 程序 是一個 Java 類，包含數個由 BTrace 註解 註釋的 public static void 方法。這些註解被用來指定被追蹤程序的 Probe Point. Tracing Actions 在這些靜態方法內定義。這些靜態方法也即上文提到的 Action Methods。
+BTrace 的限制 不能 創建對象，數組。
+不能 拋出、捕獲異常。
+不能 調用任意實例或靜態方法，只能調用 BTraceUtils 中的方法。
+不能 修改目標程序的靜態或實例變量，不過 BTrace 程序自己不做限制。
+不能 有實例變量或方法，方法不能有返回值類型，BTrace 程序的所有方法必須是 public static 1. oid 的，所有的字段都必須是 static 的。
+不能 有 outer, inner, nested 或 local 類。</description></item><item><title>常用包管理軟件代理或國內鏡像設置</title><link>https://travisbikkle.pages.dev/zh-hant/2018/10/common-pakage-manager-proxy/</link><pubDate>Sat, 13 Oct 2018 11:24:31 +0800</pubDate><guid>https://travisbikkle.pages.dev/zh-hant/2018/10/common-pakage-manager-proxy/</guid><description>npm 代理
+1 # 使用家目錄下的默認rc文件配置，不使用 npm config set.. 2 vi ~/.npmrc 3 ## add these lines to .npmrc 4 ## privoxy and shadowsocks [如何配置 privoxy 詳見另一篇博文]() 5 proxy=http://localhost:8118 6 https_proxy=https://localhost:8118 7 strict-ssl=false npm 國內鏡像-淘寶
+1 vi ~/.npmrc 2 registry=https://registry.npm.taobao.org 3 ## proxy=http://localhost:8118 4 ## https_proxy=https://localhost:8118 5 ## strict-ssl=false yarn 代理
+1 vi ~/.yarnrc 2 ## add these lines to .yarnrc 3 env: 4 proxy &amp;#39;http://localhost:8118&amp;#39; 5 https_proxy &amp;#39;https://localhost:8118&amp;#39; 6 strict-ssl false yarn 使用國內鏡像</description></item><item><title>Centos 常用命令</title><link>https://travisbikkle.pages.dev/zh-hant/2018/10/centos7-common-commands/</link><pubDate>Sat, 13 Oct 2018 11:24:18 +0800</pubDate><guid>https://travisbikkle.pages.dev/zh-hant/2018/10/centos7-common-commands/</guid><description>如何更改爲靜態 IP 地址 vi /etc/sysconfig/network-scripts/ifcfg-&amp;lt;你的網卡名，如果不知道，直接 tab 自動補全&amp;gt;
+## 更改並添加以下數行 # BOOTPROTO=dfcp BOOTPROTO=static # ONBOOT=no ONBOOT=yes IPADDR=192.168.47.190 # IP 地址，先在虛擬機或路由裏查看你的 IP 網段，然後在設置爲你想要的值 GATEWAY=192.168.47.2 # 網關信息，同上 NETMASK=255.255.255.0 # 子網掩碼信息，同上 DNS1=8.8.8.8 # DNS 信息，同上 service network restart 重啓網絡服務
+如何更改主機名 hostnamectl set-hostname &amp;lt;你想要的主機名&amp;gt;
+如何關閉防火牆和SELinux systemctl disable firewalld.service systemctl stop firewalld.service # 編輯以下文件 vi /etc/sysconfig/selinux SELINUX=disabled # 編輯完成後，執行 setenforce 0 # 重啓後執行 getenforce 變成 disabled 說明更改永久生效 如何設置 NTP 時間同步 yum install -y ntp systemctl enable ntpd</description></item><item><title>Hadoop .. 學習筆記</title><link>https://travisbikkle.pages.dev/zh-hant/2018/10/hadoop-learning-note/</link><pubDate>Sat, 13 Oct 2018 11:24:16 +0800</pubDate><guid>https://travisbikkle.pages.dev/zh-hant/2018/10/hadoop-learning-note/</guid><description>HDFS讀寫流程 todo
+HDFS文件權限 todo
+安全模式 todo
+注意事項 todo
+JDK 版本應該使用 1.8，JDK 10 遇到啓動過程中 warning 並且 datanode 無法啓動的問題。
+集羣安裝 最小配置文件（hadoop 2.9.1） core-site.xml.
+&amp;lt;configuration&amp;gt; &amp;lt;property&amp;gt; &amp;lt;name&amp;gt;fs.defaultFS&amp;lt;/name&amp;gt; &amp;lt;value&amp;gt;hdfs://linux-1:8020/&amp;lt;/value&amp;gt; &amp;lt;description&amp;gt;NameNode URI&amp;lt;/description&amp;gt; &amp;lt;/property&amp;gt; &amp;lt;property&amp;gt; &amp;lt;name&amp;gt;io.file.buffer.size&amp;lt;/name&amp;gt; &amp;lt;value&amp;gt;131072&amp;lt;/value&amp;gt; &amp;lt;description&amp;gt;Buffer size&amp;lt;/description&amp;gt; &amp;lt;/property&amp;gt; &amp;lt;/configuration&amp;gt; hdfs-site.xml.
+&amp;lt;configuration&amp;gt; &amp;lt;property&amp;gt; &amp;lt;name&amp;gt;dfs.secondary.http.address&amp;lt;/name&amp;gt; &amp;lt;value&amp;gt;linux-2:50090&amp;lt;/value&amp;gt; &amp;lt;/property&amp;gt; &amp;lt;property&amp;gt; &amp;lt;name&amp;gt;dfs.http.address&amp;lt;/name&amp;gt; &amp;lt;value&amp;gt;linux-1:50070&amp;lt;/value&amp;gt; &amp;lt;/property&amp;gt; &amp;lt;property&amp;gt; &amp;lt;name&amp;gt;dfs.namenode.name.dir&amp;lt;/name&amp;gt; &amp;lt;value&amp;gt;file:///opt/hdfs/namenode&amp;lt;/value&amp;gt; &amp;lt;description&amp;gt;NameNode directory for namespace and transaction logs storage.&amp;lt;/description&amp;gt; &amp;lt;/property&amp;gt; &amp;lt;property&amp;gt; &amp;lt;name&amp;gt;dfs.namenode.edits.dir&amp;lt;/name&amp;gt; &amp;lt;value&amp;gt;file:///opt/hdfs/namenode&amp;lt;/value&amp;gt; &amp;lt;description&amp;gt;DFS name node should store the transaction (edits) file.&amp;lt;/description&amp;gt; &amp;lt;/property&amp;gt; &amp;lt;property&amp;gt; &amp;lt;name&amp;gt;dfs.</description></item><item><title>Hive .. 安裝常見問題</title><link>https://travisbikkle.pages.dev/zh-hant/2018/10/hive-install-faq/</link><pubDate>Sat, 13 Oct 2018 11:24:13 +0800</pubDate><guid>https://travisbikkle.pages.dev/zh-hant/2018/10/hive-install-faq/</guid><description>remote 模式最小配置 &amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot; standalone=&amp;quot;no&amp;quot;?&amp;gt; &amp;lt;?xml-stylesheet type=&amp;quot;text/xsl&amp;quot; href=&amp;quot;configuration.xsl&amp;quot;?&amp;gt; &amp;lt;configuration&amp;gt; &amp;lt;property&amp;gt; &amp;lt;name&amp;gt;javax.jdo.option.ConnectionURL&amp;lt;/name&amp;gt; &amp;lt;value&amp;gt;jdbc:mysql://192.168.47.128:3306/hive?createDatabaseIfNotExist=true&amp;lt;/value&amp;gt; &amp;lt;/property&amp;gt; &amp;lt;property&amp;gt; &amp;lt;name&amp;gt;javax.jdo.option.ConnectionDriverName&amp;lt;/name&amp;gt; &amp;lt;value&amp;gt;com.mysql.jdbc.Driver&amp;lt;/value&amp;gt; &amp;lt;/property&amp;gt; &amp;lt;property&amp;gt; &amp;lt;name&amp;gt;javax.jdo.option.ConnectionUserName&amp;lt;/name&amp;gt; &amp;lt;value&amp;gt;root&amp;lt;/value&amp;gt; &amp;lt;/property&amp;gt; &amp;lt;property&amp;gt; &amp;lt;name&amp;gt;javax.jdo.option.ConnectionPassword&amp;lt;/name&amp;gt; &amp;lt;value&amp;gt;km717070&amp;lt;/value&amp;gt; &amp;lt;/property&amp;gt; &amp;lt;/configuration&amp;gt; 安裝問題 remote 模式報錯 Java.lang.RuntimeException: Unable to instantiate org.apache.hadoop.hive.ql.metadata.SessionHiveMetaStoreClient 解決：hive 需要先 hive --service metastore 先啓動 thrift server，才能訪問 MySQL 參考：官方手冊：Hive Metastore 配置 理解：MySQL 爲 metastore 的 database， Thrift Server 爲 metastore 的服務器
+hive &amp;ndash;service metastore 啓動報錯 Unable to open a test connection to the given database 解決：MySQL 的配置有問題</description></item><item><title>Centos 安裝 Apache Ambari</title><link>https://travisbikkle.pages.dev/zh-hant/2018/10/centos7-ambari/</link><pubDate>Sat, 13 Oct 2018 11:24:12 +0800</pubDate><guid>https://travisbikkle.pages.dev/zh-hant/2018/10/centos7-ambari/</guid><description>版本說明 部件
+版本號
+Ambari
+2.6.2.2
+CentOS
+7
+HDP
+2.6
+時間
+20180814
+背景 對於 Ambari 能做什麼，對於搜索到此文的同學來說應該毋庸贅述。目前 Ambari 安裝的官方手冊主要是 Apache 和 Hortonworks，我首先是參考 Apache 的說明，通過 maven 編譯源碼的方式，在 安裝 linux-mint 的機器上嘗試安裝 Ambari 2.7.0，遇到過以下問題：
+由於系統不符合 Ambari 的要求，因此通過更改其中的 ambari-commons/OSCheck.py:is_ubuntu_family() 函數強制安裝 server 和 agent.
+由於採用的國內 maven 倉庫，ambari web legacy 始終編譯不過，通過更改其依賴編譯通過.
+maven compiler plugin 報錯 json-simple 的相關依賴問題，最後刪除該 legacy 模塊.
+其它 node, yarn, npm 的代理設置問題. 最終在安裝 agent 的時候遇到 ssl 連接錯誤，時間已晚，選擇放棄這種安裝方式。轉而使用文檔支持較好的 CentOS 和 yum 倉庫安裝的方式。雖然如此，Hortonworks 的文檔邏輯也稍顯混亂，過於簡單，本文對安裝過程做詳細記錄，以備查詢。本文所有操作均使用 root 用戶完成。
+準備 我使用的是 VMware WorkStation，CentOS 7 下載路徑爲 點我，安裝步驟略過，建議安裝 4 臺機器(網絡方式選擇NAT模式)，其中安裝 Ambari 服務器的機器硬盤大小不得小於 30 GB，如果不小心硬盤大小分配過小，參見另一篇博文link:/2018/10/13/如何對 centos 7 分區進行擴容/[如何對 centos 7 分區進行擴容]。其餘 3 臺機器作爲集羣機器以備後續使用。</description></item><item><title>如何對 Centos 分區進行擴容</title><link>https://travisbikkle.pages.dev/zh-hant/2018/10/centos-disk-extend/</link><pubDate>Sat, 13 Oct 2018 11:24:10 +0800</pubDate><guid>https://travisbikkle.pages.dev/zh-hant/2018/10/centos-disk-extend/</guid><description>fdisk -l 在 Id 一列可以看到分區類型爲``8e`` ``83``等十進制數值，``8e``代表該分區由 Linux LVM 管理，適用本文的擴容方法，如果你的分區類型爲``83``，代表其是 Linux Native Partion，可以參考link:[另一篇博文（尚未書寫）]。
+我使用的是 VMware Workstation pro，在編輯虛擬機設置裏可以輕鬆增加磁盤大小（磁盤爲單個文件，而不是分割文件，如果你的硬盤是分割的多個文件，參考另一篇博文 VMware 分割磁盤如何擴容(尚未編寫)
+fdisk -l ## 在 fdisk 輸出信息中，可以看到 Disk /dev/sda： 30 GB 類似的信息，證明磁盤增加成功，位置確認。 ## 以下命令爲交互式命令 fdisk /dev/sda # 輸入 n 以創建新分區 n # 輸入 p 以設置爲主分區 p # 根據 fdisk -l 的信息，決定分區的編號，由於我的機器 fdisk -l 已經有 /dev/sda1 /dev/sda2 兩個，所以此處輸入 3 3 # 此處輸入兩次回車，以決定分區的開始和結束位置，默認使用剩餘全部未分配空間 First cylinder.... 回車 Last cylinder.... 回車 # 此處輸入 t，並輸入 3 以選擇我們上面步驟剛剛創建的分區 t 3 # 在 Hex code 的輸入步驟，輸入我們希望使用的 LVM 代碼符號：8e 8e # 最後，輸入 w 以使上述所有更改生效 w 在我的機器上，不需要重啓已經可以使用 fdisk -l 查看到新創建的 /dev/sda3，但是推薦你在此處先重啓一次，然後執行後續操作</description></item><item><title>使用 Ambari 安裝 Hdp 集羣</title><link>https://travisbikkle.pages.dev/zh-hant/2018/10/ambari-hdp-demo/</link><pubDate>Sat, 13 Oct 2018 11:24:08 +0800</pubDate><guid>https://travisbikkle.pages.dev/zh-hant/2018/10/ambari-hdp-demo/</guid><description>HDP 並不是 hadoop 的輔音簡稱，而是 Hortonworks 的產品 Hortonworks Data Platform 的簡稱，是包含 Hadoop 在內的一攬子解決方案。
+前置要求： 3-4臺 CentOS 7 機器，其中一臺機器必須安裝 Ambari 服務。教程參考link:/2018/10/13/centos 7 安裝 apache-ambari/[centos 7 安裝 apache-ambari]。安裝 master 和 slave 的節點機器，內存最好不要小於 5G。
+安裝部件： 如前所述，此次安裝包含如下服務（請按需安裝）：
+服務
+版本
+說明
+HDFS
+2.7.3
+Apache Hadoop 分佈式文件系統
+YARN + MapReduce2
+2.7.3
+Apache Hadoop 下一代 MapReduce(YARN)
+Tez
+0.7.0
+Tez 是運行在 YARN 之上的下一代 Hadoop 查詢處理框架
+Hive
+1.2.1000
+支持即席查詢與大數據量分析和存儲管理服務的數據倉庫系統
+HBase
+1.1.2
+非關係型分佈式數據庫，包括 Phoenix，一個爲低延遲應用開發的高性能 sql 擴展
+Pig
+0.16.0
+分析大數據量的腳本平臺
+Sqoop
+1.4.6</description></item><item><title>免密碼 Ssh 到其它機器</title><link>https://travisbikkle.pages.dev/zh-hant/2018/10/ssh-without-pass/</link><pubDate>Sat, 13 Oct 2018 11:24:07 +0800</pubDate><guid>https://travisbikkle.pages.dev/zh-hant/2018/10/ssh-without-pass/</guid><description>背景：在配置 hadoop 的時候這樣設置會比較方便。 目標：A 機器上輸入 ssh root@B 可以直接訪問，不需要輸入密碼
+步驟：
+首先在 A 機器上生成密鑰對，一路回車
+ssh-keygen -t rsa 在 A 機器上輸入，輸入 B 機器的密碼一次即可
+ssh-copy-id -i ~/.ssh/id_rsa.pub root@B 所以同樣的操作，B機器上可能還要再操作一遍，如果機器多了，也是很煩，因此，更懶人的做法是：
+準備 xshell 5
+打開多個機器的 ssh 會話窗口
+配置好各個機器的 hostname
+在 xshell 底部，&amp;quot;發送命令到所有窗口&amp;ldquo;這一行，依次輸入 ssh-copy-id -i ~/.ssh/id_rsa.pub root@&amp;lt;主機名&amp;gt; 即可。</description></item><item><title>Vmware Clone Ubuntu. Ip 地址配置</title><link>https://travisbikkle.pages.dev/zh-hant/2018/10/vmware-clone-ubuntu18-ip-config/</link><pubDate>Sat, 13 Oct 2018 11:24:06 +0800</pubDate><guid>https://travisbikkle.pages.dev/zh-hant/2018/10/vmware-clone-ubuntu18-ip-config/</guid><description>在使用 VMware Workstation 克隆 Ubuntu Server 18.04 版本後，發現克隆前後的機器 IP 地址重複， 且無論如何更改虛擬網絡設置（編輯-虛擬網絡編輯器）都無效。由於 Ubuntu 18.04 採用 netplan (/etc/netplan) 而不是先前版本的 /etc/network/interfaces 管理網卡設置，因此通過如下方法，將機器 IP 地址更改爲靜態獲取，可以解決此問題。
+1. vi /etc/netplan/50-cloud-init.yaml (此文件名可能會變化).
+network: ethernets: ens33: dhcp4: no dhcp6: no addresses: [192.168.44.129/24,] gateway4: 192.168.44.1 nameservers: addresses: [8.8.8.8, 8.8.4.4] 2. 更改後，執行.
+&amp;gt;netplan apply &amp;gt;reboot</description></item><item><title>Ubuntu . 更改 Hostname</title><link>https://travisbikkle.pages.dev/zh-hant/2018/10/ubuntu18-hostname/</link><pubDate>Sat, 13 Oct 2018 11:24:04 +0800</pubDate><guid>https://travisbikkle.pages.dev/zh-hant/2018/10/ubuntu18-hostname/</guid><description>vi /etc/cloud/cloud.cfg #preserve_hostname: false ---&amp;gt; 改成 true vi /etc/hostname reboot</description></item></channel></rss>
