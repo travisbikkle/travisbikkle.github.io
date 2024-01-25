@@ -19,7 +19,10 @@ XMODIFIERS=@im=fcitx
 如果你中 Discover 软件管理工具中下载了 VSCode，请卸载后，在官网下载 deb 包安装，即可解决无法输入中文的问题。
 使用 fcitx4 卸载 fcitx5
 1sudo apt-get remove fcitx5 安装谷歌拼音输入法</description></item><item><title>Ubuntu 改键</title><link>https://travisbikkle.pages.dev/2023/10/remaps-keys-in-ubuntu/</link><pubDate>Tue, 17 Oct 2023 11:24:32 +0800</pubDate><guid>https://travisbikkle.pages.dev/2023/10/remaps-keys-in-ubuntu/</guid><description>在 Ubuntu Software 中搜索 Gnome Tweaks 并安装。 点击 Keyboard &amp;amp; Mouse 点击 Additional Layout Options 在弹出的窗口中，勾选 Ctrl position 中的 Swap Ctrl and Caps Lock 本文基于 Ubuntu 22.04 LTS 及 Gnome Tweaks 3.34.0 编写。
-补充：使用kde更加的方便，该设置已经被集成到系统设置中，无需下载 Gnome Tweaks。</description></item><item><title>常用包管理软件代理或国内镜像设置</title><link>https://travisbikkle.pages.dev/2018/10/common-pakage-manager-proxy/</link><pubDate>Sat, 13 Oct 2018 11:24:31 +0800</pubDate><guid>https://travisbikkle.pages.dev/2018/10/common-pakage-manager-proxy/</guid><description>npm 代理
-1 # 使用家目录下的默认rc文件配置，不使用 npm config set.. 2 vi ~/.npmrc 3 ## add these lines to .npmrc 4 ## privoxy and shadowsocks [如何配置 privoxy 详见另一篇博文]() 5 proxy=http://localhost:8118 6 https_proxy=https://localhost:8118 7 strict-ssl=false npm 国内镜像-淘宝
-1 vi ~/.npmrc 2 registry=https://registry.npm.taobao.org 3 ## proxy=http://localhost:8118 4 ## https_proxy=https://localhost:8118 5 ## strict-ssl=false yarn 代理
-1 vi ~/.yarnrc 2 ## add these lines to .yarnrc 3 env: 4 proxy &amp;#39;http://localhost:8118&amp;#39; 5 https_proxy &amp;#39;https://localhost:8118&amp;#39; 6 strict-ssl false yarn 使用国内镜像</description></item></channel></rss>
+补充：使用kde更加的方便，该设置已经被集成到系统设置中，无需下载 Gnome Tweaks。</description></item><item><title>常用包管理软件代理或国内镜像设置</title><link>https://travisbikkle.pages.dev/2018/10/common-pakage-manager-proxy/</link><pubDate>Sat, 13 Oct 2018 11:24:31 +0800</pubDate><guid>https://travisbikkle.pages.dev/2018/10/common-pakage-manager-proxy/</guid><description>中国加速镜像 npm可能未及时同步 pip可能未同步官方已经删除的恶意软件包 manager useful commands command pnpm pnpm get registry pnpm config set registry https://registry.npmmirror.com npm npm get registry npm config set registry https://registry.npmmirror.com yarn yarn config get registry yarn config set registry https://registry.npmmirror.com pip pip config list # for pip install
+pip config set global.index-url https://mirrors.aliyun.com/pypi/simple/
+# for pip search
+pip config set global.index https://mirrors.aliyun.com/pypi
+pip config set global.trusted-host mirrors.aliyun.com 代理 npm(~/.npmrc)
+1proxy=http://localhost:8118 2https_proxy=https://localhost:8118 3strict-ssl=false yarn(~/.yarnrc)
+1env: 2 proxy &amp;#39;http://localhost:8118&amp;#39; 3 https_proxy &amp;#39;https://localhost:8118&amp;#39; 4 strict-ssl false</description></item></channel></rss>
