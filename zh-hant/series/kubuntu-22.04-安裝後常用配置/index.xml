@@ -11,12 +11,11 @@ QT_IM_MODULE=fcitx
 XMODIFIERS=@im=fcitx
 請直接使用你登錄的用戶執行以下命令
 1im-config 在彈出的窗口中，依次選擇確定，是，選擇如下選項即可。 重啓系統 在 系統設置-區域設置-輸入法 中添加 拼音 或者 pinyin
-解決 Intellij Idea 中使用 fcitx5 候選框不跟隨的問題
-可以將如下項目的release文件解壓縮到JetBrain產品的jbr目錄中（可能導致markdown無法預覽）
+解決 Intellij Idea 中使用 fcitx5 候選框不跟隨的問題 (20240126更新：此時的Idea已經沒有此問題，無需進行此步) 可以將如下項目的release文件解壓縮到JetBrain產品的jbr目錄中（可能導致markdown無法預覽）
 1https://github.com/RikudouPatrickstar/JetBrainsRuntime-for-Linux-x64 程序員推薦在如下配置中關閉簡繁切換快捷鍵
 系統設置-區域設置-輸入法-配置附加組件-簡繁切換 中刪除CTRL SHIFT F的簡繁切換快捷鍵。
-解決中 Visual Studio Code 中無法使用任何中文輸入法的問題
-如果你中 Discover 軟件管理工具中下載了 VSCode，請卸載後，在官網下載 deb 包安裝，即可解決無法輸入中文的問題。
+解決在 Visual Studio Code 中無法使用任何中文輸入法的問題
+如果你在 Discover 軟件管理工具中下載了 VSCode，請卸載後，在官網下載 deb 包安裝，即可解決無法輸入中文的問題。
 使用 fcitx4 卸載 fcitx5
 1sudo apt-get remove fcitx5 安裝谷歌拼音輸入法</description></item><item><title>Ubuntu 改鍵</title><link>https://travisbikkle.github.io/zh-hant/2023/10/remaps-keys-in-ubuntu/</link><pubDate>Tue, 17 Oct 2023 11:24:32 +0800</pubDate><guid>https://travisbikkle.github.io/zh-hant/2023/10/remaps-keys-in-ubuntu/</guid><description>在 Ubuntu Software 中搜索 Gnome Tweaks 並安裝。 點擊 Keyboard &amp;amp; Mouse 點擊 Additional Layout Options 在彈出的窗口中，勾選 Ctrl position 中的 Swap Ctrl and Caps Lock 本文基於 Ubuntu 22.04 LTS 及 Gnome Tweaks 3.34.0 編寫。
 補充：使用kde更加的方便，該設置已經被集成到系統設置中，無需下載 Gnome Tweaks。</description></item><item><title>常用包管理軟件代理或國內鏡像設置</title><link>https://travisbikkle.github.io/zh-hant/2018/10/common-pakage-manager-proxy/</link><pubDate>Sat, 13 Oct 2018 11:24:31 +0800</pubDate><guid>https://travisbikkle.github.io/zh-hant/2018/10/common-pakage-manager-proxy/</guid><description>中國加速鏡像 npm可能未及時同步 pip可能未同步官方已經刪除的惡意軟件包 manager useful commands command pnpm pnpm get registry pnpm config set registry https://registry.npmmirror.com npm npm get registry npm config set registry https://registry.npmmirror.com yarn yarn config get registry yarn config set registry https://registry.npmmirror.com pip pip config list # for pip install

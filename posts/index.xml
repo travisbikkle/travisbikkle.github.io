@@ -39,12 +39,11 @@ QT_IM_MODULE=fcitx
 XMODIFIERS=@im=fcitx
 请直接使用你登录的用户执行以下命令
 1im-config 在弹出的窗口中，依次选择确定，是，选择如下选项即可。 重启系统 在 系统设置-区域设置-输入法 中添加 拼音 或者 pinyin
-解决 Intellij Idea 中使用 fcitx5 候选框不跟随的问题
-可以将如下项目的release文件解压缩到JetBrain产品的jbr目录中（可能导致markdown无法预览）
+解决 Intellij Idea 中使用 fcitx5 候选框不跟随的问题 (20240126更新：此时的Idea已经没有此问题，无需进行此步) 可以将如下项目的release文件解压缩到JetBrain产品的jbr目录中（可能导致markdown无法预览）
 1https://github.com/RikudouPatrickstar/JetBrainsRuntime-for-Linux-x64 程序员推荐在如下配置中关闭简繁切换快捷键
 系统设置-区域设置-输入法-配置附加组件-简繁切换 中删除CTRL SHIFT F的简繁切换快捷键。
-解决中 Visual Studio Code 中无法使用任何中文输入法的问题
-如果你中 Discover 软件管理工具中下载了 VSCode，请卸载后，在官网下载 deb 包安装，即可解决无法输入中文的问题。
+解决在 Visual Studio Code 中无法使用任何中文输入法的问题
+如果你在 Discover 软件管理工具中下载了 VSCode，请卸载后，在官网下载 deb 包安装，即可解决无法输入中文的问题。
 使用 fcitx4 卸载 fcitx5
 1sudo apt-get remove fcitx5 安装谷歌拼音输入法</description></item><item><title>Neat（干净上网，知乎登录屏蔽，csdn、起点免登录复制）</title><link>https://travisbikkle.github.io/other/tools/2023-11-08-zhihu_csdn_extension.html</link><pubDate>Wed, 08 Nov 2023 05:52:41 +0800</pubDate><guid>https://travisbikkle.github.io/other/tools/2023-11-08-zhihu_csdn_extension.html</guid><description>在edge浏览器扩展商店中搜索 Neat 并安装。
 知乎 扩展安装好后，知乎登录弹窗禁用功能即刻生效，无需其它设置。
