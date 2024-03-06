@@ -297,7 +297,7 @@ BTrace 的限制 不能 创建对象，数组。
 不能 调用任意实例或静态方法，只能调用 BTraceUtils 中的方法。
 不能 修改目标程序的静态或实例变量，不过 BTrace 程序自己不做限制。
 不能 有实例变量或方法，方法不能有返回值类型，BTrace 程序的所有方法必须是 public static 1. oid 的，所有的字段都必须是 static 的。
-不能 有 outer, inner, nested 或 local 类。</description></item><item><title>常用包管理软件代理或国内镜像设置</title><link>https://travisbikkle.github.io/2018/10/common-pakage-manager-proxy/</link><pubDate>Sat, 13 Oct 2018 11:24:31 +0800</pubDate><guid>https://travisbikkle.github.io/2018/10/common-pakage-manager-proxy/</guid><description>中国加速镜像 npm可能未及时同步 pip可能未同步官方已经删除的恶意软件包 manager useful commands command pnpm pnpm get registry pnpm config set registry https://registry.npmmirror.com npm npm get registry npm config set registry https://registry.npmmirror.com yarn yarn config get registry yarn config set registry https://registry.npmmirror.com pip pip config list # for pip install
+不能 有 outer, inner, nested 或 local 类。</description></item><item><title>npm 镜像等设置</title><link>https://travisbikkle.github.io/2018/10/common-pakage-manager-proxy/</link><pubDate>Sat, 13 Oct 2018 11:24:31 +0800</pubDate><guid>https://travisbikkle.github.io/2018/10/common-pakage-manager-proxy/</guid><description>中国加速镜像 npm可能未及时同步 pip可能未同步官方已经删除的恶意软件包 manager useful commands command pnpm pnpm get registry pnpm config set registry https://registry.npmmirror.com npm npm get registry npm config set registry https://registry.npmmirror.com yarn yarn config get registry yarn config set registry https://registry.npmmirror.com pip pip config list # for pip install
 pip config set global.index-url https://mirrors.aliyun.com/pypi/simple/
 # for pip search
 pip config set global.index https://mirrors.aliyun.com/pypi
