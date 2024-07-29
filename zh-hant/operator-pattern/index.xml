@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>operator pattern on 奇风岁月</title><link>https://travisbikkle.github.io/zh-hant/operator-pattern/</link><description>Recent content in operator pattern on 奇风岁月</description><generator>Hugo -- gohugo.io</generator><language>zh-hant</language><copyright>Copyright © 2022-{year} Travis Bikkle. All Rights Reserved.</copyright><lastBuildDate>Thu, 26 May 2022 11:24:26 +0800</lastBuildDate><atom:link href="https://travisbikkle.github.io/zh-hant/operator-pattern/index.xml" rel="self" type="application/rss+xml"/><item><title>如何寫一個 K8s Operator</title><link>https://travisbikkle.github.io/zh-hant/2022/05/operator-dev/</link><pubDate>Thu, 26 May 2022 11:24:26 +0800</pubDate><guid>https://travisbikkle.github.io/zh-hant/2022/05/operator-dev/</guid><description>使用過 k8s 的同學可能執行過以下命令：
+1kubectl edit sts myapp # 編輯一個名稱爲 myapp 的 StatefulSet 2kubectl describe sts myapp # 查看一個名稱爲 myapp 的 StatefulSet StatefulSet 是 k8s 定義的一種資源，類似的還有 Deployment、Job、ConfigMap 等。當你執行 edit 命令編輯這些資源後，k8s 會通過不停輪詢的方式（核心概念：control loop），將目標資源調整（核心概念：reconcile）到你期望的狀態。
+例如，你按了空調的遙控器，希望將房間的溫度下調到 20℃。空調的壓縮機開始工作，並且同時不停的檢測當前實際的溫度與你期望的溫度之間的差異，直到溫度達到20℃，這就是一個 control loop 的例子。
+很簡單，對吧？
+設想一下如果不是這樣，你將一手拿着溫度計，然後不停的告訴空調溫度仍然很高，或者已經變得過低了。
+這就是聲明式 API 的好處，用戶只需要告訴程序你的期望，剩下的交給程序來做（對於程序開發者來說是雷鋒行爲），而程序實現目標最省力的方式，就是採用 control loop 的方式，不停的對比期望與現實的差距。
+Operator 是什麼 試想我們不再滿足於 k8s 提供的默認的資源，我們想利用這種省心省力的方式，來管理我們自己的資源，如：數據庫的一個用戶。
+你可能想說，數據庫的用戶存在於數據庫內，我知道數據庫的集羣可以定義爲 StatefulSet 然後由 k8s 管理，用戶又怎麼使用 k8s 管理呢？爲什麼要用 k8s 來管理呢？
+爲什麼要用 k8s 管理用戶資源？
+以 MySql 爲例，通常我們創建用戶，是使用 root 用戶登錄到數據庫，執行 sql 語句創建用戶。但是設想以下幾種場景：
+你不知道 root 用戶的密碼，或者因爲安全要求，不能提供給你 你不知道 MySql 的 IP 你知道以上信息，但是因爲沒有開啓相應的節點權限，你無法登錄數據庫 你完成了以上所有步驟，結果其中某些登錄或者創建步驟失敗了，你和數據庫運維人員開始扯皮 看到了吧？這些都是生產環境中，真實會遇到的事情。而使用以下步驟，我們就可以一舉解決這些問題。</description></item></channel></rss>

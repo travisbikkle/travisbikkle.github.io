@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Dev Environment Setup on 奇风岁月</title><link>https://travisbikkle.github.io/series/dev-environment-setup/</link><description>Recent content in Dev Environment Setup on 奇风岁月</description><generator>Hugo -- gohugo.io</generator><language>zh-hans</language><copyright>Copyright © 2022-{year} Travis Bikkle. All Rights Reserved.</copyright><lastBuildDate>Wed, 15 Nov 2023 11:24:33 +0800</lastBuildDate><atom:link href="https://travisbikkle.github.io/series/dev-environment-setup/index.xml" rel="self" type="application/rss+xml"/><item><title>Kubuntu Vscode 鼠标列编辑设置</title><link>https://travisbikkle.github.io/2023/11/kubuntu-vscode-mouse/</link><pubDate>Wed, 15 Nov 2023 11:24:33 +0800</pubDate><guid>https://travisbikkle.github.io/2023/11/kubuntu-vscode-mouse/</guid><description>鼠标中键是某些操作系统的默认粘贴快捷键，这导致在VSCode中无法使用鼠标中键进入列编辑模式。
+点击 文件-首选项-设置 点击右上角，打开json文件 添加如下行
+1&amp;#34;editor.selectionClipboard&amp;#34;: false 关闭 VSCode 并重新打开，测试是否生效。</description></item><item><title>Android Studio Emulator 启动失败</title><link>https://travisbikkle.github.io/2023/11/android-studio-emulator-failed/</link><pubDate>Wed, 15 Nov 2023 11:24:23 +0800</pubDate><guid>https://travisbikkle.github.io/2023/11/android-studio-emulator-failed/</guid><description>报错现象 :::danger ERROR The emulator process for AVD Pixel_3a_API_34_extension_level_7_x86_64 has terminated. ::: 没有任何的报错信息，如果不知道日志在哪里，该如何排查呢？
+解决办法 在你的家目录如下位置，执行如下命令，通过命令行查询出虚拟设备并启动，将报错信息打印到前台
+1yourname@v:~/Android/Sdk/emulator$ ./emulator -list-avds 2Pixel_3a_API_34_extension_level_7_x86_64 3yourname@v:~/Android/Sdk/emulator$ ./emulator @Pixel_3a_API_34_extension_level_7_x86_64 4INFO | Android emulator version 32.1.15.0 (build_id 10696886) (CL:N/A) 5INFO | Found systemPath /home/yourname/Android/Sdk/system-images/android-34/google_apis/x86_64/ 6INFO | Storing crashdata in: /tmp/android-yourname/emu-crash.db, detection is enabled 7INFO | Duplicate loglines will be removed, if you wish to see each indiviudal line launch with the -log-nofilter flag. 8WARNING | Please update the emulator to one that supports the feature(s): SupportPixelFold 9ERROR | Not enough space to create userdata partition.</description></item><item><title>Intellij Idea 启动报错</title><link>https://travisbikkle.github.io/2023/11/idea-start-error/</link><pubDate>Tue, 14 Nov 2023 11:24:23 +0800</pubDate><guid>https://travisbikkle.github.io/2023/11/idea-start-error/</guid><description>Intellij Idea 2023.2 启动报错：
+::: danger ERROR Error while opening intellij &amp;ldquo;Cannot connect to already running IDE instance. Exception: Process 2,837 is still running&amp;rdquo; :::
+youtrack 跟踪 https://youtrack.jetbrains.com/issue/IDEA-330531
+解决办法 在菜单中编辑启动项，在idea.sh前加入一个前置的脚本，在其中删除不该存在的.lock文件
+1/opt/idea-IU-232.10203.10/bin/prestart.sh; /opt/idea-IU-232.10203.10/bin/idea.sh 脚本的内容为
+1#!/bin/bash 2rm ~/.config/JetBrains/IntelliJIdea2023.2/.lock</description></item><item><title>Kubuntu 软件源在哪里修改</title><link>https://travisbikkle.github.io/2023/11/kubuntu2204-software-resources-bug/</link><pubDate>Wed, 08 Nov 2023 11:24:30 +0800</pubDate><guid>https://travisbikkle.github.io/2023/11/kubuntu2204-software-resources-bug/</guid><description>Kubuntu 22.04 的软件源可以在 Discover 中的如下位置设置。 但是如果你的 Discover 不显示以上界面，可以通过如下方法来修复。
+编辑如下文件
+1vi /usr/share/applications/software-properties-qt.desktop 将以下内容替换到源文件
+1[Desktop Entry] 2Name=Software Sources 3GenericName=Software Sources 4Comment=Configure the sources for installable software and updates 5Exec=pkexec env DISPLAY=$DISPLAY XAUTHORITY=$XAUTHORITY software-properties-qt 6Icon=applications-other 7NoDisplay=false 8Terminal=false 9X-MultipleArgs=false 10Type=Application 11Categories=System;Settings; 12MimeType=text/x-apt-sources-list; 13X-KDE-SubstituteUID=false 14X-Ubuntu-Gettext-Domain=software-properties 如此，在 Discover可以显示软件源的界面，在菜单中也可以搜索到在其它发行版中常见的 软件源 菜单项。</description></item><item><title>Kubuntu 22.04 中文输入法</title><link>https://travisbikkle.github.io/2023/11/kubuntu2204-chiness-im/</link><pubDate>Wed, 08 Nov 2023 11:24:29 +0800</pubDate><guid>https://travisbikkle.github.io/2023/11/kubuntu2204-chiness-im/</guid><description>继续使用 fcitx5（推荐） 安装 fcitx5 中文输入法
+1sudo apt install fcitx5-chinese-addons \ 2fcitx5-frontend-gtk4 fcitx5-frontend-gtk3 fcitx5-frontend-gtk2 \ 3fcitx5-frontend-qt5 $(check-language-support) check-language-support 同时安装了系统中缺失的中文语言包（在 区域设置-语言 中点击安装缺失的语言包没有反应），这样才能在第3步中看到 输入法 的选项。
+启用 fcitx5 注意，不要相信网上任何要你更改.xinputrc或者在某些文件中添加如下变量的话
+GTK_IM_MODULE=fcitx
+QT_IM_MODULE=fcitx
+XMODIFIERS=@im=fcitx
+请直接使用你登录的用户执行以下命令
+1im-config 在弹出的窗口中，依次选择确定，是，选择如下选项即可。 重启系统 在 系统设置-区域设置-输入法 中添加 拼音 或者 pinyin
+解决 Intellij Idea 中使用 fcitx5 候选框不跟随的问题 (20240126更新：此时的Idea已经没有此问题，无需进行此步) 可以将如下项目的release文件解压缩到JetBrain产品的jbr目录中（可能导致markdown无法预览）
+1https://github.com/RikudouPatrickstar/JetBrainsRuntime-for-Linux-x64 程序员推荐在如下配置中关闭简繁切换快捷键
+系统设置-区域设置-输入法-配置附加组件-简繁切换 中删除CTRL SHIFT F的简繁切换快捷键。
+解决在 Visual Studio Code 中无法使用任何中文输入法的问题
+如果你在 Discover 软件管理工具中下载了 VSCode，请卸载后，在官网下载 deb 包安装，即可解决无法输入中文的问题。
+使用 fcitx4 卸载 fcitx5
+1sudo apt-get remove fcitx5 安装谷歌拼音输入法</description></item><item><title>Ubuntu 改键</title><link>https://travisbikkle.github.io/2023/10/remaps-keys-in-ubuntu/</link><pubDate>Tue, 17 Oct 2023 11:24:32 +0800</pubDate><guid>https://travisbikkle.github.io/2023/10/remaps-keys-in-ubuntu/</guid><description>在 Ubuntu Software 中搜索 Gnome Tweaks 并安装。 点击 Keyboard &amp;amp; Mouse 点击 Additional Layout Options 在弹出的窗口中，勾选 Ctrl position 中的 Swap Ctrl and Caps Lock 本文基于 Ubuntu 22.04 LTS 及 Gnome Tweaks 3.34.0 编写。
+补充：使用kde更加的方便，该设置已经被集成到系统设置中，无需下载 Gnome Tweaks。</description></item><item><title>npm 镜像等设置</title><link>https://travisbikkle.github.io/2018/10/common-pakage-manager-proxy/</link><pubDate>Sat, 13 Oct 2018 11:24:31 +0800</pubDate><guid>https://travisbikkle.github.io/2018/10/common-pakage-manager-proxy/</guid><description>中国加速镜像 npm可能未及时同步 pip可能未同步官方已经删除的恶意软件包 manager useful commands command pnpm pnpm get registry pnpm config set registry https://registry.npmmirror.com npm npm get registry npm config set registry https://registry.npmmirror.com yarn yarn config get registry yarn config set registry https://registry.npmmirror.com pip pip config list # for pip install
+pip config set global.index-url https://mirrors.aliyun.com/pypi/simple/
+# for pip search
+pip config set global.index https://mirrors.aliyun.com/pypi
+pip config set global.trusted-host mirrors.aliyun.com 代理 注意如果你没有翻墙软件就不用做下面的配置，请将地址修改为你实际的代理地址。
+npm(~/.npmrc)
+1proxy=http://localhost:8118 2https_proxy=https://localhost:8118 3strict-ssl=false yarn(~/.yarnrc)
+1env: 2 proxy &amp;#39;http://localhost:8118&amp;#39; 3 https_proxy &amp;#39;https://localhost:8118&amp;#39; 4 strict-ssl false</description></item></channel></rss>
