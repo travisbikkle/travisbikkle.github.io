@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>tauri on 奇风岁月</title><link>https://travisbikkle.github.io/tauri/</link><description>Recent content in tauri on 奇风岁月</description><generator>Hugo -- gohugo.io</generator><language>zh-hans</language><copyright>Copyright © 2022-{year} Travis Bikkle. All Rights Reserved.</copyright><lastBuildDate>Mon, 05 Aug 2024 16:07:11 +0800</lastBuildDate><atom:link href="https://travisbikkle.github.io/tauri/index.xml" rel="self" type="application/rss+xml"/><item><title>Tauri 使用 vue-devtools</title><link>https://travisbikkle.github.io/2024/08/2024-08-05-auri/</link><pubDate>Mon, 05 Aug 2024 16:07:11 +0800</pubDate><guid>https://travisbikkle.github.io/2024/08/2024-08-05-auri/</guid><description>Tauri 号称不强迫开发者（un-opinionated）、不依赖具体前端框架的（agnostic）桌面应用框架，Vue又以其简单易上手的特点在开发者中非常流行。
+Vue Devtools 是一款可以在浏览器控制台中显示 vue 程序详情的小工具。
+今天我们将它们结合起来，演示如何在一个新项目中配置 Vue Devtools.
+前提 使用脚手架命令创建应用。
+1cargo install create-tauri-app 2cargo create-tauri-app --rc 或
+1pnpm create tauri-app --rc https://v2.tauri.app/start/create-project/
+安装 Vue Devtools windows
+1$env:ELECTRON_CUSTOM_DIR=&amp;#34;&amp;#34;; npm install -g @vue/devtools linux or macos
+1export ELECTRON_CUSTOM_DIR=&amp;#34;&amp;#34; 2npm install -g @vue/devtools 使用 Vue Devtools 启动 Vue Devtools 1vue-devtools 或将该命令加入到 package.json 中
+1 &amp;#34;scripts&amp;#34;: { 2 ... 3 &amp;#34;vue:dev-tools&amp;#34;: &amp;#34;vue-devtools&amp;#34;, 4 ... 5 } 引入 Vue Devtools 在 index.html 中引入。</description></item></channel></rss>
