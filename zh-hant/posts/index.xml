@@ -1,4 +1,59 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>文章 on 奇风岁月</title><link>https://travisbikkle.github.io/zh-hant/posts/</link><description>Recent content in 文章 on 奇风岁月</description><generator>Hugo -- gohugo.io</generator><language>zh-hant</language><atom:link href="https://travisbikkle.github.io/zh-hant/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Webview2 Tauri 繞過 CORS</title><link>https://travisbikkle.github.io/zh-hant/2024/08/tauri-bypass-cors/</link><pubDate>Wed, 07 Aug 2024 17:32:12 +0800</pubDate><guid>https://travisbikkle.github.io/zh-hant/2024/08/tauri-bypass-cors/</guid><description>item version tauri 2.0.0-rc 前提 當你在 foo.com 使用 js 來訪問 bar.com/api 的時候，你可能會遇到下面這樣的錯誤（但你能夠使用 curl 訪問它）：
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>文章 on 奇风岁月</title><link>https://travisbikkle.github.io/zh-hant/posts/</link><description>Recent content in 文章 on 奇风岁月</description><generator>Hugo -- gohugo.io</generator><language>zh-hant</language><atom:link href="https://travisbikkle.github.io/zh-hant/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>如何爲大疆mavic mini更換機臂</title><link>https://travisbikkle.github.io/zh-hant/2024/09/how-to-replace-dji-mavic-mini-arm/</link><pubDate>Sat, 28 Sep 2024 11:24:31 +0800</pubDate><guid>https://travisbikkle.github.io/zh-hant/2024/09/how-to-replace-dji-mavic-mini-arm/</guid><description>兒子的無人機摔斷了左前臂，之前一直用膠水粘着，趁着放假前，趕緊給他修一修。
+所需材料 螺絲刀（商家贈送） 翹片或一張廢棄的銀行卡 鑷子 電烙鐵、焊錫與松香 可能需要膠水，以及電工膠布 小心與耐心 步驟 擰掉上蓋螺絲 使用翹片或者一張銀行卡，將上蓋移除
+爲了避免將上蓋的卡扣翹斷，請提前參考以下幾張圖，做到心中有數：
+側面：
+擰掉底蓋螺絲
+同樣，請參考底蓋的卡扣，不要將底蓋的卡扣翹斷
+擰掉底部黑色蓋板的螺絲，將蓋板拆除，用鑷子拔掉天線
+用電烙鐵將機臂與機身連接的3根線點掉
+將機臂與機身連接的結構件螺絲擰掉，並從另一邊用螺絲刀將該紅圈圈住的位置頂出來，即可卸掉機臂
+將機臂的天線，槳葉，馬達背面的螺絲，和機臂的覆蓋面拆除
+好了，現在可以將機臂整個卸掉了。
+記住，將三條馬達線從機身拽出的時候，需要去除粘在線上的膠水。小心一點，不要像我一樣，把線剪斷了。
+如果你不小心把線剪斷了，可以用電烙鐵焊回去，用電工膠布包好。
+將天線、馬達穿入新的機臂。將天線穿回底部，接回原來的位置。將馬達線焊回原來的位置。
+由於焊點非常近，如果你像我一樣不是專業的人員，建議多在別的地方練習一下，如果你把兩個焊點焊到了一起，不要放棄，儘快將焊錫重新點走。
+我相信你一定會比我焊的好：
+最難的一步來了，將機臂與機身的結構件裝回去。注意將機臂放置到如圖的角度，然後將結構件用力按回去。
+注意，不要讓天線和馬達線擋住結構件
+在安裝上下蓋之前，將馬達、天線和槳葉裝回，測試功能是否正常。
+在安裝天線的時候，可以用雙面膠固定。
+測試項包括：
+馬達是否正常，是否能正常起飛，起飛和下落的時候飛機是否傾斜。
+功能測試完畢後，以此將底部蓋板，底殼，上殼裝回。</description></item><item><title>使用 Coder 打造自己的雲開發環境（在中國大陸）</title><link>https://travisbikkle.github.io/zh-hant/2024/08/coder-how-to/</link><pubDate>Fri, 30 Aug 2024 11:24:28 +0800</pubDate><guid>https://travisbikkle.github.io/zh-hant/2024/08/coder-how-to/</guid><description>使用場景 你需要在不同的開發環境中來回切換 你有很多臺電腦，你需要在這些電腦上安裝完全一樣的開發環境 你出去遊玩，手裏只有一臺平板電腦，但是你的項目出現問題需要緊急修改一部分代碼 你是一名開發體驗提升工程師（這個崗位是我編的，一般指大公司裏面那些專門爲開發人員開發工具的開發人員），需要幫助用戶隨時按需創建完整的開發環境 你希望瞭解類似於亞馬遜、騰訊雲是如何快速生成你需要的服務器或輕量服務器 你單純的喜歡折騰 Coder 是什麼 Coder 基於 Terraform，但是聲稱不需要深入瞭解 Terraform 就可以使用 Coder。
+Terraform 是什麼呢？它是一個使用少量配置文件就能在各種雲服務商（provider）生成節點的 Infrastructure as Code 工具。
+它充當你和騰訊雲、亞馬遜雲之間的一箇中間人，你只需要提供配置（可複用，module），描述你需要什麼樣的節點，以及你的一些登錄憑證，它就能幫你創建實例。
+在社區裏面有將近數百種種 provider，阿里雲、騰訊雲都在裏面。你也可以寫provider，對接任意服務商，包括本機部署的k8s或者僅僅一個docker也行， 當然，少不了本文的重點proxmox（pve）。
+那我們爲什麼不去直接使用 Terraform？ Coder 在 terraform 基礎上做了一些對人類友好的工作，比如一個簡單的web界面（你可以通過配置文件自定義web界面的菜單、輸入窗口）， 一些用戶、權限管理（企業版支持）、一些模板、一個工作空間管理界面，你還可以直接打開命令行窗口、code server（在線版的vscode）。
+個人開發者爲什麼不選擇dev containers？ 首先，其實 coder 支持 dev containers。
+其次，在一些你無法安裝 docker 的場景，或者你不希望在自己漂亮的 mac 或 win 系統中安裝docker，那麼 coder 就很適合你。
+Coder 的概念 你可以根據 Templates 創建 Workspace，Workspace 就是你的開發環境。
+你在 Templates 中可以定義開發環境將部署在 aws 或是你的一臺 pve 上，並且還能定義參數，在創建 Workspace 的時候輸入 cpu 個數或內存大小等。
+甚至還能定義 Workspace 的健康狀態檢查，並顯示到前臺界面上。</description></item><item><title>OS 開發備忘3</title><link>https://travisbikkle.github.io/zh-hant/2024/08/osdev-memo3/</link><pubDate>Fri, 23 Aug 2024 17:32:12 +0800</pubDate><guid>https://travisbikkle.github.io/zh-hant/2024/08/osdev-memo3/</guid><description>多任務 Preemptive Multitasking 搶佔式多任務 核心思想是操作系統控制什麼時候切換任務。
+第一行中，CPU 正在執行程序 A 的任務 A1。在第二行中，CPU 收到一個硬件中斷。如硬件中斷一文所述， CPU 會立即停止執行任務 A1，並跳轉到中斷描述符表 (IDT) 中定義的中斷處理程序。通過該中斷處理程序， 操作系統現在可以再次控制 CPU，從而切換到任務 B1，而不是繼續執行任務 A1。
+保存狀態 由於任務會在任意時間點被中斷，它們可能正在進行某些計算。爲了能在稍後恢復任務，操作系統必須備份任務的整個狀態， 包括其調用堆棧（call stack）和所有 CPU 寄存器（cpu register）的值。這個過程稱爲上下文切換（context switch）。
+由於調用堆棧可能非常龐大，操作系統通常會爲每個任務建立單獨的調用堆棧，而不是在每個任務切換時備份調用堆棧內容。 這種擁有自己堆棧的任務稱爲執行線程（thread of execution），簡稱線程（thread）。 通過爲每個任務使用單獨的堆棧，在上下文切換時只需保存寄存器內容（包括程序計數器和堆棧指針）。 這種方法最大限度地減少了上下文切換的性能開銷，這一點非常重要，因爲上下文切換通常每秒會發生 100 次。
+優缺點 優點：
+操作系統保證 cpu 分配時間公平 缺點：
+每個程序需要保存單獨的 stack，浪費內存 操作系統需要爲每次切換保存 cpu register 狀態，即使任務只用了很少一部分 register Cooperative Multitasking 協作式多任務 核心思想是程序可以主動交出 cpu 控制權。
+保存狀態 由於任務自己定義暫停點，因此它們不需要操作系統來保存狀態。 相反，它們可以在自己暫停之前準確保存繼續運行所需的狀態，這通常會帶來更好的性能。 例如，Rust 的 async/await 實現會將所有仍需使用的局部變量存儲在自動生成的結構體中（見下文）。
+通過在暫停前備份調用棧的相關部分，所有任務都可以共享一個調用棧，從而大大降低了每個任務的內存消耗。這樣就可以創建幾乎任意數量的任務，而不會耗盡內存。
+優缺點 優點：
+性能高 缺點：
+一些任務可能佔有全部資源，其它任務獲取不到 cpu 時間 rust 中的 async/await Future Future 代表一個現在還不能用的值。</description></item><item><title>OS 開發備忘2</title><link>https://travisbikkle.github.io/zh-hant/2024/08/osdev-memo2/</link><pubDate>Tue, 20 Aug 2024 17:32:12 +0800</pubDate><guid>https://travisbikkle.github.io/zh-hant/2024/08/osdev-memo2/</guid><description>實現堆內存 本地變量與棧內存 outer 方法調用 inner 方法的棧，從上至下。 inner 方法執行完成後。 靜態變量 靜態變量存儲在獨立於堆棧的固定內存位置。
+該內存位置在編譯時由鏈接器分配，並在可執行文件中編碼。
+動態內存 本地變量只生存於作用域內，靜態變量全局可用、不能夠回收、所有權不清晰。
+兩者都有一個固定的大小，所以無法存儲會動態增長的變量。
+爲了解決這些問題，編程語言都會引入第三塊內存區域： heap。
+假設使用 allocate 和 deallocate 來分配和釋放內存：
+在調用 deallocate 之後，內存變成如下圖所示：
+所以相對於靜態變量來說，z[1] 這塊內存區域，我們可以複用。
+但是 z[0] 和 z[2] 永遠不釋放，這就造成了內存泄漏。
+其它錯誤 除了內存泄漏，但它並不會使我們的程序更易受到攻擊，還有兩種類型的錯誤會有更嚴重的後果：
+use-after-free: 在 deallocate 之後嘗試使用這個變量，這種錯誤會導致無法預料的行爲，經常被攻擊者利用來執行任意代碼。 double-free: 釋放兩次，可能會釋放掉一個在 deallocate 之後又重新分配的地址，也有可能導致 use-after-free 問題。 即使是最好的程序員，也無法永遠不出錯誤地處理這些分配和釋放流程，而且每年都會有新的錯誤， 比如可以在搜索引擎嘗試搜索 use-after-free 2024，你可以把 2024 換成當年的年份。
+爲了解決這些問題，java 和 python 會使用垃圾回收機制，核心思想是，編碼者無需手動寫 allocate 和 deallocate，而是定時暫停、 掃描程序中未使用的堆變量，然後釋放掉這些內存。這樣，以上錯誤就不會再出現，缺點是定時掃描導致的性能開銷，以及長時間的暫停。
+rust 使用了不一樣的解決方法：它使用所有權設計，來在編譯時檢查動態內存操作的正確性，於是rust消滅了垃圾回收，當然也就沒有性能開銷了。 另一個好處是，編碼者仍然對內存擁有細粒度的控制，就像 C、C++，缺點就是你會有很多編譯錯誤需要解決。
+rust 中的分配 Rust 中最重要的類型之一是 Box，它其實是堆變量的封裝，使用 Box::new 接收一個變量，執行 allocate 分配一個變量大小的區域，然後將變量 的值轉移到堆中。要釋放這塊區域，Box 中還有 Drop 特質，它會調用 deallocate。</description></item><item><title>OS 開發備忘</title><link>https://travisbikkle.github.io/zh-hant/2024/08/osdev-memo/</link><pubDate>Wed, 07 Aug 2024 17:32:12 +0800</pubDate><guid>https://travisbikkle.github.io/zh-hant/2024/08/osdev-memo/</guid><description>顯示（VGA TEXT MODE） 要在 VGA 文本模式下將字符打印到屏幕上，必須將其寫入 VGA 硬件的文本緩衝區。 VGA 文本緩衝區是一個二維數組，通常有 25 行 80 列，可直接渲染到屏幕上。 每個數組條目通過以下格式描述一個屏幕字符： Bit(s) Value 0-7 ASCII 字符，8bit 8-11 前景色，4bit 12-14 背景色，3bit 15 閃爍，1bit 如何設計（僞代碼）： 1#[derive(Debug, Clone, Copy, PartialEq, Eq)] 2#[repr(u8)] 3pub enum Color { 4 Black = 0, 5 Blue = 1, 6 Green = 2, 7 // 藍綠 8 Cyan = 3, 9 Red = 4, 10 // 洋紅 11 Magenta = 5, 12 Brown = 6, 13 LightGray = 7, 14 DarkGray = 8, 15 .</description></item><item><title>Webview2 Tauri 繞過 CORS</title><link>https://travisbikkle.github.io/zh-hant/2024/08/tauri-bypass-cors/</link><pubDate>Wed, 07 Aug 2024 17:32:12 +0800</pubDate><guid>https://travisbikkle.github.io/zh-hant/2024/08/tauri-bypass-cors/</guid><description>item version tauri 2.0.0-rc 前提 當你在 foo.com 使用 js 來訪問 bar.com/api 的時候，你可能會遇到下面這樣的錯誤（但你能夠使用 curl 訪問它）：
 1Access to fetch at &amp;#39;bar.com/api&amp;#39; 2from origin &amp;#39;foo.com&amp;#39; has been blocked by CORS policy: 3No &amp;#39;Access-Control-Allow-Origin&amp;#39; header is present on the requested resource. 4If an opaque response serves your needs, set the request&amp;#39;s mode to &amp;#39;no-cors&amp;#39; to fetch the resource with CORS disabled. 首先你需要了解幾個概念：
 什麼是 CORS
 https://developer.mozilla.org/zh-CN/docs/Web/HTTP/CORS

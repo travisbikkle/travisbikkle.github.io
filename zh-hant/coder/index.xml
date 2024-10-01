@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Coder on 奇风岁月</title><link>https://travisbikkle.github.io/zh-hant/coder/</link><description>Recent content in Coder on 奇风岁月</description><generator>Hugo -- gohugo.io</generator><language>zh-hant</language><lastBuildDate>Fri, 30 Aug 2024 11:24:28 +0800</lastBuildDate><atom:link href="https://travisbikkle.github.io/zh-hant/coder/index.xml" rel="self" type="application/rss+xml"/><item><title>使用 Coder 打造自己的雲開發環境（在中國大陸）</title><link>https://travisbikkle.github.io/zh-hant/2024/08/coder-how-to/</link><pubDate>Fri, 30 Aug 2024 11:24:28 +0800</pubDate><guid>https://travisbikkle.github.io/zh-hant/2024/08/coder-how-to/</guid><description>使用場景 你需要在不同的開發環境中來回切換 你有很多臺電腦，你需要在這些電腦上安裝完全一樣的開發環境 你出去遊玩，手裏只有一臺平板電腦，但是你的項目出現問題需要緊急修改一部分代碼 你是一名開發體驗提升工程師（這個崗位是我編的，一般指大公司裏面那些專門爲開發人員開發工具的開發人員），需要幫助用戶隨時按需創建完整的開發環境 你希望瞭解類似於亞馬遜、騰訊雲是如何快速生成你需要的服務器或輕量服務器 你單純的喜歡折騰 Coder 是什麼 Coder 基於 Terraform，但是聲稱不需要深入瞭解 Terraform 就可以使用 Coder。
+Terraform 是什麼呢？它是一個使用少量配置文件就能在各種雲服務商（provider）生成節點的 Infrastructure as Code 工具。
+它充當你和騰訊雲、亞馬遜雲之間的一箇中間人，你只需要提供配置（可複用，module），描述你需要什麼樣的節點，以及你的一些登錄憑證，它就能幫你創建實例。
+在社區裏面有將近數百種種 provider，阿里雲、騰訊雲都在裏面。你也可以寫provider，對接任意服務商，包括本機部署的k8s或者僅僅一個docker也行， 當然，少不了本文的重點proxmox（pve）。
+那我們爲什麼不去直接使用 Terraform？ Coder 在 terraform 基礎上做了一些對人類友好的工作，比如一個簡單的web界面（你可以通過配置文件自定義web界面的菜單、輸入窗口）， 一些用戶、權限管理（企業版支持）、一些模板、一個工作空間管理界面，你還可以直接打開命令行窗口、code server（在線版的vscode）。
+個人開發者爲什麼不選擇dev containers？ 首先，其實 coder 支持 dev containers。
+其次，在一些你無法安裝 docker 的場景，或者你不希望在自己漂亮的 mac 或 win 系統中安裝docker，那麼 coder 就很適合你。
+Coder 的概念 你可以根據 Templates 創建 Workspace，Workspace 就是你的開發環境。
+你在 Templates 中可以定義開發環境將部署在 aws 或是你的一臺 pve 上，並且還能定義參數，在創建 Workspace 的時候輸入 cpu 個數或內存大小等。
+甚至還能定義 Workspace 的健康狀態檢查，並顯示到前臺界面上。</description></item></channel></rss>
