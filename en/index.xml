@@ -1,4 +1,35 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Blog on Boy's Life</title><link>https://travisbikkle.github.io/en/</link><description>Recent content in Blog on Boy's Life</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Sun, 26 Feb 2023 18:24:31 +0800</lastBuildDate><atom:link href="https://travisbikkle.github.io/en/index.xml" rel="self" type="application/rss+xml"/><item><title>How to replace the arm of DJI Mavic mini</title><link>https://travisbikkle.github.io/en/2024/09/how-to-replace-dji-mavic-mini-arm/</link><pubDate>Sat, 28 Sep 2024 11:24:31 +0800</pubDate><guid>https://travisbikkle.github.io/en/2024/09/how-to-replace-dji-mavic-mini-arm/</guid><description>My son&amp;rsquo;s drone had broken its front left arm once and had been glued before, so I took advantage of the opportunity to fix it before vacation.
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Blog on Boy's Life</title><link>https://travisbikkle.github.io/en/</link><description>Recent content in Blog on Boy's Life</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Sun, 26 Feb 2023 18:24:31 +0800</lastBuildDate><atom:link href="https://travisbikkle.github.io/en/index.xml" rel="self" type="application/rss+xml"/><item><title>使用 cdn 低成本加速网站，或解决443和80端口被封问题</title><link>https://travisbikkle.github.io/en/2024/10/how-to-proxy-with-cdn/</link><pubDate>Fri, 04 Oct 2024 11:24:31 +0800</pubDate><guid>https://travisbikkle.github.io/en/2024/10/how-to-proxy-with-cdn/</guid><description>CDN是个好东西，我们一般需要使用CDN，来让我们的网站能够在全球都能快速访问，并且降低服务器压力，防止DDOS攻击等。
+简单来说，你把你的域名的CNAME(如a.example.com) 指向CDN厂商的域名(如abc.cloudfront.net)。
+用户访问a.example.com的时候，实际上访问的是abc.cloudfront.net。abc.cloudfront.net上面当然没有你的站点资源，所以会回头访问你配置的源站（这一步叫做回源）拉取资源，并存储到本地（这一步叫做缓存）。
+你也可以在站点发布后，第一时间让CDN拉取站点资源，并下发到它位于全球的站点，防止用户在高峰期一窝蜂地访问过来，导致源站压力过大。这一步叫做预热。
+用户访问CDN厂商的域名，CDN会分配个给用户最近的站点，这样用户访问的速度也快了。
+CDN还支持指定回源的协议和端口，本文后面将会提及，这对使用家庭宽带部署服务并且443和80端口被封锁的用户非常有帮助。
+虽然我测试的域名在腾讯云，但是我并没有使用腾讯云的cdn服务，因为在选择试用的时候，腾讯云提示我没有资格。
+于是我只测试了cloudflare，aws，阿里云的cdn服务，并在此记录下来过程和配置，希望能够帮助有需要的人。
+Cloudflare 右上角点 Add site，增加你的域名，按照推荐的配置即可 将Cloudflare分配的DNS服务器地址增加到域名注册商 无需删除原来的DNS服务器，你的域名可以拥有多个DNS服务器。
+Cloudflare会自动检测你的域名是否添加到了指定的DNS服务器，成功后会发送邮件。如果你要手动检测，一个小时最多只能检测一次。
+添加成功后，在此处添加DNS记录 如果你的静态页面部署在 Cloudflare，可以直接使用如下配置，将 a.example.com 指向 mypage.pages.dev 如果希望将 *.example.com，比如 a.example.com b.example.com 指向一个自建的服务器
+增加这样一条DNS记录：
+如果源站的端口不是80和443，比如是1080和1443
+增加一条Origin Rule，将80转发到源站的1080
+增加一条Origin Rule，将443转发到源站的1443
+HTTPS 配置
+此处的HTTPS，主要是指CDN和源站之间的通讯。由Cloudflare生成证书，你的源站以该证书启动服务。
+如果你的网站只是静态页面，比如个人博客，那么不用配置HTTPS。
+在SSL/TLS-Origin Server中，生成源站的证书，并点击下载，将该证书配置到你的服务器（略）。 在SSL/TLS-Overview中，点击Configure，选择Full(Strict)即可。
+好了，现在可以使用如下命令，测试 a.example.com 是否被 Cloudflare 代理了
+dig a.example.com 阿里云 阿里云的 CDN 服务，现在叫做边缘安全加速ESA（202410）。并且如果你的源站端口不是默认的80和443端口，其中一个必要的步骤，是要提工单才能完成。
+假设我们仍然希望将 *.example.com，比如 a.example.com b.example.com 指向一个自建的服务器 gateway.myserver.com:
+点击全站分发服务，域名管理，添加域名
+这一步骤需要验证 example.com 的域名所有权，按提示操作即可。
+在下面新增源站信息中，添加源站，选择你的源站端口80或者443
+注意，如果你的源站端口不是80或者443，此处先随便选择一个端口（阿里的界面操作逻辑是比较凌乱的）。
+开启自定义端口
+在域名管理处，点击配置，在如下两处开启两个配置（自己选择是HTTP还是HTTPS，不要直接看图照搬）
+注意，阿里的HTTPS是按次收费的。
+此时在基本配置中，编辑源站信息，可以看到可以填写自定义端口了 但是，经过测试，这没什么用，你还要点击右上角的工单，给阿里云的工程师提工单，等待工程师给你开通自定义端口的配置。
+我看到阿里云的文档说明，这是一个必要的步骤。我不明白为什么要有提工单才能完成的操作。
+所幸工程师们的响应比较快，如果你描述的清楚，半天也能搞定。</description></item><item><title>How to replace the arm of DJI Mavic mini</title><link>https://travisbikkle.github.io/en/2024/09/how-to-replace-dji-mavic-mini-arm/</link><pubDate>Sat, 28 Sep 2024 11:24:31 +0800</pubDate><guid>https://travisbikkle.github.io/en/2024/09/how-to-replace-dji-mavic-mini-arm/</guid><description>My son&amp;rsquo;s drone had broken its front left arm once and had been glued before, so I took advantage of the opportunity to fix it before vacation.
 Required tools Screwdriver Plastic crowbar or a bank card Tweezers Soldering iron, solder and rosin Glue and electrical tape may be needed, if you accidentally break something Carefullness and patience Steps Unscrew the upper shell screws
 Remove the upper shell by using a crowbar or a bank card.</description></item><item><title>Webview2 Tauri bypass CORS</title><link>https://travisbikkle.github.io/en/2024/08/tauri-bypass-cors/</link><pubDate>Wed, 07 Aug 2024 17:32:12 +0800</pubDate><guid>https://travisbikkle.github.io/en/2024/08/tauri-bypass-cors/</guid><description>item version tauri 2.0.0-rc Prerequisites When you use javascript at foo.com to access bar.com/api, you may encounter an error like the one below (but you are able to access it using curl):
 1Access to fetch at &amp;#39;bar.com/api&amp;#39; 2from origin &amp;#39;foo.com&amp;#39; has been blocked by CORS policy: 3No &amp;#39;Access-Control-Allow-Origin&amp;#39; header is present on the requested resource. 4If an opaque response serves your needs, set the request&amp;#39;s mode to &amp;#39;no-cors&amp;#39; to fetch the resource with CORS disabled.</description></item><item><title>Use vue-devtools in tauri</title><link>https://travisbikkle.github.io/en/2024/08/2024-08-05-auri/</link><pubDate>Mon, 05 Aug 2024 16:07:11 +0800</pubDate><guid>https://travisbikkle.github.io/en/2024/08/2024-08-05-auri/</guid><description>Tauri claims itself as an un-opinionated, agnostic desktop application framework that does not depend on a specific front-end framework.

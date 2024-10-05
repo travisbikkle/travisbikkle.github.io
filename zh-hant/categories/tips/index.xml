@@ -1,4 +1,35 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Tips on 奇风岁月</title><link>https://travisbikkle.github.io/zh-hant/categories/tips/</link><description>Recent content in Tips on 奇风岁月</description><generator>Hugo -- gohugo.io</generator><language>zh-hant</language><lastBuildDate>Sat, 28 Sep 2024 11:24:31 +0800</lastBuildDate><atom:link href="https://travisbikkle.github.io/zh-hant/categories/tips/index.xml" rel="self" type="application/rss+xml"/><item><title>如何爲大疆mavic mini更換機臂</title><link>https://travisbikkle.github.io/zh-hant/2024/09/how-to-replace-dji-mavic-mini-arm/</link><pubDate>Sat, 28 Sep 2024 11:24:31 +0800</pubDate><guid>https://travisbikkle.github.io/zh-hant/2024/09/how-to-replace-dji-mavic-mini-arm/</guid><description>兒子的無人機摔斷了左前臂，之前一直用膠水粘着，趁着放假前，趕緊給他修一修。
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Tips on 奇风岁月</title><link>https://travisbikkle.github.io/zh-hant/categories/tips/</link><description>Recent content in Tips on 奇风岁月</description><generator>Hugo -- gohugo.io</generator><language>zh-hant</language><lastBuildDate>Fri, 04 Oct 2024 11:24:31 +0800</lastBuildDate><atom:link href="https://travisbikkle.github.io/zh-hant/categories/tips/index.xml" rel="self" type="application/rss+xml"/><item><title>使用 cdn 低成本加速網站，或解決443和80端口被封問題</title><link>https://travisbikkle.github.io/zh-hant/2024/10/how-to-proxy-with-cdn/</link><pubDate>Fri, 04 Oct 2024 11:24:31 +0800</pubDate><guid>https://travisbikkle.github.io/zh-hant/2024/10/how-to-proxy-with-cdn/</guid><description>CDN是個好東西，我們一般需要使用CDN，來讓我們的網站能夠在全球都能快速訪問，並且降低服務器壓力，防止DDOS攻擊等。
+簡單來說，你把你的域名的CNAME(如a.example.com) 指向CDN廠商的域名(如abc.cloudfront.net)。
+用戶訪問a.example.com的時候，實際上訪問的是abc.cloudfront.net。abc.cloudfront.net上面當然沒有你的站點資源，所以會回頭訪問你配置的源站（這一步叫做回源）拉取資源，並存儲到本地（這一步叫做緩存）。
+你也可以在站點發布後，第一時間讓CDN拉取站點資源，並下發到它位於全球的站點，防止用戶在高峯期一窩蜂地訪問過來，導致源站壓力過大。這一步叫做預熱。
+用戶訪問CDN廠商的域名，CDN會分配個給用戶最近的站點，這樣用戶訪問的速度也快了。
+CDN還支持指定回源的協議和端口，本文後面將會提及，這對使用家庭寬帶部署服務並且443和80端口被封鎖的用戶非常有幫助。
+雖然我測試的域名在騰訊雲，但是我並沒有使用騰訊雲的cdn服務，因爲在選擇試用的時候，騰訊雲提示我沒有資格。
+於是我只測試了cloudflare，aws，阿里雲的cdn服務，並在此記錄下來過程和配置，希望能夠幫助有需要的人。
+Cloudflare 右上角點 Add site，增加你的域名，按照推薦的配置即可 將Cloudflare分配的DNS服務器地址增加到域名註冊商 無需刪除原來的DNS服務器，你的域名可以擁有多個DNS服務器。
+Cloudflare會自動檢測你的域名是否添加到了指定的DNS服務器，成功後會發送郵件。如果你要手動檢測，一個小時最多隻能檢測一次。
+添加成功後，在此處添加DNS記錄 如果你的靜態頁面部署在 Cloudflare，可以直接使用如下配置，將 a.example.com 指向 mypage.pages.dev 如果希望將 *.example.com，比如 a.example.com b.example.com 指向一個自建的服務器
+增加這樣一條DNS記錄：
+如果源站的端口不是80和443，比如是1080和1443
+增加一條Origin Rule，將80轉發到源站的1080
+增加一條Origin Rule，將443轉發到源站的1443
+HTTPS 配置
+此處的HTTPS，主要是指CDN和源站之間的通訊。由Cloudflare生成證書，你的源站以該證書啓動服務。
+如果你的網站只是靜態頁面，比如個人博客，那麼不用配置HTTPS。
+在SSL/TLS-Origin Server中，生成源站的證書，並點擊下載，將該證書配置到你的服務器（略）。 在SSL/TLS-Overview中，點擊Configure，選擇Full(Strict)即可。
+好了，現在可以使用如下命令，測試 a.example.com 是否被 Cloudflare 代理了
+dig a.example.com 阿里雲 阿里雲的 CDN 服務，現在叫做邊緣安全加速ESA（202410）。並且如果你的源站端口不是默認的80和443端口，其中一個必要的步驟，是要提工單才能完成。
+假設我們仍然希望將 *.example.com，比如 a.example.com b.example.com 指向一個自建的服務器 gateway.myserver.com:
+點擊全站分發服務，域名管理，添加域名
+這一步驟需要驗證 example.com 的域名所有權，按提示操作即可。
+在下面新增源站信息中，添加源站，選擇你的源站端口80或者443
+注意，如果你的源站端口不是80或者443，此處先隨便選擇一個端口（阿里的界面操作邏輯是比較凌亂的）。
+開啓自定義端口
+在域名管理處，點擊配置，在如下兩處開啓兩個配置（自己選擇是HTTP還是HTTPS，不要直接看圖照搬）
+注意，阿里的HTTPS是按次收費的。
+此時在基本配置中，編輯源站信息，可以看到可以填寫自定義端口了 但是，經過測試，這沒什麼用，你還要點擊右上角的工單，給阿里雲的工程師提工單，等待工程師給你開通自定義端口的配置。
+我看到阿里雲的文檔說明，這是一個必要的步驟。我不明白爲什麼要有提工單才能完成的操作。
+所幸工程師們的響應比較快，如果你描述的清楚，半天也能搞定。</description></item><item><title>如何爲大疆mavic mini更換機臂</title><link>https://travisbikkle.github.io/zh-hant/2024/09/how-to-replace-dji-mavic-mini-arm/</link><pubDate>Sat, 28 Sep 2024 11:24:31 +0800</pubDate><guid>https://travisbikkle.github.io/zh-hant/2024/09/how-to-replace-dji-mavic-mini-arm/</guid><description>兒子的無人機摔斷了左前臂，之前一直用膠水粘着，趁着放假前，趕緊給他修一修。
 所需材料 螺絲刀（商家贈送） 翹片或一張廢棄的銀行卡 鑷子 電烙鐵、焊錫與松香 可能需要膠水，以及電工膠布 小心與耐心 步驟 擰掉上蓋螺絲 使用翹片或者一張銀行卡，將上蓋移除
 爲了避免將上蓋的卡扣翹斷，請提前參考以下幾張圖，做到心中有數：
 側面：
