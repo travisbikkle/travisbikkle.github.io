@@ -1,4 +1,26 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Tips on 奇风岁月</title><link>https://travisbikkle.github.io/categories/tips/</link><description>Recent content in Tips on 奇风岁月</description><generator>Hugo -- gohugo.io</generator><language>zh-hans</language><lastBuildDate>Fri, 04 Oct 2024 11:24:31 +0800</lastBuildDate><atom:link href="https://travisbikkle.github.io/categories/tips/index.xml" rel="self" type="application/rss+xml"/><item><title>使用 cdn 低成本加速网站，或解决443和80端口被封问题</title><link>https://travisbikkle.github.io/2024/10/how-to-proxy-with-cdn/</link><pubDate>Fri, 04 Oct 2024 11:24:31 +0800</pubDate><guid>https://travisbikkle.github.io/2024/10/how-to-proxy-with-cdn/</guid><description>CDN是个好东西，我们一般需要使用CDN，来让我们的网站能够在全球都能快速访问，并且降低服务器压力，防止DDOS攻击等。
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Tips on 奇风岁月</title><link>https://travisbikkle.github.io/categories/tips/</link><description>Recent content in Tips on 奇风岁月</description><generator>Hugo -- gohugo.io</generator><language>zh-hans</language><lastBuildDate>Mon, 21 Oct 2024 11:24:35 +0800</lastBuildDate><atom:link href="https://travisbikkle.github.io/categories/tips/index.xml" rel="self" type="application/rss+xml"/><item><title>SCWindow坐标的一些转换技巧</title><link>https://travisbikkle.github.io/2024/10/how-did-i-develop-mactoys-pin-window/</link><pubDate>Mon, 21 Oct 2024 11:24:35 +0800</pubDate><guid>https://travisbikkle.github.io/2024/10/how-did-i-develop-mactoys-pin-window/</guid><description>我们使用最多的是笛卡尔平面直角坐标系，它以屏幕左下角为原点，向上增加y坐标，向右增加x坐标。
+SCWindow的坐标则是以主屏幕左上角为原点的翻转坐标，以下是一个简单的对比图：
+在实际场景，尤其是多屏，在两种坐标系之间转换，仍然不是一件容易的事情。
+假设有两个显示屏，如下图所示排列：
+黑色区域为目标窗口，也是SCWindow的区域（如果你使用SCContentSharingPicker，那么这块区域就是它返回的SCContentFilter.contentRect），我们将要根据这个区域，计算出在平面直角坐标系中的左上角坐标。
+说明：
+主屏（2560x1440），左下角原点(0,0)，副屏（1920x1080），左下角原点(2560,360)。 主屏和副屏的排列方式为，上边缘对齐 每个屏幕都会有25px的保留区域，可以认为是系统顶部的状态栏 你看，有很多的干扰因素。有状态栏，有大小不一、排列随时变化的显示器，以及它们不一样的原点。
+你只有SCWindow.frame的值，你一开始并不知道SCWindow.frame.origin是翻转的坐标，Apple也不会在任何地方告诉你这一点，这就是苹果软件开发的日常。
+好在经过不停地调试，最后我们能自己搞明白，SCWindow使用的是翻转的坐标。
+所以上图的答案是(2560,1440-25)。
+那么做一些变化呢 将副屏向下移动，使其底部边缘和主屏对齐，原点变为(2560,0)：
+这次我们知道了，我们要求的结果，和副屏的大小无关，因此省略了无关的细节。
+图中两个黑色窗口左上角所在平面直角坐标系的点，如图所示。
+可见，这个结果和状态栏的大小也无关。
+所以结果就是(目标窗口的x坐标, 主屏高度-目标窗口的y坐标)，也就是(x, mainScreen.height-y)吗？
+将副屏移动到主屏上方验证一下 在翻转的坐标系上方出现的点，y坐标都变为负数，并且越往上越小。
+如图所示，根据我们的公式，(x, mainScreen.height-y)，该点在平面直角坐标系中也能正确显示。
+这样看起来很简单，但是在你排除掉这些干扰因素之前，这个计算就非常的容易出错了。
+以上是我在开发 MacToys 的屏幕置顶功能的一部分过程。
+MacToys 中的 Always On Top 置顶功能 你可以使用 ⌃ + 左键 单击窗口置顶，也可以使用快捷键选择。你可以使用同样的⌃ + 左键单击已经置顶的窗口取消置顶，或者，右键单击，在弹出菜单中取消置顶。
+你还可以将这些快捷键改成你喜欢的选择。
+MacToys 中还有很多类似的功能，如置顶、取色、贴图、右键菜单、状态栏管理、ntfs等等功能，后面将会补充到十几项功能。
+我目前正打算将它上架。怎么样，这是你想要的功能吗？</description></item><item><title>使用 cdn 低成本加速网站，或解决443和80端口被封问题</title><link>https://travisbikkle.github.io/2024/10/how-to-proxy-with-cdn/</link><pubDate>Fri, 04 Oct 2024 11:24:31 +0800</pubDate><guid>https://travisbikkle.github.io/2024/10/how-to-proxy-with-cdn/</guid><description>CDN是个好东西，我们一般需要使用CDN，来让我们的网站能够在全球都能快速访问，并且降低服务器压力，防止DDOS攻击等。
 简单来说，你把你的域名的CNAME(如a.example.com) 指向CDN厂商的域名(如abc.cloudfront.net)。
 用户访问a.example.com的时候，实际上访问的是abc.cloudfront.net。abc.cloudfront.net上面当然没有你的站点资源，所以会回头访问你配置的源站（这一步叫做回源）拉取资源，并存储到本地（这一步叫做缓存）。
 你也可以在站点发布后，第一时间让CDN拉取站点资源，并下发到它位于全球的站点，防止用户在高峰期一窝蜂地访问过来，导致源站压力过大。这一步叫做预热。
