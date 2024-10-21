@@ -9,9 +9,13 @@ In real-world scenarios, especially with multiple screens, converting between tw
 CDN还支持指定回源的协议和端口，本文后面将会提及，这对使用家庭宽带部署服务并且443和80端口被封锁的用户非常有帮助。
 虽然我测试的域名在腾讯云，但是我并没有使用腾讯云的cdn服务，因为在选择试用的时候，腾讯云提示我没有资格。
 于是我只测试了cloudflare，aws，阿里云的cdn服务，并在此记录下来过程和配置，希望能够帮助有需要的人。
-Cloudflare 右上角点 Add site，增加你的域名，按照推荐的配置即可 将Cloudflare分配的DNS服务器地址增加到域名注册商 无需删除原来的DNS服务器，你的域名可以拥有多个DNS服务器。
+Cloudflare 右上角点 Add site，增加你的域名，按照推荐的配置即可
+将Cloudflare分配的DNS服务器地址增加到域名注册商
+无需删除原来的DNS服务器，你的域名可以拥有多个DNS服务器。
 Cloudflare会自动检测你的域名是否添加到了指定的DNS服务器，成功后会发送邮件。如果你要手动检测，一个小时最多只能检测一次。
-添加成功后，在此处添加DNS记录 如果你的静态页面部署在 Cloudflare，可以直接使用如下配置，将 a.example.com 指向 mypage.pages.dev 如果希望将 *.example.com，比如 a.example.com b.example.com 指向一个自建的服务器
+添加成功后，在此处添加DNS记录
+如果你的静态页面部署在 Cloudflare，可以直接使用如下配置，将 a.example.com 指向 mypage.pages.dev
+如果希望将 *.example.com，比如 a.example.com b.example.com 指向一个自建的服务器
 增加这样一条DNS记录：
 如果源站的端口不是80和443，比如是1080和1443
 增加一条Origin Rule，将80转发到源站的1080

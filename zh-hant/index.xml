@@ -28,9 +28,13 @@ MacToys 中還有很多類似的功能，如置頂、取色、貼圖、右鍵菜
 CDN還支持指定回源的協議和端口，本文後面將會提及，這對使用家庭寬帶部署服務並且443和80端口被封鎖的用戶非常有幫助。
 雖然我測試的域名在騰訊雲，但是我並沒有使用騰訊雲的cdn服務，因爲在選擇試用的時候，騰訊雲提示我沒有資格。
 於是我只測試了cloudflare，aws，阿里雲的cdn服務，並在此記錄下來過程和配置，希望能夠幫助有需要的人。
-Cloudflare 右上角點 Add site，增加你的域名，按照推薦的配置即可 將Cloudflare分配的DNS服務器地址增加到域名註冊商 無需刪除原來的DNS服務器，你的域名可以擁有多個DNS服務器。
+Cloudflare 右上角點 Add site，增加你的域名，按照推薦的配置即可
+將Cloudflare分配的DNS服務器地址增加到域名註冊商
+無需刪除原來的DNS服務器，你的域名可以擁有多個DNS服務器。
 Cloudflare會自動檢測你的域名是否添加到了指定的DNS服務器，成功後會發送郵件。如果你要手動檢測，一個小時最多隻能檢測一次。
-添加成功後，在此處添加DNS記錄 如果你的靜態頁面部署在 Cloudflare，可以直接使用如下配置，將 a.example.com 指向 mypage.pages.dev 如果希望將 *.example.com，比如 a.example.com b.example.com 指向一個自建的服務器
+添加成功後，在此處添加DNS記錄
+如果你的靜態頁面部署在 Cloudflare，可以直接使用如下配置，將 a.example.com 指向 mypage.pages.dev
+如果希望將 *.example.com，比如 a.example.com b.example.com 指向一個自建的服務器
 增加這樣一條DNS記錄：
 如果源站的端口不是80和443，比如是1080和1443
 增加一條Origin Rule，將80轉發到源站的1080
