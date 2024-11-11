@@ -1,0 +1,598 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Archived - category |</title><link>https://travisbikkle.github.io/categories/archived/</link><description>独立开发者 Travis Bikkle 的个人博客</description><generator>Hugo 0.138.0 &amp; FixIt v0.3.15-fd15415b</generator><language>zh-hans</language><managingEditor>travisbikkle@proton.me (Travis Bikkle)</managingEditor><webMaster>travisbikkle@proton.me (Travis Bikkle)</webMaster><lastBuildDate>Mon, 11 Nov 2024 11:34:48 +0000</lastBuildDate><atom:link href="https://travisbikkle.github.io/categories/archived/index.xml" rel="self" type="application/rss+xml"/><item><title>mount磁盘被秒umount的一个问题</title><link>https://travisbikkle.github.io/2019/09/a-case-of-mount-disk/</link><pubDate>Wed, 18 Sep 2019 11:24:22 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/2019/09/a-case-of-mount-disk/</guid><category domain="https://travisbikkle.github.io/categories/archived/">Archived</category><description>&lt;h2 id="问题描述" class="heading-element">&lt;span>问题描述&lt;/span>
+ &lt;a href="#%e9%97%ae%e9%a2%98%e6%8f%8f%e8%bf%b0" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h2>&lt;p>在 ubuntu 18.04 的机器上，自己搭了一个 samba 服务器。有一天要添加一块磁盘，因为服务器上还运行了一些其他服务，不想重启，因此使用 partprobe 动态扫描了磁盘，分区，写入 /etc/fstab，一切正常。 执行 mount -a，没有任何报错，不过磁盘就是没有挂载上去。&lt;/p></description></item><item><title>使用Nginx代理k8s Cadvisor一例</title><link>https://travisbikkle.github.io/2019/09/nginx-k8s-cadvisor/</link><pubDate>Wed, 18 Sep 2019 11:24:20 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/2019/09/nginx-k8s-cadvisor/</guid><category domain="https://travisbikkle.github.io/categories/archived/">Archived</category><description>&lt;p>k8s 自带 cadvisor 监控，UI 界面监听在 4194 端口，不过 HW 的 k8s
+这里监听的地址是 127.0.0.1，因此相当于是一个摆设。使用开源的 nginx
+可以代理该 url
+并暴露在一个可以访问的网卡上，不过出于学习的目的，使用我们自己编译的类似于
+nginx 的一个 NSP 来实现这个目的。&lt;/p>
+&lt;h2 id="着手" class="heading-element">&lt;span>着手&lt;/span>
+ &lt;a href="#%e7%9d%80%e6%89%8b" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h2>&lt;p>包地址在内网，无法提供。运行此包有三个限制：&lt;/p></description></item><item><title>一次ssh免密无法登录的问题</title><link>https://travisbikkle.github.io/2019/08/ssh-cant-login/</link><pubDate>Sat, 10 Aug 2019 11:24:17 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/2019/08/ssh-cant-login/</guid><category domain="https://travisbikkle.github.io/categories/archived/">Archived</category><description>&lt;p>自研数据库升级的过程中，需要配置一次ssh免密登录，以便在其中一台机器，很方便的升级集群所有服务器。但是在测试过程中，创建免密登录的脚本失效了。&lt;/p>
+&lt;h2 id="问题定位" class="heading-element">&lt;span>问题定位&lt;/span>
+ &lt;a href="#%e9%97%ae%e9%a2%98%e5%ae%9a%e4%bd%8d" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h2>&lt;p>通过手动创建公钥，拷贝到其它机器的authrized_keys，发现仍然需要输入密码登录；&lt;/p></description></item><item><title>使用 Shell 脚本计算 Ip 网段</title><link>https://travisbikkle.github.io/2019/06/shell-calculate-ip/</link><pubDate>Mon, 10 Jun 2019 11:24:11 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/2019/06/shell-calculate-ip/</guid><category domain="https://travisbikkle.github.io/categories/archived/">Archived</category><description>&lt;h2 id="背景" class="heading-element">&lt;span>背景&lt;/span>
+ &lt;a href="#%e8%83%8c%e6%99%af" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h2>&lt;p>当无法使用 ipcalc 时，可以考虑使用 shell 实现一个 ipcalc.sh。&lt;/p></description></item><item><title>Mysql 性能测试报告惨不忍睹的一次原因</title><link>https://travisbikkle.github.io/2019/06/a-case-of-mysql-performance/</link><pubDate>Sat, 01 Jun 2019 11:24:20 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/2019/06/a-case-of-mysql-performance/</guid><category domain="https://travisbikkle.github.io/categories/archived/">Archived</category><description>&lt;h2 id="背景" class="heading-element">&lt;span>背景&lt;/span>
+ &lt;a href="#%e8%83%8c%e6%99%af" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h2>&lt;p>新版本发布在即，新增与kafka，zk，redis等其它服务合设的场景，因此需要性能测试探个底。但是性能测试人员反馈，分设与合设性能差距数万倍。&lt;/p></description></item><item><title>Mysql Jdbc 报错 Operation Not Allowed After Statement Closed</title><link>https://travisbikkle.github.io/2019/06/mysql-jdbc-operation-not-allowed/</link><pubDate>Sat, 01 Jun 2019 11:24:19 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/2019/06/mysql-jdbc-operation-not-allowed/</guid><category domain="https://travisbikkle.github.io/categories/archived/">Archived</category><description>&lt;h2 id="背景" class="heading-element">&lt;span>背景&lt;/span>
+ &lt;a href="#%e8%83%8c%e6%99%af" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h2>&lt;p>业务上来说，连你们的mysql连不上，连别人的（其它部门的mysql）都能连上。查看其日志，报了一行错误&amp;quot;No
+operations allowed after statement closed&amp;quot;。
+这句话的意思，说的很清楚，不应该用关闭后的statement执行查询。但是因为我们是服务化的mysql，公司在遇到问题甩锅给其它部门的习惯由来已久，所以还是要帮业务解决。&lt;/p></description></item><item><title>Mysql Order By 对同一值的 Varchar 列排序问题</title><link>https://travisbikkle.github.io/2019/05/mysql-order-by-varchar/</link><pubDate>Fri, 24 May 2019 11:24:03 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/2019/05/mysql-order-by-varchar/</guid><category domain="https://travisbikkle.github.io/categories/archived/">Archived</category><description>&lt;h2 id="背景" class="heading-element">&lt;span>背景&lt;/span>
+ &lt;a href="#%e8%83%8c%e6%99%af" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h2>&lt;p>TODO&lt;/p></description></item><item><title>Mysql 主从复制异常恢复</title><link>https://travisbikkle.github.io/2019/04/recover-mysql-from-replication-error/</link><pubDate>Thu, 25 Apr 2019 11:24:16 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/2019/04/recover-mysql-from-replication-error/</guid><category domain="https://travisbikkle.github.io/categories/archived/">Archived</category><description>&lt;h2 id="检查版本" class="heading-element">&lt;span>检查版本&lt;/span>
+ &lt;a href="#%e6%a3%80%e6%9f%a5%e7%89%88%e6%9c%ac" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h2>&lt;p>如果版本较老，基于binlog而不是gtid的版本， 数据量较小，可以参考
+基于binlog的老版本。&lt;/p></description></item><item><title>Suse 安装 Nginx</title><link>https://travisbikkle.github.io/2019/04/suse12-nginx/</link><pubDate>Thu, 18 Apr 2019 11:24:22 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/2019/04/suse12-nginx/</guid><category domain="https://travisbikkle.github.io/categories/archived/">Archived</category><description>&lt;p>&lt;a href="http://nginx.org/packages/mainline/"target="_blank" rel="external nofollow noopener noreferrer">http://nginx.org/packages/mainline/&lt;i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true">&lt;/i>&lt;/a>
+&lt;a href="http://nginx.org/packages/mainline/sles/12/x86_64/"target="_blank" rel="external nofollow noopener noreferrer">http://nginx.org/packages/mainline/sles/12/x86_64/&lt;i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true">&lt;/i>&lt;/a>
+&lt;a href="http://nginx.org/packages/mainline/sles/12/x86_64/RPMS/nginx-1.15.12-1.sles12.ngx.x86_64.rpm"target="_blank" rel="external nofollow noopener noreferrer">http://nginx.org/packages/mainline/sles/12/x86_64/RPMS/nginx-1.15.12-1.sles12.ngx.x86_64.rpm&lt;i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true">&lt;/i>&lt;/a>&lt;/p>
+&lt;p>rpm -ivh nginx-1.15.12-1.sles12.ngx.x86_64.rpm&lt;/p>
+&lt;p>autoindex vi /etc/nginx/conf.d/default.conf&lt;/p>
+&lt;pre>&lt;code> location / {
+ root /var/www/html;
+ index index.html index.htm;
+ autoindex on;
+ autoindex_exact_size off;
+ autoindex_localtime on;
+ }
+&lt;/code>&lt;/pre>
+&lt;p>chmod -R 777 /var/www /usr/sbin/nginx -c /etc/nginx/nginx.conf&lt;/p></description></item><item><title>Susesp 编译 Apache ..</title><link>https://travisbikkle.github.io/2019/04/suse11sp1-compile-apache/</link><pubDate>Thu, 18 Apr 2019 11:24:11 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/2019/04/suse11sp1-compile-apache/</guid><category domain="https://travisbikkle.github.io/categories/archived/">Archived</category><description>&lt;p>背景：suse 11 sp1 机器编译安装带有指定模块的 apache 2.4.34.
+暂时没有bicp代码访问权限，先放这里 == 第一步 安装openssl&lt;/p>
+&lt;pre>&lt;code>cd /data/bicpinstall/
+tar zxvf openssl-1.1.0i.tar.gz
+cd openssl-1.1.0i
+export LDFLAGS=-ldl
+export LIBPATH=&amp;quot;/data/bicpinstall/ssl&amp;quot;
+export LIBS=&amp;quot;-L/data/bicpinstall/ssl&amp;quot;
+export SSL_LIBS=&amp;quot;-L/data/bicpinstall/ssl&amp;quot;
+export CPPFLAGS=&amp;quot;-I/data/bicpinstall/ssl/include/openssl&amp;quot;
+./config --prefix=/data/bicpinstall/ssl shared
+make &amp;amp;&amp;amp; make install
+rm -rf /data/bicpinstall/ssl/ssl/man
+&lt;/code>&lt;/pre>
+&lt;h2 id="第二步-生成证书" class="heading-element">&lt;span>第二步 生成证书&lt;/span>
+ &lt;a href="#%e7%ac%ac%e4%ba%8c%e6%ad%a5-%e7%94%9f%e6%88%90%e8%af%81%e4%b9%a6" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h2>&lt;pre>&lt;code>cd /data/bicpinstall/ssl/bin
+openssl genrsa -passout pass:cHpxHUm+v5teANoYurlMvA2+Gdg+ifm -des3 -out server.key 1024
+openssl req -new -out server.csr -key server.key -passin pass:cHpxHUm+v5teANoYurlMvA2+Gdg+ifm -passout pass:cHpxHUm+v5teANoYurlMvA2+Gdg+ifm -subj /C=CN/O=huawei/CN=10.139.200.36 -config ../ssl/openssl.cnf
+openssl x509 -req -days 3650 -in server.csr -signkey server.key -out server.crt -passin pass:cHpxHUm+v5teANoYurlMvA2+Gdg+ifm
+openssl pkcs12 -export -out server.pfx -inkey server.key -in server.crt -passin pass:cHpxHUm+v5teANoYurlMvA2+Gdg+ifm -passout pass:cHpxHUm+v5teANoYurlMvA2+Gdg+ifm
+&lt;/code>&lt;/pre>
+&lt;h2 id="第三步-安装-httpd-2434-依赖的-apr-和-apr-util" class="heading-element">&lt;span>第三步 安装 httpd 2.4.34 依赖的 apr 和 apr-util&lt;/span>
+ &lt;a href="#%e7%ac%ac%e4%b8%89%e6%ad%a5-%e5%ae%89%e8%a3%85-httpd-2434-%e4%be%9d%e8%b5%96%e7%9a%84-apr-%e5%92%8c-apr-util" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h2>&lt;p>该部分不再捆绑发布，需要自行安装，版本需要 1.5 以上，部分功能需要 1.6
+以上，版本要求见https://www.apache.org/dist/httpd/Announcement2.4.html&lt;/p></description></item><item><title>Mysql 原厂检查清单</title><link>https://travisbikkle.github.io/2019/04/mysql-check-list/</link><pubDate>Tue, 16 Apr 2019 11:24:03 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/2019/04/mysql-check-list/</guid><category domain="https://travisbikkle.github.io/categories/archived/">Archived</category><description>&lt;p>1) MySQL配置文件 （my.cnf 或 my.ini）&lt;/p>
+&lt;p>2) MySQL完整的错误日志文件 （error log
+file）.（如果文件太大，可以压缩后上传）&lt;/p>
+&lt;p>3) MySQL的 slow query log 文件 （如果已经配置收集的话）.&lt;/p>
+&lt;p>4)
+生成下面的mysql_output.txt文本文件（请在查询性能低、响应慢时运行）：&lt;/p>
+&lt;pre>&lt;code>（请使用具有SUPER权限的MySQL用户（如root）登录MySQL命令行客户端并运行）
+
+TEE mysql_output0416.txt;
+select now(),@@version,@@version_comment,@@hostname,@@port,@@basedir,@@datadir,@@tmpdir,@@log_error,
+@@slow_query_log_file,user(),current_user(),/*!50600 @@server_uuid,*/@@server_id\G
+SHOW GLOBAL VARIABLES;
+SHOW GLOBAL STATUS;
+SHOW ENGINES\G
+SHOW PLUGINS\G
+select benchmark(50000000,(1234*5678/37485-1298+8596^2)); #should take less than 20 seconds
+SELECT ENGINE, COUNT(*), SUM(DATA_LENGTH), SUM(INDEX_LENGTH) FROM information_schema.TABLES GROUP BY ENGINE;
+SHOW ENGINE INNODB STATUS;
+/*!50503 SHOW ENGINE performance_schema STATUS */;
+/*!50503 SELECT * FROM performance_schema.setup_instruments WHERE name LIKE 'wait/sync%' AND (enabled='yes' OR timed='yes')*/;
+-- Info on transactions and locks
+SELECT r.trx_id waiting_trx_id, r.trx_mysql_thread_id waiting_thread, r.trx_query waiting_query,
+b.trx_id blocking_trx_id, b.trx_mysql_thread_id blocking_thread, b.trx_query blocking_query,
+bl.lock_id blocking_lock_id, bl.lock_mode blocking_lock_mode, bl.lock_type blocking_lock_type,
+bl.lock_table blocking_lock_table, bl.lock_index blocking_lock_index,
+rl.lock_id waiting_lock_id, rl.lock_mode waiting_lock_mode, rl.lock_type waiting_lock_type,
+rl.lock_table waiting_lock_table, rl.lock_index waiting_lock_index
+FROM information_schema.INNODB_LOCK_WAITS w
+INNER JOIN information_schema.INNODB_TRX b ON b.trx_id = w.blocking_trx_id
+INNER JOIN information_schema.INNODB_TRX r ON r.trx_id = w.requesting_trx_id
+INNER JOIN information_schema.INNODB_LOCKS bl ON bl.lock_id = w.blocking_lock_id
+INNER JOIN information_schema.INNODB_LOCKS rl ON rl.lock_id = w.requested_lock_id\G
+SHOW FULL PROCESSLIST;
+/*!50503 SELECT * FROM information_schema.innodb_trx */;
+/*!50503 SELECT * FROM performance_schema.threads */;
+/*!50708 SELECT * FROM sys.session */;
+SHOW OPEN TABLES;
+SHOW MASTER STATUS\G
+SHOW SLAVE STATUS\G
+/*!50602 SELECT * FROM MYSQL.SLAVE_MASTER_INFO */;
+/*!50602 SELECT * FROM MYSQL.SLAVE_RELAY_LOG_INFO */;
+/*!50602 SELECT * FROM MYSQL.SLAVE_WORKER_INFO */;
+SHOW MASTER LOGS;
+SELECT SLEEP(300);
+SHOW GLOBAL STATUS;
+SHOW ENGINE INNODB STATUS;
+/*!50503 SHOW ENGINE performance_schema STATUS */;
+/*!50503 SELECT * FROM performance_schema.setup_instruments WHERE name LIKE 'wait/sync%' AND (enabled='yes' OR timed='yes')*/;
+-- Info on transactions and locks
+SELECT r.trx_id waiting_trx_id, r.trx_mysql_thread_id waiting_thread, r.trx_query waiting_query,
+b.trx_id blocking_trx_id, b.trx_mysql_thread_id blocking_thread, b.trx_query blocking_query,
+bl.lock_id blocking_lock_id, bl.lock_mode blocking_lock_mode, bl.lock_type blocking_lock_type,
+bl.lock_table blocking_lock_table, bl.lock_index blocking_lock_index,
+rl.lock_id waiting_lock_id, rl.lock_mode waiting_lock_mode, rl.lock_type waiting_lock_type,
+rl.lock_table waiting_lock_table, rl.lock_index waiting_lock_index
+FROM information_schema.INNODB_LOCK_WAITS w
+INNER JOIN information_schema.INNODB_TRX b ON b.trx_id = w.blocking_trx_id
+INNER JOIN information_schema.INNODB_TRX r ON r.trx_id = w.requesting_trx_id
+INNER JOIN information_schema.INNODB_LOCKS bl ON bl.lock_id = w.blocking_lock_id
+INNER JOIN information_schema.INNODB_LOCKS rl ON rl.lock_id = w.requested_lock_id\G
+SHOW FULL PROCESSLIST;
+/*!50503 SELECT * FROM information_schema.innodb_trx */;
+/*!50503 SELECT * FROM performance_schema.threads */;
+/*!50708 SELECT * FROM sys.session */;
+SHOW OPEN TABLES;
+SHOW MASTER STATUS\G
+SHOW SLAVE STATUS\G
+/*!50602 SELECT * FROM MYSQL.SLAVE_MASTER_INFO */;
+/*!50602 SELECT * FROM MYSQL.SLAVE_RELAY_LOG_INFO */;
+/*!50602 SELECT * FROM MYSQL.SLAVE_WORKER_INFO */;
+select * from information_schema.innodb_trx;
+select * from information_schema.innodb_locks;
+select * from information_schema.innodb_lock_waits;
+select * from performance_schema.events_waits_history;
+SHOW MASTER LOGS;
+
+SELECT
+t.TABLE_SCHEMA, t.TABLE_NAME, s.TABLE_NAME
+FROM
+information_schema.tables t
+LEFT OUTER JOIN
+information_schema.statistics s ON t.TABLE_SCHEMA = s.TABLE_SCHEMA
+AND t.TABLE_NAME = s.TABLE_NAME
+AND s.INDEX_NAME = 'PRIMARY'
+WHERE
+s.TABLE_NAME IS NULL
+AND t.TABLE_SCHEMA not in ('information_schema','mysql','performance_schema')
+AND t.TABLE_TYPE = 'BASE TABLE';
+
+\s
+NOTEE;
+
+（注意：SELECT SLEEP(300)会休眠300秒，请勿中断运行！）
+&lt;/code>&lt;/pre>
+&lt;p>5) 生成下面的query.txt文本文件（请在查询性能低、响应慢时运行）：&lt;/p></description></item><item><title>Mysql 问题与源码</title><link>https://travisbikkle.github.io/2019/04/mysql-problem-and-source-code/</link><pubDate>Sat, 13 Apr 2019 11:24:17 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/2019/04/mysql-problem-and-source-code/</guid><category domain="https://travisbikkle.github.io/categories/archived/">Archived</category><description>&lt;h2 id="问题1-连接数为214-登录经常报错-too-many-connections" class="heading-element">&lt;span>问题1: 连接数为214， 登录经常报错 too many connections&lt;/span>
+ &lt;a href="#%e9%97%ae%e9%a2%981-%e8%bf%9e%e6%8e%a5%e6%95%b0%e4%b8%ba214-%e7%99%bb%e5%bd%95%e7%bb%8f%e5%b8%b8%e6%8a%a5%e9%94%99-too-many-connections" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h2>&lt;p>在公司MySQL企业版服务化开发的初期，我们曾经遇到一个问题，即在连接MySQL的时候报错
+&lt;code>too many connections&lt;/code>,
+即使是新安装的MySQL。在以前的社区版MySQL也曾经遇到过类似的问题，当时MySQL是用rpm安装并使用systemd启动的方式。
+此次企业版的MySQL启动并未托管到systemd，因此解决办法不能照搬。&lt;/p></description></item><item><title>让 Git 在 Windows 上使用 Lf 换行符</title><link>https://travisbikkle.github.io/2019/03/git-windows-lf/</link><pubDate>Fri, 22 Mar 2019 11:24:10 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/2019/03/git-windows-lf/</guid><category domain="https://travisbikkle.github.io/categories/archived/">Archived</category><description>&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">git config --global core.eol lf
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">2&lt;/span>&lt;span class="cl">git config --global core.autocrlf input&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>For repos that were checked out after those global settings were set,
+everything will be checked out as whatever it is in the repo — hopefully
+LF (\n). Any CRLF will be converted to just LF on checkin.&lt;/p>
+&lt;p>With an existing repo that you have already checked out — that has the
+correct line endings in the repo but not your working copy — you can run
+the following commands to fix it:&lt;/p></description></item><item><title>Centos Docker 入门</title><link>https://travisbikkle.github.io/2019/02/centos7-docker-getstart/</link><pubDate>Sun, 17 Feb 2019 11:24:08 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/2019/02/centos7-docker-getstart/</guid><category domain="https://travisbikkle.github.io/categories/archived/">Archived</category><description>&lt;h2 id="快速上手" class="heading-element">&lt;span>快速上手&lt;/span>
+ &lt;a href="#%e5%bf%ab%e9%80%9f%e4%b8%8a%e6%89%8b" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h2>&lt;p>&lt;strong>install(offline).&lt;/strong>&lt;/p></description></item><item><title>Mysqldump 使用案例</title><link>https://travisbikkle.github.io/2019/02/a-case-of-mysqldump/</link><pubDate>Sun, 10 Feb 2019 11:24:21 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/2019/02/a-case-of-mysqldump/</guid><category domain="https://travisbikkle.github.io/categories/archived/">Archived</category><description>&lt;h2 id="背景" class="heading-element">&lt;span>背景&lt;/span>
+ &lt;a href="#%e8%83%8c%e6%99%af" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h2>&lt;p>客户N在使用H部门提供的MySQL遇到部分性能问题后，未得到H部门的及时支撑。机缘巧合，我们的服务化MySQL刚刚发布第一版，客户N有意切换我们的MySQL。由于部门策略调整，我们准备由原来的社区MySQL切换为部门R的商业版MySQL，其间对接问题不提，客户提出的首要问题是前期尝试通过mysqldump备份数据，发现有报错并且很慢，我们的策略是
+为拓展业务先把锅接下来吧 答应先提供数据迁移方案供客户评估。&lt;/p></description></item><item><title>Suse 新增磁盘</title><link>https://travisbikkle.github.io/2019/02/suse-add-a-disk/</link><pubDate>Sun, 10 Feb 2019 11:24:14 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/2019/02/suse-add-a-disk/</guid><category domain="https://travisbikkle.github.io/categories/archived/">Archived</category><description>&lt;pre>&lt;code>fdisk -l
+DISK=vdb
+disk_list=(`cat /proc/partitions | sort | grep -v &amp;quot;name&amp;quot; |grep -v &amp;quot;loop&amp;quot; |awk '{print $4}'| sed /^[[:space:]]*$/d | grep -v &amp;quot;[[:digit:]]&amp;quot; | uniq`)
+parted -s /dev/${DISK} mklabel gpt
+parted -s /dev/${DISK} print |grep softhome |wc -l
+DISKSIZE=`parted -s /dev/${DISK} unit GB print | grep '^Disk' |grep GB | awk '{print $3}'`
+DISK1=`echo ${DISK}1` #
+parted -s /dev/${DISK} mkpart softhome 0G $DISKSIZE
+parted -s /dev/${DISK} set 1 lvm
+
+vgname=`echo &amp;quot;/opt&amp;quot; | awk -F'/' '{print $NF}'`
+vgname=&amp;quot;${vgname}vg&amp;quot; # optvg
+lvname=`echo &amp;quot;/opt&amp;quot; | awk -F'/' '{print $NF}'`
+lvname=&amp;quot;${lvname}lv&amp;quot; # optlv
+
+echo y | pvcreate /dev/${DISK1}
+
+vgcreate &amp;quot;$vgname&amp;quot; /dev/${DISK1}
+free=`vgdisplay &amp;quot;$vgname&amp;quot; |grep &amp;quot;Total PE&amp;quot; |awk '{print $3}'`
+echo y | lvcreate -l &amp;quot;$free&amp;quot; -n &amp;quot;$lvname&amp;quot; &amp;quot;$vgname&amp;quot;
+
+lvPath=`lvdisplay &amp;quot;$vgname&amp;quot; | grep &amp;quot;LV Path&amp;quot; | awk '{print $3}'`
+
+#格式化
+mkfs.ext4 &amp;quot;${lvPath}&amp;quot;
+
+#挂载
+mount -t ext4 ${lvPath} /opt
+
+cat /etc/fstab | grep -w $lvPath
+
+#永久
+echo &amp;quot;$lvPath ${PATHS} ext4 defaults 1 0&amp;quot; &amp;gt;&amp;gt; /etc/fstab
+&lt;/code>&lt;/pre></description></item><item><title>Mysql . 主从同步</title><link>https://travisbikkle.github.io/2019/02/mysql5replication/</link><pubDate>Sun, 10 Feb 2019 11:24:12 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/2019/02/mysql5replication/</guid><category domain="https://travisbikkle.github.io/categories/archived/">Archived</category><description>&lt;h2 id="大纲" class="heading-element">&lt;span>大纲&lt;/span>
+ &lt;a href="#%e5%a4%a7%e7%ba%b2" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h2>&lt;p>本文参考或翻译自：
+&lt;a href="https://dev.mysql.com/doc/refman/5.7/en/replication.html"target="_blank" rel="external nofollow noopener noreferrer">https://dev.mysql.com/doc/refman/5.7/en/replication.html&lt;i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true">&lt;/i>&lt;/a>&lt;/p></description></item><item><title>一次 Mysql 死锁问题解决</title><link>https://travisbikkle.github.io/2019/02/mysql-dead-lock-troubleshoot-case/</link><pubDate>Sun, 10 Feb 2019 11:24:09 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/2019/02/mysql-dead-lock-troubleshoot-case/</guid><category domain="https://travisbikkle.github.io/categories/archived/">Archived</category><description>&lt;p>一个业务反应，环境多次出现大量服务不可使用，如app导入不响应，用户更新超时，bpm创单超时等等。查看数据库的processlist，发现有大量的处于Waiting
+for table metadata
+lock状态的查询，其中包含T_APP_INFO、TBL_UM_USER、T_TICKET_BASICINFO等表，跟故障服务一致，确定故障原因是数据库锁表引起；
+业务自行导出所有的阻塞task，并按照阻塞时间排序，发现第一条引起阻塞的是一条来来自于localhost的
+由root用户发起的批量锁表语句，疑似是问题根因。&lt;/p>
+&lt;p>上面这段是业务说的，已经排查的比较深入了，给个赞。&lt;/p>
+&lt;p>我之前通过直接kill掉这个query线程，他们的业务就正常走下去了，因为忙其他事情，所以就没有再关注。后面他们又出现了这个问题，这次必须要解决了。所以记录一下定位过程。&lt;/p>
+&lt;h2 id="定位思路" class="heading-element">&lt;span>定位思路&lt;/span>
+ &lt;a href="#%e5%ae%9a%e4%bd%8d%e6%80%9d%e8%b7%af" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h2>&lt;ol>
+&lt;li>
+&lt;p>&lt;strong>[WHAT]&lt;/strong> &lt;a href="mailto:root@localhost"target="_blank" rel="external nofollow noopener noreferrer">root@localhost&lt;i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true">&lt;/i>&lt;/a> 的进程在做什么？&lt;/p></description></item><item><title>Vmware Centos 双网卡平面设置</title><link>https://travisbikkle.github.io/2019/02/vmware-centos7-interfaces/</link><pubDate>Sun, 10 Feb 2019 11:24:05 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/2019/02/vmware-centos7-interfaces/</guid><category domain="https://travisbikkle.github.io/categories/archived/">Archived</category><description>&lt;pre>&lt;code>[root@host1 ~]# ip a
+1: lo: &amp;lt;LOOPBACK,UP,LOWER_UP&amp;gt; mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+ link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+ inet 127.0.0.1/8 scope host lo
+ valid_lft forever preferred_lft forever
+ inet6 ::1/128 scope host
+ valid_lft forever preferred_lft forever
+2: ens33: &amp;lt;BROADCAST,MULTICAST,UP,LOWER_UP&amp;gt; mtu 1500 qdisc pfifo_fast state UP group default qlen 1000
+ link/ether 00:0c:29:7d:ba:48 brd ff:ff:ff:ff:ff:ff
+ inet 192.168.17.101/24 brd 192.168.17.255 scope global noprefixroute ens33
+ valid_lft forever preferred_lft forever
+ inet6 fe80::64ee:1323:6aaa:61da/64 scope link noprefixroute
+ valid_lft forever preferred_lft forever
+3: ens37: &amp;lt;BROADCAST,MULTICAST,UP,LOWER_UP&amp;gt; mtu 1500 qdisc pfifo_fast state UP group default qlen 1000
+ link/ether 00:0c:29:7d:ba:52 brd ff:ff:ff:ff:ff:ff
+ inet 192.168.44.129/24 brd 192.168.44.255 scope global noprefixroute dynamic ens37
+ valid_lft 1083sec preferred_lft 1083sec
+ inet6 fe80::6ccf:c498:99ff:1910/64 scope link noprefixroute
+ valid_lft forever preferred_lft forever
+[root@host1 ~]# cat /etc/sysconfig/network-scripts/ifcfg-ens33
+TYPE=Ethernet
+PROXY_METHOD=none
+BROWSER_ONLY=no
+BOOTPROTO=static
+IPADDR=192.168.17.101
+GATEWAY=192.168.17.1
+NETMASK=255.255.255.0
+DNS1=8.8.8.8
+
+DEFROUTE=yes
+IPV4_FAILURE_FATAL=no
+IPV6INIT=yes
+IPV6_AUTOCONF=yes
+IPV6_DEFROUTE=yes
+IPV6_FAILURE_FATAL=no
+IPV6_ADDR_GEN_MODE=stable-privacy
+NAME=ens33
+UUID=fe4b3f1d-a5da-47e6-bacf-a4341d936b2f
+DEVICE=ens33
+ONBOOT=yes
+[root@host1 ~]#
+&lt;/code>&lt;/pre></description></item><item><title>Mysql 查询锁状态常用命令</title><link>https://travisbikkle.github.io/2019/02/mysql-lock-status-commands/</link><pubDate>Sun, 10 Feb 2019 11:24:04 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/2019/02/mysql-lock-status-commands/</guid><category domain="https://travisbikkle.github.io/categories/archived/">Archived</category><description>&lt;pre>&lt;code>show status like '%lock%;
+
+select * from information_schema.processlist;
+select * from information_schema.processlist where state like &amp;quot;%Waiting%&amp;quot;;
+select * from information_schema.innodb_trx;
+SELECT * FROM INFORMATION_SCHEMA.INNODB_LOCK_WAITS;
+
+SELECT INNODB_LOCKS.*
+FROM INNODB_LOCKS
+JOIN INNODB_LOCK_WAITS
+ ON (INNODB_LOCKS.LOCK_TRX_ID = INNODB_LOCK_WAITS.BLOCKING_TRX_ID);
+
+SELECT * FROM INNODB_LOCKS
+WHERE LOCK_TABLE = db_name.table_name;
+
+SELECT TRX_ID, TRX_REQUESTED_LOCK_ID, TRX_MYSQL_THREAD_ID, TRX_QUERY
+FROM INNODB_TRX
+WHERE TRX_STATE = 'LOCK WAIT';
+
+show engine innodb status;
+&lt;/code>&lt;/pre></description></item><item><title>Mysql 远程无法连接问题定位记录</title><link>https://travisbikkle.github.io/2019/02/mysql-remote-connect-failed/</link><pubDate>Fri, 01 Feb 2019 11:24:09 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/2019/02/mysql-remote-connect-failed/</guid><category domain="https://travisbikkle.github.io/categories/archived/">Archived</category><description>&lt;p>某业务通过Hibernate访问mysql，后台报错 Access denied for user
+&lt;em>matexxx&lt;/em>@&lt;em>xxxx&lt;/em> (using password: YES);
+一般搞过开发的人都知道，这种问题不是密码错了，就是远程连接未打开，这两者其实都属于一个问题，就是用户的grant权限问题，但是此业务情况稍特殊。定位过程如下。&lt;/p>
+&lt;h2 id="查看用户" class="heading-element">&lt;span>查看用户&lt;/span>
+ &lt;a href="#%e6%9f%a5%e7%9c%8b%e7%94%a8%e6%88%b7" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h2>&lt;pre>&lt;code>SELECT USER,HOST FROM MYSQL.USER;
+&lt;/code>&lt;/pre>
+&lt;p>发现用户matexxx对应的host为
+%，说明远程连接已经打开；询问业务是否更改过密码，引出问题背景：
+业务曾重装过mysql，使用mysqldump将旧库数据备份，并且只在新库的master上执行了一次恢复操作。&lt;/p></description></item><item><title>使用 Systemd 托管的 Mysql 最大连接数问题</title><link>https://travisbikkle.github.io/2019/01/systemd-mysql-maxconnections/</link><pubDate>Sun, 20 Jan 2019 11:24:15 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/2019/01/systemd-mysql-maxconnections/</guid><category domain="https://travisbikkle.github.io/categories/archived/">Archived</category><description>&lt;p>最大连接数问题&lt;/p>
+&lt;p>背景： mysql 最大连接数在设置为2000的情况下，并发始终只能达到480多；
+其它遇到过类似情况的项目组更改ulimit -s（stack
+size）到1024可以解决问题，但是我们经过测试无效；
+据说前期定位人员咨询过mysql原厂的人，没发现有什么配置问题。&lt;/p>
+&lt;h2 id="测试工具" class="heading-element">&lt;span>测试工具&lt;/span>
+ &lt;a href="#%e6%b5%8b%e8%af%95%e5%b7%a5%e5%85%b7" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h2>&lt;p>mysqlslap -h127.0.0.1 -uroot -p123456789 &amp;ndash;concurrency=5000
+&amp;ndash;iterations=1 &amp;ndash;auto-generate-sql &amp;ndash;auto-generate-sql-load-type=mixed
+&amp;ndash;auto-generate-sql-add-autoincrement &amp;ndash;engine=innodb
+&amp;ndash;number-of-queries=1000000&lt;/p></description></item><item><title>Tcpdump 常用命令</title><link>https://travisbikkle.github.io/2019/01/tcpdump-common-commands/</link><pubDate>Sat, 12 Jan 2019 11:24:18 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/2019/01/tcpdump-common-commands/</guid><category domain="https://travisbikkle.github.io/categories/archived/">Archived</category><description>&lt;ol>
+&lt;li>
+&lt;p>man tcpdump&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;a href="https://en.wikipedia.org/wiki/Multicast_address"target="_blank" rel="external nofollow noopener noreferrer">https://en.wikipedia.org/wiki/Multicast_address&lt;i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true">&lt;/i>&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;a href="https://en.wikipedia.org/wiki/Subnetwork"target="_blank" rel="external nofollow noopener noreferrer">https://en.wikipedia.org/wiki/Subnetwork&lt;i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true">&lt;/i>&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>[ip address classes] (&lt;a href="http://www.vlsm-calc.net/ipclasses.php"target="_blank" rel="external nofollow noopener noreferrer">http://www.vlsm-calc.net/ipclasses.php&lt;i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true">&lt;/i>&lt;/a>)&lt;br>
+&lt;a href="http://vod.sjtu.edu.cn/help/Article_Print.asp?ArticleID=631"target="_blank" rel="external nofollow noopener noreferrer">http://vod.sjtu.edu.cn/help/Article_Print.asp?ArticleID=631&lt;i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true">&lt;/i>&lt;/a>&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;h2 id="tcpdump-usage" class="heading-element">&lt;span>tcpdump usage&lt;/span>
+ &lt;a href="#tcpdump-usage" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h2>&lt;p>``` tcpdump # print number like ip and port tcpdump -n tcpdump -c 4
+tcpdump -i eth1 tcpdump -i any tcpdump host 100.107.166.116 tcpdump src
+host 100.107.166.116 tcpdump -n -i any dst port 3306 or dst port 22
+tcpdump -n -i any &lt;em>dst port 3306 || dst port 22&lt;/em> tcpdump -n -i any &lt;em>(dst
+port 3306 || dst port 22) and dst host 100.107.166.116&lt;/em> ```&lt;/p></description></item><item><title>Mysql Load Data 数据膨胀</title><link>https://travisbikkle.github.io/2018/12/mysql-load-data-size-too-big/</link><pubDate>Sat, 29 Dec 2018 11:24:14 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/2018/12/mysql-load-data-size-too-big/</guid><category domain="https://travisbikkle.github.io/categories/archived/">Archived</category><description>&lt;h2 id="发现问题" class="heading-element">&lt;span>发现问题&lt;/span>
+ &lt;a href="#%e5%8f%91%e7%8e%b0%e9%97%ae%e9%a2%98" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h2>&lt;p>100w 100字段数据 后台膨胀系数较大。 用膨胀系数表示load data后MySQL后台
+表名.ibd 文件的大小与所 load 的 data.xdr 文件的比值。
+膨胀系数(50f100w)代表使用了50个字段100w行的数据进行测试。&lt;/p></description></item><item><title>在 Asciidoc 文档中使用 Latex</title><link>https://travisbikkle.github.io/2018/11/asciidoc-latex/</link><pubDate>Tue, 06 Nov 2018 11:24:19 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/2018/11/asciidoc-latex/</guid><category domain="https://travisbikkle.github.io/categories/archived/">Archived</category><description>&lt;p>本文基于 asciidoctor 1.5.7.13，其通过 mathjax 实现 LaTex
+字体的显示，方法和 markdown 差不多，区别是
+markdown（不同差距实现方法不同）使用 &lt;code>$$&lt;/code> 或者 &lt;code>$``$&lt;/code> 包围 LaTex
+语法，而 asciidoctor 使用 &lt;code>stem:[]&lt;/code> 包围 LaTex 语法。&lt;/p>
+&lt;table>
+&lt;caption>单个符号对照表&lt;/caption>
+&lt;colgroup>
+&lt;col style="width: 50%" />
+&lt;col style="width: 50%" />
+&lt;/colgroup>
+&lt;tbody>
+&lt;tr class="odd">
+&lt;td>&lt;p>渲染后&lt;/p>&lt;/td>
+&lt;td>&lt;p>源码&lt;/p>&lt;/td>
+&lt;/tr>
+&lt;tr class="even">
+&lt;td>&lt;p>stem:[\cdot]&lt;/p>&lt;/td>
+&lt;td>&lt;p>&lt;code>stem:[\cdot]&lt;/code>&lt;/p>&lt;/td>
+&lt;/tr>
+&lt;tr class="odd">
+&lt;td>&lt;p>stem:[\times]&lt;/p>&lt;/td>
+&lt;td>&lt;p>&lt;code>stem:[\times]&lt;/code>&lt;/p>&lt;/td>
+&lt;/tr>
+&lt;tr class="even">
+&lt;td>&lt;p>stem:[a^{prime} a]&lt;/p>&lt;/td>
+&lt;td>&lt;p>&lt;code>stem:[a^{prime} a]&lt;/code>&lt;/p>&lt;/td>
+&lt;/tr>
+&lt;tr class="odd">
+&lt;td>&lt;p>stem:[a’’]&lt;/p>&lt;/td>
+&lt;td>&lt;p>&lt;code>stem:[a’’]&lt;/code>&lt;/p>&lt;/td>
+&lt;/tr>
+&lt;tr class="even">
+&lt;td>&lt;/td>
+&lt;td>&lt;/td>
+&lt;/tr>
+&lt;tr class="odd">
+&lt;td>&lt;/td>
+&lt;td>&lt;/td>
+&lt;/tr>
+&lt;tr class="even">
+&lt;td>&lt;/td>
+&lt;td>&lt;/td>
+&lt;/tr>
+&lt;tr class="odd">
+&lt;td>&lt;/td>
+&lt;td>&lt;/td>
+&lt;/tr>
+&lt;tr class="even">
+&lt;td>&lt;/td>
+&lt;td>&lt;/td>
+&lt;/tr>
+&lt;tr class="odd">
+&lt;td>&lt;/td>
+&lt;td>&lt;/td>
+&lt;/tr>
+&lt;tr class="even">
+&lt;td>&lt;/td>
+&lt;td>&lt;/td>
+&lt;/tr>
+&lt;tr class="odd">
+&lt;td>&lt;/td>
+&lt;td>&lt;/td>
+&lt;/tr>
+&lt;tr class="even">
+&lt;td>&lt;/td>
+&lt;td>&lt;/td>
+&lt;/tr>
+&lt;tr class="odd">
+&lt;td>&lt;/td>
+&lt;td>&lt;/td>
+&lt;/tr>
+&lt;tr class="even">
+&lt;td>&lt;p>stem:[a’’’]&lt;/p></description></item><item><title>Btrace 使用教程</title><link>https://travisbikkle.github.io/2018/10/btrace-manual/</link><pubDate>Fri, 19 Oct 2018 11:24:06 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/2018/10/btrace-manual/</guid><category domain="https://travisbikkle.github.io/categories/archived/">Archived</category><description>&lt;p>&lt;strong>BTrace&lt;/strong> 是 Java
+的一个诊断工具，可以在不重启应用的情况下，对应用进行时间耗费、参数及结果跟踪、方法调用跟踪等分析。&lt;/p>
+&lt;h2 id="btrace-术语" class="heading-element">&lt;span>BTrace 术语&lt;/span>
+ &lt;a href="#btrace-%e6%9c%af%e8%af%ad" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h2>&lt;p>Probe Point&lt;br>
+位置&lt;/p></description></item><item><title>Centos 常用命令</title><link>https://travisbikkle.github.io/2018/10/centos7-common-commands/</link><pubDate>Sat, 13 Oct 2018 11:24:18 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/2018/10/centos7-common-commands/</guid><category domain="https://travisbikkle.github.io/categories/archived/">Archived</category><description>&lt;h2 id="如何更改为静态-ip-地址" class="heading-element">&lt;span>如何更改为静态 IP 地址&lt;/span>
+ &lt;a href="#%e5%a6%82%e4%bd%95%e6%9b%b4%e6%94%b9%e4%b8%ba%e9%9d%99%e6%80%81-ip-%e5%9c%b0%e5%9d%80" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h2>&lt;ol>
+&lt;li>
+&lt;p>&lt;code>vi /etc/sysconfig/network-scripts/ifcfg-&amp;lt;你的网卡名，如果不知道，直接 tab 自动补全&amp;gt;&lt;/code>&lt;/p></description></item><item><title>Hadoop .. 学习笔记</title><link>https://travisbikkle.github.io/2018/10/hadoop-learning-note/</link><pubDate>Sat, 13 Oct 2018 11:24:16 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/2018/10/hadoop-learning-note/</guid><category domain="https://travisbikkle.github.io/categories/archived/">Archived</category><description>&lt;h2 id="hdfs读写流程" class="heading-element">&lt;span>HDFS读写流程&lt;/span>
+ &lt;a href="#hdfs%e8%af%bb%e5%86%99%e6%b5%81%e7%a8%8b" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h2>&lt;p>todo&lt;/p></description></item><item><title>Hive .. 安装常见问题</title><link>https://travisbikkle.github.io/2018/10/hive-install-faq/</link><pubDate>Sat, 13 Oct 2018 11:24:13 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/2018/10/hive-install-faq/</guid><category domain="https://travisbikkle.github.io/categories/archived/">Archived</category><description>&lt;h2 id="remote-模式最小配置" class="heading-element">&lt;span>remote 模式最小配置&lt;/span>
+ &lt;a href="#remote-%e6%a8%a1%e5%bc%8f%e6%9c%80%e5%b0%8f%e9%85%8d%e7%bd%ae" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h2>&lt;pre>&lt;code>&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot; standalone=&amp;quot;no&amp;quot;?&amp;gt;
+&amp;lt;?xml-stylesheet type=&amp;quot;text/xsl&amp;quot; href=&amp;quot;configuration.xsl&amp;quot;?&amp;gt;
+&amp;lt;configuration&amp;gt;
+&amp;lt;property&amp;gt;
+&amp;lt;name&amp;gt;javax.jdo.option.ConnectionURL&amp;lt;/name&amp;gt;
+&amp;lt;value&amp;gt;jdbc:mysql://192.168.47.128:3306/hive?createDatabaseIfNotExist=true&amp;lt;/value&amp;gt;
+&amp;lt;/property&amp;gt;
+&amp;lt;property&amp;gt;
+&amp;lt;name&amp;gt;javax.jdo.option.ConnectionDriverName&amp;lt;/name&amp;gt;
+&amp;lt;value&amp;gt;com.mysql.jdbc.Driver&amp;lt;/value&amp;gt;
+&amp;lt;/property&amp;gt;
+&amp;lt;property&amp;gt;
+&amp;lt;name&amp;gt;javax.jdo.option.ConnectionUserName&amp;lt;/name&amp;gt;
+&amp;lt;value&amp;gt;root&amp;lt;/value&amp;gt;
+&amp;lt;/property&amp;gt;
+&amp;lt;property&amp;gt;
+&amp;lt;name&amp;gt;javax.jdo.option.ConnectionPassword&amp;lt;/name&amp;gt;
+&amp;lt;value&amp;gt;km717070&amp;lt;/value&amp;gt;
+&amp;lt;/property&amp;gt;
+&amp;lt;/configuration&amp;gt;
+&lt;/code>&lt;/pre>
+&lt;h2 id="安装问题" class="heading-element">&lt;span>安装问题&lt;/span>
+ &lt;a href="#%e5%ae%89%e8%a3%85%e9%97%ae%e9%a2%98" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h2>&lt;ol>
+&lt;li>
+&lt;p>remote 模式报错 Java.lang.RuntimeException: Unable to instantiate
+org.apache.hadoop.hive.ql.metadata.SessionHiveMetaStoreClient
+解决：hive 需要先 &lt;code>hive --service metastore&lt;/code> 先启动 thrift
+server，才能访问 MySQL 参考：&lt;a href="https://cwiki.apache.org/confluence/display/Hive/AdminManual&amp;#43;MetastoreAdmin#AdminManualMetastoreAdmin-RemoteMetastoreDatabase"target="_blank" rel="external nofollow noopener noreferrer">官方手册：Hive Metastore
+配置&lt;i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true">&lt;/i>&lt;/a>
+理解：MySQL 为 metastore 的 database， Thrift Server 为 metastore
+的服务器&lt;/p></description></item><item><title>Centos 安装 Apache Ambari</title><link>https://travisbikkle.github.io/2018/10/centos7-ambari/</link><pubDate>Sat, 13 Oct 2018 11:24:12 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/2018/10/centos7-ambari/</guid><category domain="https://travisbikkle.github.io/categories/archived/">Archived</category><description>&lt;h2 id="版本说明" class="heading-element">&lt;span>版本说明&lt;/span>
+ &lt;a href="#%e7%89%88%e6%9c%ac%e8%af%b4%e6%98%8e" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h2>&lt;table>
+&lt;colgroup>
+&lt;col style="width: 50%" />
+&lt;col style="width: 50%" />
+&lt;/colgroup>
+&lt;tbody>
+&lt;tr class="odd">
+&lt;td>&lt;p>部件&lt;/p></description></item><item><title>如何对 Centos 分区进行扩容</title><link>https://travisbikkle.github.io/2018/10/centos-disk-extend/</link><pubDate>Sat, 13 Oct 2018 11:24:10 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/2018/10/centos-disk-extend/</guid><category domain="https://travisbikkle.github.io/categories/archived/">Archived</category><description>&lt;pre>&lt;code>fdisk -l
+&lt;/code>&lt;/pre>
+&lt;p>在 Id 一列可以看到分区类型为``8e``
+``83``等十进制数值，``8e``代表该分区由 Linux LVM
+管理，适用本文的扩容方法，如果你的分区类型为``83``，代表其是 Linux
+Native Partion，可以参考link:[另一篇博文（尚未书写）]。&lt;/p>
+&lt;p>我使用的是 VMware Workstation
+pro，在编辑虚拟机设置里可以轻松增加磁盘大小（磁盘为单个文件，而不是分割文件，如果你的硬盘是分割的多个文件，参考另一篇博文
+&lt;a href="">VMware 分割磁盘如何扩容(尚未编写)&lt;/a>&lt;/p>
+&lt;pre>&lt;code>fdisk -l
+## 在 fdisk 输出信息中，可以看到 Disk /dev/sda： 30 GB 类似的信息，证明磁盘增加成功，位置确认。
+
+## 以下命令为交互式命令
+fdisk /dev/sda
+
+# 输入 n 以创建新分区
+n
+# 输入 p 以设置为主分区
+p
+# 根据 fdisk -l 的信息，决定分区的编号，由于我的机器 fdisk -l 已经有 /dev/sda1 /dev/sda2 两个，所以此处输入 3
+3
+# 此处输入两次回车，以决定分区的开始和结束位置，默认使用剩余全部未分配空间
+First cylinder.... 回车
+Last cylinder.... 回车
+# 此处输入 t，并输入 3 以选择我们上面步骤刚刚创建的分区
+t
+3
+# 在 Hex code 的输入步骤，输入我们希望使用的 LVM 代码符号：8e
+8e
+# 最后，输入 w 以使上述所有更改生效
+w
+&lt;/code>&lt;/pre>
+&lt;p>在我的机器上，不需要重启已经可以使用 &lt;code>fdisk -l&lt;/code> 查看到新创建的
+/dev/sda3，但是推荐你在此处先重启一次，然后执行后续操作&lt;/p></description></item><item><title>使用 Ambari 安装 Hdp 集群</title><link>https://travisbikkle.github.io/2018/10/ambari-hdp-demo/</link><pubDate>Sat, 13 Oct 2018 11:24:08 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/2018/10/ambari-hdp-demo/</guid><category domain="https://travisbikkle.github.io/categories/archived/">Archived</category><description>&lt;p>HDP 并不是 hadoop 的辅音简称，而是 Hortonworks 的产品 &lt;a href="https://community.hortonworks.com/questions/89821/difference-between-apache-hadoop-and-hdp.html"target="_blank" rel="external nofollow noopener noreferrer">Hortonworks Data
+Platform&lt;i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true">&lt;/i>&lt;/a>
+的简称，是包含 Hadoop 在内的一揽子解决方案。&lt;/p>
+&lt;h2 id="前置要求" class="heading-element">&lt;span>前置要求：&lt;/span>
+ &lt;a href="#%e5%89%8d%e7%bd%ae%e8%a6%81%e6%b1%82" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h2>&lt;p>3-4台 CentOS 7 机器，其中一台机器必须安装 Ambari
+服务。教程参考link:/2018/10/13/centos 7 安装 apache-ambari/[centos 7
+安装 apache-ambari]。安装 master 和 slave 的节点机器，内存最好不要小于
+5G。&lt;/p></description></item><item><title>免密码 Ssh 到其它机器</title><link>https://travisbikkle.github.io/2018/10/ssh-without-pass/</link><pubDate>Sat, 13 Oct 2018 11:24:07 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/2018/10/ssh-without-pass/</guid><category domain="https://travisbikkle.github.io/categories/archived/">Archived</category><description>&lt;p>背景：在配置 hadoop 的时候这样设置会比较方便。 目标：A 机器上输入 ssh
+&lt;a href="mailto:root@B"target="_blank" rel="external nofollow noopener noreferrer">root@B&lt;i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true">&lt;/i>&lt;/a> 可以直接访问，不需要输入密码&lt;/p>
+&lt;p>步骤：&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>首先在 A 机器上生成密钥对，一路回车&lt;/p>
+&lt;pre>&lt;code> ssh-keygen -t rsa
+&lt;/code>&lt;/pre>
+&lt;/li>
+&lt;li>
+&lt;p>在 A 机器上输入，输入 B 机器的密码一次即可&lt;/p>
+&lt;pre>&lt;code> ssh-copy-id -i ~/.ssh/id_rsa.pub root@B
+&lt;/code>&lt;/pre>
+&lt;/li>
+&lt;/ol>
+&lt;p>所以同样的操作，B机器上可能还要再操作一遍，如果机器多了，也是很烦，因此，更懒人的做法是：&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>准备 xshell 5&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>打开多个机器的 ssh 会话窗口&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>配置好各个机器的 hostname&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>在 xshell 底部，&amp;quot;&lt;code>发送命令到所有窗口&lt;/code>&amp;ldquo;这一行，依次输入
+&lt;code>ssh-copy-id -i ~/.ssh/id_rsa.pub root@&amp;lt;主机名&amp;gt;&lt;/code> 即可。&lt;/p>
+&lt;/li>
+&lt;/ol></description></item><item><title>Vmware Clone Ubuntu. Ip 地址配置</title><link>https://travisbikkle.github.io/2018/10/vmware-clone-ubuntu18-ip-config/</link><pubDate>Sat, 13 Oct 2018 11:24:06 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/2018/10/vmware-clone-ubuntu18-ip-config/</guid><category domain="https://travisbikkle.github.io/categories/archived/">Archived</category><description>&lt;p>在使用 VMware Workstation 克隆 Ubuntu Server 18.04
+版本后，发现克隆前后的机器 IP 地址重复，
+且无论如何更改虚拟网络设置（编辑-虚拟网络编辑器）都无效。由于 Ubuntu
+18.04 采用 netplan (/etc/netplan) 而不是先前版本的
+/etc/network/interfaces 管理网卡设置，因此通过如下方法，将机器 IP
+地址更改为静态获取，可以解决此问题。&lt;/p>
+&lt;p>&lt;strong>1. vi /etc/netplan/50-cloud-init.yaml (此文件名可能会变化).&lt;/strong>&lt;/p>
+&lt;pre>&lt;code>network:
+ ethernets:
+ ens33:
+ dhcp4: no
+ dhcp6: no
+ addresses: [192.168.44.129/24,]
+ gateway4: 192.168.44.1
+ nameservers:
+ addresses: [8.8.8.8, 8.8.4.4]
+&lt;/code>&lt;/pre>
+&lt;p>&lt;strong>2. 更改后，执行.&lt;/strong>&lt;/p>
+&lt;pre>&lt;code>&amp;gt;netplan apply
+&amp;gt;reboot
+&lt;/code>&lt;/pre></description></item><item><title>Ubuntu . 更改 Hostname</title><link>https://travisbikkle.github.io/2018/10/ubuntu18-hostname/</link><pubDate>Sat, 13 Oct 2018 11:24:04 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/2018/10/ubuntu18-hostname/</guid><category domain="https://travisbikkle.github.io/categories/archived/">Archived</category><description>&lt;pre>&lt;code>vi /etc/cloud/cloud.cfg
+#preserve_hostname: false ---&amp;gt; 改成 true
+vi /etc/hostname
+reboot
+&lt;/code>&lt;/pre></description></item></channel></rss>

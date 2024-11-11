@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>NetWork - tag |</title><link>https://travisbikkle.github.io/zh-hant/network/</link><description>独立开发者 Travis Bikkle 的个人博客</description><generator>Hugo 0.138.0 &amp; FixIt v0.3.15-fd15415b</generator><language>zh-hant</language><managingEditor>travisbikkle@proton.me (Travis Bikkle)</managingEditor><webMaster>travisbikkle@proton.me (Travis Bikkle)</webMaster><lastBuildDate>Mon, 11 Nov 2024 11:34:48 +0000</lastBuildDate><atom:link href="https://travisbikkle.github.io/zh-hant/network/index.xml" rel="self" type="application/rss+xml"/><item><title>端口轉發的一些方法</title><link>https://travisbikkle.github.io/zh-hant/2023/02/port-forward/</link><pubDate>Wed, 01 Feb 2023 11:24:24 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2023/02/port-forward/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/tips/">Tips</category><description>&lt;p>在《如何抓包分析 vrrp 報文是否中斷》中我們使用了 iptables 進行指定協議的報文日誌記錄功能，此處新增一個好用的命令。&lt;/p>
+&lt;p>我們在開發過程中，可能經常需要經過堡壘機、跳板機等中轉一次，才能訪問到處於小網中的服務，如數據庫。使用以下命令，可以在不借助第三方軟件的情況下，完成端口轉發，實現直連小網服務。&lt;/p>
+&lt;h2 id="iptables" class="heading-element">&lt;span>iptables&lt;/span>
+ &lt;a href="#iptables" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h2>&lt;p>假設 192.168.1.3 是你的小網機器，端口是 15432&lt;/p></description></item><item><title>vrrp 報文抓包的方法</title><link>https://travisbikkle.github.io/zh-hant/2022/02/vrrp-cap/</link><pubDate>Tue, 01 Feb 2022 11:24:24 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2022/02/vrrp-cap/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/tips/">Tips</category><description>&lt;p>keepalived 的主機和備機，會每隔3s通過單播，向對方發送 vrrp 報文，當備機在 &lt;code>3次*每次心跳間隔（keepalived.conf中的adver_int參數）&lt;/code> 都收不到主機的廣播，自己將會升主。&lt;/p>
+&lt;p>以下兩種可能都會存在：&lt;/p>
+&lt;ol>
+&lt;li>主機沒有發送廣播&lt;/li>
+&lt;li>主機發送了廣播，備機沒有收到
+因此，在主備都需要監控vrrp的發送（out）或接收（in）記錄。&lt;/li>
+&lt;/ol>
+&lt;p>使用以下兩種方式，都可以監控每次 vrrp 報文的內容，以便定位問題。&lt;/p>
+&lt;h2 id="iptables" class="heading-element">&lt;span>iptables&lt;/span>
+ &lt;a href="#iptables" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h2>&lt;ol>
+&lt;li>在主機和備機都添加監控vrrp發送和接收的iptables日誌（該規則僅抓取vrrp行爲，沒有其它副作用）
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">iptables -t raw -A PREROUTING -p vrrp -j LOG --log-level &lt;span class="m">6&lt;/span> --log-prefix &lt;span class="s2">&amp;#34;VRRP: &amp;#34;&lt;/span> 
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">2&lt;/span>&lt;span class="cl">iptables -t raw -A OUTPUT -p vrrp -j LOG --log-level &lt;span class="m">6&lt;/span> --log-prefix &lt;span class="s2">&amp;#34;VRRP: &amp;#34;&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/li>
+&lt;li>使用以下命令檢測是否添加成功：
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">iptables -L -t raw -n&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/li>
+&lt;li>在/var/log/messages可以查看vrrp的記錄。如果是suse或其它操作系統，該日誌中沒有vrrp記錄的話，可以在dmesg或者/var/log/的目錄中grep VRRP查看。&lt;/li>
+&lt;li>定位完問題後，執行以下命令刪除添加的iptables規則
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">iptables -t raw -D PREROUTING -p vrrp -j LOG --log-level &lt;span class="m">6&lt;/span> --log-prefix &lt;span class="s2">&amp;#34;VRRP: &amp;#34;&lt;/span> 
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">2&lt;/span>&lt;span class="cl">iptables -t raw -D OUTPUT -p vrrp -j LOG --log-level &lt;span class="m">6&lt;/span> --log-prefix &lt;span class="s2">&amp;#34;VRRP: &amp;#34;&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/li>
+&lt;/ol>
+&lt;h2 id="tcpdump-wireshark" class="heading-element">&lt;span>tcpdump wireshark&lt;/span>
+ &lt;a href="#tcpdump-wireshark" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h2>&lt;p>tcpdump 命令需要自行獲取，wireshark 需要自行下載，這部分僅記錄常用命令和注意點，由於在公司內網，圖片無法放上來。&lt;/p></description></item></channel></rss>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Tips - Category |</title><link>https://travisbikkle.github.io/en/categories/tips/</link><description>独立开发者 Travis Bikkle 的个人博客</description><generator>Hugo 0.138.0 &amp; FixIt v0.3.15-fd15415b</generator><language>en</language><managingEditor>travisbikkle@proton.me (Travis Bikkle)</managingEditor><webMaster>travisbikkle@proton.me (Travis Bikkle)</webMaster><lastBuildDate>Mon, 11 Nov 2024 11:34:48 +0000</lastBuildDate><atom:link href="https://travisbikkle.github.io/en/categories/tips/index.xml" rel="self" type="application/rss+xml"/><item><title>Transform SCWindow coordinate</title><link>https://travisbikkle.github.io/en/2024/10/how-did-i-develop-mactoys-pin-window/</link><pubDate>Mon, 21 Oct 2024 11:24:35 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/en/2024/10/how-did-i-develop-mactoys-pin-window/</guid><category domain="https://travisbikkle.github.io/en/categories/tips/">Tips</category><description>&lt;p>(Translated)&lt;/p>
+&lt;p>The coordinate system we use most is the standard Cartesian plane right-angle coordinate system, which takes the lower-left corner of the screen as the origin and increases the y coordinate upwards and the x coordinate to the right.&lt;/p>
+&lt;p>SCWindow&amp;rsquo;s coordinates, on the other hand, are flipped coordinates with the upper-left corner of the main screen as the origin, and the following is a simple comparison chart:&lt;/p>
+&lt;p>&lt;a class="lightgallery" href="https://travisbikkle.github.io/images/posts/make-mactoys/flip-coordinate.png?size=large" data-thumbnail="/images/posts/make-mactoys/flip-coordinate.png?size=small" data-sub-html="&lt;h2>alt text&lt;/h2>">&lt;img loading="lazy" src="https://travisbikkle.github.io/images/posts/make-mactoys/flip-coordinate.png" alt="alt text" srcset="https://travisbikkle.github.io/images/posts/make-mactoys/flip-coordinate.png?size=small, https://travisbikkle.github.io/images/posts/make-mactoys/flip-coordinate.png?size=medium 1.5x, https://travisbikkle.github.io/images/posts/make-mactoys/flip-coordinate.png?size=large 2x" data-title="alt text" style="--width: 424px;--aspect-ratio: 424 / 848;background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/a>&lt;/p></description></item><item><title>使用 cdn 低成本加速网站，或解决443和80端口被封问题</title><link>https://travisbikkle.github.io/en/2024/10/how-to-proxy-with-cdn/</link><pubDate>Fri, 04 Oct 2024 11:24:31 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/en/2024/10/how-to-proxy-with-cdn/</guid><category domain="https://travisbikkle.github.io/en/categories/tips/">Tips</category><description>&lt;p>CDN是个好东西，我们一般需要使用CDN，来让我们的网站能够在全球都能快速访问，并且降低服务器压力，防止DDOS攻击等。&lt;/p>
+&lt;p>简单来说，你把你的域名的CNAME(如&lt;code>a.example.com&lt;/code>) 指向CDN厂商的域名(如&lt;code>abc.cloudfront.net&lt;/code>)。&lt;/p>
+&lt;p>用户访问&lt;code>a.example.com&lt;/code>的时候，实际上访问的是&lt;code>abc.cloudfront.net&lt;/code>。&lt;code>abc.cloudfront.net&lt;/code>上面当然没有你的站点资源，所以会回头访问你配置的源站（这一步叫做&lt;code>回源&lt;/code>）拉取资源，并存储到本地（这一步叫做&lt;code>缓存&lt;/code>）。&lt;/p>
+&lt;p>你也可以在站点发布后，第一时间让CDN拉取站点资源，并下发到它位于全球的站点，防止用户在高峰期一窝蜂地访问过来，导致源站压力过大。这一步叫做&lt;code>预热&lt;/code>。&lt;/p>
+&lt;p>用户访问CDN厂商的域名，CDN会分配个给用户最近的站点，这样用户访问的速度也快了。&lt;/p>
+&lt;p>CDN还支持指定回源的协议和端口，本文后面将会提及，这对使用家庭宽带部署服务并且443和80端口被封锁的用户非常有帮助。&lt;/p>
+&lt;p>虽然我测试的域名在腾讯云，但是我并没有使用腾讯云的cdn服务，因为在选择试用的时候，腾讯云提示我没有资格。&lt;/p>
+&lt;p>于是我只测试了cloudflare，aws，阿里云的cdn服务，并在此记录下来过程和配置，希望能够帮助有需要的人。&lt;/p>
+&lt;h2 id="cloudflare" class="heading-element">&lt;span>Cloudflare&lt;/span>
+ &lt;a href="#cloudflare" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h2>&lt;ol>
+&lt;li>
+&lt;p>右上角点 &lt;code>Add site&lt;/code>，增加你的域名，按照推荐的配置即可&lt;/p></description></item><item><title>How to replace the arm of DJI Mavic mini</title><link>https://travisbikkle.github.io/en/2024/09/how-to-replace-dji-mavic-mini-arm/</link><pubDate>Sat, 28 Sep 2024 11:24:31 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/en/2024/09/how-to-replace-dji-mavic-mini-arm/</guid><category domain="https://travisbikkle.github.io/en/categories/tips/">Tips</category><description>&lt;p>My son&amp;rsquo;s drone had broken its front left arm once and had been glued before, so I took advantage of the opportunity to fix it before vacation.&lt;/p>
+&lt;h2 id="required-tools" class="heading-element">&lt;span>Required tools&lt;/span>
+ &lt;a href="#required-tools" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h2>&lt;ol>
+&lt;li>Screwdriver&lt;/li>
+&lt;li>Plastic crowbar or a bank card&lt;/li>
+&lt;li>Tweezers&lt;/li>
+&lt;li>Soldering iron, solder and rosin&lt;/li>
+&lt;li>Glue and electrical tape may be needed, if you accidentally break something&lt;/li>
+&lt;li>Carefullness and patience&lt;/li>
+&lt;/ol>
+&lt;h2 id="steps" class="heading-element">&lt;span>Steps&lt;/span>
+ &lt;a href="#steps" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h2>&lt;ol>
+&lt;li>
+&lt;p>Unscrew the upper shell screws&lt;/p></description></item><item><title>Vmware Freeze</title><link>https://travisbikkle.github.io/en/2024/03/vmware-freeze/</link><pubDate>Wed, 06 Mar 2024 17:09:19 +0000</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/en/2024/03/vmware-freeze/</guid><category domain="https://travisbikkle.github.io/en/categories/tips/">Tips</category><description>&lt;h2 id="problem" class="heading-element">&lt;span>Problem&lt;/span>
+ &lt;a href="#problem" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h2>&lt;table>
+ &lt;thead>
+ &lt;tr>
+ &lt;th>Host OS&lt;/th>
+ &lt;th>Win11&lt;/th>
+ &lt;/tr>
+ &lt;/thead>
+ &lt;tbody>
+ &lt;tr>
+ &lt;td>Guest OS&lt;/td>
+ &lt;td>Kubuntu 22.04&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>vmware&lt;/td>
+ &lt;td>vmware workstation pro 17.5&lt;/td>
+ &lt;/tr>
+ &lt;/tbody>
+&lt;/table>
+&lt;br />
+&lt;p>Every once in a while, my guest os went into a strange freezed state, where I could move the mouse, but the guest os just didn&amp;rsquo;t response.
+I used to monitor those logs under /var/log, and system resource usage with &lt;code>top&lt;/code> command, but nothing was found, until I saw the following line in vmware.log.&lt;/p></description></item><item><title>Termux Useful Command</title><link>https://travisbikkle.github.io/en/2024/01/termux-useful-command/</link><pubDate>Sat, 27 Jan 2024 16:29:16 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/en/2024/01/termux-useful-command/</guid><category domain="https://travisbikkle.github.io/en/categories/tips/">Tips</category><description>&lt;h2 id="useful-termux-built-in-commands" class="heading-element">&lt;span>useful termux built-in commands&lt;/span>
+ &lt;a href="#useful-termux-built-in-commands" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h2>&lt;p>Type &lt;code>termux&lt;/code> in the console and press tab, a list of commands starts with &lt;code>termux&lt;/code> will show up.
+Here are some most commonly used commands:&lt;/p></description></item><item><title>Using Algolia with Hugo HBstack theme</title><link>https://travisbikkle.github.io/en/2024/01/hugo-hbstack-algolia/</link><pubDate>Fri, 26 Jan 2024 11:24:23 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/en/2024/01/hugo-hbstack-algolia/</guid><category domain="https://travisbikkle.github.io/en/categories/tips/">Tips</category><description>&lt;h2 id="tldr" class="heading-element">&lt;span>TL;DR&lt;/span>
+ &lt;a href="#tldr" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h2>&lt;p>You can not find Hugo template on &lt;a href="https://docsearch.algolia.com/docs/templates/"target="_blank" rel="external nofollow noopener noreferrer">Algolia&lt;i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true">&lt;/i>&lt;/a> cause hugo is based on themes, and each theme uses different css styles.&lt;/p></description></item></channel></rss>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Linux - Tag |</title><link>https://travisbikkle.github.io/en/linux/</link><description>独立开发者 Travis Bikkle 的个人博客</description><generator>Hugo 0.138.0 &amp; FixIt v0.3.15-fd15415b</generator><language>en</language><managingEditor>travisbikkle@proton.me (Travis Bikkle)</managingEditor><webMaster>travisbikkle@proton.me (Travis Bikkle)</webMaster><lastBuildDate>Mon, 11 Nov 2024 11:34:48 +0000</lastBuildDate><atom:link href="https://travisbikkle.github.io/en/linux/index.xml" rel="self" type="application/rss+xml"/><item><title>Vmware Freeze</title><link>https://travisbikkle.github.io/en/2024/03/vmware-freeze/</link><pubDate>Wed, 06 Mar 2024 17:09:19 +0000</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/en/2024/03/vmware-freeze/</guid><category domain="https://travisbikkle.github.io/en/categories/tips/">Tips</category><description>&lt;h2 id="problem" class="heading-element">&lt;span>Problem&lt;/span>
+ &lt;a href="#problem" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h2>&lt;table>
+ &lt;thead>
+ &lt;tr>
+ &lt;th>Host OS&lt;/th>
+ &lt;th>Win11&lt;/th>
+ &lt;/tr>
+ &lt;/thead>
+ &lt;tbody>
+ &lt;tr>
+ &lt;td>Guest OS&lt;/td>
+ &lt;td>Kubuntu 22.04&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>vmware&lt;/td>
+ &lt;td>vmware workstation pro 17.5&lt;/td>
+ &lt;/tr>
+ &lt;/tbody>
+&lt;/table>
+&lt;br />
+&lt;p>Every once in a while, my guest os went into a strange freezed state, where I could move the mouse, but the guest os just didn&amp;rsquo;t response.
+I used to monitor those logs under /var/log, and system resource usage with &lt;code>top&lt;/code> command, but nothing was found, until I saw the following line in vmware.log.&lt;/p></description></item><item><title>Termux Useful Command</title><link>https://travisbikkle.github.io/en/2024/01/termux-useful-command/</link><pubDate>Sat, 27 Jan 2024 16:29:16 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/en/2024/01/termux-useful-command/</guid><category domain="https://travisbikkle.github.io/en/categories/tips/">Tips</category><description>&lt;h2 id="useful-termux-built-in-commands" class="heading-element">&lt;span>useful termux built-in commands&lt;/span>
+ &lt;a href="#useful-termux-built-in-commands" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h2>&lt;p>Type &lt;code>termux&lt;/code> in the console and press tab, a list of commands starts with &lt;code>termux&lt;/code> will show up.
+Here are some most commonly used commands:&lt;/p></description></item></channel></rss>

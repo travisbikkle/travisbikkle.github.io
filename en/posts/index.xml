@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts |</title><link>https://travisbikkle.github.io/en/posts/</link><description>独立开发者 Travis Bikkle 的个人博客</description><generator>Hugo 0.138.0 &amp; FixIt v0.3.15-fd15415b</generator><language>en</language><managingEditor>travisbikkle@proton.me (Travis Bikkle)</managingEditor><webMaster>travisbikkle@proton.me (Travis Bikkle)</webMaster><lastBuildDate>Mon, 11 Nov 2024 11:34:48 +0000</lastBuildDate><atom:link href="https://travisbikkle.github.io/en/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Transform SCWindow coordinate</title><link>https://travisbikkle.github.io/en/2024/10/how-did-i-develop-mactoys-pin-window/</link><pubDate>Mon, 21 Oct 2024 11:24:35 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/en/2024/10/how-did-i-develop-mactoys-pin-window/</guid><category domain="https://travisbikkle.github.io/en/categories/tips/">Tips</category><description>&lt;p>(Translated)&lt;/p>
+&lt;p>The coordinate system we use most is the standard Cartesian plane right-angle coordinate system, which takes the lower-left corner of the screen as the origin and increases the y coordinate upwards and the x coordinate to the right.&lt;/p>
+&lt;p>SCWindow&amp;rsquo;s coordinates, on the other hand, are flipped coordinates with the upper-left corner of the main screen as the origin, and the following is a simple comparison chart:&lt;/p>
+&lt;p>&lt;a class="lightgallery" href="https://travisbikkle.github.io/images/posts/make-mactoys/flip-coordinate.png?size=large" data-thumbnail="/images/posts/make-mactoys/flip-coordinate.png?size=small" data-sub-html="&lt;h2>alt text&lt;/h2>">&lt;img loading="lazy" src="https://travisbikkle.github.io/images/posts/make-mactoys/flip-coordinate.png" alt="alt text" srcset="https://travisbikkle.github.io/images/posts/make-mactoys/flip-coordinate.png?size=small, https://travisbikkle.github.io/images/posts/make-mactoys/flip-coordinate.png?size=medium 1.5x, https://travisbikkle.github.io/images/posts/make-mactoys/flip-coordinate.png?size=large 2x" data-title="alt text" style="--width: 424px;--aspect-ratio: 424 / 848;background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/a>&lt;/p></description></item><item><title>使用 cdn 低成本加速网站，或解决443和80端口被封问题</title><link>https://travisbikkle.github.io/en/2024/10/how-to-proxy-with-cdn/</link><pubDate>Fri, 04 Oct 2024 11:24:31 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/en/2024/10/how-to-proxy-with-cdn/</guid><category domain="https://travisbikkle.github.io/en/categories/tips/">Tips</category><description>&lt;p>CDN是个好东西，我们一般需要使用CDN，来让我们的网站能够在全球都能快速访问，并且降低服务器压力，防止DDOS攻击等。&lt;/p>
+&lt;p>简单来说，你把你的域名的CNAME(如&lt;code>a.example.com&lt;/code>) 指向CDN厂商的域名(如&lt;code>abc.cloudfront.net&lt;/code>)。&lt;/p>
+&lt;p>用户访问&lt;code>a.example.com&lt;/code>的时候，实际上访问的是&lt;code>abc.cloudfront.net&lt;/code>。&lt;code>abc.cloudfront.net&lt;/code>上面当然没有你的站点资源，所以会回头访问你配置的源站（这一步叫做&lt;code>回源&lt;/code>）拉取资源，并存储到本地（这一步叫做&lt;code>缓存&lt;/code>）。&lt;/p>
+&lt;p>你也可以在站点发布后，第一时间让CDN拉取站点资源，并下发到它位于全球的站点，防止用户在高峰期一窝蜂地访问过来，导致源站压力过大。这一步叫做&lt;code>预热&lt;/code>。&lt;/p>
+&lt;p>用户访问CDN厂商的域名，CDN会分配个给用户最近的站点，这样用户访问的速度也快了。&lt;/p>
+&lt;p>CDN还支持指定回源的协议和端口，本文后面将会提及，这对使用家庭宽带部署服务并且443和80端口被封锁的用户非常有帮助。&lt;/p>
+&lt;p>虽然我测试的域名在腾讯云，但是我并没有使用腾讯云的cdn服务，因为在选择试用的时候，腾讯云提示我没有资格。&lt;/p>
+&lt;p>于是我只测试了cloudflare，aws，阿里云的cdn服务，并在此记录下来过程和配置，希望能够帮助有需要的人。&lt;/p>
+&lt;h2 id="cloudflare" class="heading-element">&lt;span>Cloudflare&lt;/span>
+ &lt;a href="#cloudflare" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h2>&lt;ol>
+&lt;li>
+&lt;p>右上角点 &lt;code>Add site&lt;/code>，增加你的域名，按照推荐的配置即可&lt;/p></description></item><item><title>How to replace the arm of DJI Mavic mini</title><link>https://travisbikkle.github.io/en/2024/09/how-to-replace-dji-mavic-mini-arm/</link><pubDate>Sat, 28 Sep 2024 11:24:31 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/en/2024/09/how-to-replace-dji-mavic-mini-arm/</guid><category domain="https://travisbikkle.github.io/en/categories/tips/">Tips</category><description>&lt;p>My son&amp;rsquo;s drone had broken its front left arm once and had been glued before, so I took advantage of the opportunity to fix it before vacation.&lt;/p>
+&lt;h2 id="required-tools" class="heading-element">&lt;span>Required tools&lt;/span>
+ &lt;a href="#required-tools" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h2>&lt;ol>
+&lt;li>Screwdriver&lt;/li>
+&lt;li>Plastic crowbar or a bank card&lt;/li>
+&lt;li>Tweezers&lt;/li>
+&lt;li>Soldering iron, solder and rosin&lt;/li>
+&lt;li>Glue and electrical tape may be needed, if you accidentally break something&lt;/li>
+&lt;li>Carefullness and patience&lt;/li>
+&lt;/ol>
+&lt;h2 id="steps" class="heading-element">&lt;span>Steps&lt;/span>
+ &lt;a href="#steps" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h2>&lt;ol>
+&lt;li>
+&lt;p>Unscrew the upper shell screws&lt;/p></description></item><item><title>Webview2 Tauri bypass CORS</title><link>https://travisbikkle.github.io/en/2024/08/tauri-bypass-cors/</link><pubDate>Wed, 07 Aug 2024 17:32:12 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/en/2024/08/tauri-bypass-cors/</guid><category domain="https://travisbikkle.github.io/en/categories/front-end/">Front-End</category><description>&lt;table>
+ &lt;thead>
+ &lt;tr>
+ &lt;th>item&lt;/th>
+ &lt;th>version&lt;/th>
+ &lt;/tr>
+ &lt;/thead>
+ &lt;tbody>
+ &lt;tr>
+ &lt;td>tauri&lt;/td>
+ &lt;td>2.0.0-rc&lt;/td>
+ &lt;/tr>
+ &lt;/tbody>
+&lt;/table>
+&lt;h2 id="prerequisites" class="heading-element">&lt;span>Prerequisites&lt;/span>
+ &lt;a href="#prerequisites" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h2>&lt;p>When you use javascript at foo.com to access bar.com/api, you may encounter an error like the one below (but you are able to access it using curl):&lt;/p></description></item><item><title>Use vue-devtools in tauri</title><link>https://travisbikkle.github.io/en/2024/08/2024-08-05-auri/</link><pubDate>Mon, 05 Aug 2024 16:07:11 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/en/2024/08/2024-08-05-auri/</guid><category domain="https://travisbikkle.github.io/en/categories/front-end/">Front-End</category><description>&lt;p>Tauri claims itself as an un-opinionated, agnostic desktop application framework that does not depend on a specific front-end framework.&lt;/p>
+&lt;p>Vue is very popular among developers for its simplicity and ease of use.&lt;/p>
+&lt;p>Vue Devtools is a small tool that displays the details of a vue program in the browser console.&lt;/p>
+&lt;p>Today we combine them and demonstrate how to configure Vue Devtools in a new tauri project.&lt;/p>
+&lt;h2 id="prerequisites" class="heading-element">&lt;span>Prerequisites&lt;/span>
+ &lt;a href="#prerequisites" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h2>&lt;p>Creating a tauri project, remember to choose vue as the front end framework.
+。&lt;/p></description></item><item><title>Electron Chinese Search</title><link>https://travisbikkle.github.io/en/2024/07/chinese-search/</link><pubDate>Mon, 29 Jul 2024 10:22:28 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/en/2024/07/chinese-search/</guid><category domain="https://travisbikkle.github.io/en/categories/front-end/">Front-End</category><description>&lt;p>This is a quick demo of how to use js-search, nodejieba to implement Chinese search in Electron.&lt;/p>
+&lt;p>It&amp;rsquo;s fast, real-time, faster than any other chinese search solutions, fast like never before.&lt;/p>
+&lt;table>
+ &lt;thead>
+ &lt;tr>
+ &lt;th>tech&lt;/th>
+ &lt;th>version&lt;/th>
+ &lt;/tr>
+ &lt;/thead>
+ &lt;tbody>
+ &lt;tr>
+ &lt;td>electron&lt;/td>
+ &lt;td>30.0.6&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>nodejieba&lt;/td>
+ &lt;td>2.6.0&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>js-search&lt;/td>
+ &lt;td>2.0.1&lt;/td>
+ &lt;/tr>
+ &lt;/tbody>
+&lt;/table>
+&lt;p>This article will walk you through a number of issues you may encounter when using npm mirrors and nodejieba in mainland China:&lt;/p>
+&lt;ol>
+&lt;li>nodejieba package in npmmirror.com does not exist or cannot be downloaded.&lt;/li>
+&lt;li>nodejieba is unmaintained and is not supported on win11 and vs studio 2022 versions.&lt;/li>
+&lt;li>nodejieba does not support typescript.&lt;/li>
+&lt;/ol>
+&lt;h2 id="add-dependencies" class="heading-element">&lt;span>Add dependencies&lt;/span>
+ &lt;a href="#add-dependencies" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h2>&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">npm i js-search
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">2&lt;/span>&lt;span class="cl">npm i nodejieba@2.6.0 --save-optional --ignore-scripts&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Why does nodejieba take this approach?&lt;/p></description></item><item><title>How to limit request frequency in Java</title><link>https://travisbikkle.github.io/en/2024/07/request-limit/</link><pubDate>Mon, 29 Jul 2024 10:21:11 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/en/2024/07/request-limit/</guid><category domain="https://travisbikkle.github.io/en/categories/back-end/">Back-End</category><description>&lt;p>Certainly we want to limit the frequency of user visits, because users could get angry, and angry people will click on our app like crazy.&lt;/p>
+&lt;p>They could also be very bad and use some crawler to try to bring down our server.&lt;/p>
+&lt;p>So how to do that?&lt;/p>
+&lt;p>In this article, we use springboot and log the user&amp;rsquo;s information and access frequency into redis, you can also store it into memory or database.&lt;/p></description></item><item><title>Oauth2 Single Login</title><link>https://travisbikkle.github.io/en/2024/07/oauth2-single-login/</link><pubDate>Fri, 19 Jul 2024 10:20:30 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/en/2024/07/oauth2-single-login/</guid><category domain="https://travisbikkle.github.io/en/categories/back-end/">Back-End</category><description>&lt;p>Sometimes we want users to be able to log in to their accounts on only one device (we&amp;rsquo;re too stingy).&lt;/p>
+&lt;p>How can we achieve this using springboot security and oauth2?&lt;/p>
+&lt;p>Note that this article will not take you through the implementation of oauth2 login using spring security, but merely discuss our miserly requirement.&lt;/p>
+&lt;p>Suppose we have a custom authentication implementation class like this:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-java" data-lang="java">&lt;span class="line">&lt;span class="ln"> 1&lt;/span>&lt;span class="cl">&lt;span class="kd">public&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="kd">class&lt;/span> &lt;span class="nc">RedisOAuth2AuthorizationService&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="kd">implements&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">OAuth2AuthorizationService&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">{&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 2&lt;/span>&lt;span class="cl">&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 3&lt;/span>&lt;span class="cl">&lt;span class="w">	&lt;/span>&lt;span class="kd">private&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="kd">final&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="kd">static&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">Long&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">TIMEOUT&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">10L&lt;/span>&lt;span class="p">;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 4&lt;/span>&lt;span class="cl">&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 5&lt;/span>&lt;span class="cl">&lt;span class="w">	&lt;/span>&lt;span class="kd">private&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="kd">static&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="kd">final&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">String&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">AUTHORIZATION&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s">&amp;#34;token&amp;#34;&lt;/span>&lt;span class="p">;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 6&lt;/span>&lt;span class="cl">&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 7&lt;/span>&lt;span class="cl">&lt;span class="w">	&lt;/span>&lt;span class="kd">private&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="kd">final&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">RedisTemplate&lt;/span>&lt;span class="o">&amp;lt;&lt;/span>&lt;span class="n">String&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">Object&lt;/span>&lt;span class="o">&amp;gt;&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">redisTemplate&lt;/span>&lt;span class="p">;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 8&lt;/span>&lt;span class="cl">&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 9&lt;/span>&lt;span class="cl">&lt;span class="w">	&lt;/span>&lt;span class="nd">@Override&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">10&lt;/span>&lt;span class="cl">&lt;span class="w">	&lt;/span>&lt;span class="kd">public&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="kt">void&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nf">save&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">OAuth2Authorization&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">authorization&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">{&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">11&lt;/span>&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="c1">// is refresh token mode or code mode&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">12&lt;/span>&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="c1">// ...&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">13&lt;/span>&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="c1">// is access token mode&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">14&lt;/span>&lt;span class="cl">&lt;span class="w">		&lt;/span>&lt;span class="k">if&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">isAccessToken&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">authorization&lt;/span>&lt;span class="p">))&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">{&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">15&lt;/span>&lt;span class="cl">&lt;span class="w">			&lt;/span>&lt;span class="n">OAuth2AccessToken&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">accessToken&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">authorization&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="na">getAccessToken&lt;/span>&lt;span class="p">().&lt;/span>&lt;span class="na">getToken&lt;/span>&lt;span class="p">();&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">16&lt;/span>&lt;span class="cl">&lt;span class="w">			&lt;/span>&lt;span class="kt">long&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">between&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">ChronoUnit&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="na">SECONDS&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="na">between&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">accessToken&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="na">getIssuedAt&lt;/span>&lt;span class="p">(),&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">accessToken&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="na">getExpiresAt&lt;/span>&lt;span class="p">());&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">17&lt;/span>&lt;span class="cl">&lt;span class="w">			&lt;/span>&lt;span class="n">redisTemplate&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="na">setValueSerializer&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">RedisSerializer&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="na">java&lt;/span>&lt;span class="p">());&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">18&lt;/span>&lt;span class="cl">&lt;span class="w">			&lt;/span>&lt;span class="n">redisTemplate&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="na">opsForValue&lt;/span>&lt;span class="p">()&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">19&lt;/span>&lt;span class="cl">&lt;span class="w">				&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="na">set&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">buildKey&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">OAuth2ParameterNames&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="na">ACCESS_TOKEN&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">accessToken&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="na">getTokenValue&lt;/span>&lt;span class="p">()),&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">authorization&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">between&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">20&lt;/span>&lt;span class="cl">&lt;span class="w">						&lt;/span>&lt;span class="n">TimeUnit&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="na">SECONDS&lt;/span>&lt;span class="p">);&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">21&lt;/span>&lt;span class="cl">&lt;span class="w">		&lt;/span>&lt;span class="p">}&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">22&lt;/span>&lt;span class="cl">&lt;span class="w">	&lt;/span>&lt;span class="p">}&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">23&lt;/span>&lt;span class="cl">&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">24&lt;/span>&lt;span class="cl">&lt;span class="w">	&lt;/span>&lt;span class="nd">@Override&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">25&lt;/span>&lt;span class="cl">&lt;span class="w">	&lt;/span>&lt;span class="kd">public&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="kt">void&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nf">remove&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">OAuth2Authorization&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">authorization&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">{&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">26&lt;/span>&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="c1">// is refresh token mode or code mode&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">27&lt;/span>&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="c1">// ...&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">28&lt;/span>&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="c1">// is access token mode&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">29&lt;/span>&lt;span class="cl">&lt;span class="w">		&lt;/span>&lt;span class="k">if&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">isAccessToken&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">authorization&lt;/span>&lt;span class="p">))&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">{&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">30&lt;/span>&lt;span class="cl">&lt;span class="w">			&lt;/span>&lt;span class="n">OAuth2AccessToken&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">accessToken&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">authorization&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="na">getAccessToken&lt;/span>&lt;span class="p">().&lt;/span>&lt;span class="na">getToken&lt;/span>&lt;span class="p">();&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">31&lt;/span>&lt;span class="cl">&lt;span class="w">			&lt;/span>&lt;span class="n">keys&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="na">add&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">buildKey&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">OAuth2ParameterNames&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="na">ACCESS_TOKEN&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">accessToken&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="na">getTokenValue&lt;/span>&lt;span class="p">()));&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">32&lt;/span>&lt;span class="cl">&lt;span class="w">		&lt;/span>&lt;span class="p">}&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">33&lt;/span>&lt;span class="cl">&lt;span class="w">		&lt;/span>&lt;span class="n">redisTemplate&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="na">delete&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">keys&lt;/span>&lt;span class="p">);&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">34&lt;/span>&lt;span class="cl">&lt;span class="w">	&lt;/span>&lt;span class="p">}&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">35&lt;/span>&lt;span class="cl">&lt;span class="w">	&lt;/span>&lt;span class="nd">@Override&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">36&lt;/span>&lt;span class="cl">&lt;span class="w">	&lt;/span>&lt;span class="nd">@Nullable&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">37&lt;/span>&lt;span class="cl">&lt;span class="w">	&lt;/span>&lt;span class="kd">public&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">OAuth2Authorization&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nf">findByToken&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">String&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">token&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nd">@Nullable&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">OAuth2TokenType&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">tokenType&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">{&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">38&lt;/span>&lt;span class="cl">&lt;span class="w">		&lt;/span>&lt;span class="n">Assert&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="na">hasText&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">token&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s">&amp;#34;token cannot be empty&amp;#34;&lt;/span>&lt;span class="p">);&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">39&lt;/span>&lt;span class="cl">&lt;span class="w">		&lt;/span>&lt;span class="n">Assert&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="na">notNull&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">tokenType&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s">&amp;#34;tokenType cannot be empty&amp;#34;&lt;/span>&lt;span class="p">);&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">40&lt;/span>&lt;span class="cl">&lt;span class="w">		&lt;/span>&lt;span class="n">redisTemplate&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="na">setValueSerializer&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">RedisSerializer&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="na">java&lt;/span>&lt;span class="p">());&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">41&lt;/span>&lt;span class="cl">&lt;span class="w">		&lt;/span>&lt;span class="k">return&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">OAuth2Authorization&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">redisTemplate&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="na">opsForValue&lt;/span>&lt;span class="p">().&lt;/span>&lt;span class="na">get&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">buildKey&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">tokenType&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="na">getValue&lt;/span>&lt;span class="p">(),&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">token&lt;/span>&lt;span class="p">));&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">42&lt;/span>&lt;span class="cl">&lt;span class="w">	&lt;/span>&lt;span class="p">}&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">43&lt;/span>&lt;span class="cl">&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">44&lt;/span>&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="kd">private&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">String&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nf">buildKey&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">String&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">type&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">String&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">id&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">{&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">45&lt;/span>&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="k">return&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">String&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="na">format&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;%s::%s::%s&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">AUTHORIZATION&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">type&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">id&lt;/span>&lt;span class="p">);&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">46&lt;/span>&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="p">}&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">47&lt;/span>&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="c1">// ...&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">48&lt;/span>&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="p">}&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>It stores the token in redis. The key is in the following format:&lt;/p></description></item><item><title>Get User Real Ip</title><link>https://travisbikkle.github.io/en/2024/07/get-user-real-ip/</link><pubDate>Mon, 15 Jul 2024 10:20:57 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/en/2024/07/get-user-real-ip/</guid><category domain="https://travisbikkle.github.io/en/categories/back-end/">Back-End</category><description>&lt;p>It&amp;rsquo;s a pretty simple question, but in the process of information dissemination, some mistakes happen.&lt;/p>
+&lt;p>For example, some people will say, just configure X-Real-Ip, and that&amp;rsquo;s it.&lt;/p>
+&lt;p>Or some people will ask, what is the difference between X-Real-Ip and X-Forward-For, and what is the principle?&lt;/p>
+&lt;p>Obviously, they misunderstood &lt;code>X-Real-Ip&lt;/code>.&lt;/p>
+&lt;p>This article will show you what X-Real-Ip is.&lt;/p>
+&lt;h2 id="quick-answer" class="heading-element">&lt;span>Quick Answer&lt;/span>
+ &lt;a href="#quick-answer" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h2>&lt;p>X-Real-Ip is nothing. You can use My-Real-Ip, His-Real-Ip, whatever.&lt;/p></description></item><item><title>Linux Style TitleBar</title><link>https://travisbikkle.github.io/en/2024/07/linux-like-titlebar/</link><pubDate>Fri, 05 Jul 2024 10:21:38 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/en/2024/07/linux-like-titlebar/</guid><category domain="https://travisbikkle.github.io/en/categories/front-end/">Front-End</category><description>&lt;p>This article will show you how to quickly implement a title bar in Electron that can be rolled up, dragged around,
+and take you further through the &lt;strong>Electron bugs&lt;/strong>.&lt;/p>
+&lt;h2 id="hide-the-default-title-bar" class="heading-element">&lt;span>Hide the default title bar&lt;/span>
+ &lt;a href="#hide-the-default-title-bar" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h2>&lt;p>Change properties in the main.ts(or main.js) where you create the BrowserWindow like below:&lt;/p></description></item><item><title>Aria2 Rpc</title><link>https://travisbikkle.github.io/en/2024/07/aria2-rpc/</link><pubDate>Mon, 01 Jul 2024 10:18:30 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/en/2024/07/aria2-rpc/</guid><category domain="https://travisbikkle.github.io/en/categories/front-end/">Front-End</category><description>&lt;p>This article will demonstrate how to develop a download module using aria2 rpc,
+note that code provided in this article is not a complete application, just to give you some inspiration.&lt;/p>
+&lt;table>
+ &lt;thead>
+ &lt;tr>
+ &lt;th>tech&lt;/th>
+ &lt;th>version&lt;/th>
+ &lt;/tr>
+ &lt;/thead>
+ &lt;tbody>
+ &lt;tr>
+ &lt;td>electron&lt;/td>
+ &lt;td>30.0.6&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>webpack&lt;/td>
+ &lt;td>5.91.0&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>nodejs&lt;/td>
+ &lt;td>v20.14.0&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>aria2&lt;/td>
+ &lt;td>1.37.0&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>React&lt;/td>
+ &lt;td>18.2.0&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>react-use-websocket&lt;/td>
+ &lt;td>4.8.1&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>@mui/x-charts/SparkLineChart&lt;/td>
+ &lt;td>7.3.2&lt;/td>
+ &lt;/tr>
+ &lt;/tbody>
+&lt;/table>
+&lt;blockquote>
+&lt;p>&lt;a href="https://aria2.github.io/manual/en/html/aria2c.html"target="_blank" rel="external nofollow noopener noreferrer">aria2 docs&lt;i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true">&lt;/i>&lt;/a>
+&lt;a href="https://www.npmjs.com/package/react-use-websocket"target="_blank" rel="external nofollow noopener noreferrer">react-use-websocket docs&lt;i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true">&lt;/i>&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;h3 id="demonstration-of-the-finished-project" class="heading-element">&lt;span>Demonstration of the finished project&lt;/span>
+ &lt;a href="#demonstration-of-the-finished-project" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h3>&lt;p>&lt;a class="lightgallery" href="https://travisbikkle.github.io/images/posts/20240729-download-demo.jpg?size=large" data-thumbnail="/images/posts/20240729-download-demo.jpg?size=small" data-sub-html="&lt;h2>/images/posts/20240729-download-demo.jpg&lt;/h2>">&lt;img loading="lazy" src="https://travisbikkle.github.io/images/posts/20240729-download-demo.jpg" alt="/images/posts/20240729-download-demo.jpg" srcset="https://travisbikkle.github.io/images/posts/20240729-download-demo.jpg?size=small, https://travisbikkle.github.io/images/posts/20240729-download-demo.jpg?size=medium 1.5x, https://travisbikkle.github.io/images/posts/20240729-download-demo.jpg?size=large 2x" data-title="/images/posts/20240729-download-demo.jpg" style="--width: 2433px;--aspect-ratio: 2433 / 585;background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/a>&lt;/p></description></item><item><title>Electron Source Code Protection</title><link>https://travisbikkle.github.io/en/2024/06/electron-bytecode/</link><pubDate>Sat, 29 Jun 2024 10:15:44 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/en/2024/06/electron-bytecode/</guid><category domain="https://travisbikkle.github.io/en/categories/front-end/">Front-End</category><description>&lt;p>Here is a quick example to show how to enable byte code protection in your Electron project.&lt;/p>
+&lt;h2 id="environment" class="heading-element">&lt;span>Environment&lt;/span>
+ &lt;a href="#environment" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h2>&lt;table>
+ &lt;thead>
+ &lt;tr>
+ &lt;th>tech&lt;/th>
+ &lt;th>version&lt;/th>
+ &lt;/tr>
+ &lt;/thead>
+ &lt;tbody>
+ &lt;tr>
+ &lt;td>electron&lt;/td>
+ &lt;td>30.0.6&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>webpack&lt;/td>
+ &lt;td>5.91.0&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>@herberttn/bytenode-webpack-plugin&lt;/td>
+ &lt;td>2.3.1&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>nodejs&lt;/td>
+ &lt;td>v20.14.0&lt;/td>
+ &lt;/tr>
+ &lt;/tbody>
+&lt;/table>
+&lt;h2 id="steps" class="heading-element">&lt;span>Steps&lt;/span>
+ &lt;a href="#steps" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h2>&lt;h3 id="webpack-configuration" class="heading-element">&lt;span>Webpack Configuration&lt;/span>
+ &lt;a href="#webpack-configuration" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h3>&lt;p>&lt;a href="https://www.npmjs.com/package/@herberttn/bytenode-webpack-plugin"target="_blank" rel="external nofollow noopener noreferrer">Reference&lt;i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true">&lt;/i>&lt;/a>&lt;/p></description></item><item><title>Mocking webpack 5 in 10 minutes</title><link>https://travisbikkle.github.io/en/2024/03/2024-03-15-webpack-react-mock/</link><pubDate>Fri, 15 Mar 2024 11:13:53 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/en/2024/03/2024-03-15-webpack-react-mock/</guid><category domain="https://travisbikkle.github.io/en/categories/front-end/">Front-End</category><description>&lt;p>No nonsense, let&amp;rsquo;s get straight to the point. I&amp;rsquo;m using webpack 5.90.3 and here is my configuration for mocking.&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>File structure&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-text" data-lang="text">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">project_root/
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">2&lt;/span>&lt;span class="cl"> |-- webpack.config.js
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">3&lt;/span>&lt;span class="cl"> |-- mockserver.js
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">4&lt;/span>&lt;span class="cl"> |-- mock/
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">5&lt;/span>&lt;span class="cl"> |-- user.js&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/li>
+&lt;li>
+&lt;p>webpack.config.js&lt;/p>
+&lt;style type="text/css">.notice{--root-color:#444;--root-background:#eff;--title-color:#fff;--title-background:#7bd;--warning-title:#c33;--warning-content:#fee;--info-title:#fb7;--info-content:#fec;--note-title:#6be;--note-content:#e7f2fa;--tip-title:#5a5;--tip-content:#efe}@media (prefers-color-scheme:dark){.notice{--root-color:#ddd;--root-background:#eff;--title-color:#fff;--title-background:#7bd;--warning-title:#800;--warning-content:#400;--info-title:#a50;--info-content:#420;--note-title:#069;--note-content:#023;--tip-title:#363;--tip-content:#121}}body.dark .notice{--root-color:#ddd;--root-background:#eff;--title-color:#fff;--title-background:#7bd;--warning-title:#800;--warning-content:#400;--info-title:#a50;--info-content:#420;--note-title:#069;--note-content:#023;--tip-title:#363;--tip-content:#121}.notice{padding:18px;line-height:24px;margin-bottom:24px;border-radius:4px;color:var(--root-color);background:var(--root-background)}.notice p:last-child{margin-bottom:0}.notice-title{margin:-18px -18px 12px;padding:4px 18px;border-radius:4px 4px 0 0;font-weight:700;color:var(--title-color);background:var(--title-background)}.notice.warning .notice-title{background:var(--warning-title)}.notice.warning{background:var(--warning-content)}.notice.info .notice-title{background:var(--info-title)}.notice.info{background:var(--info-content)}.notice.note .notice-title{background:var(--note-title)}.notice.note{background:var(--note-content)}.notice.tip .notice-title{background:var(--tip-title)}.notice.tip{background:var(--tip-content)}.icon-notice{display:inline-flex;align-self:center;margin-right:8px}.icon-notice img,.icon-notice svg{height:1em;width:1em;fill:currentColor}.icon-notice img,.icon-notice.baseline svg{top:.125em;position:relative}&lt;/style>&lt;div class="notice tip" >
+&lt;p class="first notice-title">&lt;span class="icon-notice baseline">&lt;/span>&lt;/p>&lt;p>express.js doesn&amp;rsquo;t bundle with some plugins anymore so you need to run &lt;code>npm i -D body-parser&lt;/code>. You will need body-parser to read params from request.&lt;/p></description></item><item><title>Vmware Freeze</title><link>https://travisbikkle.github.io/en/2024/03/vmware-freeze/</link><pubDate>Wed, 06 Mar 2024 17:09:19 +0000</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/en/2024/03/vmware-freeze/</guid><category domain="https://travisbikkle.github.io/en/categories/tips/">Tips</category><description>&lt;h2 id="problem" class="heading-element">&lt;span>Problem&lt;/span>
+ &lt;a href="#problem" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h2>&lt;table>
+ &lt;thead>
+ &lt;tr>
+ &lt;th>Host OS&lt;/th>
+ &lt;th>Win11&lt;/th>
+ &lt;/tr>
+ &lt;/thead>
+ &lt;tbody>
+ &lt;tr>
+ &lt;td>Guest OS&lt;/td>
+ &lt;td>Kubuntu 22.04&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>vmware&lt;/td>
+ &lt;td>vmware workstation pro 17.5&lt;/td>
+ &lt;/tr>
+ &lt;/tbody>
+&lt;/table>
+&lt;br />
+&lt;p>Every once in a while, my guest os went into a strange freezed state, where I could move the mouse, but the guest os just didn&amp;rsquo;t response.
+I used to monitor those logs under /var/log, and system resource usage with &lt;code>top&lt;/code> command, but nothing was found, until I saw the following line in vmware.log.&lt;/p></description></item><item><title>Termux Useful Command</title><link>https://travisbikkle.github.io/en/2024/01/termux-useful-command/</link><pubDate>Sat, 27 Jan 2024 16:29:16 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/en/2024/01/termux-useful-command/</guid><category domain="https://travisbikkle.github.io/en/categories/tips/">Tips</category><description>&lt;h2 id="useful-termux-built-in-commands" class="heading-element">&lt;span>useful termux built-in commands&lt;/span>
+ &lt;a href="#useful-termux-built-in-commands" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h2>&lt;p>Type &lt;code>termux&lt;/code> in the console and press tab, a list of commands starts with &lt;code>termux&lt;/code> will show up.
+Here are some most commonly used commands:&lt;/p></description></item><item><title>Using Algolia with Hugo HBstack theme</title><link>https://travisbikkle.github.io/en/2024/01/hugo-hbstack-algolia/</link><pubDate>Fri, 26 Jan 2024 11:24:23 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/en/2024/01/hugo-hbstack-algolia/</guid><category domain="https://travisbikkle.github.io/en/categories/tips/">Tips</category><description>&lt;h2 id="tldr" class="heading-element">&lt;span>TL;DR&lt;/span>
+ &lt;a href="#tldr" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h2>&lt;p>You can not find Hugo template on &lt;a href="https://docsearch.algolia.com/docs/templates/"target="_blank" rel="external nofollow noopener noreferrer">Algolia&lt;i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true">&lt;/i>&lt;/a> cause hugo is based on themes, and each theme uses different css styles.&lt;/p></description></item></channel></rss>

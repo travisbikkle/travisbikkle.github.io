@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Aria2 - tag |</title><link>https://travisbikkle.github.io/zh-hant/aria2/</link><description>独立开发者 Travis Bikkle 的个人博客</description><generator>Hugo 0.138.0 &amp; FixIt v0.3.15-fd15415b</generator><language>zh-hant</language><managingEditor>travisbikkle@proton.me (Travis Bikkle)</managingEditor><webMaster>travisbikkle@proton.me (Travis Bikkle)</webMaster><lastBuildDate>Mon, 11 Nov 2024 11:34:48 +0000</lastBuildDate><atom:link href="https://travisbikkle.github.io/zh-hant/aria2/index.xml" rel="self" type="application/rss+xml"/><item><title>Aria2 Rpc 使用</title><link>https://travisbikkle.github.io/zh-hant/2024/07/aria2-rpc/</link><pubDate>Mon, 01 Jul 2024 10:18:30 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2024/07/aria2-rpc/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/front-end/">Front-End</category><description>&lt;p>本文將演示如何使用 aria2 rpc 開發一個下載模塊，注意，這不是一個完整的應用，僅僅是爲了給你一些啓發。&lt;/p>
+&lt;table>
+ &lt;thead>
+ &lt;tr>
+ &lt;th>tech&lt;/th>
+ &lt;th>version&lt;/th>
+ &lt;/tr>
+ &lt;/thead>
+ &lt;tbody>
+ &lt;tr>
+ &lt;td>electron&lt;/td>
+ &lt;td>30.0.6&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>webpack&lt;/td>
+ &lt;td>5.91.0&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>nodejs&lt;/td>
+ &lt;td>v20.14.0&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>aria2&lt;/td>
+ &lt;td>1.37.0&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>React&lt;/td>
+ &lt;td>18.2.0&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>react-use-websocket&lt;/td>
+ &lt;td>4.8.1&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>@mui/x-charts/SparkLineChart&lt;/td>
+ &lt;td>7.3.2&lt;/td>
+ &lt;/tr>
+ &lt;/tbody>
+&lt;/table>
+&lt;blockquote>
+&lt;p>&lt;a href="https://aria2.github.io/manual/en/html/aria2c.html"target="_blank" rel="external nofollow noopener noreferrer">aria2 文檔&lt;i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true">&lt;/i>&lt;/a>
+&lt;a href="https://www.npmjs.com/package/react-use-websocket"target="_blank" rel="external nofollow noopener noreferrer">react-use-websocket 文檔&lt;i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true">&lt;/i>&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;h3 id="成品演示" class="heading-element">&lt;span>成品演示&lt;/span>
+ &lt;a href="#%e6%88%90%e5%93%81%e6%bc%94%e7%a4%ba" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h3>&lt;p>&lt;a class="lightgallery" href="https://travisbikkle.github.io/images/posts/20240729-download-demo.jpg?size=large" data-thumbnail="/images/posts/20240729-download-demo.jpg?size=small" data-sub-html="&lt;h2>/images/posts/20240729-download-demo.jpg&lt;/h2>">&lt;img loading="lazy" src="https://travisbikkle.github.io/images/posts/20240729-download-demo.jpg" alt="/images/posts/20240729-download-demo.jpg" srcset="https://travisbikkle.github.io/images/posts/20240729-download-demo.jpg?size=small, https://travisbikkle.github.io/images/posts/20240729-download-demo.jpg?size=medium 1.5x, https://travisbikkle.github.io/images/posts/20240729-download-demo.jpg?size=large 2x" data-title="/images/posts/20240729-download-demo.jpg" style="--width: 2433px;--aspect-ratio: 2433 / 585;background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/a>&lt;/p></description></item></channel></rss>
