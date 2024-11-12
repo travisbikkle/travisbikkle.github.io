@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>How Did I Make MagicToy - 合集 | 奇风岁月</title><link>https://travisbikkle.github.io/collections/how-did-i-make-magictoy/</link><description>独立开发者 Travis Bikkle 的个人博客</description><generator>Hugo 0.138.0 &amp; FixIt v0.3.15-fd15415b</generator><language>zh-hans</language><managingEditor>travisbikkle@proton.me (Travis Bikkle)</managingEditor><webMaster>travisbikkle@proton.me (Travis Bikkle)</webMaster><lastBuildDate>Tue, 12 Nov 2024 06:25:21 +0000</lastBuildDate><atom:link href="https://travisbikkle.github.io/collections/how-did-i-make-magictoy/index.xml" rel="self" type="application/rss+xml"/><item><title>SCWindow坐标的一些转换技巧</title><link>https://travisbikkle.github.io/2024/10/how-did-i-develop-mactoys-pin-window/</link><pubDate>Mon, 21 Oct 2024 11:24:35 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/2024/10/how-did-i-develop-mactoys-pin-window/</guid><category domain="https://travisbikkle.github.io/categories/tips/">Tips</category><description>&lt;p>我们使用最多的是笛卡尔平面直角坐标系，它以屏幕左下角为原点，向上增加y坐标，向右增加x坐标。&lt;/p>
+&lt;p>SCWindow的坐标则是以主屏幕左上角为原点的翻转坐标，以下是一个简单的对比图：&lt;/p>
+&lt;p>&lt;img loading="lazy" src="https://travisbikkle.github.io/images/posts/make-mactoys/flip-coordinate.png" alt="alt text" srcset="https://travisbikkle.github.io/images/posts/make-mactoys/flip-coordinate.png?size=small, https://travisbikkle.github.io/images/posts/make-mactoys/flip-coordinate.png?size=medium 1.5x, https://travisbikkle.github.io/images/posts/make-mactoys/flip-coordinate.png?size=large 2x" data-title="alt text" style="--width: 424px;--aspect-ratio: 424 / 848;background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/p>
+&lt;p>在实际场景，尤其是多屏，在两种坐标系之间转换，仍然不是一件容易的事情。&lt;/p>
+&lt;p>假设有两个显示屏，如下图所示排列：&lt;/p>
+&lt;p>&lt;img loading="lazy" src="https://travisbikkle.github.io/images/posts/make-mactoys/two-screens-1.png" alt="alt text" srcset="https://travisbikkle.github.io/images/posts/make-mactoys/two-screens-1.png?size=small, https://travisbikkle.github.io/images/posts/make-mactoys/two-screens-1.png?size=medium 1.5x, https://travisbikkle.github.io/images/posts/make-mactoys/two-screens-1.png?size=large 2x" data-title="alt text" style="--width: 3074px;--aspect-ratio: 3074 / 1258;background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/p>
+&lt;p>黑色区域为目标窗口，也是SCWindow的区域（如果你使用SCContentSharingPicker，那么这块区域就是它返回的SCContentFilter.contentRect），我们将要根据这个区域，计算出在平面直角坐标系中的左上角坐标。&lt;/p>
+&lt;p>说明：&lt;/p>
+&lt;ol>
+&lt;li>主屏（2560x1440），左下角原点(0,0)，副屏（1920x1080），左下角原点(2560,360)。&lt;/li>
+&lt;li>主屏和副屏的排列方式为，上边缘对齐&lt;/li>
+&lt;li>每个屏幕都会有25px的保留区域，可以认为是系统顶部的状态栏&lt;/li>
+&lt;/ol>
+&lt;p>你看，有很多的干扰因素。有状态栏，有大小不一、排列随时变化的显示器，以及它们不一样的原点。&lt;/p>
+&lt;p>你只有SCWindow.frame的值，你一开始并不知道SCWindow.frame.origin是翻转的坐标，Apple也不会在任何地方告诉你这一点，这就是苹果软件开发的日常。&lt;/p>
+&lt;p>好在经过不停地调试，最后我们能自己搞明白，SCWindow使用的是翻转的坐标。&lt;/p>
+&lt;p>所以上图的答案是(2560,1440-25)。&lt;/p>
+&lt;h3 id="那么做一些变化呢" class="heading-element">&lt;span>那么做一些变化呢&lt;/span>
+ &lt;a href="#%e9%82%a3%e4%b9%88%e5%81%9a%e4%b8%80%e4%ba%9b%e5%8f%98%e5%8c%96%e5%91%a2" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h3>&lt;p>将副屏向下移动，使其底部边缘和主屏对齐，原点变为(2560,0)：&lt;/p></description></item></channel></rss>

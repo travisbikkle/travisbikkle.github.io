@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Dev Environment Setup - 合集 | 奇風歲月</title><link>https://travisbikkle.github.io/zh-hant/collections/dev-environment-setup/</link><description>独立开发者 Travis Bikkle 的个人博客</description><generator>Hugo 0.138.0 &amp; FixIt v0.3.15-fd15415b</generator><language>zh-hant</language><managingEditor>travisbikkle@proton.me (Travis Bikkle)</managingEditor><webMaster>travisbikkle@proton.me (Travis Bikkle)</webMaster><lastBuildDate>Tue, 12 Nov 2024 06:25:21 +0000</lastBuildDate><atom:link href="https://travisbikkle.github.io/zh-hant/collections/dev-environment-setup/index.xml" rel="self" type="application/rss+xml"/><item><title>Kubuntu Vscode 鼠標列編輯設置</title><link>https://travisbikkle.github.io/zh-hant/2023/11/kubuntu-vscode-mouse/</link><pubDate>Wed, 15 Nov 2023 11:24:33 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2023/11/kubuntu-vscode-mouse/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/tips/">Tips</category><description>&lt;p>鼠標中鍵是某些操作系統的默認粘貼快捷鍵，這導致在VSCode中無法使用鼠標中鍵進入列編輯模式。&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>點擊 &lt;em>文件-首選項-設置&lt;/em>
+&lt;a class="lightgallery" href="https://travisbikkle.github.io/images/other/20231115_vscode_setting.png?size=large" data-thumbnail="/images/other/20231115_vscode_setting.png?size=small" data-sub-html="&lt;h2>Screenshot_20231115_134220.png&lt;/h2>">&lt;img loading="lazy" src="https://travisbikkle.github.io/images/other/20231115_vscode_setting.png" alt="Screenshot_20231115_134220.png" srcset="https://travisbikkle.github.io/images/other/20231115_vscode_setting.png?size=small, https://travisbikkle.github.io/images/other/20231115_vscode_setting.png?size=medium 1.5x, https://travisbikkle.github.io/images/other/20231115_vscode_setting.png?size=large 2x" data-title="Screenshot_20231115_134220.png" style="--width: 1926px;--aspect-ratio: 1926 / 1230;background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>點擊右上角，打開json文件
+&lt;a class="lightgallery" href="https://travisbikkle.github.io/images/other/20231115_vscode_setting_selection.png?size=large" data-thumbnail="/images/other/20231115_vscode_setting_selection.png?size=small" data-sub-html="&lt;h2>Screenshot_20231115_134322.png&lt;/h2>">&lt;img loading="lazy" src="https://travisbikkle.github.io/images/other/20231115_vscode_setting_selection.png" alt="Screenshot_20231115_134322.png" srcset="https://travisbikkle.github.io/images/other/20231115_vscode_setting_selection.png?size=small, https://travisbikkle.github.io/images/other/20231115_vscode_setting_selection.png?size=medium 1.5x, https://travisbikkle.github.io/images/other/20231115_vscode_setting_selection.png?size=large 2x" data-title="Screenshot_20231115_134322.png" style="--width: 2211px;--aspect-ratio: 2211 / 1656;background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/a>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>添加如下行&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-json" data-lang="json">&lt;span class="line">&lt;span class="cl">&lt;span class="s2">&amp;#34;editor.selectionClipboard&amp;#34;&lt;/span>&lt;span class="err">:&lt;/span> &lt;span class="kc">false&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
+&lt;li>
+&lt;p>關閉 VSCode 並重新打開，測試是否生效。&lt;/p>
+&lt;/li>
+&lt;/ol></description></item><item><title>Android Studio Emulator 啓動失敗</title><link>https://travisbikkle.github.io/zh-hant/2023/11/android-studio-emulator-failed/</link><pubDate>Wed, 15 Nov 2023 11:24:23 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2023/11/android-studio-emulator-failed/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/tips/">Tips</category><description>&lt;h4 id="報錯現象" class="heading-element">&lt;span>報錯現象&lt;/span>
+ &lt;a href="#%e5%a0%b1%e9%8c%af%e7%8f%be%e8%b1%a1" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h4>&lt;style type="text/css">.notice{--root-color:#444;--root-background:#eff;--title-color:#fff;--title-background:#7bd;--warning-title:#c33;--warning-content:#fee;--info-title:#fb7;--info-content:#fec;--note-title:#6be;--note-content:#e7f2fa;--tip-title:#5a5;--tip-content:#efe}@media (prefers-color-scheme:dark){.notice{--root-color:#ddd;--root-background:#eff;--title-color:#fff;--title-background:#7bd;--warning-title:#800;--warning-content:#400;--info-title:#a50;--info-content:#420;--note-title:#069;--note-content:#023;--tip-title:#363;--tip-content:#121}}body.dark .notice{--root-color:#ddd;--root-background:#eff;--title-color:#fff;--title-background:#7bd;--warning-title:#800;--warning-content:#400;--info-title:#a50;--info-content:#420;--note-title:#069;--note-content:#023;--tip-title:#363;--tip-content:#121}.notice{padding:18px;line-height:24px;margin-bottom:24px;border-radius:4px;color:var(--root-color);background:var(--root-background)}.notice p:last-child{margin-bottom:0}.notice-title{margin:-18px -18px 12px;padding:4px 18px;border-radius:4px 4px 0 0;font-weight:700;color:var(--title-color);background:var(--title-background)}.notice.warning .notice-title{background:var(--warning-title)}.notice.warning{background:var(--warning-content)}.notice.info .notice-title{background:var(--info-title)}.notice.info{background:var(--info-content)}.notice.note .notice-title{background:var(--note-title)}.notice.note{background:var(--note-content)}.notice.tip .notice-title{background:var(--tip-title)}.notice.tip{background:var(--tip-content)}.icon-notice{display:inline-flex;align-self:center;margin-right:8px}.icon-notice img,.icon-notice svg{height:1em;width:1em;fill:currentColor}.icon-notice img,.icon-notice.baseline svg{top:.125em;position:relative}&lt;/style>&lt;div class="notice warning" >
+&lt;p class="first notice-title">&lt;span class="icon-notice baseline">&lt;/span>&lt;/p></description></item><item><title>Intellij Idea 啓動報錯</title><link>https://travisbikkle.github.io/zh-hant/2023/11/idea-start-error/</link><pubDate>Tue, 14 Nov 2023 11:24:23 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2023/11/idea-start-error/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/tips/">Tips</category><description>&lt;p>Intellij Idea 2023.2 啓動報錯：&lt;/p>
+&lt;style type="text/css">.notice{--root-color:#444;--root-background:#eff;--title-color:#fff;--title-background:#7bd;--warning-title:#c33;--warning-content:#fee;--info-title:#fb7;--info-content:#fec;--note-title:#6be;--note-content:#e7f2fa;--tip-title:#5a5;--tip-content:#efe}@media (prefers-color-scheme:dark){.notice{--root-color:#ddd;--root-background:#eff;--title-color:#fff;--title-background:#7bd;--warning-title:#800;--warning-content:#400;--info-title:#a50;--info-content:#420;--note-title:#069;--note-content:#023;--tip-title:#363;--tip-content:#121}}body.dark .notice{--root-color:#ddd;--root-background:#eff;--title-color:#fff;--title-background:#7bd;--warning-title:#800;--warning-content:#400;--info-title:#a50;--info-content:#420;--note-title:#069;--note-content:#023;--tip-title:#363;--tip-content:#121}.notice{padding:18px;line-height:24px;margin-bottom:24px;border-radius:4px;color:var(--root-color);background:var(--root-background)}.notice p:last-child{margin-bottom:0}.notice-title{margin:-18px -18px 12px;padding:4px 18px;border-radius:4px 4px 0 0;font-weight:700;color:var(--title-color);background:var(--title-background)}.notice.warning .notice-title{background:var(--warning-title)}.notice.warning{background:var(--warning-content)}.notice.info .notice-title{background:var(--info-title)}.notice.info{background:var(--info-content)}.notice.note .notice-title{background:var(--note-title)}.notice.note{background:var(--note-content)}.notice.tip .notice-title{background:var(--tip-title)}.notice.tip{background:var(--tip-content)}.icon-notice{display:inline-flex;align-self:center;margin-right:8px}.icon-notice img,.icon-notice svg{height:1em;width:1em;fill:currentColor}.icon-notice img,.icon-notice.baseline svg{top:.125em;position:relative}&lt;/style>&lt;div class="notice warning" >
+&lt;p class="first notice-title">&lt;span class="icon-notice baseline">&lt;/span>&lt;/p>&lt;p>Error while opening intellij &amp;ldquo;Cannot connect to already running IDE instance. Exception: Process 2,837 is still running&amp;rdquo;&lt;/p>&lt;/div>
+&lt;h4 id="youtrack-跟蹤" class="heading-element">&lt;span>youtrack 跟蹤&lt;/span>
+ &lt;a href="#youtrack-%e8%b7%9f%e8%b9%a4" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h4>&lt;p>&lt;a href="https://youtrack.jetbrains.com/issue/IDEA-330531"target="_blank" rel="external nofollow noopener noreferrer">https://youtrack.jetbrains.com/issue/IDEA-330531&lt;i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true">&lt;/i>&lt;/a>&lt;/p></description></item><item><title>Kubuntu 軟件源在哪裏修改</title><link>https://travisbikkle.github.io/zh-hant/2023/11/kubuntu2204-software-resources-bug/</link><pubDate>Wed, 08 Nov 2023 11:24:30 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2023/11/kubuntu2204-software-resources-bug/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/tips/">Tips</category><description>&lt;p>Kubuntu 22.04 的軟件源可以在 Discover 中的如下位置設置。
+&lt;a class="lightgallery" href="https://travisbikkle.github.io/images/other/20231108_discover_software_sources.png?size=large" data-thumbnail="/images/other/20231108_discover_software_sources.png?size=small" data-sub-html="&lt;h2>/images/other/20231108_discover_software_sources.png&lt;/h2>">&lt;img loading="lazy" src="https://travisbikkle.github.io/images/other/20231108_discover_software_sources.png" alt="/images/other/20231108_discover_software_sources.png" srcset="https://travisbikkle.github.io/images/other/20231108_discover_software_sources.png?size=small, https://travisbikkle.github.io/images/other/20231108_discover_software_sources.png?size=medium 1.5x, https://travisbikkle.github.io/images/other/20231108_discover_software_sources.png?size=large 2x" data-title="/images/other/20231108_discover_software_sources.png" style="--width: 2081px;--aspect-ratio: 2081 / 1484;background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/a>&lt;/p>
+&lt;p>但是如果你的 Discover 不顯示以上界面，可以通過如下方法來修復。&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>編輯如下文件&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">vi /usr/share/applications/software-properties-qt.desktop&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
+&lt;li>
+&lt;p>將以下內容替換到源文件&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-text" data-lang="text">&lt;span class="line">&lt;span class="cl">[Desktop Entry]
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Name=Software Sources
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">GenericName=Software Sources
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Comment=Configure the sources for installable software and updates
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Exec=pkexec env DISPLAY=$DISPLAY XAUTHORITY=$XAUTHORITY software-properties-qt
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Icon=applications-other
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">NoDisplay=false
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Terminal=false
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">X-MultipleArgs=false
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Type=Application
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Categories=System;Settings;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">MimeType=text/x-apt-sources-list;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">X-KDE-SubstituteUID=false
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">X-Ubuntu-Gettext-Domain=software-properties&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
+&lt;/ol>
+&lt;p>如此，在 Discover可以顯示軟件源的界面，在菜單中也可以搜索到在其它發行版中常見的 &lt;em>軟件源&lt;/em> 菜單項。&lt;/p></description></item><item><title>Kubuntu 22.04 中文輸入法</title><link>https://travisbikkle.github.io/zh-hant/2023/11/kubuntu2204-chiness-im/</link><pubDate>Wed, 08 Nov 2023 11:24:29 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2023/11/kubuntu2204-chiness-im/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/tips/">Tips</category><description>&lt;h3 id="繼續使用-fcitx5推薦" class="heading-element">&lt;span>繼續使用 fcitx5（推薦）&lt;/span>
+ &lt;a href="#%e7%b9%bc%e7%ba%8c%e4%bd%bf%e7%94%a8-fcitx5%e6%8e%a8%e8%96%a6" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h3>&lt;ol>
+&lt;li>
+&lt;p>安裝 fcitx5 中文輸入法&lt;/p></description></item><item><title>Ubuntu 改鍵</title><link>https://travisbikkle.github.io/zh-hant/2023/10/remaps-keys-in-ubuntu/</link><pubDate>Tue, 17 Oct 2023 11:24:32 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2023/10/remaps-keys-in-ubuntu/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/tips/">Tips</category><description>&lt;ol>
+&lt;li>在 Ubuntu Software 中搜索 Gnome Tweaks 並安裝。&lt;/li>
+&lt;li>點擊 &lt;em>Keyboard &amp;amp; Mouse&lt;/em>&lt;/li>
+&lt;li>點擊 &lt;em>Additional Layout Options&lt;/em>&lt;/li>
+&lt;li>在彈出的窗口中，勾選 &lt;em>Ctrl position&lt;/em> 中的 &lt;em>Swap Ctrl and Caps Lock&lt;/em>&lt;/li>
+&lt;/ol>
+&lt;p>&lt;a class="lightgallery" href="https://travisbikkle.github.io/images/other/20231017_ubuntu_swap_keys.png?size=large" data-thumbnail="/images/other/20231017_ubuntu_swap_keys.png?size=small" data-sub-html="&lt;h2>ubuntu_swap_keys.png&lt;/h2>">&lt;img loading="lazy" src="https://travisbikkle.github.io/images/other/20231017_ubuntu_swap_keys.png" alt="ubuntu_swap_keys.png" srcset="https://travisbikkle.github.io/images/other/20231017_ubuntu_swap_keys.png?size=small, https://travisbikkle.github.io/images/other/20231017_ubuntu_swap_keys.png?size=medium 1.5x, https://travisbikkle.github.io/images/other/20231017_ubuntu_swap_keys.png?size=large 2x" data-title="ubuntu_swap_keys.png" style="--width: 895px;--aspect-ratio: 895 / 650;background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/a>&lt;/p>
+&lt;p>本文基於 Ubuntu 22.04 LTS 及 Gnome Tweaks 3.34.0 編寫。&lt;/p>
+&lt;blockquote>
+&lt;p>補充：使用kde更加的方便，該設置已經被集成到系統設置中，無需下載 Gnome Tweaks。&lt;/p>
+&lt;/blockquote>
+&lt;p>&lt;a class="lightgallery" href="https://travisbikkle.github.io/images/other/20231018_kde_swap_keys.png?size=large" data-thumbnail="/images/other/20231018_kde_swap_keys.png?size=small" data-sub-html="&lt;h2>kde_swap_keys.png&lt;/h2>">&lt;img loading="lazy" src="https://travisbikkle.github.io/images/other/20231018_kde_swap_keys.png" alt="kde_swap_keys.png" srcset="https://travisbikkle.github.io/images/other/20231018_kde_swap_keys.png?size=small, https://travisbikkle.github.io/images/other/20231018_kde_swap_keys.png?size=medium 1.5x, https://travisbikkle.github.io/images/other/20231018_kde_swap_keys.png?size=large 2x" data-title="kde_swap_keys.png" style="--width: 2018px;--aspect-ratio: 2018 / 1453;background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/a>&lt;/p></description></item><item><title>npm 鏡像等設置</title><link>https://travisbikkle.github.io/zh-hant/2018/10/common-pakage-manager-proxy/</link><pubDate>Sat, 13 Oct 2018 11:24:31 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2018/10/common-pakage-manager-proxy/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/tips/">Tips</category><description>&lt;h2 id="中國加速鏡像" class="heading-element">&lt;span>中國加速鏡像&lt;/span>
+ &lt;a href="#%e4%b8%ad%e5%9c%8b%e5%8a%a0%e9%80%9f%e9%8f%a1%e5%83%8f" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h2>&lt;ol>
+&lt;li>npm可能未及時同步&lt;/li>
+&lt;li>pip可能未同步官方已經刪除的惡意軟件包&lt;/li>
+&lt;/ol>
+&lt;table>
+ &lt;thead>
+ &lt;tr>
+ &lt;th>manager&lt;/th>
+ &lt;th>useful commands&lt;/th>
+ &lt;th>command&lt;/th>
+ &lt;/tr>
+ &lt;/thead>
+ &lt;tbody>
+ &lt;tr>
+ &lt;td>pnpm&lt;/td>
+ &lt;td>pnpm get registry&lt;/td>
+ &lt;td>pnpm config set registry &lt;a href="https://registry.npmmirror.com"target="_blank" rel="external nofollow noopener noreferrer">https://registry.npmmirror.com&lt;i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true">&lt;/i>&lt;/a>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>npm&lt;/td>
+ &lt;td>npm get registry&lt;/td>
+ &lt;td>npm config set registry &lt;a href="https://registry.npmmirror.com"target="_blank" rel="external nofollow noopener noreferrer">https://registry.npmmirror.com&lt;i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true">&lt;/i>&lt;/a>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>yarn&lt;/td>
+ &lt;td>yarn config get registry&lt;/td>
+ &lt;td>yarn config set registry &lt;a href="https://registry.npmmirror.com"target="_blank" rel="external nofollow noopener noreferrer">https://registry.npmmirror.com&lt;i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true">&lt;/i>&lt;/a>&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>pip&lt;/td>
+ &lt;td>pip config list&lt;/td>
+ &lt;td># for pip install&lt;br>pip config set global.index-url &lt;a href="https://mirrors.aliyun.com/pypi/simple/"target="_blank" rel="external nofollow noopener noreferrer">https://mirrors.aliyun.com/pypi/simple/&lt;i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true">&lt;/i>&lt;/a>&lt;br># for pip search&lt;br>pip config set global.index &lt;a href="https://mirrors.aliyun.com/pypi"target="_blank" rel="external nofollow noopener noreferrer">https://mirrors.aliyun.com/pypi&lt;i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true">&lt;/i>&lt;/a>&lt;br>pip config set global.trusted-host mirrors.aliyun.com&lt;/td>
+ &lt;/tr>
+ &lt;/tbody>
+&lt;/table>
+&lt;h2 id="代理" class="heading-element">&lt;span>代理&lt;/span>
+ &lt;a href="#%e4%bb%a3%e7%90%86" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h2>&lt;p>注意如果你沒有翻牆軟件就不用做下面的配置，請將地址修改爲你實際的代理地址。&lt;/p></description></item></channel></rss>

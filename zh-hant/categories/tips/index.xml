@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Tips - category | 奇風歲月</title><link>https://travisbikkle.github.io/zh-hant/categories/tips/</link><description>独立开发者 Travis Bikkle 的个人博客</description><generator>Hugo 0.138.0 &amp; FixIt v0.3.15-fd15415b</generator><language>zh-hant</language><managingEditor>travisbikkle@proton.me (Travis Bikkle)</managingEditor><webMaster>travisbikkle@proton.me (Travis Bikkle)</webMaster><lastBuildDate>Tue, 12 Nov 2024 09:58:48 +0800</lastBuildDate><atom:link href="https://travisbikkle.github.io/zh-hant/categories/tips/index.xml" rel="self" type="application/rss+xml"/><item><title>SCWindow座標的一些轉換技巧</title><link>https://travisbikkle.github.io/zh-hant/2024/10/how-did-i-develop-mactoys-pin-window/</link><pubDate>Mon, 21 Oct 2024 11:24:35 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2024/10/how-did-i-develop-mactoys-pin-window/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/tips/">Tips</category><description>&lt;p>我們使用最多的是笛卡爾平面直角座標系，它以屏幕左下角爲原點，向上增加y座標，向右增加x座標。&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Tips - 分類 | 奇風歲月</title><link>https://travisbikkle.github.io/zh-hant/categories/tips/</link><description>独立开发者 Travis Bikkle 的个人博客</description><generator>Hugo 0.138.0 &amp; FixIt v0.3.15-fd15415b</generator><language>zh-hant</language><managingEditor>travisbikkle@proton.me (Travis Bikkle)</managingEditor><webMaster>travisbikkle@proton.me (Travis Bikkle)</webMaster><lastBuildDate>Tue, 12 Nov 2024 06:25:21 +0000</lastBuildDate><atom:link href="https://travisbikkle.github.io/zh-hant/categories/tips/index.xml" rel="self" type="application/rss+xml"/><item><title>SCWindow座標的一些轉換技巧</title><link>https://travisbikkle.github.io/zh-hant/2024/10/how-did-i-develop-mactoys-pin-window/</link><pubDate>Mon, 21 Oct 2024 11:24:35 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2024/10/how-did-i-develop-mactoys-pin-window/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/tips/">Tips</category><description>&lt;p>我們使用最多的是笛卡爾平面直角座標系，它以屏幕左下角爲原點，向上增加y座標，向右增加x座標。&lt;/p>
 &lt;p>SCWindow的座標則是以主屏幕左上角爲原點的翻轉座標，以下是一個簡單的對比圖：&lt;/p>
-&lt;p>&lt;a class="lightgallery" href="https://travisbikkle.github.io/images/posts/make-mactoys/flip-coordinate.png?size=large" data-thumbnail="/images/posts/make-mactoys/flip-coordinate.png?size=small" data-sub-html="&lt;h2>alt text&lt;/h2>">&lt;img loading="lazy" src="https://travisbikkle.github.io/images/posts/make-mactoys/flip-coordinate.png" alt="alt text" srcset="https://travisbikkle.github.io/images/posts/make-mactoys/flip-coordinate.png?size=small, https://travisbikkle.github.io/images/posts/make-mactoys/flip-coordinate.png?size=medium 1.5x, https://travisbikkle.github.io/images/posts/make-mactoys/flip-coordinate.png?size=large 2x" data-title="alt text" style="--width: 424px;--aspect-ratio: 424 / 848;background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/a>&lt;/p>
+&lt;p>&lt;img loading="lazy" src="https://travisbikkle.github.io/images/posts/make-mactoys/flip-coordinate.png" alt="alt text" srcset="https://travisbikkle.github.io/images/posts/make-mactoys/flip-coordinate.png?size=small, https://travisbikkle.github.io/images/posts/make-mactoys/flip-coordinate.png?size=medium 1.5x, https://travisbikkle.github.io/images/posts/make-mactoys/flip-coordinate.png?size=large 2x" data-title="alt text" style="--width: 424px;--aspect-ratio: 424 / 848;background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/p>
 &lt;p>在實際場景，尤其是多屏，在兩種座標系之間轉換，仍然不是一件容易的事情。&lt;/p>
 &lt;p>假設有兩個顯示屏，如下圖所示排列：&lt;/p>
-&lt;p>&lt;a class="lightgallery" href="https://travisbikkle.github.io/images/posts/make-mactoys/two-screens-1.png?size=large" data-thumbnail="/images/posts/make-mactoys/two-screens-1.png?size=small" data-sub-html="&lt;h2>alt text&lt;/h2>">&lt;img loading="lazy" src="https://travisbikkle.github.io/images/posts/make-mactoys/two-screens-1.png" alt="alt text" srcset="https://travisbikkle.github.io/images/posts/make-mactoys/two-screens-1.png?size=small, https://travisbikkle.github.io/images/posts/make-mactoys/two-screens-1.png?size=medium 1.5x, https://travisbikkle.github.io/images/posts/make-mactoys/two-screens-1.png?size=large 2x" data-title="alt text" style="--width: 3074px;--aspect-ratio: 3074 / 1258;background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/a>&lt;/p>
+&lt;p>&lt;img loading="lazy" src="https://travisbikkle.github.io/images/posts/make-mactoys/two-screens-1.png" alt="alt text" srcset="https://travisbikkle.github.io/images/posts/make-mactoys/two-screens-1.png?size=small, https://travisbikkle.github.io/images/posts/make-mactoys/two-screens-1.png?size=medium 1.5x, https://travisbikkle.github.io/images/posts/make-mactoys/two-screens-1.png?size=large 2x" data-title="alt text" style="--width: 3074px;--aspect-ratio: 3074 / 1258;background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/p>
 &lt;p>黑色區域爲目標窗口，也是SCWindow的區域（如果你使用SCContentSharingPicker，那麼這塊區域就是它返回的SCContentFilter.contentRect），我們將要根據這個區域，計算出在平面直角座標系中的左上角座標。&lt;/p>
 &lt;p>說明：&lt;/p>
 &lt;ol>
@@ -19,7 +19,7 @@
  &lt;a href="#%e9%82%a3%e9%ba%bc%e5%81%9a%e4%b8%80%e4%ba%9b%e8%ae%8a%e5%8c%96%e5%91%a2" class="heading-mark">
  &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
  &lt;/a>
-&lt;/h3>&lt;p>將副屏向下移動，使其底部邊緣和主屏對齊，原點變爲(2560,0)：&lt;/p></description></item><item><title>使用 cdn 低成本加速網站，或解決443和80端口被封問題</title><link>https://travisbikkle.github.io/zh-hant/2024/10/how-to-proxy-with-cdn/</link><pubDate>Fri, 04 Oct 2024 11:24:31 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2024/10/how-to-proxy-with-cdn/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/tips/">Tips</category><description>&lt;p>CDN是個好東西，我們一般需要使用CDN，來讓我們的網站能夠在全球都能快速訪問，並且降低服務器壓力，防止DDOS攻擊等。&lt;/p>
+&lt;/h3>&lt;p>將副屏向下移動，使其底部邊緣和主屏對齊，原點變爲(2560,0)：&lt;/p></description></item><item><title>使用 CDN 低成本加速網站，或解決443和80端口被封問題</title><link>https://travisbikkle.github.io/zh-hant/2024/10/how-to-proxy-with-cdn/</link><pubDate>Fri, 04 Oct 2024 11:24:31 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2024/10/how-to-proxy-with-cdn/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/tips/">Tips</category><description>&lt;p>CDN是個好東西，我們一般需要使用CDN，來讓我們的網站能夠在全球都能快速訪問，並且降低服務器壓力，防止DDOS攻擊等。&lt;/p>
 &lt;p>簡單來說，你把你的域名的CNAME(如&lt;code>a.example.com&lt;/code>) 指向CDN廠商的域名(如&lt;code>abc.cloudfront.net&lt;/code>)。&lt;/p>
 &lt;p>用戶訪問&lt;code>a.example.com&lt;/code>的時候，實際上訪問的是&lt;code>abc.cloudfront.net&lt;/code>。&lt;code>abc.cloudfront.net&lt;/code>上面當然沒有你的站點資源，所以會回頭訪問你配置的源站（這一步叫做&lt;code>回源&lt;/code>）拉取資源，並存儲到本地（這一步叫做&lt;code>緩存&lt;/code>）。&lt;/p>
 &lt;p>你也可以在站點發布後，第一時間讓CDN拉取站點資源，並下發到它位於全球的站點，防止用戶在高峯期一窩蜂地訪問過來，導致源站壓力過大。這一步叫做&lt;code>預熱&lt;/code>。&lt;/p>
@@ -126,17 +126,46 @@
 爲了防止衝突，在Vmware的 &lt;em>編輯-首選項-熱鍵&lt;/em> 中可以將這四個按鍵都勾選上。
 &lt;a class="lightgallery" href="https://travisbikkle.github.io/images/other/20231201_vmware_pref_hotkey.png?size=large" data-thumbnail="/images/other/20231201_vmware_pref_hotkey.png?size=small" data-sub-html="&lt;h2>20231201_vmware_pref_hotkey.png&lt;/h2>">&lt;img loading="lazy" src="https://travisbikkle.github.io/images/other/20231201_vmware_pref_hotkey.png" alt="20231201_vmware_pref_hotkey.png" srcset="https://travisbikkle.github.io/images/other/20231201_vmware_pref_hotkey.png?size=small, https://travisbikkle.github.io/images/other/20231201_vmware_pref_hotkey.png?size=medium 1.5x, https://travisbikkle.github.io/images/other/20231201_vmware_pref_hotkey.png?size=large 2x" data-title="20231201_vmware_pref_hotkey.png" style="--width: 904px;--aspect-ratio: 904 / 983;background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/a>&lt;/p></description></item><item><title>Vmware Power-ON 腳本啓動失敗</title><link>https://travisbikkle.github.io/zh-hant/2023/11/vmware-poweron-script/</link><pubDate>Thu, 16 Nov 2023 11:24:33 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2023/11/vmware-poweron-script/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/tips/">Tips</category><description>&lt;p>VMware 的開機腳本位於 &lt;code>/etc/vmware-tools/&lt;/code> 下。如果你的虛擬機報錯啓動客戶機腳本失敗，你可以在虛擬機-電源-開機中開機，然後進入該目錄調試。&lt;/p>
 &lt;p>如果你的vmware-tools進行過升級，但是升級過程中出現了問題，可能導致腳本沒有正確命名。比如，下面是開機、關機等操作對應的腳本名稱&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-text" data-lang="text">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">poweroff-vm-default
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">2&lt;/span>&lt;span class="cl">poweron-vm-default
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">3&lt;/span>&lt;span class="cl">resume-vm-default
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">4&lt;/span>&lt;span class="cl">suspend-vm-default
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">5&lt;/span>&lt;span class="cl">vgauth.conf&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>而你的機器上可能是&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-text" data-lang="text">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">poweroff-vm-default.dpkg-dist
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">2&lt;/span>&lt;span class="cl">poweron-vm-default.dpkg-dist
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">3&lt;/span>&lt;span class="cl">resume-vm-default.dpkg-dist
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">4&lt;/span>&lt;span class="cl">suspend-vm-default.dpkg-dist
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">5&lt;/span>&lt;span class="cl">vgauth.conf.dpkg-dist&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>那麼請執行以下命令重命名即可&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">find /etc/vmware-tools/ -name &lt;span class="s2">&amp;#34;*.dpkg-dist&amp;#34;&lt;/span> -exec sh -c &lt;span class="s1">&amp;#39;x={}; cp &amp;#34;$x&amp;#34; $(echo $x | sed &amp;#39;&lt;/span>s/&lt;span class="se">\.&lt;/span>dpkg-dist//g&lt;span class="s1">&amp;#39;)&amp;#39;&lt;/span> &lt;span class="se">\;&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>另外你還可能需要檢查 &lt;code>/etc/vmware-tools/scripts/vmware&lt;/code> 以及各個腳本是否具有可執行權限。&lt;/p></description></item><item><title>Kubuntu Vscode 鼠標列編輯設置</title><link>https://travisbikkle.github.io/zh-hant/2023/11/kubuntu-vscode-mouse/</link><pubDate>Wed, 15 Nov 2023 11:24:33 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2023/11/kubuntu-vscode-mouse/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/tips/">Tips</category><description>&lt;p>鼠標中鍵是某些操作系統的默認粘貼快捷鍵，這導致在VSCode中無法使用鼠標中鍵進入列編輯模式。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-text" data-lang="text">&lt;span class="line">&lt;span class="cl">poweroff-vm-default
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">poweron-vm-default
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">resume-vm-default
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">suspend-vm-default
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">vgauth.conf&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>而你的機器上可能是&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-text" data-lang="text">&lt;span class="line">&lt;span class="cl">poweroff-vm-default.dpkg-dist
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">poweron-vm-default.dpkg-dist
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">resume-vm-default.dpkg-dist
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">suspend-vm-default.dpkg-dist
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">vgauth.conf.dpkg-dist&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>那麼請執行以下命令重命名即可&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">find /etc/vmware-tools/ -name &lt;span class="s2">&amp;#34;*.dpkg-dist&amp;#34;&lt;/span> -exec sh -c &lt;span class="s1">&amp;#39;x={}; cp &amp;#34;$x&amp;#34; $(echo $x | sed &amp;#39;&lt;/span>s/&lt;span class="se">\.&lt;/span>dpkg-dist//g&lt;span class="s1">&amp;#39;)&amp;#39;&lt;/span> &lt;span class="se">\;&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>另外你還可能需要檢查 &lt;code>/etc/vmware-tools/scripts/vmware&lt;/code> 以及各個腳本是否具有可執行權限。&lt;/p></description></item><item><title>Kubuntu Vscode 鼠標列編輯設置</title><link>https://travisbikkle.github.io/zh-hant/2023/11/kubuntu-vscode-mouse/</link><pubDate>Wed, 15 Nov 2023 11:24:33 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2023/11/kubuntu-vscode-mouse/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/tips/">Tips</category><description>&lt;p>鼠標中鍵是某些操作系統的默認粘貼快捷鍵，這導致在VSCode中無法使用鼠標中鍵進入列編輯模式。&lt;/p>
 &lt;ol>
 &lt;li>
 &lt;p>點擊 &lt;em>文件-首選項-設置&lt;/em>
@@ -148,7 +177,14 @@
 &lt;/li>
 &lt;li>
 &lt;p>添加如下行&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-json" data-lang="json">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">&lt;span class="s2">&amp;#34;editor.selectionClipboard&amp;#34;&lt;/span>&lt;span class="err">:&lt;/span> &lt;span class="kc">false&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/li>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-json" data-lang="json">&lt;span class="line">&lt;span class="cl">&lt;span class="s2">&amp;#34;editor.selectionClipboard&amp;#34;&lt;/span>&lt;span class="err">:&lt;/span> &lt;span class="kc">false&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
 &lt;li>
 &lt;p>關閉 VSCode 並重新打開，測試是否生效。&lt;/p>
 &lt;/li>
@@ -176,23 +212,50 @@
 &lt;ol>
 &lt;li>
 &lt;p>編輯如下文件&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">vi /usr/share/applications/software-properties-qt.desktop&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/li>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">vi /usr/share/applications/software-properties-qt.desktop&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
 &lt;li>
 &lt;p>將以下內容替換到源文件&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-text" data-lang="text">&lt;span class="line">&lt;span class="ln"> 1&lt;/span>&lt;span class="cl">[Desktop Entry]
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 2&lt;/span>&lt;span class="cl">Name=Software Sources
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 3&lt;/span>&lt;span class="cl">GenericName=Software Sources
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 4&lt;/span>&lt;span class="cl">Comment=Configure the sources for installable software and updates
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 5&lt;/span>&lt;span class="cl">Exec=pkexec env DISPLAY=$DISPLAY XAUTHORITY=$XAUTHORITY software-properties-qt
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 6&lt;/span>&lt;span class="cl">Icon=applications-other
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 7&lt;/span>&lt;span class="cl">NoDisplay=false
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 8&lt;/span>&lt;span class="cl">Terminal=false
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 9&lt;/span>&lt;span class="cl">X-MultipleArgs=false
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">10&lt;/span>&lt;span class="cl">Type=Application
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">11&lt;/span>&lt;span class="cl">Categories=System;Settings;
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">12&lt;/span>&lt;span class="cl">MimeType=text/x-apt-sources-list;
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">13&lt;/span>&lt;span class="cl">X-KDE-SubstituteUID=false
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">14&lt;/span>&lt;span class="cl">X-Ubuntu-Gettext-Domain=software-properties&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/li>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-text" data-lang="text">&lt;span class="line">&lt;span class="cl">[Desktop Entry]
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Name=Software Sources
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">GenericName=Software Sources
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Comment=Configure the sources for installable software and updates
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Exec=pkexec env DISPLAY=$DISPLAY XAUTHORITY=$XAUTHORITY software-properties-qt
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Icon=applications-other
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">NoDisplay=false
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Terminal=false
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">X-MultipleArgs=false
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Type=Application
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Categories=System;Settings;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">MimeType=text/x-apt-sources-list;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">X-KDE-SubstituteUID=false
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">X-Ubuntu-Gettext-Domain=software-properties&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
 &lt;/ol>
 &lt;p>如此，在 Discover可以顯示軟件源的界面，在菜單中也可以搜索到在其它發行版中常見的 &lt;em>軟件源&lt;/em> 菜單項。&lt;/p></description></item><item><title>Kubuntu 22.04 中文輸入法</title><link>https://travisbikkle.github.io/zh-hant/2023/11/kubuntu2204-chiness-im/</link><pubDate>Wed, 08 Nov 2023 11:24:29 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2023/11/kubuntu2204-chiness-im/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/tips/">Tips</category><description>&lt;h3 id="繼續使用-fcitx5推薦" class="heading-element">&lt;span>繼續使用 fcitx5（推薦）&lt;/span>
  &lt;a href="#%e7%b9%bc%e7%ba%8c%e4%bd%bf%e7%94%a8-fcitx5%e6%8e%a8%e8%96%a6" class="heading-mark">
@@ -211,25 +274,50 @@
  &lt;/a>
 &lt;/h4>&lt;ol>
 &lt;li>打開記事本，將以下內容粘貼
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-text" data-lang="text">&lt;span class="line">&lt;span class="ln"> 1&lt;/span>&lt;span class="cl">Windows Registry Editor Version 5.00
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 2&lt;/span>&lt;span class="cl">[HKEY_CLASSES_ROOT\*\shell\runas]
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 3&lt;/span>&lt;span class="cl">@=&amp;#34;管理員取得所有權&amp;#34;
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 4&lt;/span>&lt;span class="cl">&amp;#34;NoWorkingDirectory&amp;#34;=&amp;#34;&amp;#34;
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 5&lt;/span>&lt;span class="cl">[HKEY_CLASSES_ROOT\*\shell\runas\command]
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 6&lt;/span>&lt;span class="cl">@=&amp;#34;cmd.exe /c takeown /f \&amp;#34;%1\&amp;#34; &amp;amp;&amp;amp; icacls \&amp;#34;%1\&amp;#34; /grant administrators:F&amp;#34;
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 7&lt;/span>&lt;span class="cl">&amp;#34;IsolatedCommand&amp;#34;=&amp;#34;cmd.exe /c takeown /f \&amp;#34;%1\&amp;#34; &amp;amp;&amp;amp; icacls \&amp;#34;%1\&amp;#34; /grant administrators:F&amp;#34;
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 8&lt;/span>&lt;span class="cl">[HKEY_CLASSES_ROOT\exefile\shell\runas2]
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 9&lt;/span>&lt;span class="cl">@=&amp;#34;管理員取得所有權&amp;#34;
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">10&lt;/span>&lt;span class="cl">&amp;#34;NoWorkingDirectory&amp;#34;=&amp;#34;&amp;#34;
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">11&lt;/span>&lt;span class="cl">[HKEY_CLASSES_ROOT\exefile\shell\runas2\command]
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">12&lt;/span>&lt;span class="cl">@=&amp;#34;cmd.exe /c takeown /f \&amp;#34;%1\&amp;#34; &amp;amp;&amp;amp; icacls \&amp;#34;%1\&amp;#34; /grant administrators:F&amp;#34;
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">13&lt;/span>&lt;span class="cl">&amp;#34;IsolatedCommand&amp;#34;=&amp;#34;cmd.exe /c takeown /f \&amp;#34;%1\&amp;#34; &amp;amp;&amp;amp; icacls \&amp;#34;%1\&amp;#34; /grant administrators:F&amp;#34;
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">14&lt;/span>&lt;span class="cl">[HKEY_CLASSES_ROOT\Directory\shell\runas]
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">15&lt;/span>&lt;span class="cl">@=&amp;#34;管理員取得所有權&amp;#34;
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">16&lt;/span>&lt;span class="cl">&amp;#34;NoWorkingDirectory&amp;#34;=&amp;#34;&amp;#34;
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">17&lt;/span>&lt;span class="cl">[HKEY_CLASSES_ROOT\Directory\shell\runas\command]
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">18&lt;/span>&lt;span class="cl">@=&amp;#34;cmd.exe /c takeown /f \&amp;#34;%1\&amp;#34; /r /d y &amp;amp;&amp;amp; icacls \&amp;#34;%1\&amp;#34; /grant administrators:F /t&amp;#34;
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">19&lt;/span>&lt;span class="cl">&amp;#34;IsolatedCommand&amp;#34;=&amp;#34;cmd.exe /c takeown /f \&amp;#34;%1\&amp;#34; /r /d y &amp;amp;&amp;amp; icacls \&amp;#34;%1\&amp;#34; /grant administrators:F /t&amp;#34;&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/li>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-text" data-lang="text">&lt;span class="line">&lt;span class="cl">Windows Registry Editor Version 5.00
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">[HKEY_CLASSES_ROOT\*\shell\runas]
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">@=&amp;#34;管理員取得所有權&amp;#34;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&amp;#34;NoWorkingDirectory&amp;#34;=&amp;#34;&amp;#34;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">[HKEY_CLASSES_ROOT\*\shell\runas\command]
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">@=&amp;#34;cmd.exe /c takeown /f \&amp;#34;%1\&amp;#34; &amp;amp;&amp;amp; icacls \&amp;#34;%1\&amp;#34; /grant administrators:F&amp;#34;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&amp;#34;IsolatedCommand&amp;#34;=&amp;#34;cmd.exe /c takeown /f \&amp;#34;%1\&amp;#34; &amp;amp;&amp;amp; icacls \&amp;#34;%1\&amp;#34; /grant administrators:F&amp;#34;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">[HKEY_CLASSES_ROOT\exefile\shell\runas2]
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">@=&amp;#34;管理員取得所有權&amp;#34;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&amp;#34;NoWorkingDirectory&amp;#34;=&amp;#34;&amp;#34;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">[HKEY_CLASSES_ROOT\exefile\shell\runas2\command]
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">@=&amp;#34;cmd.exe /c takeown /f \&amp;#34;%1\&amp;#34; &amp;amp;&amp;amp; icacls \&amp;#34;%1\&amp;#34; /grant administrators:F&amp;#34;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&amp;#34;IsolatedCommand&amp;#34;=&amp;#34;cmd.exe /c takeown /f \&amp;#34;%1\&amp;#34; &amp;amp;&amp;amp; icacls \&amp;#34;%1\&amp;#34; /grant administrators:F&amp;#34;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">[HKEY_CLASSES_ROOT\Directory\shell\runas]
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">@=&amp;#34;管理員取得所有權&amp;#34;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&amp;#34;NoWorkingDirectory&amp;#34;=&amp;#34;&amp;#34;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">[HKEY_CLASSES_ROOT\Directory\shell\runas\command]
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">@=&amp;#34;cmd.exe /c takeown /f \&amp;#34;%1\&amp;#34; /r /d y &amp;amp;&amp;amp; icacls \&amp;#34;%1\&amp;#34; /grant administrators:F /t&amp;#34;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&amp;#34;IsolatedCommand&amp;#34;=&amp;#34;cmd.exe /c takeown /f \&amp;#34;%1\&amp;#34; /r /d y &amp;amp;&amp;amp; icacls \&amp;#34;%1\&amp;#34; /grant administrators:F /t&amp;#34;&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
 &lt;li>另存爲utf16-le格式，後綴名爲reg文件&lt;/li>
 &lt;li>雙擊該文件，添加註冊表&lt;/li>
 &lt;/ol>
@@ -248,43 +336,103 @@
 &lt;blockquote>
 &lt;p>補充：使用kde更加的方便，該設置已經被集成到系統設置中，無需下載 Gnome Tweaks。&lt;/p>
 &lt;/blockquote>
-&lt;p>&lt;a class="lightgallery" href="https://travisbikkle.github.io/images/other/20231018_kde_swap_keys.png?size=large" data-thumbnail="/images/other/20231018_kde_swap_keys.png?size=small" data-sub-html="&lt;h2>kde_swap_keys.png&lt;/h2>">&lt;img loading="lazy" src="https://travisbikkle.github.io/images/other/20231018_kde_swap_keys.png" alt="kde_swap_keys.png" srcset="https://travisbikkle.github.io/images/other/20231018_kde_swap_keys.png?size=small, https://travisbikkle.github.io/images/other/20231018_kde_swap_keys.png?size=medium 1.5x, https://travisbikkle.github.io/images/other/20231018_kde_swap_keys.png?size=large 2x" data-title="kde_swap_keys.png" style="--width: 2018px;--aspect-ratio: 2018 / 1453;background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/a>&lt;/p></description></item><item><title>Code Server Nginx Ssl Error</title><link>https://travisbikkle.github.io/zh-hant/2023/10/code-server-nginx-ssl-error-1006/</link><pubDate>Tue, 17 Oct 2023 11:24:30 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2023/10/code-server-nginx-ssl-error-1006/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/tips/">Tips</category><description>&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-text" data-lang="text">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">An unexpected error occurred that requires a reload of this page.
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">2&lt;/span>&lt;span class="cl">The workbench failed to connect to the server (Error: WebSocket close with status code 1006)&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Code server popped up a websocket error when I exposed code-server using a custom domain and a custom port via nginx.&lt;/p>
-&lt;p>&lt;a class="lightgallery" href="https://travisbikkle.github.io/images/other/20231017_code_server_nginx_error_1006.png?size=large" data-thumbnail="/images/other/20231017_code_server_nginx_error_1006.png?size=small" data-sub-html="&lt;h2>20231017_code_server_nginx_error_1006.png&lt;/h2>">&lt;img loading="lazy" src="https://travisbikkle.github.io/images/other/20231017_code_server_nginx_error_1006.png" alt="20231017_code_server_nginx_error_1006.png" srcset="https://travisbikkle.github.io/images/other/20231017_code_server_nginx_error_1006.png?size=small, https://travisbikkle.github.io/images/other/20231017_code_server_nginx_error_1006.png?size=medium 1.5x, https://travisbikkle.github.io/images/other/20231017_code_server_nginx_error_1006.png?size=large 2x" data-title="20231017_code_server_nginx_error_1006.png" style="--width: 1114px;--aspect-ratio: 1114 / 630;background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/a>&lt;/p>
-&lt;p>Here is part of my nginx.conf.&lt;/p></description></item><item><title>How to add samba entry in /etc/fstab</title><link>https://travisbikkle.github.io/zh-hant/2023/10/fatab-samba/</link><pubDate>Tue, 17 Oct 2023 11:24:29 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2023/10/fatab-samba/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/tips/">Tips</category><description>&lt;p>Configure Samba On Ubuntu&lt;/p>
+&lt;p>&lt;a class="lightgallery" href="https://travisbikkle.github.io/images/other/20231018_kde_swap_keys.png?size=large" data-thumbnail="/images/other/20231018_kde_swap_keys.png?size=small" data-sub-html="&lt;h2>kde_swap_keys.png&lt;/h2>">&lt;img loading="lazy" src="https://travisbikkle.github.io/images/other/20231018_kde_swap_keys.png" alt="kde_swap_keys.png" srcset="https://travisbikkle.github.io/images/other/20231018_kde_swap_keys.png?size=small, https://travisbikkle.github.io/images/other/20231018_kde_swap_keys.png?size=medium 1.5x, https://travisbikkle.github.io/images/other/20231018_kde_swap_keys.png?size=large 2x" data-title="kde_swap_keys.png" style="--width: 2018px;--aspect-ratio: 2018 / 1453;background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/a>&lt;/p></description></item><item><title>Code Server Nginx Ssl Error</title><link>https://travisbikkle.github.io/zh-hant/2023/10/code-server-nginx-ssl-error-1006/</link><pubDate>Tue, 17 Oct 2023 11:24:30 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2023/10/code-server-nginx-ssl-error-1006/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/tips/">Tips</category><description>&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-text" data-lang="text">&lt;span class="line">&lt;span class="cl">An unexpected error occurred that requires a reload of this page.
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">The workbench failed to connect to the server (Error: WebSocket close with status code 1006)&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>Code server popped up a websocket error when I exposed code-server using a custom domain and a custom port via nginx.&lt;/p>
+&lt;p>&lt;a class="lightgallery" href="https://travisbikkle.github.io/images/other/20231017_code_server_nginx_error_1006.png?size=large" data-thumbnail="/images/other/20231017_code_server_nginx_error_1006.png?size=small" data-sub-html="&lt;h2>20231017_code_server_nginx_error_1006.png&lt;/h2>">&lt;img loading="lazy" src="https://travisbikkle.github.io/images/other/20231017_code_server_nginx_error_1006.png" alt="20231017_code_server_nginx_error_1006.png" srcset="https://travisbikkle.github.io/images/other/20231017_code_server_nginx_error_1006.png?size=small, https://travisbikkle.github.io/images/other/20231017_code_server_nginx_error_1006.png?size=medium 1.5x, https://travisbikkle.github.io/images/other/20231017_code_server_nginx_error_1006.png?size=large 2x" data-title="20231017_code_server_nginx_error_1006.png" style="--width: 1114px;--aspect-ratio: 1114 / 630;background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/a>&lt;/p></description></item><item><title>How to add samba entry in /etc/fstab</title><link>https://travisbikkle.github.io/zh-hant/2023/10/fatab-samba/</link><pubDate>Tue, 17 Oct 2023 11:24:29 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2023/10/fatab-samba/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/tips/">Tips</category><description>&lt;p>Configure Samba On Ubuntu&lt;/p>
 &lt;h4 id="1-install-necessary-tools" class="heading-element">&lt;span>1. install necessary tools&lt;/span>
  &lt;a href="#1-install-necessary-tools" class="heading-mark">
  &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
  &lt;/a>
-&lt;/h4>&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">sudo apt install cifs-utils&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h4 id="2-prepare-credentials" class="heading-element">&lt;span>2. prepare credentials&lt;/span>
+&lt;/h4>&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">sudo apt install cifs-utils&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h4 id="2-prepare-credentials" class="heading-element">&lt;span>2. prepare credentials&lt;/span>
  &lt;a href="#2-prepare-credentials" class="heading-mark">
  &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
  &lt;/a>
-&lt;/h4>&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">sudo mkdir /mnt/samba
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">2&lt;/span>&lt;span class="cl">sudo vi /root/.smb_credentials&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h4 id="3-put-next-2-lines-into-rootsmb_credentials" class="heading-element">&lt;span>3. put next 2 lines into /root/.smb_credentials&lt;/span>
+&lt;/h4>&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">sudo mkdir /mnt/samba
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">sudo vi /root/.smb_credentials&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h4 id="3-put-next-2-lines-into-rootsmb_credentials" class="heading-element">&lt;span>3. put next 2 lines into /root/.smb_credentials&lt;/span>
  &lt;a href="#3-put-next-2-lines-into-rootsmb_credentials" class="heading-mark">
  &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
  &lt;/a>
-&lt;/h4>&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-text" data-lang="text">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">username=&amp;lt;your user name&amp;gt;
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">2&lt;/span>&lt;span class="cl">password=&amp;lt;your password&amp;gt;&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h4 id="4-change-credential-file-permission-for-security-reason" class="heading-element">&lt;span>4. change credential file permission for security reason&lt;/span>
+&lt;/h4>&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-text" data-lang="text">&lt;span class="line">&lt;span class="cl">username=&amp;lt;your user name&amp;gt;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">password=&amp;lt;your password&amp;gt;&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h4 id="4-change-credential-file-permission-for-security-reason" class="heading-element">&lt;span>4. change credential file permission for security reason&lt;/span>
  &lt;a href="#4-change-credential-file-permission-for-security-reason" class="heading-mark">
  &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
  &lt;/a>
-&lt;/h4>&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">chmod &lt;span class="m">600&lt;/span> /root/.smb_credentials&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h4 id="5-configure-etcfstab" class="heading-element">&lt;span>5. configure /etc/fstab&lt;/span>
+&lt;/h4>&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">chmod &lt;span class="m">600&lt;/span> /root/.smb_credentials&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h4 id="5-configure-etcfstab" class="heading-element">&lt;span>5. configure /etc/fstab&lt;/span>
  &lt;a href="#5-configure-etcfstab" class="heading-mark">
  &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
  &lt;/a>
-&lt;/h4>&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">sudo vi /etc/fstab&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h4 id="6-put-next-line-into-etcfstab-add-noauto-to-options-if-you-dont-want-to-let-ubuntu-auto-mount-this-path" class="heading-element">&lt;span>6. put next line into /etc/fstab. add &lt;code>noauto&lt;/code> to options if you don&amp;rsquo;t want to let Ubuntu auto mount this path&lt;/span>
+&lt;/h4>&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">sudo vi /etc/fstab&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h4 id="6-put-next-line-into-etcfstab-add-noauto-to-options-if-you-dont-want-to-let-ubuntu-auto-mount-this-path" class="heading-element">&lt;span>6. put next line into /etc/fstab. add &lt;code>noauto&lt;/code> to options if you don&amp;rsquo;t want to let Ubuntu auto mount this path&lt;/span>
  &lt;a href="#6-put-next-line-into-etcfstab-add-noauto-to-options-if-you-dont-want-to-let-ubuntu-auto-mount-this-path" class="heading-mark">
  &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
  &lt;/a>
-&lt;/h4>&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-text" data-lang="text">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">#&amp;lt;shared path&amp;gt; &amp;lt;mount point&amp;gt; &amp;lt;type&amp;gt; &amp;lt;options&amp;gt;
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">2&lt;/span>&lt;span class="cl">//192.168.0.3/share /mnt/samba cifs credentials=/root/.smb_credentials,gid=1000,uid=1000,file_mode=0755,dir_mode=0755 0 0&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h4 id="7-mount-it" class="heading-element">&lt;span>7. mount it&lt;/span>
+&lt;/h4>&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-text" data-lang="text">&lt;span class="line">&lt;span class="cl">#&amp;lt;shared path&amp;gt; &amp;lt;mount point&amp;gt; &amp;lt;type&amp;gt; &amp;lt;options&amp;gt;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">//192.168.0.3/share /mnt/samba cifs credentials=/root/.smb_credentials,gid=1000,uid=1000,file_mode=0755,dir_mode=0755 0 0&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h4 id="7-mount-it" class="heading-element">&lt;span>7. mount it&lt;/span>
  &lt;a href="#7-mount-it" class="heading-mark">
  &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
  &lt;/a>
-&lt;/h4>&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">umount /mnt/samba -lv
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">2&lt;/span>&lt;span class="cl">mount /mnt/samba&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>本文基於 Ubuntu 22.04 LTS 編寫。&lt;/p></description></item><item><title>使用 Adobe Premiere 製作 GIF 文件</title><link>https://travisbikkle.github.io/zh-hant/2023/05/adobe-premiere-gif/</link><pubDate>Wed, 31 May 2023 11:24:28 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2023/05/adobe-premiere-gif/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/tips/">Tips</category><description>&lt;ol>
+&lt;/h4>&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">umount /mnt/samba -lv
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">mount /mnt/samba&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>本文基於 Ubuntu 22.04 LTS 編寫。&lt;/p></description></item><item><title>使用 Adobe Premiere 製作 GIF 文件</title><link>https://travisbikkle.github.io/zh-hant/2023/05/adobe-premiere-gif/</link><pubDate>Wed, 31 May 2023 11:24:28 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2023/05/adobe-premiere-gif/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/tips/">Tips</category><description>&lt;ol>
 &lt;li>雙擊左下角媒體瀏覽器，將視頻素材導入
 &lt;a class="lightgallery" href="https://travisbikkle.github.io/images/other/20230531_premiere_1.png?size=large" data-thumbnail="/images/other/20230531_premiere_1.png?size=small" data-sub-html="&lt;h2>/images/other/20230531_premiere_1.png&lt;/h2>">&lt;img loading="lazy" src="https://travisbikkle.github.io/images/other/20230531_premiere_1.png" alt="/images/other/20230531_premiere_1.png" srcset="https://travisbikkle.github.io/images/other/20230531_premiere_1.png?size=small, https://travisbikkle.github.io/images/other/20230531_premiere_1.png?size=medium 1.5x, https://travisbikkle.github.io/images/other/20230531_premiere_1.png?size=large 2x" data-title="/images/other/20230531_premiere_1.png" style="--width: 1920px;--aspect-ratio: 1920 / 1031;background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/a>&lt;/li>
 &lt;li>在左上角編輯窗口，點擊如圖所示按鈕，標記入點與出點（開始與結束）
@@ -316,54 +464,134 @@
 &lt;li>2.2 確認 lvl0.selectors 這一行，是 &lt;code>.sidebar-heading.active&lt;/code> 還是 &lt;code>p.sidebar-heading.open&lt;/code>。前者對應的是 VuePress 2.x 版本，後者適配的是 VuePress 1.x 版本，如果錯用，在此界面點擊 URL Tester 的測試時將可以爬取到 URL 但是無法爬取到 index。如果確認錯配了，請在&lt;a href="https://docsearch.Algolia.com/docs/templates/"target="_blank" rel="external nofollow noopener noreferrer">該網站&lt;i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true">&lt;/i>&lt;/a>找到正確的示例代碼覆蓋（注意替換爲你的網站信息）&lt;/li>
 &lt;li>2.3 確認你的 appId，apiKey，indexName 等是否正確。
 以下是我的配置，基於 VuePress 2.x，請參考。
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-javascript" data-lang="javascript">&lt;span class="line">&lt;span class="ln"> 1&lt;/span>&lt;span class="cl">&lt;span class="k">new&lt;/span> &lt;span class="nx">Crawler&lt;/span>&lt;span class="p">({&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 2&lt;/span>&lt;span class="cl"> &lt;span class="nx">appId&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="s2">&amp;#34;xxxxxx&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 3&lt;/span>&lt;span class="cl"> &lt;span class="nx">apiKey&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="s2">&amp;#34;xxxxxx&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 4&lt;/span>&lt;span class="cl"> &lt;span class="nx">rateLimit&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="mi">8&lt;/span>&lt;span class="p">,&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 5&lt;/span>&lt;span class="cl"> &lt;span class="nx">maxDepth&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="mi">10&lt;/span>&lt;span class="p">,&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 6&lt;/span>&lt;span class="cl"> &lt;span class="nx">startUrls&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="p">[&lt;/span>&lt;span class="s2">&amp;#34;https://travisbikkle.github.io/&amp;#34;&lt;/span>&lt;span class="p">],&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 7&lt;/span>&lt;span class="cl"> &lt;span class="nx">sitemaps&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="p">[&lt;/span>&lt;span class="s2">&amp;#34;https://travisbikkle.github.io/sitemap.xml&amp;#34;&lt;/span>&lt;span class="p">],&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 8&lt;/span>&lt;span class="cl"> &lt;span class="nx">ignoreCanonicalTo&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="kc">false&lt;/span>&lt;span class="p">,&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln"> 9&lt;/span>&lt;span class="cl"> &lt;span class="nx">discoveryPatterns&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="p">[&lt;/span>&lt;span class="s2">&amp;#34;https://travisbikkle.github.io/**&amp;#34;&lt;/span>&lt;span class="p">],&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">10&lt;/span>&lt;span class="cl"> &lt;span class="nx">actions&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="p">[&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">11&lt;/span>&lt;span class="cl"> &lt;span class="p">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">12&lt;/span>&lt;span class="cl"> &lt;span class="nx">indexName&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="s2">&amp;#34;snzhaoyuaio&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">13&lt;/span>&lt;span class="cl"> &lt;span class="nx">pathsToMatch&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="p">[&lt;/span>&lt;span class="s2">&amp;#34;https://travisbikkle.github.io/**&amp;#34;&lt;/span>&lt;span class="p">],&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">14&lt;/span>&lt;span class="cl"> &lt;span class="nx">recordExtractor&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="p">({&lt;/span> &lt;span class="nx">$&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">helpers&lt;/span> &lt;span class="p">})&lt;/span> &lt;span class="p">=&amp;gt;&lt;/span> &lt;span class="p">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">15&lt;/span>&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="nx">helpers&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">docsearch&lt;/span>&lt;span class="p">({&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">16&lt;/span>&lt;span class="cl"> &lt;span class="nx">recordProps&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="p">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">17&lt;/span>&lt;span class="cl"> &lt;span class="nx">lvl0&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="p">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">18&lt;/span>&lt;span class="cl"> &lt;span class="nx">selectors&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="s2">&amp;#34;.sidebar-heading.active&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">19&lt;/span>&lt;span class="cl"> &lt;span class="nx">defaultValue&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="s2">&amp;#34;Documentation&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">20&lt;/span>&lt;span class="cl"> &lt;span class="p">},&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">21&lt;/span>&lt;span class="cl"> &lt;span class="nx">lvl1&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="s2">&amp;#34;.theme-default-content h1&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">22&lt;/span>&lt;span class="cl"> &lt;span class="nx">lvl2&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="s2">&amp;#34;.theme-default-content h2&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">23&lt;/span>&lt;span class="cl"> &lt;span class="nx">lvl3&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="s2">&amp;#34;.theme-default-content h3&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">24&lt;/span>&lt;span class="cl"> &lt;span class="nx">lvl4&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="s2">&amp;#34;.theme-default-content h4&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">25&lt;/span>&lt;span class="cl"> &lt;span class="nx">lvl5&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="s2">&amp;#34;.theme-default-content h5&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">26&lt;/span>&lt;span class="cl"> &lt;span class="nx">content&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="s2">&amp;#34;.theme-default-content p, .theme-default-content li&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">27&lt;/span>&lt;span class="cl"> &lt;span class="p">},&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">28&lt;/span>&lt;span class="cl"> &lt;span class="nx">indexHeadings&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="kc">true&lt;/span>&lt;span class="p">,&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">29&lt;/span>&lt;span class="cl"> &lt;span class="nx">aggregateContent&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="kc">true&lt;/span>&lt;span class="p">,&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/li>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;span class="lnt">24
+&lt;/span>&lt;span class="lnt">25
+&lt;/span>&lt;span class="lnt">26
+&lt;/span>&lt;span class="lnt">27
+&lt;/span>&lt;span class="lnt">28
+&lt;/span>&lt;span class="lnt">29
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-javascript" data-lang="javascript">&lt;span class="line">&lt;span class="cl">&lt;span class="k">new&lt;/span> &lt;span class="nx">Crawler&lt;/span>&lt;span class="p">({&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">appId&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="s2">&amp;#34;xxxxxx&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">apiKey&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="s2">&amp;#34;xxxxxx&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">rateLimit&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="mi">8&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">maxDepth&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="mi">10&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">startUrls&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="p">[&lt;/span>&lt;span class="s2">&amp;#34;https://travisbikkle.github.io/&amp;#34;&lt;/span>&lt;span class="p">],&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">sitemaps&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="p">[&lt;/span>&lt;span class="s2">&amp;#34;https://travisbikkle.github.io/sitemap.xml&amp;#34;&lt;/span>&lt;span class="p">],&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">ignoreCanonicalTo&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="kc">false&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">discoveryPatterns&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="p">[&lt;/span>&lt;span class="s2">&amp;#34;https://travisbikkle.github.io/**&amp;#34;&lt;/span>&lt;span class="p">],&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">actions&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="p">[&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">indexName&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="s2">&amp;#34;snzhaoyuaio&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">pathsToMatch&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="p">[&lt;/span>&lt;span class="s2">&amp;#34;https://travisbikkle.github.io/**&amp;#34;&lt;/span>&lt;span class="p">],&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">recordExtractor&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="p">({&lt;/span> &lt;span class="nx">$&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">helpers&lt;/span> &lt;span class="p">})&lt;/span> &lt;span class="p">=&amp;gt;&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="nx">helpers&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">docsearch&lt;/span>&lt;span class="p">({&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">recordProps&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">lvl0&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">selectors&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="s2">&amp;#34;.sidebar-heading.active&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">defaultValue&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="s2">&amp;#34;Documentation&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">},&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">lvl1&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="s2">&amp;#34;.theme-default-content h1&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">lvl2&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="s2">&amp;#34;.theme-default-content h2&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">lvl3&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="s2">&amp;#34;.theme-default-content h3&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">lvl4&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="s2">&amp;#34;.theme-default-content h4&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">lvl5&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="s2">&amp;#34;.theme-default-content h5&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">content&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="s2">&amp;#34;.theme-default-content p, .theme-default-content li&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">},&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">indexHeadings&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="kc">true&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">aggregateContent&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="kc">true&lt;/span>&lt;span class="p">,&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
 &lt;/ul>
 &lt;p>如果在 URL Tester 的調試界面看的以下信息（注意右下角的紅色記錄），證明問題解決，返回控制檯重新運行一次爬蟲（restart crawler）即可。&lt;/p></description></item><item><title>Ubuntu Vnc</title><link>https://travisbikkle.github.io/zh-hant/2023/04/ubuntu-vnc/</link><pubDate>Mon, 10 Apr 2023 11:24:31 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2023/04/ubuntu-vnc/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/tips/">Tips</category><description>&lt;p>本文基於 Ubuntu 20.04 編寫。&lt;/p>
 &lt;ol>
 &lt;li>安裝 vncserver 和要使用的桌面管理器 xfce
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">apt install tightvncserver xfce4 xfce4-goodies&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/li>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">apt install tightvncserver xfce4 xfce4-goodies&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
 &lt;li>更改密碼
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">vncpasswd&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/li>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">vncpasswd&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
 &lt;li>配置 vnc 以便客戶端連接時使用 xfce 桌面
 編輯 ~/.vnc/xstartup，輸入以下內容
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">&lt;span class="cp">#!/bin/sh
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">2&lt;/span>&lt;span class="cl">&lt;span class="cp">&lt;/span>&lt;span class="nb">unset&lt;/span> SESSION_MANAGER
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">3&lt;/span>&lt;span class="cl">&lt;span class="nb">unset&lt;/span> DBUS_SESSION_BUS_ADDRESS
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">4&lt;/span>&lt;span class="cl">startxfce4 &lt;span class="p">&amp;amp;&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/li>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">&lt;span class="cp">#!/bin/sh
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="cp">&lt;/span>&lt;span class="nb">unset&lt;/span> SESSION_MANAGER
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">unset&lt;/span> DBUS_SESSION_BUS_ADDRESS
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">startxfce4 &lt;span class="p">&amp;amp;&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
 &lt;li>執行以下命令
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">chmod +x ~/.vnc/xstartup&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/li>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">chmod +x ~/.vnc/xstartup&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
 &lt;li>禁用休眠
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/li>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
 &lt;li>啓動服務器
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">vncserver -localhost no -geometry 1920x1080&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/li>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">vncserver -localhost no -geometry 1920x1080&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
 &lt;/ol>
 &lt;h4 id="參考" class="heading-element">&lt;span>參考&lt;/span>
  &lt;a href="#%e5%8f%83%e8%80%83" class="heading-mark">
@@ -377,8 +605,16 @@
  &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
  &lt;/a>
 &lt;/h2>&lt;p>假設 192.168.1.3 是你的小網機器，端口是 15432&lt;/p></description></item><item><title>如何寫一個 K8s Operator</title><link>https://travisbikkle.github.io/zh-hant/2022/05/operator-dev/</link><pubDate>Thu, 26 May 2022 11:24:26 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2022/05/operator-dev/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/tips/">Tips</category><description>&lt;p>使用過 k8s 的同學可能執行過以下命令：&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">kubectl edit sts myapp &lt;span class="c1"># 編輯一個名稱爲 myapp 的 StatefulSet&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">2&lt;/span>&lt;span class="cl">kubectl describe sts myapp &lt;span class="c1"># 查看一個名稱爲 myapp 的 StatefulSet&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>StatefulSet 是 k8s 定義的一種資源，類似的還有 Deployment、Job、ConfigMap 等。當你執行 edit 命令編輯這些資源後，k8s 會通過不停輪詢的方式（核心概念：&lt;code>control loop&lt;/code>），將目標資源調整（核心概念：&lt;code>reconcile&lt;/code>）到你期望的狀態。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">kubectl edit sts myapp &lt;span class="c1"># 編輯一個名稱爲 myapp 的 StatefulSet&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">kubectl describe sts myapp &lt;span class="c1"># 查看一個名稱爲 myapp 的 StatefulSet&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>StatefulSet 是 k8s 定義的一種資源，類似的還有 Deployment、Job、ConfigMap 等。當你執行 edit 命令編輯這些資源後，k8s 會通過不停輪詢的方式（核心概念：&lt;code>control loop&lt;/code>），將目標資源調整（核心概念：&lt;code>reconcile&lt;/code>）到你期望的狀態。&lt;/p>
 &lt;p>例如，你按了空調的遙控器，希望將房間的溫度下調到 20℃。空調的壓縮機開始工作，並且同時不停的檢測當前實際的溫度與你期望的溫度之間的差異，直到溫度達到20℃，這就是一個 control loop 的例子。&lt;/p>
 &lt;blockquote>
 &lt;p>很簡單，對吧？&lt;/p>
@@ -403,14 +639,37 @@
  &lt;/a>
 &lt;/h2>&lt;ol>
 &lt;li>在主機和備機都添加監控vrrp發送和接收的iptables日誌（該規則僅抓取vrrp行爲，沒有其它副作用）
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">iptables -t raw -A PREROUTING -p vrrp -j LOG --log-level &lt;span class="m">6&lt;/span> --log-prefix &lt;span class="s2">&amp;#34;VRRP: &amp;#34;&lt;/span> 
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">2&lt;/span>&lt;span class="cl">iptables -t raw -A OUTPUT -p vrrp -j LOG --log-level &lt;span class="m">6&lt;/span> --log-prefix &lt;span class="s2">&amp;#34;VRRP: &amp;#34;&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/li>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">iptables -t raw -A PREROUTING -p vrrp -j LOG --log-level &lt;span class="m">6&lt;/span> --log-prefix &lt;span class="s2">&amp;#34;VRRP: &amp;#34;&lt;/span> 
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">iptables -t raw -A OUTPUT -p vrrp -j LOG --log-level &lt;span class="m">6&lt;/span> --log-prefix &lt;span class="s2">&amp;#34;VRRP: &amp;#34;&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
 &lt;li>使用以下命令檢測是否添加成功：
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">iptables -L -t raw -n&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/li>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">iptables -L -t raw -n&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
 &lt;li>在/var/log/messages可以查看vrrp的記錄。如果是suse或其它操作系統，該日誌中沒有vrrp記錄的話，可以在dmesg或者/var/log/的目錄中grep VRRP查看。&lt;/li>
 &lt;li>定位完問題後，執行以下命令刪除添加的iptables規則
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">iptables -t raw -D PREROUTING -p vrrp -j LOG --log-level &lt;span class="m">6&lt;/span> --log-prefix &lt;span class="s2">&amp;#34;VRRP: &amp;#34;&lt;/span> 
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">2&lt;/span>&lt;span class="cl">iptables -t raw -D OUTPUT -p vrrp -j LOG --log-level &lt;span class="m">6&lt;/span> --log-prefix &lt;span class="s2">&amp;#34;VRRP: &amp;#34;&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/li>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">iptables -t raw -D PREROUTING -p vrrp -j LOG --log-level &lt;span class="m">6&lt;/span> --log-prefix &lt;span class="s2">&amp;#34;VRRP: &amp;#34;&lt;/span> 
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">iptables -t raw -D OUTPUT -p vrrp -j LOG --log-level &lt;span class="m">6&lt;/span> --log-prefix &lt;span class="s2">&amp;#34;VRRP: &amp;#34;&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
 &lt;/ol>
 &lt;h2 id="tcpdump-wireshark" class="heading-element">&lt;span>tcpdump wireshark&lt;/span>
  &lt;a href="#tcpdump-wireshark" class="heading-mark">

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Vmware - tag | 奇风岁月</title><link>https://travisbikkle.github.io/vmware/</link><description>独立开发者 Travis Bikkle 的个人博客</description><generator>Hugo 0.138.0 &amp; FixIt v0.3.15-fd15415b</generator><language>zh-hans</language><managingEditor>travisbikkle@proton.me (Travis Bikkle)</managingEditor><webMaster>travisbikkle@proton.me (Travis Bikkle)</webMaster><lastBuildDate>Tue, 12 Nov 2024 09:58:48 +0800</lastBuildDate><atom:link href="https://travisbikkle.github.io/vmware/index.xml" rel="self" type="application/rss+xml"/><item><title>Vmware 死机但是鼠标可以动</title><link>https://travisbikkle.github.io/2024/03/vmware-freeze/</link><pubDate>Wed, 06 Mar 2024 17:09:19 +0000</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/2024/03/vmware-freeze/</guid><category domain="https://travisbikkle.github.io/categories/tips/">Tips</category><description>&lt;h2 id="问题现象" class="heading-element">&lt;span>问题现象&lt;/span>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Vmware - 标签 | 奇风岁月</title><link>https://travisbikkle.github.io/vmware/</link><description>独立开发者 Travis Bikkle 的个人博客</description><generator>Hugo 0.138.0 &amp; FixIt v0.3.15-fd15415b</generator><language>zh-hans</language><managingEditor>travisbikkle@proton.me (Travis Bikkle)</managingEditor><webMaster>travisbikkle@proton.me (Travis Bikkle)</webMaster><lastBuildDate>Tue, 12 Nov 2024 06:25:21 +0000</lastBuildDate><atom:link href="https://travisbikkle.github.io/vmware/index.xml" rel="self" type="application/rss+xml"/><item><title>Vmware 死机但是鼠标可以动</title><link>https://travisbikkle.github.io/2024/03/vmware-freeze/</link><pubDate>Wed, 06 Mar 2024 17:09:19 +0000</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/2024/03/vmware-freeze/</guid><category domain="https://travisbikkle.github.io/categories/tips/">Tips</category><description>&lt;h2 id="问题现象" class="heading-element">&lt;span>问题现象&lt;/span>
  &lt;a href="#%e9%97%ae%e9%a2%98%e7%8e%b0%e8%b1%a1" class="heading-mark">
  &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
  &lt;/a>
@@ -29,17 +29,46 @@
 为了防止冲突，在Vmware的 &lt;em>编辑-首选项-热键&lt;/em> 中可以将这四个按键都勾选上。
 &lt;a class="lightgallery" href="https://travisbikkle.github.io/images/other/20231201_vmware_pref_hotkey.png?size=large" data-thumbnail="/images/other/20231201_vmware_pref_hotkey.png?size=small" data-sub-html="&lt;h2>20231201_vmware_pref_hotkey.png&lt;/h2>">&lt;img loading="lazy" src="https://travisbikkle.github.io/images/other/20231201_vmware_pref_hotkey.png" alt="20231201_vmware_pref_hotkey.png" srcset="https://travisbikkle.github.io/images/other/20231201_vmware_pref_hotkey.png?size=small, https://travisbikkle.github.io/images/other/20231201_vmware_pref_hotkey.png?size=medium 1.5x, https://travisbikkle.github.io/images/other/20231201_vmware_pref_hotkey.png?size=large 2x" data-title="20231201_vmware_pref_hotkey.png" style="--width: 904px;--aspect-ratio: 904 / 983;background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/a>&lt;/p></description></item><item><title>Vmware Power-ON 脚本启动失败</title><link>https://travisbikkle.github.io/2023/11/vmware-poweron-script/</link><pubDate>Thu, 16 Nov 2023 11:24:33 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/2023/11/vmware-poweron-script/</guid><category domain="https://travisbikkle.github.io/categories/tips/">Tips</category><description>&lt;p>VMware 的开机脚本位于 &lt;code>/etc/vmware-tools/&lt;/code> 下。如果你的虚拟机报错启动客户机脚本失败，你可以在虚拟机-电源-开机中开机，然后进入该目录调试。&lt;/p>
 &lt;p>如果你的vmware-tools进行过升级，但是升级过程中出现了问题，可能导致脚本没有正确命名。比如，下面是开机、关机等操作对应的脚本名称&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-text" data-lang="text">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">poweroff-vm-default
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">2&lt;/span>&lt;span class="cl">poweron-vm-default
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">3&lt;/span>&lt;span class="cl">resume-vm-default
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">4&lt;/span>&lt;span class="cl">suspend-vm-default
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">5&lt;/span>&lt;span class="cl">vgauth.conf&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>而你的机器上可能是&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-text" data-lang="text">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">poweroff-vm-default.dpkg-dist
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">2&lt;/span>&lt;span class="cl">poweron-vm-default.dpkg-dist
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">3&lt;/span>&lt;span class="cl">resume-vm-default.dpkg-dist
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">4&lt;/span>&lt;span class="cl">suspend-vm-default.dpkg-dist
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">5&lt;/span>&lt;span class="cl">vgauth.conf.dpkg-dist&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>那么请执行以下命令重命名即可&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">find /etc/vmware-tools/ -name &lt;span class="s2">&amp;#34;*.dpkg-dist&amp;#34;&lt;/span> -exec sh -c &lt;span class="s1">&amp;#39;x={}; cp &amp;#34;$x&amp;#34; $(echo $x | sed &amp;#39;&lt;/span>s/&lt;span class="se">\.&lt;/span>dpkg-dist//g&lt;span class="s1">&amp;#39;)&amp;#39;&lt;/span> &lt;span class="se">\;&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>另外你还可能需要检查 &lt;code>/etc/vmware-tools/scripts/vmware&lt;/code> 以及各个脚本是否具有可执行权限。&lt;/p></description></item><item><title>Windows Vmware Amd-V 开启</title><link>https://travisbikkle.github.io/2023/11/win11-vmware-amd-v/</link><pubDate>Tue, 14 Nov 2023 11:24:35 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/2023/11/win11-vmware-amd-v/</guid><category domain="https://travisbikkle.github.io/categories/tips/">Tips</category><description>&lt;h4 id="报错现象" class="heading-element">&lt;span>报错现象&lt;/span>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-text" data-lang="text">&lt;span class="line">&lt;span class="cl">poweroff-vm-default
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">poweron-vm-default
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">resume-vm-default
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">suspend-vm-default
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">vgauth.conf&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>而你的机器上可能是&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-text" data-lang="text">&lt;span class="line">&lt;span class="cl">poweroff-vm-default.dpkg-dist
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">poweron-vm-default.dpkg-dist
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">resume-vm-default.dpkg-dist
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">suspend-vm-default.dpkg-dist
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">vgauth.conf.dpkg-dist&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>那么请执行以下命令重命名即可&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">find /etc/vmware-tools/ -name &lt;span class="s2">&amp;#34;*.dpkg-dist&amp;#34;&lt;/span> -exec sh -c &lt;span class="s1">&amp;#39;x={}; cp &amp;#34;$x&amp;#34; $(echo $x | sed &amp;#39;&lt;/span>s/&lt;span class="se">\.&lt;/span>dpkg-dist//g&lt;span class="s1">&amp;#39;)&amp;#39;&lt;/span> &lt;span class="se">\;&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>另外你还可能需要检查 &lt;code>/etc/vmware-tools/scripts/vmware&lt;/code> 以及各个脚本是否具有可执行权限。&lt;/p></description></item><item><title>Windows Vmware Amd-V 开启</title><link>https://travisbikkle.github.io/2023/11/win11-vmware-amd-v/</link><pubDate>Tue, 14 Nov 2023 11:24:35 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/2023/11/win11-vmware-amd-v/</guid><category domain="https://travisbikkle.github.io/categories/tips/">Tips</category><description>&lt;h4 id="报错现象" class="heading-element">&lt;span>报错现象&lt;/span>
  &lt;a href="#%e6%8a%a5%e9%94%99%e7%8e%b0%e8%b1%a1" class="heading-mark">
  &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
  &lt;/a>
