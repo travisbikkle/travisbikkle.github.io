@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Linux - 标签 | 奇风岁月</title><link>https://travisbikkle.github.io/linux/</link><description>独立开发者 Travis Bikkle 的个人博客</description><generator>Hugo 0.138.0 &amp; FixIt v0.3.15-fd15415b</generator><language>zh-hans</language><managingEditor>travisbikkle@proton.me (Travis Bikkle)</managingEditor><webMaster>travisbikkle@proton.me (Travis Bikkle)</webMaster><lastBuildDate>Tue, 12 Nov 2024 06:25:21 +0000</lastBuildDate><atom:link href="https://travisbikkle.github.io/linux/index.xml" rel="self" type="application/rss+xml"/><item><title>TP-LINK WAR-2600L 路由器 DMZ 功能分析</title><link>https://travisbikkle.github.io/2024/06/tplink-war2600l-iptables/</link><pubDate>Thu, 20 Jun 2024 15:38:19 +0000</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/2024/06/tplink-war2600l-iptables/</guid><category domain="https://travisbikkle.github.io/categories/tips/">Tips</category><description>&lt;h2 id="问题" class="heading-element">&lt;span>问题&lt;/span>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Linux - 标签 | 奇风岁月</title><link>https://travisbikkle.github.io/linux/</link><description>独立开发者 Travis Bikkle 的个人博客</description><generator>Hugo 0.138.0 &amp; FixIt v0.3.15-fd15415b</generator><language>zh-hans</language><managingEditor>travisbikkle@proton.me (Travis Bikkle)</managingEditor><webMaster>travisbikkle@proton.me (Travis Bikkle)</webMaster><lastBuildDate>Tue, 12 Nov 2024 11:53:31 +0000</lastBuildDate><atom:link href="https://travisbikkle.github.io/linux/index.xml" rel="self" type="application/rss+xml"/><item><title>TP-LINK WAR-2600L 路由器 DMZ 功能分析</title><link>https://travisbikkle.github.io/2024/06/tplink-war2600l-iptables/</link><pubDate>Thu, 20 Jun 2024 15:38:19 +0000</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/2024/06/tplink-war2600l-iptables/</guid><category domain="https://travisbikkle.github.io/categories/tips/">Tips</category><description>&lt;h2 id="问题" class="heading-element">&lt;span>问题&lt;/span>
  &lt;a href="#%e9%97%ae%e9%a2%98" class="heading-mark">
  &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
  &lt;/a>
@@ -45,76 +45,12 @@
  &lt;/a>
 &lt;/h2>&lt;p>输入 &lt;code>termux&lt;/code> 并按 Tab 提示，控制台会显示一些 &lt;code>termux&lt;/code> 开头的命令。
 下面是一些最常用命令，如更换软件源或者在手机内拷贝文件：&lt;/p></description></item><item><title>Vmware 中 Intellij Idea 快捷键错误</title><link>https://travisbikkle.github.io/2023/12/idea-shortkey-error-in-vmware/</link><pubDate>Fri, 01 Dec 2023 11:24:32 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/2023/12/idea-shortkey-error-in-vmware/</guid><category domain="https://travisbikkle.github.io/categories/tips/">Tips</category><description>&lt;p>在VMware中，&lt;kbd>CTRL ALT&lt;/kbd>是默认的将鼠标焦点从虚拟机中移开的热键，这将导致一切在Vmware中运行的虚拟机系统中以该组合键
-位开头的热键不可用。比如Intellij Idea的默认后退快捷键&lt;kbd>CTRL ALT LEFT&lt;/kbd>。&lt;/p>
-&lt;p>一开始我以为是KDE热键冲突的问题，因为KDE默认有很多的快捷键，但是经过查看KDE的系统设置，并没有发现热键占用的情况：&lt;/p>
-&lt;p>&lt;a class="lightgallery" href="https://travisbikkle.github.io/images/other/Screenshot_20231201_163449.png?size=large" data-thumbnail="/images/other/Screenshot_20231201_163449.png?size=small" data-sub-html="&lt;h2>Screenshot_20231201_163449.png&lt;/h2>">&lt;img loading="lazy" src="https://travisbikkle.github.io/images/other/Screenshot_20231201_163449.png" alt="Screenshot_20231201_163449.png" srcset="https://travisbikkle.github.io/images/other/Screenshot_20231201_163449.png?size=small, https://travisbikkle.github.io/images/other/Screenshot_20231201_163449.png?size=medium 1.5x, https://travisbikkle.github.io/images/other/Screenshot_20231201_163449.png?size=large 2x" data-title="Screenshot_20231201_163449.png" style="--width: 2662px;--aspect-ratio: 2662 / 1417;background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/a>&lt;/p>
-&lt;p>直到我意识到screenkey也没有提示，这说明我的KDE根本没有接收到&lt;kbd>CTRL ALT LEFT&lt;/kbd>按键。答案显而易见，是Vmware的问题了。
-为了防止冲突，在Vmware的 &lt;em>编辑-首选项-热键&lt;/em> 中可以将这四个按键都勾选上。
-&lt;a class="lightgallery" href="https://travisbikkle.github.io/images/other/20231201_vmware_pref_hotkey.png?size=large" data-thumbnail="/images/other/20231201_vmware_pref_hotkey.png?size=small" data-sub-html="&lt;h2>20231201_vmware_pref_hotkey.png&lt;/h2>">&lt;img loading="lazy" src="https://travisbikkle.github.io/images/other/20231201_vmware_pref_hotkey.png" alt="20231201_vmware_pref_hotkey.png" srcset="https://travisbikkle.github.io/images/other/20231201_vmware_pref_hotkey.png?size=small, https://travisbikkle.github.io/images/other/20231201_vmware_pref_hotkey.png?size=medium 1.5x, https://travisbikkle.github.io/images/other/20231201_vmware_pref_hotkey.png?size=large 2x" data-title="20231201_vmware_pref_hotkey.png" style="--width: 904px;--aspect-ratio: 904 / 983;background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/a>&lt;/p></description></item><item><title>Vmware Power-ON 脚本启动失败</title><link>https://travisbikkle.github.io/2023/11/vmware-poweron-script/</link><pubDate>Thu, 16 Nov 2023 11:24:33 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/2023/11/vmware-poweron-script/</guid><category domain="https://travisbikkle.github.io/categories/tips/">Tips</category><description>&lt;p>VMware 的开机脚本位于 &lt;code>/etc/vmware-tools/&lt;/code> 下。如果你的虚拟机报错启动客户机脚本失败，你可以在虚拟机-电源-开机中开机，然后进入该目录调试。&lt;/p>
-&lt;p>如果你的vmware-tools进行过升级，但是升级过程中出现了问题，可能导致脚本没有正确命名。比如，下面是开机、关机等操作对应的脚本名称&lt;/p>
-&lt;div class="highlight">&lt;div class="chroma">
-&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
-&lt;/span>&lt;span class="lnt">2
-&lt;/span>&lt;span class="lnt">3
-&lt;/span>&lt;span class="lnt">4
-&lt;/span>&lt;span class="lnt">5
-&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
-&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-text" data-lang="text">&lt;span class="line">&lt;span class="cl">poweroff-vm-default
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">poweron-vm-default
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">resume-vm-default
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">suspend-vm-default
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">vgauth.conf&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
-&lt;/div>
-&lt;/div>&lt;p>而你的机器上可能是&lt;/p>
-&lt;div class="highlight">&lt;div class="chroma">
-&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
-&lt;/span>&lt;span class="lnt">2
-&lt;/span>&lt;span class="lnt">3
-&lt;/span>&lt;span class="lnt">4
-&lt;/span>&lt;span class="lnt">5
-&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
-&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-text" data-lang="text">&lt;span class="line">&lt;span class="cl">poweroff-vm-default.dpkg-dist
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">poweron-vm-default.dpkg-dist
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">resume-vm-default.dpkg-dist
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">suspend-vm-default.dpkg-dist
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">vgauth.conf.dpkg-dist&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
-&lt;/div>
-&lt;/div>&lt;p>那么请执行以下命令重命名即可&lt;/p>
-&lt;div class="highlight">&lt;div class="chroma">
-&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
-&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
-&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">find /etc/vmware-tools/ -name &lt;span class="s2">&amp;#34;*.dpkg-dist&amp;#34;&lt;/span> -exec sh -c &lt;span class="s1">&amp;#39;x={}; cp &amp;#34;$x&amp;#34; $(echo $x | sed &amp;#39;&lt;/span>s/&lt;span class="se">\.&lt;/span>dpkg-dist//g&lt;span class="s1">&amp;#39;)&amp;#39;&lt;/span> &lt;span class="se">\;&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
-&lt;/div>
-&lt;/div>&lt;p>另外你还可能需要检查 &lt;code>/etc/vmware-tools/scripts/vmware&lt;/code> 以及各个脚本是否具有可执行权限。&lt;/p></description></item><item><title>Kubuntu Vscode 鼠标列编辑设置</title><link>https://travisbikkle.github.io/2023/11/kubuntu-vscode-mouse/</link><pubDate>Wed, 15 Nov 2023 11:24:33 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/2023/11/kubuntu-vscode-mouse/</guid><category domain="https://travisbikkle.github.io/categories/tips/">Tips</category><description>&lt;p>鼠标中键是某些操作系统的默认粘贴快捷键，这导致在VSCode中无法使用鼠标中键进入列编辑模式。&lt;/p>
+位开头的热键不可用。比如Intellij Idea的默认后退快捷键&lt;kbd>CTRL ALT LEFT&lt;/kbd>。&lt;/p></description></item><item><title>Vmware Power-ON 脚本启动失败</title><link>https://travisbikkle.github.io/2023/11/vmware-poweron-script/</link><pubDate>Thu, 16 Nov 2023 11:24:33 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/2023/11/vmware-poweron-script/</guid><category domain="https://travisbikkle.github.io/categories/tips/">Tips</category><description>&lt;p>VMware 的开机脚本位于 &lt;code>/etc/vmware-tools/&lt;/code> 下。如果你的虚拟机报错启动客户机脚本失败，你可以在虚拟机-电源-开机中开机，然后进入该目录调试。&lt;/p>
+&lt;p>如果你的vmware-tools进行过升级，但是升级过程中出现了问题，可能导致脚本没有正确命名。比如，下面是开机、关机等操作对应的脚本名称&lt;/p></description></item><item><title>Kubuntu Vscode 鼠标列编辑设置</title><link>https://travisbikkle.github.io/2023/11/kubuntu-vscode-mouse/</link><pubDate>Wed, 15 Nov 2023 11:24:33 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/2023/11/kubuntu-vscode-mouse/</guid><category domain="https://travisbikkle.github.io/categories/tips/">Tips</category><description>&lt;p>鼠标中键是某些操作系统的默认粘贴快捷键，这导致在VSCode中无法使用鼠标中键进入列编辑模式。&lt;/p>
 &lt;ol>
 &lt;li>
 &lt;p>点击 &lt;em>文件-首选项-设置&lt;/em>
-&lt;a class="lightgallery" href="https://travisbikkle.github.io/images/other/20231115_vscode_setting.png?size=large" data-thumbnail="/images/other/20231115_vscode_setting.png?size=small" data-sub-html="&lt;h2>Screenshot_20231115_134220.png&lt;/h2>">&lt;img loading="lazy" src="https://travisbikkle.github.io/images/other/20231115_vscode_setting.png" alt="Screenshot_20231115_134220.png" srcset="https://travisbikkle.github.io/images/other/20231115_vscode_setting.png?size=small, https://travisbikkle.github.io/images/other/20231115_vscode_setting.png?size=medium 1.5x, https://travisbikkle.github.io/images/other/20231115_vscode_setting.png?size=large 2x" data-title="Screenshot_20231115_134220.png" style="--width: 1926px;--aspect-ratio: 1926 / 1230;background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/a>&lt;/p>
-&lt;/li>
-&lt;li>
-&lt;p>点击右上角，打开json文件
-&lt;a class="lightgallery" href="https://travisbikkle.github.io/images/other/20231115_vscode_setting_selection.png?size=large" data-thumbnail="/images/other/20231115_vscode_setting_selection.png?size=small" data-sub-html="&lt;h2>Screenshot_20231115_134322.png&lt;/h2>">&lt;img loading="lazy" src="https://travisbikkle.github.io/images/other/20231115_vscode_setting_selection.png" alt="Screenshot_20231115_134322.png" srcset="https://travisbikkle.github.io/images/other/20231115_vscode_setting_selection.png?size=small, https://travisbikkle.github.io/images/other/20231115_vscode_setting_selection.png?size=medium 1.5x, https://travisbikkle.github.io/images/other/20231115_vscode_setting_selection.png?size=large 2x" data-title="Screenshot_20231115_134322.png" style="--width: 2211px;--aspect-ratio: 2211 / 1656;background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/a>&lt;/p>
-&lt;/li>
-&lt;li>
-&lt;p>添加如下行&lt;/p>
-&lt;div class="highlight">&lt;div class="chroma">
-&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
-&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
-&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-json" data-lang="json">&lt;span class="line">&lt;span class="cl">&lt;span class="s2">&amp;#34;editor.selectionClipboard&amp;#34;&lt;/span>&lt;span class="err">:&lt;/span> &lt;span class="kc">false&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
-&lt;/div>
-&lt;/div>&lt;/li>
-&lt;li>
-&lt;p>关闭 VSCode 并重新打开，测试是否生效。&lt;/p>
-&lt;/li>
-&lt;/ol></description></item><item><title>Android Studio Emulator 启动失败</title><link>https://travisbikkle.github.io/2023/11/android-studio-emulator-failed/</link><pubDate>Wed, 15 Nov 2023 11:24:23 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/2023/11/android-studio-emulator-failed/</guid><category domain="https://travisbikkle.github.io/categories/tips/">Tips</category><description>&lt;h4 id="报错现象" class="heading-element">&lt;span>报错现象&lt;/span>
+&lt;img loading="lazy" src="https://travisbikkle.github.io/images/other/20231115_vscode_setting.png" alt="Screenshot_20231115_134220.png" srcset="https://travisbikkle.github.io/images/other/20231115_vscode_setting.png?size=small, https://travisbikkle.github.io/images/other/20231115_vscode_setting.png?size=medium 1.5x, https://travisbikkle.github.io/images/other/20231115_vscode_setting.png?size=large 2x" data-title="Screenshot_20231115_134220.png" style="--width: 1926px;--aspect-ratio: 1926 / 1230;background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/p></description></item><item><title>Android Studio Emulator 启动失败</title><link>https://travisbikkle.github.io/2023/11/android-studio-emulator-failed/</link><pubDate>Wed, 15 Nov 2023 11:24:23 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/2023/11/android-studio-emulator-failed/</guid><category domain="https://travisbikkle.github.io/categories/tips/">Tips</category><description>&lt;h4 id="报错现象" class="heading-element">&lt;span>报错现象&lt;/span>
  &lt;a href="#%e6%8a%a5%e9%94%99%e7%8e%b0%e8%b1%a1" class="heading-mark">
  &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
  &lt;/a>
@@ -127,57 +63,11 @@
  &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
  &lt;/a>
 &lt;/h4>&lt;p>&lt;a href="https://youtrack.jetbrains.com/issue/IDEA-330531"target="_blank" rel="external nofollow noopener noreferrer">https://youtrack.jetbrains.com/issue/IDEA-330531&lt;i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true">&lt;/i>&lt;/a>&lt;/p></description></item><item><title>Kubuntu 软件源在哪里修改</title><link>https://travisbikkle.github.io/2023/11/kubuntu2204-software-resources-bug/</link><pubDate>Wed, 08 Nov 2023 11:24:30 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/2023/11/kubuntu2204-software-resources-bug/</guid><category domain="https://travisbikkle.github.io/categories/tips/">Tips</category><description>&lt;p>Kubuntu 22.04 的软件源可以在 Discover 中的如下位置设置。
-&lt;a class="lightgallery" href="https://travisbikkle.github.io/images/other/20231108_discover_software_sources.png?size=large" data-thumbnail="/images/other/20231108_discover_software_sources.png?size=small" data-sub-html="&lt;h2>/images/other/20231108_discover_software_sources.png&lt;/h2>">&lt;img loading="lazy" src="https://travisbikkle.github.io/images/other/20231108_discover_software_sources.png" alt="/images/other/20231108_discover_software_sources.png" srcset="https://travisbikkle.github.io/images/other/20231108_discover_software_sources.png?size=small, https://travisbikkle.github.io/images/other/20231108_discover_software_sources.png?size=medium 1.5x, https://travisbikkle.github.io/images/other/20231108_discover_software_sources.png?size=large 2x" data-title="/images/other/20231108_discover_software_sources.png" style="--width: 2081px;--aspect-ratio: 2081 / 1484;background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/a>&lt;/p>
+&lt;img loading="lazy" src="https://travisbikkle.github.io/images/other/20231108_discover_software_sources.png" alt="/images/other/20231108_discover_software_sources.png" srcset="https://travisbikkle.github.io/images/other/20231108_discover_software_sources.png?size=small, https://travisbikkle.github.io/images/other/20231108_discover_software_sources.png?size=medium 1.5x, https://travisbikkle.github.io/images/other/20231108_discover_software_sources.png?size=large 2x" data-title="/images/other/20231108_discover_software_sources.png" style="--width: 2081px;--aspect-ratio: 2081 / 1484;background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/p>
 &lt;p>但是如果你的 Discover 不显示以上界面，可以通过如下方法来修复。&lt;/p>
 &lt;ol>
 &lt;li>
-&lt;p>编辑如下文件&lt;/p>
-&lt;div class="highlight">&lt;div class="chroma">
-&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
-&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
-&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">vi /usr/share/applications/software-properties-qt.desktop&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
-&lt;/div>
-&lt;/div>&lt;/li>
-&lt;li>
-&lt;p>将以下内容替换到源文件&lt;/p>
-&lt;div class="highlight">&lt;div class="chroma">
-&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
-&lt;/span>&lt;span class="lnt"> 2
-&lt;/span>&lt;span class="lnt"> 3
-&lt;/span>&lt;span class="lnt"> 4
-&lt;/span>&lt;span class="lnt"> 5
-&lt;/span>&lt;span class="lnt"> 6
-&lt;/span>&lt;span class="lnt"> 7
-&lt;/span>&lt;span class="lnt"> 8
-&lt;/span>&lt;span class="lnt"> 9
-&lt;/span>&lt;span class="lnt">10
-&lt;/span>&lt;span class="lnt">11
-&lt;/span>&lt;span class="lnt">12
-&lt;/span>&lt;span class="lnt">13
-&lt;/span>&lt;span class="lnt">14
-&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
-&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-text" data-lang="text">&lt;span class="line">&lt;span class="cl">[Desktop Entry]
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Name=Software Sources
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">GenericName=Software Sources
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Comment=Configure the sources for installable software and updates
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Exec=pkexec env DISPLAY=$DISPLAY XAUTHORITY=$XAUTHORITY software-properties-qt
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Icon=applications-other
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">NoDisplay=false
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Terminal=false
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">X-MultipleArgs=false
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Type=Application
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Categories=System;Settings;
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">MimeType=text/x-apt-sources-list;
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">X-KDE-SubstituteUID=false
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">X-Ubuntu-Gettext-Domain=software-properties&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
-&lt;/div>
-&lt;/div>&lt;/li>
-&lt;/ol>
-&lt;p>如此，在 Discover可以显示软件源的界面，在菜单中也可以搜索到在其它发行版中常见的 &lt;em>软件源&lt;/em> 菜单项。&lt;/p></description></item><item><title>Kubuntu 22.04 中文输入法</title><link>https://travisbikkle.github.io/2023/11/kubuntu2204-chiness-im/</link><pubDate>Wed, 08 Nov 2023 11:24:29 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/2023/11/kubuntu2204-chiness-im/</guid><category domain="https://travisbikkle.github.io/categories/tips/">Tips</category><description>&lt;h3 id="继续使用-fcitx5推荐" class="heading-element">&lt;span>继续使用 fcitx5（推荐）&lt;/span>
+&lt;p>编辑如下文件&lt;/p></description></item><item><title>Kubuntu 22.04 中文输入法</title><link>https://travisbikkle.github.io/2023/11/kubuntu2204-chiness-im/</link><pubDate>Wed, 08 Nov 2023 11:24:29 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/2023/11/kubuntu2204-chiness-im/</guid><category domain="https://travisbikkle.github.io/categories/tips/">Tips</category><description>&lt;h3 id="继续使用-fcitx5推荐" class="heading-element">&lt;span>继续使用 fcitx5（推荐）&lt;/span>
  &lt;a href="#%e7%bb%a7%e7%bb%ad%e4%bd%bf%e7%94%a8-fcitx5%e6%8e%a8%e8%8d%90" class="heading-mark">
  &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
  &lt;/a>
@@ -189,12 +79,8 @@
 &lt;li>点击 &lt;em>Additional Layout Options&lt;/em>&lt;/li>
 &lt;li>在弹出的窗口中，勾选 &lt;em>Ctrl position&lt;/em> 中的 &lt;em>Swap Ctrl and Caps Lock&lt;/em>&lt;/li>
 &lt;/ol>
-&lt;p>&lt;a class="lightgallery" href="https://travisbikkle.github.io/images/other/20231017_ubuntu_swap_keys.png?size=large" data-thumbnail="/images/other/20231017_ubuntu_swap_keys.png?size=small" data-sub-html="&lt;h2>ubuntu_swap_keys.png&lt;/h2>">&lt;img loading="lazy" src="https://travisbikkle.github.io/images/other/20231017_ubuntu_swap_keys.png" alt="ubuntu_swap_keys.png" srcset="https://travisbikkle.github.io/images/other/20231017_ubuntu_swap_keys.png?size=small, https://travisbikkle.github.io/images/other/20231017_ubuntu_swap_keys.png?size=medium 1.5x, https://travisbikkle.github.io/images/other/20231017_ubuntu_swap_keys.png?size=large 2x" data-title="ubuntu_swap_keys.png" style="--width: 895px;--aspect-ratio: 895 / 650;background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/a>&lt;/p>
-&lt;p>本文基于 Ubuntu 22.04 LTS 及 Gnome Tweaks 3.34.0 编写。&lt;/p>
-&lt;blockquote>
-&lt;p>补充：使用kde更加的方便，该设置已经被集成到系统设置中，无需下载 Gnome Tweaks。&lt;/p>
-&lt;/blockquote>
-&lt;p>&lt;a class="lightgallery" href="https://travisbikkle.github.io/images/other/20231018_kde_swap_keys.png?size=large" data-thumbnail="/images/other/20231018_kde_swap_keys.png?size=small" data-sub-html="&lt;h2>kde_swap_keys.png&lt;/h2>">&lt;img loading="lazy" src="https://travisbikkle.github.io/images/other/20231018_kde_swap_keys.png" alt="kde_swap_keys.png" srcset="https://travisbikkle.github.io/images/other/20231018_kde_swap_keys.png?size=small, https://travisbikkle.github.io/images/other/20231018_kde_swap_keys.png?size=medium 1.5x, https://travisbikkle.github.io/images/other/20231018_kde_swap_keys.png?size=large 2x" data-title="kde_swap_keys.png" style="--width: 2018px;--aspect-ratio: 2018 / 1453;background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/a>&lt;/p></description></item><item><title>Code Server Nginx Ssl Error</title><link>https://travisbikkle.github.io/2023/10/code-server-nginx-ssl-error-1006/</link><pubDate>Tue, 17 Oct 2023 11:24:30 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/2023/10/code-server-nginx-ssl-error-1006/</guid><category domain="https://travisbikkle.github.io/categories/tips/">Tips</category><description>&lt;div class="highlight">&lt;div class="chroma">
+&lt;p>&lt;img loading="lazy" src="https://travisbikkle.github.io/images/other/20231017_ubuntu_swap_keys.png" alt="ubuntu_swap_keys.png" srcset="https://travisbikkle.github.io/images/other/20231017_ubuntu_swap_keys.png?size=small, https://travisbikkle.github.io/images/other/20231017_ubuntu_swap_keys.png?size=medium 1.5x, https://travisbikkle.github.io/images/other/20231017_ubuntu_swap_keys.png?size=large 2x" data-title="ubuntu_swap_keys.png" style="--width: 895px;--aspect-ratio: 895 / 650;background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/p>
+&lt;p>本文基于 Ubuntu 22.04 LTS 及 Gnome Tweaks 3.34.0 编写。&lt;/p></description></item><item><title>Code Server Nginx Ssl Error</title><link>https://travisbikkle.github.io/2023/10/code-server-nginx-ssl-error-1006/</link><pubDate>Tue, 17 Oct 2023 11:24:30 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/2023/10/code-server-nginx-ssl-error-1006/</guid><category domain="https://travisbikkle.github.io/categories/tips/">Tips</category><description>&lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
 &lt;/span>&lt;span class="lnt">2
@@ -204,7 +90,7 @@
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">The workbench failed to connect to the server (Error: WebSocket close with status code 1006)&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;p>Code server popped up a websocket error when I exposed code-server using a custom domain and a custom port via nginx.&lt;/p>
-&lt;p>&lt;a class="lightgallery" href="https://travisbikkle.github.io/images/other/20231017_code_server_nginx_error_1006.png?size=large" data-thumbnail="/images/other/20231017_code_server_nginx_error_1006.png?size=small" data-sub-html="&lt;h2>20231017_code_server_nginx_error_1006.png&lt;/h2>">&lt;img loading="lazy" src="https://travisbikkle.github.io/images/other/20231017_code_server_nginx_error_1006.png" alt="20231017_code_server_nginx_error_1006.png" srcset="https://travisbikkle.github.io/images/other/20231017_code_server_nginx_error_1006.png?size=small, https://travisbikkle.github.io/images/other/20231017_code_server_nginx_error_1006.png?size=medium 1.5x, https://travisbikkle.github.io/images/other/20231017_code_server_nginx_error_1006.png?size=large 2x" data-title="20231017_code_server_nginx_error_1006.png" style="--width: 1114px;--aspect-ratio: 1114 / 630;background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/a>&lt;/p></description></item><item><title>How to add samba entry in /etc/fstab</title><link>https://travisbikkle.github.io/2023/10/fatab-samba/</link><pubDate>Tue, 17 Oct 2023 11:24:29 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/2023/10/fatab-samba/</guid><category domain="https://travisbikkle.github.io/categories/tips/">Tips</category><description>&lt;p>Configure Samba On Ubuntu&lt;/p>
+&lt;p>&lt;img loading="lazy" src="https://travisbikkle.github.io/images/other/20231017_code_server_nginx_error_1006.png" alt="20231017_code_server_nginx_error_1006.png" srcset="https://travisbikkle.github.io/images/other/20231017_code_server_nginx_error_1006.png?size=small, https://travisbikkle.github.io/images/other/20231017_code_server_nginx_error_1006.png?size=medium 1.5x, https://travisbikkle.github.io/images/other/20231017_code_server_nginx_error_1006.png?size=large 2x" data-title="20231017_code_server_nginx_error_1006.png" style="--width: 1114px;--aspect-ratio: 1114 / 630;background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/p></description></item><item><title>How to add samba entry in /etc/fstab</title><link>https://travisbikkle.github.io/2023/10/fatab-samba/</link><pubDate>Tue, 17 Oct 2023 11:24:29 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/2023/10/fatab-samba/</guid><category domain="https://travisbikkle.github.io/categories/tips/">Tips</category><description>&lt;p>Configure Samba On Ubuntu&lt;/p>
 &lt;h4 id="1-install-necessary-tools" class="heading-element">&lt;span>1. install necessary tools&lt;/span>
  &lt;a href="#1-install-necessary-tools" class="heading-mark">
  &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
@@ -360,71 +246,11 @@
  &lt;/a>
 &lt;/h4>&lt;blockquote>
 &lt;p>&lt;a href="https://linuxconfig.org/vnc-server-on-ubuntu-20-04-focal-fossa-linux"target="_blank" rel="external nofollow noopener noreferrer">https://linuxconfig.org/vnc-server-on-ubuntu-20-04-focal-fossa-linux&lt;i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true">&lt;/i>&lt;/a>&lt;/p></description></item><item><title>端口转发的一些方法</title><link>https://travisbikkle.github.io/2023/02/port-forward/</link><pubDate>Wed, 01 Feb 2023 11:24:24 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/2023/02/port-forward/</guid><category domain="https://travisbikkle.github.io/categories/tips/">Tips</category><description>&lt;p>在《如何抓包分析 vrrp 报文是否中断》中我们使用了 iptables 进行指定协议的报文日志记录功能，此处新增一个好用的命令。&lt;/p>
-&lt;p>我们在开发过程中，可能经常需要经过堡垒机、跳板机等中转一次，才能访问到处于小网中的服务，如数据库。使用以下命令，可以在不借助第三方软件的情况下，完成端口转发，实现直连小网服务。&lt;/p>
-&lt;h2 id="iptables" class="heading-element">&lt;span>iptables&lt;/span>
- &lt;a href="#iptables" class="heading-mark">
- &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
- &lt;/a>
-&lt;/h2>&lt;p>假设 192.168.1.3 是你的小网机器，端口是 15432&lt;/p></description></item><item><title>vrrp 报文抓包的方法</title><link>https://travisbikkle.github.io/2022/02/vrrp-cap/</link><pubDate>Tue, 01 Feb 2022 11:24:24 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/2022/02/vrrp-cap/</guid><category domain="https://travisbikkle.github.io/categories/tips/">Tips</category><description>&lt;p>keepalived 的主机和备机，会每隔3s通过单播，向对方发送 vrrp 报文，当备机在 &lt;code>3次*每次心跳间隔（keepalived.conf中的adver_int参数）&lt;/code> 都收不到主机的广播，自己将会升主。&lt;/p>
-&lt;p>以下两种可能都会存在：&lt;/p>
-&lt;ol>
-&lt;li>主机没有发送广播&lt;/li>
-&lt;li>主机发送了广播，备机没有收到
-因此，在主备都需要监控vrrp的发送（out）或接收（in）记录。&lt;/li>
-&lt;/ol>
-&lt;p>使用以下两种方式，都可以监控每次 vrrp 报文的内容，以便定位问题。&lt;/p>
-&lt;h2 id="iptables" class="heading-element">&lt;span>iptables&lt;/span>
- &lt;a href="#iptables" class="heading-mark">
- &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
- &lt;/a>
-&lt;/h2>&lt;ol>
-&lt;li>在主机和备机都添加监控vrrp发送和接收的iptables日志（该规则仅抓取vrrp行为，没有其它副作用）
-&lt;div class="highlight">&lt;div class="chroma">
-&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
-&lt;/span>&lt;span class="lnt">2
-&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
-&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">iptables -t raw -A PREROUTING -p vrrp -j LOG --log-level &lt;span class="m">6&lt;/span> --log-prefix &lt;span class="s2">&amp;#34;VRRP: &amp;#34;&lt;/span> 
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">iptables -t raw -A OUTPUT -p vrrp -j LOG --log-level &lt;span class="m">6&lt;/span> --log-prefix &lt;span class="s2">&amp;#34;VRRP: &amp;#34;&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
-&lt;/div>
-&lt;/div>&lt;/li>
-&lt;li>使用以下命令检测是否添加成功：
-&lt;div class="highlight">&lt;div class="chroma">
-&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
-&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
-&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">iptables -L -t raw -n&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
-&lt;/div>
-&lt;/div>&lt;/li>
-&lt;li>在/var/log/messages可以查看vrrp的记录。如果是suse或其它操作系统，该日志中没有vrrp记录的话，可以在dmesg或者/var/log/的目录中grep VRRP查看。&lt;/li>
-&lt;li>定位完问题后，执行以下命令删除添加的iptables规则
-&lt;div class="highlight">&lt;div class="chroma">
-&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
-&lt;/span>&lt;span class="lnt">2
-&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
-&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">iptables -t raw -D PREROUTING -p vrrp -j LOG --log-level &lt;span class="m">6&lt;/span> --log-prefix &lt;span class="s2">&amp;#34;VRRP: &amp;#34;&lt;/span> 
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">iptables -t raw -D OUTPUT -p vrrp -j LOG --log-level &lt;span class="m">6&lt;/span> --log-prefix &lt;span class="s2">&amp;#34;VRRP: &amp;#34;&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
-&lt;/div>
-&lt;/div>&lt;/li>
-&lt;/ol>
-&lt;h2 id="tcpdump-wireshark" class="heading-element">&lt;span>tcpdump wireshark&lt;/span>
- &lt;a href="#tcpdump-wireshark" class="heading-mark">
- &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
- &lt;/a>
-&lt;/h2>&lt;p>tcpdump 命令需要自行获取，wireshark 需要自行下载，这部分仅记录常用命令和注意点，由于在公司内网，图片无法放上来。&lt;/p></description></item><item><title>一个数据库主备频繁切换案例</title><link>https://travisbikkle.github.io/2022/01/a-case-of-database-switch/</link><pubDate>Thu, 20 Jan 2022 11:24:25 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/2022/01/a-case-of-database-switch/</guid><category domain="https://travisbikkle.github.io/categories/tips/">Tips</category><description>&lt;h2 id="问题现象" class="heading-element">&lt;span>问题现象&lt;/span>
+&lt;p>我们在开发过程中，可能经常需要经过堡垒机、跳板机等中转一次，才能访问到处于小网中的服务，如数据库。使用以下命令，可以在不借助第三方软件的情况下，完成端口转发，实现直连小网服务。&lt;/p></description></item><item><title>vrrp 报文抓包的方法</title><link>https://travisbikkle.github.io/2022/02/vrrp-cap/</link><pubDate>Tue, 01 Feb 2022 11:24:24 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/2022/02/vrrp-cap/</guid><category domain="https://travisbikkle.github.io/categories/tips/">Tips</category><description>&lt;p>keepalived 的主机和备机，会每隔3s通过单播，向对方发送 vrrp 报文，当备机在 &lt;code>3次*每次心跳间隔（keepalived.conf中的adver_int参数）&lt;/code> 都收不到主机的广播，自己将会升主。&lt;/p></description></item><item><title>一个数据库主备频繁切换案例</title><link>https://travisbikkle.github.io/2022/01/a-case-of-database-switch/</link><pubDate>Thu, 20 Jan 2022 11:24:25 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/2022/01/a-case-of-database-switch/</guid><category domain="https://travisbikkle.github.io/categories/tips/">Tips</category><description>&lt;h2 id="问题现象" class="heading-element">&lt;span>问题现象&lt;/span>
  &lt;a href="#%e9%97%ae%e9%a2%98%e7%8e%b0%e8%b1%a1" class="heading-mark">
  &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
  &lt;/a>
-&lt;/h2>&lt;p>某集团某局点分别部署了某数据库的主备实例，业务发现偶尔访问数据库报错。&lt;/p></description></item><item><title>Blktrace</title><link>https://travisbikkle.github.io/2021/04/blktrace/</link><pubDate>Mon, 19 Apr 2021 11:24:25 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/2021/04/blktrace/</guid><category domain="https://travisbikkle.github.io/categories/tips/">Tips</category><description>&lt;p>可以用来定位 I/O 性能问题的工具有很多。常见的有 fio, dd, atop, iotop, iostat, vmstat 等。vmstat 可以提供系统性能的一个概览，一般可以看出来性能问题究竟是不是 I/O 的锅。想要具体查看每个设备的 I/O 情况，如 average request size, reads or writes per second，可以使用 iostat。&lt;/p>
-&lt;h2 id="blktrace-介绍" class="heading-element">&lt;span>blktrace 介绍&lt;/span>
- &lt;a href="#blktrace-%e4%bb%8b%e7%bb%8d" class="heading-mark">
- &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
- &lt;/a>
-&lt;/h2>&lt;p>更细粒度的分析，可以使用 blktrace。 blktrace 可以记录在 I/O 栈的多个阶段分别耗时多少。blktrace 的输出结果是二进制文件，可以用 blkparse 解析，但是它仍然很难读，需要使用 btt 来进一步转换成更易读的形式。&lt;/p></description></item><item><title>npm 镜像等设置</title><link>https://travisbikkle.github.io/2018/10/common-pakage-manager-proxy/</link><pubDate>Sat, 13 Oct 2018 11:24:31 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/2018/10/common-pakage-manager-proxy/</guid><category domain="https://travisbikkle.github.io/categories/tips/">Tips</category><description>&lt;h2 id="中国加速镜像" class="heading-element">&lt;span>中国加速镜像&lt;/span>
+&lt;/h2>&lt;p>某集团某局点分别部署了某数据库的主备实例，业务发现偶尔访问数据库报错。&lt;/p></description></item><item><title>Blktrace</title><link>https://travisbikkle.github.io/2021/04/blktrace/</link><pubDate>Mon, 19 Apr 2021 11:24:25 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/2021/04/blktrace/</guid><category domain="https://travisbikkle.github.io/categories/tips/">Tips</category><description>&lt;p>可以用来定位 I/O 性能问题的工具有很多。常见的有 fio, dd, atop, iotop, iostat, vmstat 等。vmstat 可以提供系统性能的一个概览，一般可以看出来性能问题究竟是不是 I/O 的锅。想要具体查看每个设备的 I/O 情况，如 average request size, reads or writes per second，可以使用 iostat。&lt;/p></description></item><item><title>npm 镜像等设置</title><link>https://travisbikkle.github.io/2018/10/common-pakage-manager-proxy/</link><pubDate>Sat, 13 Oct 2018 11:24:31 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/2018/10/common-pakage-manager-proxy/</guid><category domain="https://travisbikkle.github.io/categories/tips/">Tips</category><description>&lt;h2 id="中国加速镜像" class="heading-element">&lt;span>中国加速镜像&lt;/span>
  &lt;a href="#%e4%b8%ad%e5%9b%bd%e5%8a%a0%e9%80%9f%e9%95%9c%e5%83%8f" class="heading-mark">
  &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
  &lt;/a>

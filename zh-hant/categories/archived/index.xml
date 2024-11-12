@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Archived - 分類 | 奇風歲月</title><link>https://travisbikkle.github.io/zh-hant/categories/archived/</link><description>独立开发者 Travis Bikkle 的个人博客</description><generator>Hugo 0.138.0 &amp; FixIt v0.3.15-fd15415b</generator><language>zh-hant</language><managingEditor>travisbikkle@proton.me (Travis Bikkle)</managingEditor><webMaster>travisbikkle@proton.me (Travis Bikkle)</webMaster><lastBuildDate>Tue, 12 Nov 2024 06:25:21 +0000</lastBuildDate><atom:link href="https://travisbikkle.github.io/zh-hant/categories/archived/index.xml" rel="self" type="application/rss+xml"/><item><title>mount磁盤被秒umount的一個問題</title><link>https://travisbikkle.github.io/zh-hant/2019/09/a-case-of-mount-disk/</link><pubDate>Wed, 18 Sep 2019 11:24:22 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2019/09/a-case-of-mount-disk/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/archived/">Archived</category><description>&lt;h2 id="問題描述" class="heading-element">&lt;span>問題描述&lt;/span>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Archived - 分類 | 奇風歲月</title><link>https://travisbikkle.github.io/zh-hant/categories/archived/</link><description>独立开发者 Travis Bikkle 的个人博客</description><generator>Hugo 0.138.0 &amp; FixIt v0.3.15-fd15415b</generator><language>zh-hant</language><managingEditor>travisbikkle@proton.me (Travis Bikkle)</managingEditor><webMaster>travisbikkle@proton.me (Travis Bikkle)</webMaster><lastBuildDate>Tue, 12 Nov 2024 11:53:31 +0000</lastBuildDate><atom:link href="https://travisbikkle.github.io/zh-hant/categories/archived/index.xml" rel="self" type="application/rss+xml"/><item><title>mount磁盤被秒umount的一個問題</title><link>https://travisbikkle.github.io/zh-hant/2019/09/a-case-of-mount-disk/</link><pubDate>Wed, 18 Sep 2019 11:24:22 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2019/09/a-case-of-mount-disk/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/archived/">Archived</category><description>&lt;h2 id="問題描述" class="heading-element">&lt;span>問題描述&lt;/span>
  &lt;a href="#%e5%95%8f%e9%a1%8c%e6%8f%8f%e8%bf%b0" class="heading-mark">
  &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
  &lt;/a>
@@ -6,17 +6,7 @@
 這裏監聽的地址是 127.0.0.1，因此相當於是一個擺設。使用開源的 nginx
 可以代理該 url
 並暴露在一個可以訪問的網卡上，不過出於學習的目的，使用我們自己編譯的類似於
-nginx 的一個 NSP 來實現這個目的。&lt;/p>
-&lt;h2 id="着手" class="heading-element">&lt;span>着手&lt;/span>
- &lt;a href="#%e7%9d%80%e6%89%8b" class="heading-mark">
- &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
- &lt;/a>
-&lt;/h2>&lt;p>包地址在內網，無法提供。運行此包有三個限制：&lt;/p></description></item><item><title>一次ssh免密無法登錄的問題</title><link>https://travisbikkle.github.io/zh-hant/2019/08/ssh-cant-login/</link><pubDate>Sat, 10 Aug 2019 11:24:17 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2019/08/ssh-cant-login/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/archived/">Archived</category><description>&lt;p>自研數據庫升級的過程中，需要配置一次ssh免密登錄，以便在其中一臺機器，很方便的升級集羣所有服務器。但是在測試過程中，創建免密登錄的腳本失效了。&lt;/p>
-&lt;h2 id="問題定位" class="heading-element">&lt;span>問題定位&lt;/span>
- &lt;a href="#%e5%95%8f%e9%a1%8c%e5%ae%9a%e4%bd%8d" class="heading-mark">
- &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
- &lt;/a>
-&lt;/h2>&lt;p>通過手動創建公鑰，拷貝到其它機器的authrized_keys，發現仍然需要輸入密碼登錄；&lt;/p></description></item><item><title>使用 Shell 腳本計算 Ip 網段</title><link>https://travisbikkle.github.io/zh-hant/2019/06/shell-calculate-ip/</link><pubDate>Mon, 10 Jun 2019 11:24:11 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2019/06/shell-calculate-ip/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/archived/">Archived</category><description>&lt;h2 id="背景" class="heading-element">&lt;span>背景&lt;/span>
+nginx 的一個 NSP 來實現這個目的。&lt;/p></description></item><item><title>一次ssh免密無法登錄的問題</title><link>https://travisbikkle.github.io/zh-hant/2019/08/ssh-cant-login/</link><pubDate>Sat, 10 Aug 2019 11:24:17 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2019/08/ssh-cant-login/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/archived/">Archived</category><description>&lt;p>自研數據庫升級的過程中，需要配置一次ssh免密登錄，以便在其中一臺機器，很方便的升級集羣所有服務器。但是在測試過程中，創建免密登錄的腳本失效了。&lt;/p></description></item><item><title>使用 Shell 腳本計算 Ip 網段</title><link>https://travisbikkle.github.io/zh-hant/2019/06/shell-calculate-ip/</link><pubDate>Mon, 10 Jun 2019 11:24:11 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2019/06/shell-calculate-ip/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/archived/">Archived</category><description>&lt;h2 id="背景" class="heading-element">&lt;span>背景&lt;/span>
  &lt;a href="#%e8%83%8c%e6%99%af" class="heading-mark">
  &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
  &lt;/a>
@@ -84,98 +74,7 @@ openssl pkcs12 -export -out server.pfx -inkey server.key -in server.crt -passin 
 以上，版本要求見https://www.apache.org/dist/httpd/Announcement2.4.html&lt;/p></description></item><item><title>Mysql 原廠檢查清單</title><link>https://travisbikkle.github.io/zh-hant/2019/04/mysql-check-list/</link><pubDate>Tue, 16 Apr 2019 11:24:03 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2019/04/mysql-check-list/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/archived/">Archived</category><description>&lt;p>1) MySQL配置文件 （my.cnf 或 my.ini）&lt;/p>
 &lt;p>2) MySQL完整的錯誤日誌文件 （error log
 file）.（如果文件太大，可以壓縮後上傳）&lt;/p>
-&lt;p>3) MySQL的 slow query log 文件 （如果已經配置收集的話）.&lt;/p>
-&lt;p>4)
-生成下面的mysql_output.txt文本文件（請在查詢性能低、響應慢時運行）：&lt;/p>
-&lt;pre>&lt;code>（請使用具有SUPER權限的MySQL用戶（如root）登錄MySQL命令行客戶端並運行）
-
-TEE mysql_output0416.txt;
-select now(),@@version,@@version_comment,@@hostname,@@port,@@basedir,@@datadir,@@tmpdir,@@log_error,
-@@slow_query_log_file,user(),current_user(),/*!50600 @@server_uuid,*/@@server_id\G
-SHOW GLOBAL VARIABLES;
-SHOW GLOBAL STATUS;
-SHOW ENGINES\G
-SHOW PLUGINS\G
-select benchmark(50000000,(1234*5678/37485-1298+8596^2)); #should take less than 20 seconds
-SELECT ENGINE, COUNT(*), SUM(DATA_LENGTH), SUM(INDEX_LENGTH) FROM information_schema.TABLES GROUP BY ENGINE;
-SHOW ENGINE INNODB STATUS;
-/*!50503 SHOW ENGINE performance_schema STATUS */;
-/*!50503 SELECT * FROM performance_schema.setup_instruments WHERE name LIKE 'wait/sync%' AND (enabled='yes' OR timed='yes')*/;
--- Info on transactions and locks
-SELECT r.trx_id waiting_trx_id, r.trx_mysql_thread_id waiting_thread, r.trx_query waiting_query,
-b.trx_id blocking_trx_id, b.trx_mysql_thread_id blocking_thread, b.trx_query blocking_query,
-bl.lock_id blocking_lock_id, bl.lock_mode blocking_lock_mode, bl.lock_type blocking_lock_type,
-bl.lock_table blocking_lock_table, bl.lock_index blocking_lock_index,
-rl.lock_id waiting_lock_id, rl.lock_mode waiting_lock_mode, rl.lock_type waiting_lock_type,
-rl.lock_table waiting_lock_table, rl.lock_index waiting_lock_index
-FROM information_schema.INNODB_LOCK_WAITS w
-INNER JOIN information_schema.INNODB_TRX b ON b.trx_id = w.blocking_trx_id
-INNER JOIN information_schema.INNODB_TRX r ON r.trx_id = w.requesting_trx_id
-INNER JOIN information_schema.INNODB_LOCKS bl ON bl.lock_id = w.blocking_lock_id
-INNER JOIN information_schema.INNODB_LOCKS rl ON rl.lock_id = w.requested_lock_id\G
-SHOW FULL PROCESSLIST;
-/*!50503 SELECT * FROM information_schema.innodb_trx */;
-/*!50503 SELECT * FROM performance_schema.threads */;
-/*!50708 SELECT * FROM sys.session */;
-SHOW OPEN TABLES;
-SHOW MASTER STATUS\G
-SHOW SLAVE STATUS\G
-/*!50602 SELECT * FROM MYSQL.SLAVE_MASTER_INFO */;
-/*!50602 SELECT * FROM MYSQL.SLAVE_RELAY_LOG_INFO */;
-/*!50602 SELECT * FROM MYSQL.SLAVE_WORKER_INFO */;
-SHOW MASTER LOGS;
-SELECT SLEEP(300);
-SHOW GLOBAL STATUS;
-SHOW ENGINE INNODB STATUS;
-/*!50503 SHOW ENGINE performance_schema STATUS */;
-/*!50503 SELECT * FROM performance_schema.setup_instruments WHERE name LIKE 'wait/sync%' AND (enabled='yes' OR timed='yes')*/;
--- Info on transactions and locks
-SELECT r.trx_id waiting_trx_id, r.trx_mysql_thread_id waiting_thread, r.trx_query waiting_query,
-b.trx_id blocking_trx_id, b.trx_mysql_thread_id blocking_thread, b.trx_query blocking_query,
-bl.lock_id blocking_lock_id, bl.lock_mode blocking_lock_mode, bl.lock_type blocking_lock_type,
-bl.lock_table blocking_lock_table, bl.lock_index blocking_lock_index,
-rl.lock_id waiting_lock_id, rl.lock_mode waiting_lock_mode, rl.lock_type waiting_lock_type,
-rl.lock_table waiting_lock_table, rl.lock_index waiting_lock_index
-FROM information_schema.INNODB_LOCK_WAITS w
-INNER JOIN information_schema.INNODB_TRX b ON b.trx_id = w.blocking_trx_id
-INNER JOIN information_schema.INNODB_TRX r ON r.trx_id = w.requesting_trx_id
-INNER JOIN information_schema.INNODB_LOCKS bl ON bl.lock_id = w.blocking_lock_id
-INNER JOIN information_schema.INNODB_LOCKS rl ON rl.lock_id = w.requested_lock_id\G
-SHOW FULL PROCESSLIST;
-/*!50503 SELECT * FROM information_schema.innodb_trx */;
-/*!50503 SELECT * FROM performance_schema.threads */;
-/*!50708 SELECT * FROM sys.session */;
-SHOW OPEN TABLES;
-SHOW MASTER STATUS\G
-SHOW SLAVE STATUS\G
-/*!50602 SELECT * FROM MYSQL.SLAVE_MASTER_INFO */;
-/*!50602 SELECT * FROM MYSQL.SLAVE_RELAY_LOG_INFO */;
-/*!50602 SELECT * FROM MYSQL.SLAVE_WORKER_INFO */;
-select * from information_schema.innodb_trx;
-select * from information_schema.innodb_locks;
-select * from information_schema.innodb_lock_waits;
-select * from performance_schema.events_waits_history;
-SHOW MASTER LOGS;
-
-SELECT
-t.TABLE_SCHEMA, t.TABLE_NAME, s.TABLE_NAME
-FROM
-information_schema.tables t
-LEFT OUTER JOIN
-information_schema.statistics s ON t.TABLE_SCHEMA = s.TABLE_SCHEMA
-AND t.TABLE_NAME = s.TABLE_NAME
-AND s.INDEX_NAME = 'PRIMARY'
-WHERE
-s.TABLE_NAME IS NULL
-AND t.TABLE_SCHEMA not in ('information_schema','mysql','performance_schema')
-AND t.TABLE_TYPE = 'BASE TABLE';
-
-\s
-NOTEE;
-
-（注意：SELECT SLEEP(300)會休眠300秒，請勿中斷運行！）
-&lt;/code>&lt;/pre>
-&lt;p>5) 生成下面的query.txt文本文件（請在查詢性能低、響應慢時運行）：&lt;/p></description></item><item><title>Mysql 問題與源碼</title><link>https://travisbikkle.github.io/zh-hant/2019/04/mysql-problem-and-source-code/</link><pubDate>Sat, 13 Apr 2019 11:24:17 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2019/04/mysql-problem-and-source-code/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/archived/">Archived</category><description>&lt;h2 id="問題1-連接數爲214-登錄經常報錯-too-many-connections" class="heading-element">&lt;span>問題1: 連接數爲214， 登錄經常報錯 too many connections&lt;/span>
+&lt;p>3) MySQL的 slow query log 文件 （如果已經配置收集的話）.&lt;/p></description></item><item><title>Mysql 問題與源碼</title><link>https://travisbikkle.github.io/zh-hant/2019/04/mysql-problem-and-source-code/</link><pubDate>Sat, 13 Apr 2019 11:24:17 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2019/04/mysql-problem-and-source-code/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/archived/">Archived</category><description>&lt;h2 id="問題1-連接數爲214-登錄經常報錯-too-many-connections" class="heading-element">&lt;span>問題1: 連接數爲214， 登錄經常報錯 too many connections&lt;/span>
  &lt;a href="#%e5%95%8f%e9%a1%8c1-%e9%80%a3%e6%8e%a5%e6%95%b8%e7%88%b2214-%e7%99%bb%e9%8c%84%e7%b6%93%e5%b8%b8%e5%a0%b1%e9%8c%af-too-many-connections" class="heading-mark">
  &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
  &lt;/a>
@@ -247,16 +146,7 @@ echo &amp;quot;$lvPath ${PATHS} ext4 defaults 1 0&amp;quot; &amp;gt;&amp;gt; /et
 for table metadata
 lock狀態的查詢，其中包含T_APP_INFO、TBL_UM_USER、T_TICKET_BASICINFO等表，跟故障服務一致，確定故障原因是數據庫鎖表引起；
 業務自行導出所有的阻塞task，並按照阻塞時間排序，發現第一條引起阻塞的是一條來來自於localhost的
-由root用戶發起的批量鎖表語句，疑似是問題根因。&lt;/p>
-&lt;p>上面這段是業務說的，已經排查的比較深入了，給個贊。&lt;/p>
-&lt;p>我之前通過直接kill掉這個query線程，他們的業務就正常走下去了，因爲忙其他事情，所以就沒有再關注。後面他們又出現了這個問題，這次必須要解決了。所以記錄一下定位過程。&lt;/p>
-&lt;h2 id="定位思路" class="heading-element">&lt;span>定位思路&lt;/span>
- &lt;a href="#%e5%ae%9a%e4%bd%8d%e6%80%9d%e8%b7%af" class="heading-mark">
- &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
- &lt;/a>
-&lt;/h2>&lt;ol>
-&lt;li>
-&lt;p>&lt;strong>[WHAT]&lt;/strong> &lt;a href="mailto:root@localhost"target="_blank" rel="external nofollow noopener noreferrer">root@localhost&lt;i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true">&lt;/i>&lt;/a> 的進程在做什麼？&lt;/p></description></item><item><title>Vmware Centos 雙網卡平面設置</title><link>https://travisbikkle.github.io/zh-hant/2019/02/vmware-centos7-interfaces/</link><pubDate>Sun, 10 Feb 2019 11:24:05 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2019/02/vmware-centos7-interfaces/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/archived/">Archived</category><description>&lt;pre>&lt;code>[root@host1 ~]# ip a
+由root用戶發起的批量鎖表語句，疑似是問題根因。&lt;/p></description></item><item><title>Vmware Centos 雙網卡平面設置</title><link>https://travisbikkle.github.io/zh-hant/2019/02/vmware-centos7-interfaces/</link><pubDate>Sun, 10 Feb 2019 11:24:05 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2019/02/vmware-centos7-interfaces/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/archived/">Archived</category><description>&lt;pre>&lt;code>[root@host1 ~]# ip a
 1: lo: &amp;lt;LOOPBACK,UP,LOWER_UP&amp;gt; mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
  link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
  inet 127.0.0.1/8 scope host lo
@@ -319,28 +209,11 @@ WHERE TRX_STATE = 'LOCK WAIT';
 show engine innodb status;
 &lt;/code>&lt;/pre></description></item><item><title>Mysql 遠程無法連接問題定位記錄</title><link>https://travisbikkle.github.io/zh-hant/2019/02/mysql-remote-connect-failed/</link><pubDate>Fri, 01 Feb 2019 11:24:09 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2019/02/mysql-remote-connect-failed/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/archived/">Archived</category><description>&lt;p>某業務通過Hibernate訪問mysql，後臺報錯 Access denied for user
 &lt;em>matexxx&lt;/em>@&lt;em>xxxx&lt;/em> (using password: YES);
-一般搞過開發的人都知道，這種問題不是密碼錯了，就是遠程連接未打開，這兩者其實都屬於一個問題，就是用戶的grant權限問題，但是此業務情況稍特殊。定位過程如下。&lt;/p>
-&lt;h2 id="查看用戶" class="heading-element">&lt;span>查看用戶&lt;/span>
- &lt;a href="#%e6%9f%a5%e7%9c%8b%e7%94%a8%e6%88%b6" class="heading-mark">
- &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
- &lt;/a>
-&lt;/h2>&lt;pre>&lt;code>SELECT USER,HOST FROM MYSQL.USER;
-&lt;/code>&lt;/pre>
-&lt;p>發現用戶matexxx對應的host爲
-%，說明遠程連接已經打開；詢問業務是否更改過密碼，引出問題背景：
-業務曾重裝過mysql，使用mysqldump將舊庫數據備份，並且只在新庫的master上執行了一次恢復操作。&lt;/p></description></item><item><title>使用 Systemd 託管的 Mysql 最大連接數問題</title><link>https://travisbikkle.github.io/zh-hant/2019/01/systemd-mysql-maxconnections/</link><pubDate>Sun, 20 Jan 2019 11:24:15 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2019/01/systemd-mysql-maxconnections/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/archived/">Archived</category><description>&lt;p>最大連接數問題&lt;/p>
+一般搞過開發的人都知道，這種問題不是密碼錯了，就是遠程連接未打開，這兩者其實都屬於一個問題，就是用戶的grant權限問題，但是此業務情況稍特殊。定位過程如下。&lt;/p></description></item><item><title>使用 Systemd 託管的 Mysql 最大連接數問題</title><link>https://travisbikkle.github.io/zh-hant/2019/01/systemd-mysql-maxconnections/</link><pubDate>Sun, 20 Jan 2019 11:24:15 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2019/01/systemd-mysql-maxconnections/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/archived/">Archived</category><description>&lt;p>最大連接數問題&lt;/p>
 &lt;p>背景： mysql 最大連接數在設置爲2000的情況下，併發始終只能達到480多；
 其它遇到過類似情況的項目組更改ulimit -s（stack
 size）到1024可以解決問題，但是我們經過測試無效；
-據說前期定位人員諮詢過mysql原廠的人，沒發現有什麼配置問題。&lt;/p>
-&lt;h2 id="測試工具" class="heading-element">&lt;span>測試工具&lt;/span>
- &lt;a href="#%e6%b8%ac%e8%a9%a6%e5%b7%a5%e5%85%b7" class="heading-mark">
- &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
- &lt;/a>
-&lt;/h2>&lt;p>mysqlslap -h127.0.0.1 -uroot -p123456789 &amp;ndash;concurrency=5000
-&amp;ndash;iterations=1 &amp;ndash;auto-generate-sql &amp;ndash;auto-generate-sql-load-type=mixed
-&amp;ndash;auto-generate-sql-add-autoincrement &amp;ndash;engine=innodb
-&amp;ndash;number-of-queries=1000000&lt;/p></description></item><item><title>Tcpdump 常用命令</title><link>https://travisbikkle.github.io/zh-hant/2019/01/tcpdump-common-commands/</link><pubDate>Sat, 12 Jan 2019 11:24:18 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2019/01/tcpdump-common-commands/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/archived/">Archived</category><description>&lt;ol>
+據說前期定位人員諮詢過mysql原廠的人，沒發現有什麼配置問題。&lt;/p></description></item><item><title>Tcpdump 常用命令</title><link>https://travisbikkle.github.io/zh-hant/2019/01/tcpdump-common-commands/</link><pubDate>Sat, 12 Jan 2019 11:24:18 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2019/01/tcpdump-common-commands/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/archived/">Archived</category><description>&lt;ol>
 &lt;li>
 &lt;p>man tcpdump&lt;/p>
 &lt;/li>
@@ -372,76 +245,7 @@ port 3306 || dst port 22) and dst host 100.107.166.116&lt;/em> ```&lt;/p></descr
 膨脹係數(50f100w)代表使用了50個字段100w行的數據進行測試。&lt;/p></description></item><item><title>在 Asciidoc 文檔中使用 Latex</title><link>https://travisbikkle.github.io/zh-hant/2018/11/asciidoc-latex/</link><pubDate>Tue, 06 Nov 2018 11:24:19 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2018/11/asciidoc-latex/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/archived/">Archived</category><description>&lt;p>本文基於 asciidoctor 1.5.7.13，其通過 mathjax 實現 LaTex
 字體的顯示，方法和 markdown 差不多，區別是
 markdown（不同差距實現方法不同）使用 &lt;code>$$&lt;/code> 或者 &lt;code>$``$&lt;/code> 包圍 LaTex
-語法，而 asciidoctor 使用 &lt;code>stem:[]&lt;/code> 包圍 LaTex 語法。&lt;/p>
-&lt;table>
-&lt;caption>單個符號對照表&lt;/caption>
-&lt;colgroup>
-&lt;col style="width: 50%" />
-&lt;col style="width: 50%" />
-&lt;/colgroup>
-&lt;tbody>
-&lt;tr class="odd">
-&lt;td>&lt;p>渲染後&lt;/p>&lt;/td>
-&lt;td>&lt;p>源碼&lt;/p>&lt;/td>
-&lt;/tr>
-&lt;tr class="even">
-&lt;td>&lt;p>stem:[\cdot]&lt;/p>&lt;/td>
-&lt;td>&lt;p>&lt;code>stem:[\cdot]&lt;/code>&lt;/p>&lt;/td>
-&lt;/tr>
-&lt;tr class="odd">
-&lt;td>&lt;p>stem:[\times]&lt;/p>&lt;/td>
-&lt;td>&lt;p>&lt;code>stem:[\times]&lt;/code>&lt;/p>&lt;/td>
-&lt;/tr>
-&lt;tr class="even">
-&lt;td>&lt;p>stem:[a^{prime} a]&lt;/p>&lt;/td>
-&lt;td>&lt;p>&lt;code>stem:[a^{prime} a]&lt;/code>&lt;/p>&lt;/td>
-&lt;/tr>
-&lt;tr class="odd">
-&lt;td>&lt;p>stem:[a’’]&lt;/p>&lt;/td>
-&lt;td>&lt;p>&lt;code>stem:[a’’]&lt;/code>&lt;/p>&lt;/td>
-&lt;/tr>
-&lt;tr class="even">
-&lt;td>&lt;/td>
-&lt;td>&lt;/td>
-&lt;/tr>
-&lt;tr class="odd">
-&lt;td>&lt;/td>
-&lt;td>&lt;/td>
-&lt;/tr>
-&lt;tr class="even">
-&lt;td>&lt;/td>
-&lt;td>&lt;/td>
-&lt;/tr>
-&lt;tr class="odd">
-&lt;td>&lt;/td>
-&lt;td>&lt;/td>
-&lt;/tr>
-&lt;tr class="even">
-&lt;td>&lt;/td>
-&lt;td>&lt;/td>
-&lt;/tr>
-&lt;tr class="odd">
-&lt;td>&lt;/td>
-&lt;td>&lt;/td>
-&lt;/tr>
-&lt;tr class="even">
-&lt;td>&lt;/td>
-&lt;td>&lt;/td>
-&lt;/tr>
-&lt;tr class="odd">
-&lt;td>&lt;/td>
-&lt;td>&lt;/td>
-&lt;/tr>
-&lt;tr class="even">
-&lt;td>&lt;/td>
-&lt;td>&lt;/td>
-&lt;/tr>
-&lt;tr class="odd">
-&lt;td>&lt;/td>
-&lt;td>&lt;/td>
-&lt;/tr>
-&lt;tr class="even">
-&lt;td>&lt;p>stem:[a’’’]&lt;/p></description></item><item><title>Btrace 使用教程</title><link>https://travisbikkle.github.io/zh-hant/2018/10/btrace-manual/</link><pubDate>Fri, 19 Oct 2018 11:24:06 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2018/10/btrace-manual/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/archived/">Archived</category><description>&lt;p>&lt;strong>BTrace&lt;/strong> 是 Java
+語法，而 asciidoctor 使用 &lt;code>stem:[]&lt;/code> 包圍 LaTex 語法。&lt;/p></description></item><item><title>Btrace 使用教程</title><link>https://travisbikkle.github.io/zh-hant/2018/10/btrace-manual/</link><pubDate>Fri, 19 Oct 2018 11:24:06 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2018/10/btrace-manual/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/archived/">Archived</category><description>&lt;p>&lt;strong>BTrace&lt;/strong> 是 Java
 的一個診斷工具，可以在不重啓應用的情況下，對應用進行時間耗費、參數及結果跟蹤、方法調用跟蹤等分析。&lt;/p>
 &lt;h2 id="btrace-術語" class="heading-element">&lt;span>BTrace 術語&lt;/span>
  &lt;a href="#btrace-%e8%a1%93%e8%aa%9e" class="heading-mark">
@@ -511,35 +315,7 @@ server，才能訪問 MySQL 參考：&lt;a href="https://cwiki.apache.org/conflu
 &lt;p>在 Id 一列可以看到分區類型爲``8e``
 ``83``等十進制數值，``8e``代表該分區由 Linux LVM
 管理，適用本文的擴容方法，如果你的分區類型爲``83``，代表其是 Linux
-Native Partion，可以參考link:[另一篇博文（尚未書寫）]。&lt;/p>
-&lt;p>我使用的是 VMware Workstation
-pro，在編輯虛擬機設置裏可以輕鬆增加磁盤大小（磁盤爲單個文件，而不是分割文件，如果你的硬盤是分割的多個文件，參考另一篇博文
-&lt;a href="">VMware 分割磁盤如何擴容(尚未編寫)&lt;/a>&lt;/p>
-&lt;pre>&lt;code>fdisk -l
-## 在 fdisk 輸出信息中，可以看到 Disk /dev/sda： 30 GB 類似的信息，證明磁盤增加成功，位置確認。
-
-## 以下命令爲交互式命令
-fdisk /dev/sda
-
-# 輸入 n 以創建新分區
-n
-# 輸入 p 以設置爲主分區
-p
-# 根據 fdisk -l 的信息，決定分區的編號，由於我的機器 fdisk -l 已經有 /dev/sda1 /dev/sda2 兩個，所以此處輸入 3
-3
-# 此處輸入兩次回車，以決定分區的開始和結束位置，默認使用剩餘全部未分配空間
-First cylinder.... 回車
-Last cylinder.... 回車
-# 此處輸入 t，並輸入 3 以選擇我們上面步驟剛剛創建的分區
-t
-3
-# 在 Hex code 的輸入步驟，輸入我們希望使用的 LVM 代碼符號：8e
-8e
-# 最後，輸入 w 以使上述所有更改生效
-w
-&lt;/code>&lt;/pre>
-&lt;p>在我的機器上，不需要重啓已經可以使用 &lt;code>fdisk -l&lt;/code> 查看到新創建的
-/dev/sda3，但是推薦你在此處先重啓一次，然後執行後續操作&lt;/p></description></item><item><title>使用 Ambari 安裝 Hdp 集羣</title><link>https://travisbikkle.github.io/zh-hant/2018/10/ambari-hdp-demo/</link><pubDate>Sat, 13 Oct 2018 11:24:08 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2018/10/ambari-hdp-demo/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/archived/">Archived</category><description>&lt;p>HDP 並不是 hadoop 的輔音簡稱，而是 Hortonworks 的產品 &lt;a href="https://community.hortonworks.com/questions/89821/difference-between-apache-hadoop-and-hdp.html"target="_blank" rel="external nofollow noopener noreferrer">Hortonworks Data
+Native Partion，可以參考link:[另一篇博文（尚未書寫）]。&lt;/p></description></item><item><title>使用 Ambari 安裝 Hdp 集羣</title><link>https://travisbikkle.github.io/zh-hant/2018/10/ambari-hdp-demo/</link><pubDate>Sat, 13 Oct 2018 11:24:08 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2018/10/ambari-hdp-demo/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/archived/">Archived</category><description>&lt;p>HDP 並不是 hadoop 的輔音簡稱，而是 Hortonworks 的產品 &lt;a href="https://community.hortonworks.com/questions/89821/difference-between-apache-hadoop-and-hdp.html"target="_blank" rel="external nofollow noopener noreferrer">Hortonworks Data
 Platform&lt;i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true">&lt;/i>&lt;/a>
 的簡稱，是包含 Hadoop 在內的一攬子解決方案。&lt;/p>
 &lt;h2 id="前置要求" class="heading-element">&lt;span>前置要求：&lt;/span>
@@ -554,52 +330,12 @@ Platform&lt;i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-seconda
 &lt;p>步驟：&lt;/p>
 &lt;ol>
 &lt;li>
-&lt;p>首先在 A 機器上生成密鑰對，一路回車&lt;/p>
-&lt;pre>&lt;code> ssh-keygen -t rsa
-&lt;/code>&lt;/pre>
-&lt;/li>
-&lt;li>
-&lt;p>在 A 機器上輸入，輸入 B 機器的密碼一次即可&lt;/p>
-&lt;pre>&lt;code> ssh-copy-id -i ~/.ssh/id_rsa.pub root@B
-&lt;/code>&lt;/pre>
-&lt;/li>
-&lt;/ol>
-&lt;p>所以同樣的操作，B機器上可能還要再操作一遍，如果機器多了，也是很煩，因此，更懶人的做法是：&lt;/p>
-&lt;ol>
-&lt;li>
-&lt;p>準備 xshell 5&lt;/p>
-&lt;/li>
-&lt;li>
-&lt;p>打開多個機器的 ssh 會話窗口&lt;/p>
-&lt;/li>
-&lt;li>
-&lt;p>配置好各個機器的 hostname&lt;/p>
-&lt;/li>
-&lt;li>
-&lt;p>在 xshell 底部，&amp;quot;&lt;code>發送命令到所有窗口&lt;/code>&amp;ldquo;這一行，依次輸入
-&lt;code>ssh-copy-id -i ~/.ssh/id_rsa.pub root@&amp;lt;主機名&amp;gt;&lt;/code> 即可。&lt;/p>
-&lt;/li>
-&lt;/ol></description></item><item><title>Vmware Clone Ubuntu. Ip 地址配置</title><link>https://travisbikkle.github.io/zh-hant/2018/10/vmware-clone-ubuntu18-ip-config/</link><pubDate>Sat, 13 Oct 2018 11:24:06 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2018/10/vmware-clone-ubuntu18-ip-config/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/archived/">Archived</category><description>&lt;p>在使用 VMware Workstation 克隆 Ubuntu Server 18.04
+&lt;p>首先在 A 機器上生成密鑰對，一路回車&lt;/p></description></item><item><title>Vmware Clone Ubuntu. Ip 地址配置</title><link>https://travisbikkle.github.io/zh-hant/2018/10/vmware-clone-ubuntu18-ip-config/</link><pubDate>Sat, 13 Oct 2018 11:24:06 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2018/10/vmware-clone-ubuntu18-ip-config/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/archived/">Archived</category><description>&lt;p>在使用 VMware Workstation 克隆 Ubuntu Server 18.04
 版本後，發現克隆前後的機器 IP 地址重複，
 且無論如何更改虛擬網絡設置（編輯-虛擬網絡編輯器）都無效。由於 Ubuntu
 18.04 採用 netplan (/etc/netplan) 而不是先前版本的
 /etc/network/interfaces 管理網卡設置，因此通過如下方法，將機器 IP
-地址更改爲靜態獲取，可以解決此問題。&lt;/p>
-&lt;p>&lt;strong>1. vi /etc/netplan/50-cloud-init.yaml (此文件名可能會變化).&lt;/strong>&lt;/p>
-&lt;pre>&lt;code>network:
- ethernets:
- ens33:
- dhcp4: no
- dhcp6: no
- addresses: [192.168.44.129/24,]
- gateway4: 192.168.44.1
- nameservers:
- addresses: [8.8.8.8, 8.8.4.4]
-&lt;/code>&lt;/pre>
-&lt;p>&lt;strong>2. 更改後，執行.&lt;/strong>&lt;/p>
-&lt;pre>&lt;code>&amp;gt;netplan apply
-&amp;gt;reboot
-&lt;/code>&lt;/pre></description></item><item><title>Ubuntu . 更改 Hostname</title><link>https://travisbikkle.github.io/zh-hant/2018/10/ubuntu18-hostname/</link><pubDate>Sat, 13 Oct 2018 11:24:04 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2018/10/ubuntu18-hostname/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/archived/">Archived</category><description>&lt;pre>&lt;code>vi /etc/cloud/cloud.cfg
+地址更改爲靜態獲取，可以解決此問題。&lt;/p></description></item><item><title>Ubuntu . 更改 Hostname</title><link>https://travisbikkle.github.io/zh-hant/2018/10/ubuntu18-hostname/</link><pubDate>Sat, 13 Oct 2018 11:24:04 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2018/10/ubuntu18-hostname/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/archived/">Archived</category><description>&lt;pre>&lt;code>vi /etc/cloud/cloud.cfg
 #preserve_hostname: false ---&amp;gt; 改成 true
 vi /etc/hostname
 reboot

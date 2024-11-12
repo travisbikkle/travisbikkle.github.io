@@ -1,40 +1,6 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>文章 | 奇風歲月</title><link>https://travisbikkle.github.io/zh-hant/posts/</link><description>独立开发者 Travis Bikkle 的个人博客</description><generator>Hugo 0.138.0 &amp; FixIt v0.3.15-fd15415b</generator><language>zh-hant</language><managingEditor>travisbikkle@proton.me (Travis Bikkle)</managingEditor><webMaster>travisbikkle@proton.me (Travis Bikkle)</webMaster><lastBuildDate>Tue, 12 Nov 2024 06:25:21 +0000</lastBuildDate><atom:link href="https://travisbikkle.github.io/zh-hant/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>SCWindow座標的一些轉換技巧</title><link>https://travisbikkle.github.io/zh-hant/2024/10/how-did-i-develop-mactoys-pin-window/</link><pubDate>Mon, 21 Oct 2024 11:24:35 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2024/10/how-did-i-develop-mactoys-pin-window/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/tips/">Tips</category><description>&lt;p>我們使用最多的是笛卡爾平面直角座標系，它以屏幕左下角爲原點，向上增加y座標，向右增加x座標。&lt;/p>
-&lt;p>SCWindow的座標則是以主屏幕左上角爲原點的翻轉座標，以下是一個簡單的對比圖：&lt;/p>
-&lt;p>&lt;img loading="lazy" src="https://travisbikkle.github.io/images/posts/make-mactoys/flip-coordinate.png" alt="alt text" srcset="https://travisbikkle.github.io/images/posts/make-mactoys/flip-coordinate.png?size=small, https://travisbikkle.github.io/images/posts/make-mactoys/flip-coordinate.png?size=medium 1.5x, https://travisbikkle.github.io/images/posts/make-mactoys/flip-coordinate.png?size=large 2x" data-title="alt text" style="--width: 424px;--aspect-ratio: 424 / 848;background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/p>
-&lt;p>在實際場景，尤其是多屏，在兩種座標系之間轉換，仍然不是一件容易的事情。&lt;/p>
-&lt;p>假設有兩個顯示屏，如下圖所示排列：&lt;/p>
-&lt;p>&lt;img loading="lazy" src="https://travisbikkle.github.io/images/posts/make-mactoys/two-screens-1.png" alt="alt text" srcset="https://travisbikkle.github.io/images/posts/make-mactoys/two-screens-1.png?size=small, https://travisbikkle.github.io/images/posts/make-mactoys/two-screens-1.png?size=medium 1.5x, https://travisbikkle.github.io/images/posts/make-mactoys/two-screens-1.png?size=large 2x" data-title="alt text" style="--width: 3074px;--aspect-ratio: 3074 / 1258;background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/p>
-&lt;p>黑色區域爲目標窗口，也是SCWindow的區域（如果你使用SCContentSharingPicker，那麼這塊區域就是它返回的SCContentFilter.contentRect），我們將要根據這個區域，計算出在平面直角座標系中的左上角座標。&lt;/p>
-&lt;p>說明：&lt;/p>
-&lt;ol>
-&lt;li>主屏（2560x1440），左下角原點(0,0)，副屏（1920x1080），左下角原點(2560,360)。&lt;/li>
-&lt;li>主屏和副屏的排列方式爲，上邊緣對齊&lt;/li>
-&lt;li>每個屏幕都會有25px的保留區域，可以認爲是系統頂部的狀態欄&lt;/li>
-&lt;/ol>
-&lt;p>你看，有很多的干擾因素。有狀態欄，有大小不一、排列隨時變化的顯示器，以及它們不一樣的原點。&lt;/p>
-&lt;p>你只有SCWindow.frame的值，你一開始並不知道SCWindow.frame.origin是翻轉的座標，Apple也不會在任何地方告訴你這一點，這就是蘋果軟件開發的日常。&lt;/p>
-&lt;p>好在經過不停地調試，最後我們能自己搞明白，SCWindow使用的是翻轉的座標。&lt;/p>
-&lt;p>所以上圖的答案是(2560,1440-25)。&lt;/p>
-&lt;h3 id="那麼做一些變化呢" class="heading-element">&lt;span>那麼做一些變化呢&lt;/span>
- &lt;a href="#%e9%82%a3%e9%ba%bc%e5%81%9a%e4%b8%80%e4%ba%9b%e8%ae%8a%e5%8c%96%e5%91%a2" class="heading-mark">
- &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
- &lt;/a>
-&lt;/h3>&lt;p>將副屏向下移動，使其底部邊緣和主屏對齊，原點變爲(2560,0)：&lt;/p></description></item><item><title>使用 CDN 低成本加速網站，或解決443和80端口被封問題</title><link>https://travisbikkle.github.io/zh-hant/2024/10/how-to-proxy-with-cdn/</link><pubDate>Fri, 04 Oct 2024 11:24:31 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2024/10/how-to-proxy-with-cdn/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/tips/">Tips</category><description>&lt;p>CDN是個好東西，我們一般需要使用CDN，來讓我們的網站能夠在全球都能快速訪問，並且降低服務器壓力，防止DDOS攻擊等。&lt;/p>
-&lt;p>簡單來說，你把你的域名的CNAME(如&lt;code>a.example.com&lt;/code>) 指向CDN廠商的域名(如&lt;code>abc.cloudfront.net&lt;/code>)。&lt;/p>
-&lt;p>用戶訪問&lt;code>a.example.com&lt;/code>的時候，實際上訪問的是&lt;code>abc.cloudfront.net&lt;/code>。&lt;code>abc.cloudfront.net&lt;/code>上面當然沒有你的站點資源，所以會回頭訪問你配置的源站（這一步叫做&lt;code>回源&lt;/code>）拉取資源，並存儲到本地（這一步叫做&lt;code>緩存&lt;/code>）。&lt;/p>
-&lt;p>你也可以在站點發布後，第一時間讓CDN拉取站點資源，並下發到它位於全球的站點，防止用戶在高峯期一窩蜂地訪問過來，導致源站壓力過大。這一步叫做&lt;code>預熱&lt;/code>。&lt;/p>
-&lt;p>用戶訪問CDN廠商的域名，CDN會分配個給用戶最近的站點，這樣用戶訪問的速度也快了。&lt;/p>
-&lt;p>CDN還支持指定回源的協議和端口，本文後面將會提及，這對使用家庭寬帶部署服務並且443和80端口被封鎖的用戶非常有幫助。&lt;/p>
-&lt;p>雖然我測試的域名在騰訊雲，但是我並沒有使用騰訊雲的cdn服務，因爲在選擇試用的時候，騰訊雲提示我沒有資格。&lt;/p>
-&lt;p>於是我只測試了cloudflare，aws，阿里雲的cdn服務，並在此記錄下來過程和配置，希望能夠幫助有需要的人。&lt;/p>
-&lt;h2 id="cloudflare" class="heading-element">&lt;span>Cloudflare&lt;/span>
- &lt;a href="#cloudflare" class="heading-mark">
- &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
- &lt;/a>
-&lt;/h2>&lt;ol>
-&lt;li>
-&lt;p>右上角點 &lt;code>Add site&lt;/code>，增加你的域名，按照推薦的配置即可&lt;/p></description></item><item><title>如何爲大疆mavic mini更換機臂</title><link>https://travisbikkle.github.io/zh-hant/2024/09/how-to-replace-dji-mavic-mini-arm/</link><pubDate>Sat, 28 Sep 2024 11:24:31 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2024/09/how-to-replace-dji-mavic-mini-arm/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/tips/">Tips</category><description>&lt;p>兒子的無人機摔斷了左前臂，之前一直用膠水粘着，趁着放假前，趕緊給他修一修。&lt;/p>
-&lt;h2 id="所需材料" class="heading-element">&lt;span>所需材料&lt;/span>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>文章 | 奇風歲月</title><link>https://travisbikkle.github.io/zh-hant/posts/</link><description>独立开发者 Travis Bikkle 的个人博客</description><generator>Hugo 0.138.0 &amp; FixIt v0.3.15-fd15415b</generator><language>zh-hant</language><managingEditor>travisbikkle@proton.me (Travis Bikkle)</managingEditor><webMaster>travisbikkle@proton.me (Travis Bikkle)</webMaster><lastBuildDate>Tue, 12 Nov 2024 11:53:31 +0000</lastBuildDate><atom:link href="https://travisbikkle.github.io/zh-hant/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>SCWindow座標的一些轉換技巧</title><link>https://travisbikkle.github.io/zh-hant/2024/10/how-did-i-develop-mactoys-pin-window/</link><pubDate>Mon, 21 Oct 2024 11:24:35 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2024/10/how-did-i-develop-mactoys-pin-window/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/tips/">Tips</category><description>&lt;p>我們使用最多的是笛卡爾平面直角座標系，它以屏幕左下角爲原點，向上增加y座標，向右增加x座標。&lt;/p>
+&lt;p>SCWindow的座標則是以主屏幕左上角爲原點的翻轉座標，以下是一個簡單的對比圖：&lt;/p></description></item><item><title>使用 CDN 低成本加速網站，或解決443和80端口被封問題</title><link>https://travisbikkle.github.io/zh-hant/2024/10/how-to-proxy-with-cdn/</link><pubDate>Fri, 04 Oct 2024 11:24:31 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2024/10/how-to-proxy-with-cdn/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/tips/">Tips</category><description>&lt;p>CDN是個好東西，我們一般需要使用CDN，來讓我們的網站能夠在全球都能快速訪問，並且降低服務器壓力，防止DDOS攻擊等。&lt;/p>
+&lt;p>簡單來說，你把你的域名的CNAME(如&lt;code>a.example.com&lt;/code>) 指向CDN廠商的域名(如&lt;code>abc.cloudfront.net&lt;/code>)。&lt;/p></description></item><item><title>如何爲大疆mavic mini更換機臂</title><link>https://travisbikkle.github.io/zh-hant/2024/09/how-to-replace-dji-mavic-mini-arm/</link><pubDate>Sat, 28 Sep 2024 11:24:31 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2024/09/how-to-replace-dji-mavic-mini-arm/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/tips/">Tips</category><description>&lt;h2 id="所需材料" class="heading-element">&lt;span>所需材料&lt;/span>
  &lt;a href="#%e6%89%80%e9%9c%80%e6%9d%90%e6%96%99" class="heading-mark">
  &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
  &lt;/a>
@@ -85,7 +51,7 @@
  &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
  &lt;/a>
 &lt;/h3>&lt;p>outer 方法調用 inner 方法的棧，從上至下。
-&lt;a class="lightgallery" href="https://travisbikkle.github.io/images/posts/20240822-local-variables.png?size=large" data-thumbnail="/images/posts/20240822-local-variables.png?size=small" data-sub-html="&lt;h2>本地變量&lt;/h2>">&lt;img loading="lazy" src="https://travisbikkle.github.io/images/posts/20240822-local-variables.png" alt="本地變量" srcset="https://travisbikkle.github.io/images/posts/20240822-local-variables.png?size=small, https://travisbikkle.github.io/images/posts/20240822-local-variables.png?size=medium 1.5x, https://travisbikkle.github.io/images/posts/20240822-local-variables.png?size=large 2x" data-title="本地變量" style="--width: 509px;--aspect-ratio: 509 / 237;background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/a>&lt;/p></description></item><item><title>OS 開發備忘</title><link>https://travisbikkle.github.io/zh-hant/2024/08/osdev-memo/</link><pubDate>Wed, 07 Aug 2024 17:32:12 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2024/08/osdev-memo/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/os/">OS</category><description>&lt;h2 id="顯示vga-text-mode" class="heading-element">&lt;span>顯示（VGA TEXT MODE）&lt;/span>
+&lt;img loading="lazy" src="https://travisbikkle.github.io/images/posts/20240822-local-variables.png" alt="本地變量" srcset="https://travisbikkle.github.io/images/posts/20240822-local-variables.png?size=small, https://travisbikkle.github.io/images/posts/20240822-local-variables.png?size=medium 1.5x, https://travisbikkle.github.io/images/posts/20240822-local-variables.png?size=large 2x" data-title="本地變量" style="--width: 509px;--aspect-ratio: 509 / 237;background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/p></description></item><item><title>OS 開發備忘</title><link>https://travisbikkle.github.io/zh-hant/2024/08/osdev-memo/</link><pubDate>Wed, 07 Aug 2024 17:32:12 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2024/08/osdev-memo/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/os/">OS</category><description>&lt;h2 id="顯示vga-text-mode" class="heading-element">&lt;span>顯示（VGA TEXT MODE）&lt;/span>
  &lt;a href="#%e9%a1%af%e7%a4%bavga-text-mode" class="heading-mark">
  &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
  &lt;/a>
@@ -247,14 +213,7 @@
  &lt;a href="#%e5%89%8d%e6%8f%90" class="heading-mark">
  &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
  &lt;/a>
-&lt;/h2>&lt;p>當你在 foo.com 使用 js 來訪問 bar.com/api 的時候，你可能會遇到下面這樣的錯誤（但你能夠使用 curl 訪問它）：&lt;/p></description></item><item><title>Tauri 使用 vue-devtools</title><link>https://travisbikkle.github.io/zh-hant/2024/08/2024-08-05-auri/</link><pubDate>Mon, 05 Aug 2024 16:07:11 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2024/08/2024-08-05-auri/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/front-end/">Front-End</category><description>&lt;p>Tauri 號稱不強迫開發者（un-opinionated）、不依賴具體前端框架的（agnostic）桌面應用框架，Vue又以其簡單易上手的特點在開發者中非常流行。&lt;/p>
-&lt;p>Vue Devtools 是一款可以在瀏覽器控制檯中顯示 vue 程序詳情的小工具。&lt;/p>
-&lt;p>今天我們將它們結合起來，演示如何在一個新項目中配置 Vue Devtools.&lt;/p>
-&lt;h2 id="前提" class="heading-element">&lt;span>前提&lt;/span>
- &lt;a href="#%e5%89%8d%e6%8f%90" class="heading-mark">
- &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
- &lt;/a>
-&lt;/h2>&lt;p>使用腳手架命令創建應用。&lt;/p></description></item><item><title>Electron 中文搜索</title><link>https://travisbikkle.github.io/zh-hant/2024/07/chinese-search/</link><pubDate>Mon, 29 Jul 2024 10:22:28 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2024/07/chinese-search/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/front-end/">Front-End</category><description>&lt;p>這篇文章快速演示如何使用 js-search, nodejieba（結巴）來在 Electron 中實現中文搜索。&lt;/p>
+&lt;/h2>&lt;p>當你在 foo.com 使用 js 來訪問 bar.com/api 的時候，你可能會遇到下面這樣的錯誤（但你能夠使用 curl 訪問它）：&lt;/p></description></item><item><title>Tauri 使用 vue-devtools</title><link>https://travisbikkle.github.io/zh-hant/2024/08/2024-08-05-auri/</link><pubDate>Mon, 05 Aug 2024 16:07:11 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2024/08/2024-08-05-auri/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/front-end/">Front-End</category><description>&lt;p>Tauri 號稱不強迫開發者（un-opinionated）、不依賴具體前端框架的（agnostic）桌面應用框架，Vue又以其簡單易上手的特點在開發者中非常流行。&lt;/p></description></item><item><title>Electron 中文搜索</title><link>https://travisbikkle.github.io/zh-hant/2024/07/chinese-search/</link><pubDate>Mon, 29 Jul 2024 10:22:28 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2024/07/chinese-search/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/front-end/">Front-End</category><description>&lt;p>這篇文章快速演示如何使用 js-search, nodejieba（結巴）來在 Electron 中實現中文搜索。&lt;/p>
 &lt;p>它快速，實時，比你見過的任何一種搜索都快，快到爆漿。&lt;/p>
 &lt;table>
  &lt;thead>
@@ -278,148 +237,15 @@
  &lt;/tr>
  &lt;/tbody>
 &lt;/table>
-&lt;p>本文將帶你解決在中國大陸使用 npm 鏡像及 nodejieba 可能遇到的一系列問題：&lt;/p>
-&lt;ol>
-&lt;li>npmmirror 中的 nodejieba 包不存在或無法下載&lt;/li>
-&lt;li>nodejieba 無人維護，不支持在 win11 及 vs studio 2022 版本運行&lt;/li>
-&lt;li>nodejieba 不支持 typescript&lt;/li>
-&lt;/ol>
-&lt;h2 id="添加依賴" class="heading-element">&lt;span>添加依賴&lt;/span>
- &lt;a href="#%e6%b7%bb%e5%8a%a0%e4%be%9d%e8%b3%b4" class="heading-mark">
- &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
- &lt;/a>
-&lt;/h2>&lt;div class="highlight">&lt;div class="chroma">
-&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
-&lt;/span>&lt;span class="lnt">2
-&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
-&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">npm i js-search
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">npm i nodejieba@2.6.0 --save-optional --ignore-scripts&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
-&lt;/div>
-&lt;/div>&lt;p>爲什麼 nodejieba 要採取這種方式？因爲 nodejieba 是用 c++ 編寫，而它的社區已經不活躍了。它的編譯腳本會失敗。我們需要跳過它的腳本，自己編譯。&lt;/p></description></item><item><title>怎麼在 Java 中限制用戶訪問頻率</title><link>https://travisbikkle.github.io/zh-hant/2024/07/request-limit/</link><pubDate>Mon, 29 Jul 2024 10:21:11 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2024/07/request-limit/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/back-end/">Back-End</category><description>&lt;p>我們當然要限制用戶訪問頻率，因爲用戶可能生氣，並狂點我們的網站或應用。&lt;/p>
+&lt;p>本文將帶你解決在中國大陸使用 npm 鏡像及 nodejieba 可能遇到的一系列問題：&lt;/p></description></item><item><title>怎麼在 Java 中限制用戶訪問頻率</title><link>https://travisbikkle.github.io/zh-hant/2024/07/request-limit/</link><pubDate>Mon, 29 Jul 2024 10:21:11 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2024/07/request-limit/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/back-end/">Back-End</category><description>&lt;p>我們當然要限制用戶訪問頻率，因爲用戶可能生氣，並狂點我們的網站或應用。&lt;/p>
 &lt;p>他也可能很壞，使用一些爬蟲試圖拖垮我們的服務器。&lt;/p>
 &lt;p>所以怎麼實現呢？&lt;/p>
-&lt;p>本文使用 springboot，並將用戶的信息和訪問頻率記錄到 redis 中，如果你沒有使用 redis，也不影響，你可以參考着自己實現，比如存儲到內存或數據庫中。&lt;/p>
-&lt;h2 id="想想這個需求從第一性原理出發" class="heading-element">&lt;span>想想這個需求，從第一性原理出發&lt;/span>
- &lt;a href="#%e6%83%b3%e6%83%b3%e9%80%99%e5%80%8b%e9%9c%80%e6%b1%82%e5%be%9e%e7%ac%ac%e4%b8%80%e6%80%a7%e5%8e%9f%e7%90%86%e5%87%ba%e7%99%bc" class="heading-mark">
- &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
- &lt;/a>
-&lt;/h2>&lt;p>用戶可能沒有登錄，或者已經登錄了。&lt;/p></description></item><item><title>Oauth2 限制登錄一個客戶端</title><link>https://travisbikkle.github.io/zh-hant/2024/07/oauth2-single-login/</link><pubDate>Fri, 19 Jul 2024 10:20:30 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2024/07/oauth2-single-login/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/back-end/">Back-End</category><description>&lt;p>有時候我們希望用戶只能在一臺設備登錄賬號（我們太吝嗇了）。&lt;/p>
+&lt;p>本文使用 springboot，並將用戶的信息和訪問頻率記錄到 redis 中，如果你沒有使用 redis，也不影響，你可以參考着自己實現，比如存儲到內存或數據庫中。&lt;/p></description></item><item><title>Oauth2 限制登錄一個客戶端</title><link>https://travisbikkle.github.io/zh-hant/2024/07/oauth2-single-login/</link><pubDate>Fri, 19 Jul 2024 10:20:30 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2024/07/oauth2-single-login/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/back-end/">Back-End</category><description>&lt;p>有時候我們希望用戶只能在一臺設備登錄賬號（我們太吝嗇了）。&lt;/p>
 &lt;p>使用 springboot oauth2 怎麼實現呢？&lt;/p>
 &lt;p>注意本文不會帶你使用 spring security 實現 oauth2 登錄，僅僅是討論我們那個吝嗇的需求。&lt;/p>
-&lt;p>假設我們有這樣一個自定義的認證實現類：&lt;/p>
-&lt;div class="highlight">&lt;div class="chroma">
-&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
-&lt;/span>&lt;span class="lnt"> 2
-&lt;/span>&lt;span class="lnt"> 3
-&lt;/span>&lt;span class="lnt"> 4
-&lt;/span>&lt;span class="lnt"> 5
-&lt;/span>&lt;span class="lnt"> 6
-&lt;/span>&lt;span class="lnt"> 7
-&lt;/span>&lt;span class="lnt"> 8
-&lt;/span>&lt;span class="lnt"> 9
-&lt;/span>&lt;span class="lnt">10
-&lt;/span>&lt;span class="lnt">11
-&lt;/span>&lt;span class="lnt">12
-&lt;/span>&lt;span class="lnt">13
-&lt;/span>&lt;span class="lnt">14
-&lt;/span>&lt;span class="lnt">15
-&lt;/span>&lt;span class="lnt">16
-&lt;/span>&lt;span class="lnt">17
-&lt;/span>&lt;span class="lnt">18
-&lt;/span>&lt;span class="lnt">19
-&lt;/span>&lt;span class="lnt">20
-&lt;/span>&lt;span class="lnt">21
-&lt;/span>&lt;span class="lnt">22
-&lt;/span>&lt;span class="lnt">23
-&lt;/span>&lt;span class="lnt">24
-&lt;/span>&lt;span class="lnt">25
-&lt;/span>&lt;span class="lnt">26
-&lt;/span>&lt;span class="lnt">27
-&lt;/span>&lt;span class="lnt">28
-&lt;/span>&lt;span class="lnt">29
-&lt;/span>&lt;span class="lnt">30
-&lt;/span>&lt;span class="lnt">31
-&lt;/span>&lt;span class="lnt">32
-&lt;/span>&lt;span class="lnt">33
-&lt;/span>&lt;span class="lnt">34
-&lt;/span>&lt;span class="lnt">35
-&lt;/span>&lt;span class="lnt">36
-&lt;/span>&lt;span class="lnt">37
-&lt;/span>&lt;span class="lnt">38
-&lt;/span>&lt;span class="lnt">39
-&lt;/span>&lt;span class="lnt">40
-&lt;/span>&lt;span class="lnt">41
-&lt;/span>&lt;span class="lnt">42
-&lt;/span>&lt;span class="lnt">43
-&lt;/span>&lt;span class="lnt">44
-&lt;/span>&lt;span class="lnt">45
-&lt;/span>&lt;span class="lnt">46
-&lt;/span>&lt;span class="lnt">47
-&lt;/span>&lt;span class="lnt">48
-&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
-&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-java" data-lang="java">&lt;span class="line">&lt;span class="cl">&lt;span class="kd">public&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="kd">class&lt;/span> &lt;span class="nc">RedisOAuth2AuthorizationService&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="kd">implements&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">OAuth2AuthorizationService&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">{&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">	&lt;/span>&lt;span class="kd">private&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="kd">final&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="kd">static&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">Long&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">TIMEOUT&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">10L&lt;/span>&lt;span class="p">;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">	&lt;/span>&lt;span class="kd">private&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="kd">static&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="kd">final&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">String&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">AUTHORIZATION&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s">&amp;#34;token&amp;#34;&lt;/span>&lt;span class="p">;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">	&lt;/span>&lt;span class="kd">private&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="kd">final&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">RedisTemplate&lt;/span>&lt;span class="o">&amp;lt;&lt;/span>&lt;span class="n">String&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">Object&lt;/span>&lt;span class="o">&amp;gt;&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">redisTemplate&lt;/span>&lt;span class="p">;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">	&lt;/span>&lt;span class="nd">@Override&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">	&lt;/span>&lt;span class="kd">public&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="kt">void&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nf">save&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">OAuth2Authorization&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">authorization&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">{&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="c1">// is refresh token mode or code mode&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="c1">// ...&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="c1">// is access token mode&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">		&lt;/span>&lt;span class="k">if&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">isAccessToken&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">authorization&lt;/span>&lt;span class="p">))&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">{&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">			&lt;/span>&lt;span class="n">OAuth2AccessToken&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">accessToken&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">authorization&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="na">getAccessToken&lt;/span>&lt;span class="p">().&lt;/span>&lt;span class="na">getToken&lt;/span>&lt;span class="p">();&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">			&lt;/span>&lt;span class="kt">long&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">between&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">ChronoUnit&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="na">SECONDS&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="na">between&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">accessToken&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="na">getIssuedAt&lt;/span>&lt;span class="p">(),&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">accessToken&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="na">getExpiresAt&lt;/span>&lt;span class="p">());&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">			&lt;/span>&lt;span class="n">redisTemplate&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="na">setValueSerializer&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">RedisSerializer&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="na">java&lt;/span>&lt;span class="p">());&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">			&lt;/span>&lt;span class="n">redisTemplate&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="na">opsForValue&lt;/span>&lt;span class="p">()&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">				&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="na">set&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">buildKey&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">OAuth2ParameterNames&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="na">ACCESS_TOKEN&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">accessToken&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="na">getTokenValue&lt;/span>&lt;span class="p">()),&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">authorization&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">between&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">						&lt;/span>&lt;span class="n">TimeUnit&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="na">SECONDS&lt;/span>&lt;span class="p">);&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">		&lt;/span>&lt;span class="p">}&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">	&lt;/span>&lt;span class="p">}&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">	&lt;/span>&lt;span class="nd">@Override&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">	&lt;/span>&lt;span class="kd">public&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="kt">void&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nf">remove&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">OAuth2Authorization&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">authorization&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">{&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="c1">// is refresh token mode or code mode&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="c1">// ...&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="c1">// is access token mode&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">		&lt;/span>&lt;span class="k">if&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">isAccessToken&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">authorization&lt;/span>&lt;span class="p">))&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">{&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">			&lt;/span>&lt;span class="n">OAuth2AccessToken&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">accessToken&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">authorization&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="na">getAccessToken&lt;/span>&lt;span class="p">().&lt;/span>&lt;span class="na">getToken&lt;/span>&lt;span class="p">();&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">			&lt;/span>&lt;span class="n">keys&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="na">add&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">buildKey&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">OAuth2ParameterNames&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="na">ACCESS_TOKEN&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">accessToken&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="na">getTokenValue&lt;/span>&lt;span class="p">()));&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">		&lt;/span>&lt;span class="p">}&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">		&lt;/span>&lt;span class="n">redisTemplate&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="na">delete&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">keys&lt;/span>&lt;span class="p">);&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">	&lt;/span>&lt;span class="p">}&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">	&lt;/span>&lt;span class="nd">@Override&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">	&lt;/span>&lt;span class="nd">@Nullable&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">	&lt;/span>&lt;span class="kd">public&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">OAuth2Authorization&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nf">findByToken&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">String&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">token&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nd">@Nullable&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">OAuth2TokenType&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">tokenType&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">{&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">		&lt;/span>&lt;span class="n">Assert&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="na">hasText&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">token&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s">&amp;#34;token cannot be empty&amp;#34;&lt;/span>&lt;span class="p">);&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">		&lt;/span>&lt;span class="n">Assert&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="na">notNull&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">tokenType&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s">&amp;#34;tokenType cannot be empty&amp;#34;&lt;/span>&lt;span class="p">);&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">		&lt;/span>&lt;span class="n">redisTemplate&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="na">setValueSerializer&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">RedisSerializer&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="na">java&lt;/span>&lt;span class="p">());&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">		&lt;/span>&lt;span class="k">return&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">OAuth2Authorization&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">redisTemplate&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="na">opsForValue&lt;/span>&lt;span class="p">().&lt;/span>&lt;span class="na">get&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">buildKey&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">tokenType&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="na">getValue&lt;/span>&lt;span class="p">(),&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">token&lt;/span>&lt;span class="p">));&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">	&lt;/span>&lt;span class="p">}&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="kd">private&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">String&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nf">buildKey&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">String&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">type&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">String&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">id&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">{&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="k">return&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">String&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="na">format&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;%s::%s::%s&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">AUTHORIZATION&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">type&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">id&lt;/span>&lt;span class="p">);&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="p">}&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="c1">// ...&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="p">}&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
-&lt;/div>
-&lt;/div>&lt;p>它將 token 存儲到 redis 中。key 是下面這種格式：&lt;/p></description></item><item><title>獲取用戶真實IP</title><link>https://travisbikkle.github.io/zh-hant/2024/07/get-user-real-ip/</link><pubDate>Mon, 15 Jul 2024 10:20:57 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2024/07/get-user-real-ip/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/back-end/">Back-End</category><description>&lt;p>這是一個非常簡單的問題，但是在信息傳播過程中，發生了一些錯誤。&lt;/p>
+&lt;p>假設我們有這樣一個自定義的認證實現類：&lt;/p></description></item><item><title>獲取用戶真實IP</title><link>https://travisbikkle.github.io/zh-hant/2024/07/get-user-real-ip/</link><pubDate>Mon, 15 Jul 2024 10:20:57 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2024/07/get-user-real-ip/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/back-end/">Back-End</category><description>&lt;p>這是一個非常簡單的問題，但是在信息傳播過程中，發生了一些錯誤。&lt;/p>
 &lt;p>比如一些人會說，你配置 X-Real-Ip 啊，這樣就行了。&lt;/p>
-&lt;p>或者有些人會問，X-Real-Ip 和 X-Forward-For 有什麼區別，原理是什麼？&lt;/p>
-&lt;p>儼然是把 X-Real-Ip 給誤解了。&lt;/p>
-&lt;p>本文帶你看看，到底什麼是 X-Real-Ip。&lt;/p>
-&lt;h2 id="快速回答" class="heading-element">&lt;span>快速回答&lt;/span>
- &lt;a href="#%e5%bf%ab%e9%80%9f%e5%9b%9e%e7%ad%94" class="heading-mark">
- &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
- &lt;/a>
-&lt;/h2>&lt;p>X-Real-Ip 什麼也不是。你可以使用 My-Real-Ip，His-Real-Ip，隨便什麼字符串。&lt;/p></description></item><item><title>Electron Linux 風格標題欄</title><link>https://travisbikkle.github.io/zh-hant/2024/07/linux-like-titlebar/</link><pubDate>Fri, 05 Jul 2024 10:21:38 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2024/07/linux-like-titlebar/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/front-end/">Front-End</category><description>&lt;p>本文將演示如何在 Electron 中快速實現一個標題欄，可以捲起，拖動，並帶你進一步瞭解 Electron 的 bug。&lt;/p>
+&lt;p>或者有些人會問，X-Real-Ip 和 X-Forward-For 有什麼區別，原理是什麼？&lt;/p></description></item><item><title>Electron Linux 風格標題欄</title><link>https://travisbikkle.github.io/zh-hant/2024/07/linux-like-titlebar/</link><pubDate>Fri, 05 Jul 2024 10:21:38 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2024/07/linux-like-titlebar/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/front-end/">Front-End</category><description>&lt;p>本文將演示如何在 Electron 中快速實現一個標題欄，可以捲起，拖動，並帶你進一步瞭解 Electron 的 bug。&lt;/p>
 &lt;h2 id="隱藏默認標題欄" class="heading-element">&lt;span>隱藏默認標題欄&lt;/span>
  &lt;a href="#%e9%9a%b1%e8%97%8f%e9%bb%98%e8%aa%8d%e6%a8%99%e9%a1%8c%e6%ac%84" class="heading-mark">
  &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
@@ -465,13 +291,7 @@
 &lt;/table>
 &lt;blockquote>
 &lt;p>&lt;a href="https://aria2.github.io/manual/en/html/aria2c.html"target="_blank" rel="external nofollow noopener noreferrer">aria2 文檔&lt;i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true">&lt;/i>&lt;/a>
-&lt;a href="https://www.npmjs.com/package/react-use-websocket"target="_blank" rel="external nofollow noopener noreferrer">react-use-websocket 文檔&lt;i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true">&lt;/i>&lt;/a>&lt;/p>
-&lt;/blockquote>
-&lt;h3 id="成品演示" class="heading-element">&lt;span>成品演示&lt;/span>
- &lt;a href="#%e6%88%90%e5%93%81%e6%bc%94%e7%a4%ba" class="heading-mark">
- &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
- &lt;/a>
-&lt;/h3>&lt;p>&lt;a class="lightgallery" href="https://travisbikkle.github.io/images/posts/20240729-download-demo.jpg?size=large" data-thumbnail="/images/posts/20240729-download-demo.jpg?size=small" data-sub-html="&lt;h2>/images/posts/20240729-download-demo.jpg&lt;/h2>">&lt;img loading="lazy" src="https://travisbikkle.github.io/images/posts/20240729-download-demo.jpg" alt="/images/posts/20240729-download-demo.jpg" srcset="https://travisbikkle.github.io/images/posts/20240729-download-demo.jpg?size=small, https://travisbikkle.github.io/images/posts/20240729-download-demo.jpg?size=medium 1.5x, https://travisbikkle.github.io/images/posts/20240729-download-demo.jpg?size=large 2x" data-title="/images/posts/20240729-download-demo.jpg" style="--width: 2433px;--aspect-ratio: 2433 / 585;background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/a>&lt;/p></description></item><item><title>Electron 源碼保護</title><link>https://travisbikkle.github.io/zh-hant/2024/06/electron-bytecode/</link><pubDate>Sat, 29 Jun 2024 10:15:44 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2024/06/electron-bytecode/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/front-end/">Front-End</category><description>&lt;p>這是一個示例，演示如何快速在你的 Electron 項目中啓用字節碼保護，沒有多餘的廢話。&lt;/p>
+&lt;a href="https://www.npmjs.com/package/react-use-websocket"target="_blank" rel="external nofollow noopener noreferrer">react-use-websocket 文檔&lt;i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true">&lt;/i>&lt;/a>&lt;/p></description></item><item><title>Electron 源碼保護</title><link>https://travisbikkle.github.io/zh-hant/2024/06/electron-bytecode/</link><pubDate>Sat, 29 Jun 2024 10:15:44 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2024/06/electron-bytecode/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/front-end/">Front-End</category><description>&lt;p>這是一個示例，演示如何快速在你的 Electron 項目中啓用字節碼保護，沒有多餘的廢話。&lt;/p>
 &lt;h2 id="環境" class="heading-element">&lt;span>環境&lt;/span>
  &lt;a href="#%e7%92%b0%e5%a2%83" class="heading-mark">
  &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
@@ -528,70 +348,7 @@
  &lt;/tr>
  &lt;/tbody>
 &lt;/table>
-&lt;p>本地150自提了這個路由器，準備用它的多 wan 口搞搞事情，但是沒想到掉坑裏了：&lt;/p></description></item><item><title>electron-log@5 的使用</title><link>https://travisbikkle.github.io/zh-hant/2024/05/2024-05-17-electron-log-v5/</link><pubDate>Fri, 17 May 2024 18:21:53 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2024/05/2024-05-17-electron-log-v5/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/front-end/">Front-End</category><description>&lt;p>我們使用一個開源軟件，一般都是通過搜索示例或教程來學習如何使用。可是如果一個軟件發生過不兼容的變更，而網絡上一般都是些舊的做法，這樣就會給我們帶來非常大的心智負擔。&lt;/p>
-&lt;p>因此我建議有志之士儘量去看官方文檔，即使它可能是英語，或者沒有太好的示例，仍然要去看，而不是被一些沒頭沒尾或者抄來抄去的博客耽誤你的時間。&lt;/p>
-&lt;p>Electron 的官方文檔就非常得不詳細，它也在 main，preload，renderer 這一塊變過很多次，詳情可以看看博客中的上一篇文章《在 webapck+electron+typescript中使用go開發的node插件》。&lt;/p>
-&lt;p>本文說說一個常用的日誌小工具 electron-log 的使用（基於 5.1.4）。&lt;/p>
-&lt;ol>
-&lt;li>引入
-&lt;div class="highlight">&lt;div class="chroma">
-&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
-&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
-&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">npm i electron-log&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
-&lt;/div>
-&lt;/div>&lt;/li>
-&lt;li>自己定義一個 logger.ts（也可以在 main.ts 中直接定義）
-&lt;div class="highlight">&lt;div class="chroma">
-&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
-&lt;/span>&lt;span class="lnt">2
-&lt;/span>&lt;span class="lnt">3
-&lt;/span>&lt;span class="lnt">4
-&lt;/span>&lt;span class="lnt">5
-&lt;/span>&lt;span class="lnt">6
-&lt;/span>&lt;span class="lnt">7
-&lt;/span>&lt;span class="lnt">8
-&lt;/span>&lt;span class="lnt">9
-&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
-&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-javascript" data-lang="javascript">&lt;span class="line">&lt;span class="cl">&lt;span class="kr">import&lt;/span> &lt;span class="nx">log&lt;/span> &lt;span class="nx">from&lt;/span> &lt;span class="s1">&amp;#39;electron-log/main&amp;#39;&lt;/span>&lt;span class="p">;&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nx">log&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">transports&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">console&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">level&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="kc">false&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="c1">// 控制檯關閉輸出（只輸出到文件）
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="nx">log&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">transports&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">file&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">level&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s1">&amp;#39;silly&amp;#39;&lt;/span>&lt;span class="p">;&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nx">log&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">transports&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">file&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">maxSize&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">1002430&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="c1">// 文件最大不超過 1M
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="nx">log&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">transports&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">file&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">format&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s1">&amp;#39;[{y}-{m}-{d} {h}:{i}:{s}.{ms}] [{level}]{scope} {text}&amp;#39;&lt;/span>&lt;span class="p">;&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kr">const&lt;/span> &lt;span class="nx">date&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="k">new&lt;/span> &lt;span class="nb">Date&lt;/span>&lt;span class="p">();&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kr">const&lt;/span> &lt;span class="nx">dateStr&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">date&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">getFullYear&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="o">+&lt;/span> &lt;span class="s1">&amp;#39;-&amp;#39;&lt;/span> &lt;span class="o">+&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="nx">date&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">getMonth&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="o">+&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">+&lt;/span> &lt;span class="s1">&amp;#39;-&amp;#39;&lt;/span> &lt;span class="o">+&lt;/span> &lt;span class="nx">date&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">getDate&lt;/span>&lt;span class="p">();&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nx">log&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">transports&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">file&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">resolvePathFn&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">()&lt;/span> &lt;span class="p">=&amp;gt;&lt;/span> &lt;span class="s1">&amp;#39;log\\&amp;#39;&lt;/span> &lt;span class="o">+&lt;/span> &lt;span class="nx">dateStr&lt;/span> &lt;span class="o">+&lt;/span> &lt;span class="s1">&amp;#39;.log&amp;#39;&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="c1">// 在程序的安裝目錄（生產），或代碼根目錄（開發）的 log 文件夾下打印日誌。忘掉 %USERPROFILE%\AppData\... 吧
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="kr">export&lt;/span> &lt;span class="k">default&lt;/span> &lt;span class="nx">log&lt;/span>&lt;span class="p">;&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
-&lt;/div>
-&lt;/div>&lt;/li>
-&lt;li>在 main.ts 中引入 logger
-&lt;div class="highlight">&lt;div class="chroma">
-&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
-&lt;/span>&lt;span class="lnt">2
-&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
-&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-javascript" data-lang="javascript">&lt;span class="line">&lt;span class="cl">&lt;span class="kr">import&lt;/span> &lt;span class="nx">logger&lt;/span> &lt;span class="nx">from&lt;/span> &lt;span class="s1">&amp;#39;_main/logger&amp;#39;&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="c1">// 路徑自己修改一下到你的 logger.ts，本文已做簡化
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="nx">logger&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">initialize&lt;/span>&lt;span class="p">();&lt;/span> &lt;span class="c1">// 在任何 logger 使用之前執行
-&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
-&lt;/div>
-&lt;/div>&lt;/li>
-&lt;li>在 preload 或者 renderer 進程中使用
-&lt;div class="highlight">&lt;div class="chroma">
-&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
-&lt;/span>&lt;span class="lnt">2
-&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
-&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-javascript" data-lang="javascript">&lt;span class="line">&lt;span class="cl">&lt;span class="kr">import&lt;/span> &lt;span class="nx">logger&lt;/span> &lt;span class="nx">from&lt;/span> &lt;span class="s2">&amp;#34;_main/logger&amp;#34;&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="c1">// 路徑自己修改一下到你的 logger.ts，本文已做簡化
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="nx">logger&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">log&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;一行日誌&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
-&lt;/div>
-&lt;/div>&lt;/li>
-&lt;/ol>
-&lt;p>舊的方法比如使用 ipc 等，在老版本是可以用的。但是在 5.1.4 版本，打包後的程序會無法打印日誌。&lt;/p></description></item><item><title>在 webapck+electron+typescript中使用go開發的node插件</title><link>https://travisbikkle.github.io/zh-hant/2024/04/2024-04-23-webpack-electron-node-addon/</link><pubDate>Tue, 23 Apr 2024 18:21:53 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2024/04/2024-04-23-webpack-electron-node-addon/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/front-end/">Front-End</category><description>&lt;h2 id="node-插件electron-和-webpack-那些事" class="heading-element">&lt;span>node 插件，electron 和 webpack 那些事&lt;/span>
+&lt;p>本地150自提了這個路由器，準備用它的多 wan 口搞搞事情，但是沒想到掉坑裏了：&lt;/p></description></item><item><title>electron-log@5 的使用</title><link>https://travisbikkle.github.io/zh-hant/2024/05/2024-05-17-electron-log-v5/</link><pubDate>Fri, 17 May 2024 18:21:53 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2024/05/2024-05-17-electron-log-v5/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/front-end/">Front-End</category><description>&lt;p>我們使用一個開源軟件，一般都是通過搜索示例或教程來學習如何使用。可是如果一個軟件發生過不兼容的變更，而網絡上一般都是些舊的做法，這樣就會給我們帶來非常大的心智負擔。&lt;/p></description></item><item><title>在 webapck+electron+typescript中使用go開發的node插件</title><link>https://travisbikkle.github.io/zh-hant/2024/04/2024-04-23-webpack-electron-node-addon/</link><pubDate>Tue, 23 Apr 2024 18:21:53 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2024/04/2024-04-23-webpack-electron-node-addon/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/front-end/">Front-End</category><description>&lt;h2 id="node-插件electron-和-webpack-那些事" class="heading-element">&lt;span>node 插件，electron 和 webpack 那些事&lt;/span>
  &lt;a href="#node-%e6%8f%92%e4%bb%b6electron-%e5%92%8c-webpack-%e9%82%a3%e4%ba%9b%e4%ba%8b" class="heading-mark">
  &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
  &lt;/a>
@@ -622,56 +379,7 @@
 &lt;li>
 &lt;p>webpack.config.js&lt;/p>
 &lt;style type="text/css">.notice{--root-color:#444;--root-background:#eff;--title-color:#fff;--title-background:#7bd;--warning-title:#c33;--warning-content:#fee;--info-title:#fb7;--info-content:#fec;--note-title:#6be;--note-content:#e7f2fa;--tip-title:#5a5;--tip-content:#efe}@media (prefers-color-scheme:dark){.notice{--root-color:#ddd;--root-background:#eff;--title-color:#fff;--title-background:#7bd;--warning-title:#800;--warning-content:#400;--info-title:#a50;--info-content:#420;--note-title:#069;--note-content:#023;--tip-title:#363;--tip-content:#121}}body.dark .notice{--root-color:#ddd;--root-background:#eff;--title-color:#fff;--title-background:#7bd;--warning-title:#800;--warning-content:#400;--info-title:#a50;--info-content:#420;--note-title:#069;--note-content:#023;--tip-title:#363;--tip-content:#121}.notice{padding:18px;line-height:24px;margin-bottom:24px;border-radius:4px;color:var(--root-color);background:var(--root-background)}.notice p:last-child{margin-bottom:0}.notice-title{margin:-18px -18px 12px;padding:4px 18px;border-radius:4px 4px 0 0;font-weight:700;color:var(--title-color);background:var(--title-background)}.notice.warning .notice-title{background:var(--warning-title)}.notice.warning{background:var(--warning-content)}.notice.info .notice-title{background:var(--info-title)}.notice.info{background:var(--info-content)}.notice.note .notice-title{background:var(--note-title)}.notice.note{background:var(--note-content)}.notice.tip .notice-title{background:var(--tip-title)}.notice.tip{background:var(--tip-content)}.icon-notice{display:inline-flex;align-self:center;margin-right:8px}.icon-notice img,.icon-notice svg{height:1em;width:1em;fill:currentColor}.icon-notice img,.icon-notice.baseline svg{top:.125em;position:relative}&lt;/style>&lt;div class="notice tip" >
-&lt;p class="first notice-title">&lt;span class="icon-notice baseline">&lt;/span>&lt;/p>&lt;p>因爲 express 現在不再附帶 body-parser，現在需要執行 &lt;code>npm i -D body-parser&lt;/code>。如果你希望讀取 request 裏面的內容，你會需要這個插件。&lt;/p>&lt;/div>
-&lt;div class="highlight">&lt;div class="chroma">
-&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
-&lt;/span>&lt;span class="lnt"> 2
-&lt;/span>&lt;span class="lnt"> 3
-&lt;/span>&lt;span class="lnt"> 4
-&lt;/span>&lt;span class="lnt"> 5
-&lt;/span>&lt;span class="lnt"> 6
-&lt;/span>&lt;span class="lnt"> 7
-&lt;/span>&lt;span class="lnt"> 8
-&lt;/span>&lt;span class="lnt"> 9
-&lt;/span>&lt;span class="lnt">10
-&lt;/span>&lt;span class="lnt">11
-&lt;/span>&lt;span class="lnt">12
-&lt;/span>&lt;span class="lnt">13
-&lt;/span>&lt;span class="lnt">14
-&lt;/span>&lt;span class="lnt">15
-&lt;/span>&lt;span class="lnt">16
-&lt;/span>&lt;span class="lnt">17
-&lt;/span>&lt;span class="lnt">18
-&lt;/span>&lt;span class="lnt">19
-&lt;/span>&lt;span class="lnt">20
-&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
-&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-javascript" data-lang="javascript">&lt;span class="line">&lt;span class="cl">&lt;span class="kr">const&lt;/span> &lt;span class="nx">webpack&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">require&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;webpack&amp;#34;&lt;/span>&lt;span class="p">);&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kd">var&lt;/span> &lt;span class="nx">bodyParser&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">require&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s1">&amp;#39;body-parser&amp;#39;&lt;/span>&lt;span class="p">)&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kr">const&lt;/span> &lt;span class="nx">mockServer&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">require&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;./mockserver.js&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nx">module&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">exports&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="nx">env&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">argv&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">=&amp;gt;&lt;/span> &lt;span class="p">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// ... some code
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="k">return&lt;/span> &lt;span class="p">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">devServer&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="p">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">setupMiddlewares&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="nx">middlewares&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">devServer&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">=&amp;gt;&lt;/span> &lt;span class="p">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="o">!&lt;/span>&lt;span class="nx">devServer&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">throw&lt;/span> &lt;span class="k">new&lt;/span> &lt;span class="nb">Error&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s1">&amp;#39;webpack-dev-server is not defined&amp;#39;&lt;/span>&lt;span class="p">);&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">devServer&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">app&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">use&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">bodyParser&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">json&lt;/span>&lt;span class="p">())&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">devServer&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">app&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">use&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">mockServer&lt;/span>&lt;span class="p">());&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// don&amp;#39;t forget this line
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="k">return&lt;/span> &lt;span class="nx">middlewares&lt;/span>&lt;span class="p">;&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">},&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">//... and so on
-&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
-&lt;/div>
-&lt;/div>&lt;/li>
-&lt;li>
-&lt;p>mockserver.js&lt;/p></description></item><item><title>Vmware 死機但是鼠標可以動</title><link>https://travisbikkle.github.io/zh-hant/2024/03/vmware-freeze/</link><pubDate>Wed, 06 Mar 2024 17:09:19 +0000</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2024/03/vmware-freeze/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/tips/">Tips</category><description>&lt;h2 id="問題現象" class="heading-element">&lt;span>問題現象&lt;/span>
+&lt;p class="first notice-title">&lt;span class="icon-notice baseline">&lt;/span>&lt;/p></description></item><item><title>Vmware 死機但是鼠標可以動</title><link>https://travisbikkle.github.io/zh-hant/2024/03/vmware-freeze/</link><pubDate>Wed, 06 Mar 2024 17:09:19 +0000</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2024/03/vmware-freeze/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/tips/">Tips</category><description>&lt;h2 id="問題現象" class="heading-element">&lt;span>問題現象&lt;/span>
  &lt;a href="#%e5%95%8f%e9%a1%8c%e7%8f%be%e8%b1%a1" class="heading-mark">
  &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
  &lt;/a>
@@ -707,142 +415,13 @@
 我最近剛接觸Unity,最近想給編輯器擴展一些功能，比如點擊Inspector面板，在Project窗口中高亮選擇Prefab或者Script。
 這麼小小的一個需求，查遍了中文互聯網，不得其果。大家要麼在CSDN上貼一些零碎的、沒有格式化的代碼，要麼互相複製粘貼。結果不言而喻。
 看外網，似乎大家提到了一些代碼，但是Unity論壇上的人都是高手，作爲一個新手看到了代碼都不知道放在哪，怎麼用，非常苦惱。
-今天我把自己折騰了幾個小時的一點小代碼貼上，作爲記錄。如果大家對於編輯器擴展有大量需求，建議還是系統地學習一下官方的教程，不要像我，只求快，結果花費的時間更多。&lt;/p>
-&lt;ol>
-&lt;li>
-&lt;p>擴展代碼需要放到Editor文件夾下
-這個Editor文件夾你可以建到任意的地方，我放到了Assets/Scripts/Editor下面，在其中創建一個C#文件，命名隨意。
-&lt;a class="lightgallery" href="https://travisbikkle.github.io/images/other/20240104_unity_editor_location.png?size=large" data-thumbnail="/images/other/20240104_unity_editor_location.png?size=small" data-sub-html="&lt;h2>20240104_unity_editor_location.png&lt;/h2>">&lt;img loading="lazy" src="https://travisbikkle.github.io/images/other/20240104_unity_editor_location.png" alt="20240104_unity_editor_location.png" srcset="https://travisbikkle.github.io/images/other/20240104_unity_editor_location.png?size=small, https://travisbikkle.github.io/images/other/20240104_unity_editor_location.png?size=medium 1.5x, https://travisbikkle.github.io/images/other/20240104_unity_editor_location.png?size=large 2x" data-title="20240104_unity_editor_location.png" style="--width: 379px;--aspect-ratio: 379 / 236;background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/a>&lt;/p>
-&lt;/li>
-&lt;li>
-&lt;p>將以下代碼粘貼進文件，保存，即可在Inspect面板點擊掛載腳本時高亮腳本。&lt;/p>
-&lt;div class="highlight">&lt;div class="chroma">
-&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
-&lt;/span>&lt;span class="lnt"> 2
-&lt;/span>&lt;span class="lnt"> 3
-&lt;/span>&lt;span class="lnt"> 4
-&lt;/span>&lt;span class="lnt"> 5
-&lt;/span>&lt;span class="lnt"> 6
-&lt;/span>&lt;span class="lnt"> 7
-&lt;/span>&lt;span class="lnt"> 8
-&lt;/span>&lt;span class="lnt"> 9
-&lt;/span>&lt;span class="lnt">10
-&lt;/span>&lt;span class="lnt">11
-&lt;/span>&lt;span class="lnt">12
-&lt;/span>&lt;span class="lnt">13
-&lt;/span>&lt;span class="lnt">14
-&lt;/span>&lt;span class="lnt">15
-&lt;/span>&lt;span class="lnt">16
-&lt;/span>&lt;span class="lnt">17
-&lt;/span>&lt;span class="lnt">18
-&lt;/span>&lt;span class="lnt">19
-&lt;/span>&lt;span class="lnt">20
-&lt;/span>&lt;span class="lnt">21
-&lt;/span>&lt;span class="lnt">22
-&lt;/span>&lt;span class="lnt">23
-&lt;/span>&lt;span class="lnt">24
-&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
-&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-c#" data-lang="c#">&lt;span class="line">&lt;span class="cl">&lt;span class="k">using&lt;/span> &lt;span class="nn">UnityEditor&lt;/span>&lt;span class="p">;&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">using&lt;/span> &lt;span class="nn">UnityEditor.UIElements&lt;/span>&lt;span class="p">;&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">using&lt;/span> &lt;span class="nn">UnityEngine&lt;/span>&lt;span class="p">;&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">using&lt;/span> &lt;span class="nn">UnityEngine.UIElements&lt;/span>&lt;span class="p">;&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="na">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="na">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="na">[CustomEditor(typeof(MonoBehaviour), true)]&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kd">public&lt;/span> &lt;span class="k">class&lt;/span> &lt;span class="nc">HighlightItem&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="n">Editor&lt;/span> &lt;span class="p">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kd">public&lt;/span> &lt;span class="kd">override&lt;/span> &lt;span class="n">VisualElement&lt;/span> &lt;span class="n">CreateInspectorGUI&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="p">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kt">var&lt;/span> &lt;span class="n">root&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="k">new&lt;/span> &lt;span class="n">VisualElement&lt;/span>&lt;span class="p">();&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">InspectorElement&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">FillDefaultInspector&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">root&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">serializedObject&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="k">this&lt;/span>&lt;span class="p">);&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">root&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">Add&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="k">new&lt;/span> &lt;span class="n">Label&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;點擊以高亮&amp;#34;&lt;/span>&lt;span class="p">));&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">root&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">RegisterCallback&lt;/span>&lt;span class="p">&amp;lt;&lt;/span>&lt;span class="n">ClickEvent&lt;/span>&lt;span class="p">&amp;gt;(&lt;/span>&lt;span class="n">Highlight&lt;/span>&lt;span class="p">);&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="n">root&lt;/span>&lt;span class="p">;&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kd">private&lt;/span> &lt;span class="k">void&lt;/span> &lt;span class="n">Highlight&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">ClickEvent&lt;/span> &lt;span class="n">evt&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kt">var&lt;/span> &lt;span class="n">script&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="n">MonoScript&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">FromMonoBehaviour&lt;/span>&lt;span class="p">((&lt;/span>&lt;span class="n">MonoBehaviour&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="n">target&lt;/span>&lt;span class="p">);&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">UnityEditor&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">EditorGUIUtility&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">PingObject&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">script&lt;/span>&lt;span class="p">);&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">//UnityEditor.Selection.activeObject = script;&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
-&lt;/div>
-&lt;/div>&lt;/li>
-&lt;/ol>
-&lt;p>當然這個功能Unity自帶了，這個例子只是用來給像我這樣完全沒有接觸過Unity的同學演示製作一個簡單的擴展腳本的步驟。
-Youtube上有很多更詳細直觀的教程，建議有條件有需要的同學看一遍。&lt;/p></description></item><item><title>Vmware 中 Intellij Idea 快捷鍵錯誤</title><link>https://travisbikkle.github.io/zh-hant/2023/12/idea-shortkey-error-in-vmware/</link><pubDate>Fri, 01 Dec 2023 11:24:32 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2023/12/idea-shortkey-error-in-vmware/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/tips/">Tips</category><description>&lt;p>在VMware中，&lt;kbd>CTRL ALT&lt;/kbd>是默認的將鼠標焦點從虛擬機中移開的熱鍵，這將導致一切在Vmware中運行的虛擬機系統中以該組合鍵
-位開頭的熱鍵不可用。比如Intellij Idea的默認後退快捷鍵&lt;kbd>CTRL ALT LEFT&lt;/kbd>。&lt;/p>
-&lt;p>一開始我以爲是KDE熱鍵衝突的問題，因爲KDE默認有很多的快捷鍵，但是經過查看KDE的系統設置，並沒有發現熱鍵佔用的情況：&lt;/p>
-&lt;p>&lt;a class="lightgallery" href="https://travisbikkle.github.io/images/other/Screenshot_20231201_163449.png?size=large" data-thumbnail="/images/other/Screenshot_20231201_163449.png?size=small" data-sub-html="&lt;h2>Screenshot_20231201_163449.png&lt;/h2>">&lt;img loading="lazy" src="https://travisbikkle.github.io/images/other/Screenshot_20231201_163449.png" alt="Screenshot_20231201_163449.png" srcset="https://travisbikkle.github.io/images/other/Screenshot_20231201_163449.png?size=small, https://travisbikkle.github.io/images/other/Screenshot_20231201_163449.png?size=medium 1.5x, https://travisbikkle.github.io/images/other/Screenshot_20231201_163449.png?size=large 2x" data-title="Screenshot_20231201_163449.png" style="--width: 2662px;--aspect-ratio: 2662 / 1417;background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/a>&lt;/p>
-&lt;p>直到我意識到screenkey也沒有提示，這說明我的KDE根本沒有接收到&lt;kbd>CTRL ALT LEFT&lt;/kbd>按鍵。答案顯而易見，是Vmware的問題了。
-爲了防止衝突，在Vmware的 &lt;em>編輯-首選項-熱鍵&lt;/em> 中可以將這四個按鍵都勾選上。
-&lt;a class="lightgallery" href="https://travisbikkle.github.io/images/other/20231201_vmware_pref_hotkey.png?size=large" data-thumbnail="/images/other/20231201_vmware_pref_hotkey.png?size=small" data-sub-html="&lt;h2>20231201_vmware_pref_hotkey.png&lt;/h2>">&lt;img loading="lazy" src="https://travisbikkle.github.io/images/other/20231201_vmware_pref_hotkey.png" alt="20231201_vmware_pref_hotkey.png" srcset="https://travisbikkle.github.io/images/other/20231201_vmware_pref_hotkey.png?size=small, https://travisbikkle.github.io/images/other/20231201_vmware_pref_hotkey.png?size=medium 1.5x, https://travisbikkle.github.io/images/other/20231201_vmware_pref_hotkey.png?size=large 2x" data-title="20231201_vmware_pref_hotkey.png" style="--width: 904px;--aspect-ratio: 904 / 983;background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/a>&lt;/p></description></item><item><title>Vmware Power-ON 腳本啓動失敗</title><link>https://travisbikkle.github.io/zh-hant/2023/11/vmware-poweron-script/</link><pubDate>Thu, 16 Nov 2023 11:24:33 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2023/11/vmware-poweron-script/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/tips/">Tips</category><description>&lt;p>VMware 的開機腳本位於 &lt;code>/etc/vmware-tools/&lt;/code> 下。如果你的虛擬機報錯啓動客戶機腳本失敗，你可以在虛擬機-電源-開機中開機，然後進入該目錄調試。&lt;/p>
-&lt;p>如果你的vmware-tools進行過升級，但是升級過程中出現了問題，可能導致腳本沒有正確命名。比如，下面是開機、關機等操作對應的腳本名稱&lt;/p>
-&lt;div class="highlight">&lt;div class="chroma">
-&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
-&lt;/span>&lt;span class="lnt">2
-&lt;/span>&lt;span class="lnt">3
-&lt;/span>&lt;span class="lnt">4
-&lt;/span>&lt;span class="lnt">5
-&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
-&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-text" data-lang="text">&lt;span class="line">&lt;span class="cl">poweroff-vm-default
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">poweron-vm-default
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">resume-vm-default
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">suspend-vm-default
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">vgauth.conf&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
-&lt;/div>
-&lt;/div>&lt;p>而你的機器上可能是&lt;/p>
-&lt;div class="highlight">&lt;div class="chroma">
-&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
-&lt;/span>&lt;span class="lnt">2
-&lt;/span>&lt;span class="lnt">3
-&lt;/span>&lt;span class="lnt">4
-&lt;/span>&lt;span class="lnt">5
-&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
-&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-text" data-lang="text">&lt;span class="line">&lt;span class="cl">poweroff-vm-default.dpkg-dist
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">poweron-vm-default.dpkg-dist
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">resume-vm-default.dpkg-dist
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">suspend-vm-default.dpkg-dist
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">vgauth.conf.dpkg-dist&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
-&lt;/div>
-&lt;/div>&lt;p>那麼請執行以下命令重命名即可&lt;/p>
-&lt;div class="highlight">&lt;div class="chroma">
-&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
-&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
-&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">find /etc/vmware-tools/ -name &lt;span class="s2">&amp;#34;*.dpkg-dist&amp;#34;&lt;/span> -exec sh -c &lt;span class="s1">&amp;#39;x={}; cp &amp;#34;$x&amp;#34; $(echo $x | sed &amp;#39;&lt;/span>s/&lt;span class="se">\.&lt;/span>dpkg-dist//g&lt;span class="s1">&amp;#39;)&amp;#39;&lt;/span> &lt;span class="se">\;&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
-&lt;/div>
-&lt;/div>&lt;p>另外你還可能需要檢查 &lt;code>/etc/vmware-tools/scripts/vmware&lt;/code> 以及各個腳本是否具有可執行權限。&lt;/p></description></item><item><title>Kubuntu Vscode 鼠標列編輯設置</title><link>https://travisbikkle.github.io/zh-hant/2023/11/kubuntu-vscode-mouse/</link><pubDate>Wed, 15 Nov 2023 11:24:33 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2023/11/kubuntu-vscode-mouse/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/tips/">Tips</category><description>&lt;p>鼠標中鍵是某些操作系統的默認粘貼快捷鍵，這導致在VSCode中無法使用鼠標中鍵進入列編輯模式。&lt;/p>
+今天我把自己折騰了幾個小時的一點小代碼貼上，作爲記錄。如果大家對於編輯器擴展有大量需求，建議還是系統地學習一下官方的教程，不要像我，只求快，結果花費的時間更多。&lt;/p></description></item><item><title>Vmware 中 Intellij Idea 快捷鍵錯誤</title><link>https://travisbikkle.github.io/zh-hant/2023/12/idea-shortkey-error-in-vmware/</link><pubDate>Fri, 01 Dec 2023 11:24:32 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2023/12/idea-shortkey-error-in-vmware/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/tips/">Tips</category><description>&lt;p>在VMware中，&lt;kbd>CTRL ALT&lt;/kbd>是默認的將鼠標焦點從虛擬機中移開的熱鍵，這將導致一切在Vmware中運行的虛擬機系統中以該組合鍵
+位開頭的熱鍵不可用。比如Intellij Idea的默認後退快捷鍵&lt;kbd>CTRL ALT LEFT&lt;/kbd>。&lt;/p></description></item><item><title>Vmware Power-ON 腳本啓動失敗</title><link>https://travisbikkle.github.io/zh-hant/2023/11/vmware-poweron-script/</link><pubDate>Thu, 16 Nov 2023 11:24:33 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2023/11/vmware-poweron-script/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/tips/">Tips</category><description>&lt;p>VMware 的開機腳本位於 &lt;code>/etc/vmware-tools/&lt;/code> 下。如果你的虛擬機報錯啓動客戶機腳本失敗，你可以在虛擬機-電源-開機中開機，然後進入該目錄調試。&lt;/p>
+&lt;p>如果你的vmware-tools進行過升級，但是升級過程中出現了問題，可能導致腳本沒有正確命名。比如，下面是開機、關機等操作對應的腳本名稱&lt;/p></description></item><item><title>Kubuntu Vscode 鼠標列編輯設置</title><link>https://travisbikkle.github.io/zh-hant/2023/11/kubuntu-vscode-mouse/</link><pubDate>Wed, 15 Nov 2023 11:24:33 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2023/11/kubuntu-vscode-mouse/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/tips/">Tips</category><description>&lt;p>鼠標中鍵是某些操作系統的默認粘貼快捷鍵，這導致在VSCode中無法使用鼠標中鍵進入列編輯模式。&lt;/p>
 &lt;ol>
 &lt;li>
 &lt;p>點擊 &lt;em>文件-首選項-設置&lt;/em>
-&lt;a class="lightgallery" href="https://travisbikkle.github.io/images/other/20231115_vscode_setting.png?size=large" data-thumbnail="/images/other/20231115_vscode_setting.png?size=small" data-sub-html="&lt;h2>Screenshot_20231115_134220.png&lt;/h2>">&lt;img loading="lazy" src="https://travisbikkle.github.io/images/other/20231115_vscode_setting.png" alt="Screenshot_20231115_134220.png" srcset="https://travisbikkle.github.io/images/other/20231115_vscode_setting.png?size=small, https://travisbikkle.github.io/images/other/20231115_vscode_setting.png?size=medium 1.5x, https://travisbikkle.github.io/images/other/20231115_vscode_setting.png?size=large 2x" data-title="Screenshot_20231115_134220.png" style="--width: 1926px;--aspect-ratio: 1926 / 1230;background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/a>&lt;/p>
-&lt;/li>
-&lt;li>
-&lt;p>點擊右上角，打開json文件
-&lt;a class="lightgallery" href="https://travisbikkle.github.io/images/other/20231115_vscode_setting_selection.png?size=large" data-thumbnail="/images/other/20231115_vscode_setting_selection.png?size=small" data-sub-html="&lt;h2>Screenshot_20231115_134322.png&lt;/h2>">&lt;img loading="lazy" src="https://travisbikkle.github.io/images/other/20231115_vscode_setting_selection.png" alt="Screenshot_20231115_134322.png" srcset="https://travisbikkle.github.io/images/other/20231115_vscode_setting_selection.png?size=small, https://travisbikkle.github.io/images/other/20231115_vscode_setting_selection.png?size=medium 1.5x, https://travisbikkle.github.io/images/other/20231115_vscode_setting_selection.png?size=large 2x" data-title="Screenshot_20231115_134322.png" style="--width: 2211px;--aspect-ratio: 2211 / 1656;background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/a>&lt;/p>
-&lt;/li>
-&lt;li>
-&lt;p>添加如下行&lt;/p>
-&lt;div class="highlight">&lt;div class="chroma">
-&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
-&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
-&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-json" data-lang="json">&lt;span class="line">&lt;span class="cl">&lt;span class="s2">&amp;#34;editor.selectionClipboard&amp;#34;&lt;/span>&lt;span class="err">:&lt;/span> &lt;span class="kc">false&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
-&lt;/div>
-&lt;/div>&lt;/li>
-&lt;li>
-&lt;p>關閉 VSCode 並重新打開，測試是否生效。&lt;/p>
-&lt;/li>
-&lt;/ol></description></item><item><title>Android Studio Emulator 啓動失敗</title><link>https://travisbikkle.github.io/zh-hant/2023/11/android-studio-emulator-failed/</link><pubDate>Wed, 15 Nov 2023 11:24:23 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2023/11/android-studio-emulator-failed/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/tips/">Tips</category><description>&lt;h4 id="報錯現象" class="heading-element">&lt;span>報錯現象&lt;/span>
+&lt;img loading="lazy" src="https://travisbikkle.github.io/images/other/20231115_vscode_setting.png" alt="Screenshot_20231115_134220.png" srcset="https://travisbikkle.github.io/images/other/20231115_vscode_setting.png?size=small, https://travisbikkle.github.io/images/other/20231115_vscode_setting.png?size=medium 1.5x, https://travisbikkle.github.io/images/other/20231115_vscode_setting.png?size=large 2x" data-title="Screenshot_20231115_134220.png" style="--width: 1926px;--aspect-ratio: 1926 / 1230;background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/p></description></item><item><title>Android Studio Emulator 啓動失敗</title><link>https://travisbikkle.github.io/zh-hant/2023/11/android-studio-emulator-failed/</link><pubDate>Wed, 15 Nov 2023 11:24:23 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2023/11/android-studio-emulator-failed/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/tips/">Tips</category><description>&lt;h4 id="報錯現象" class="heading-element">&lt;span>報錯現象&lt;/span>
  &lt;a href="#%e5%a0%b1%e9%8c%af%e7%8f%be%e8%b1%a1" class="heading-mark">
  &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
  &lt;/a>
@@ -853,7 +432,7 @@ Youtube上有很多更詳細直觀的教程，建議有條件有需要的同學�
  &lt;/a>
 &lt;/h4>&lt;p>我在 Win 11 中安裝了 Vmware，並在Vmware中安裝了 Kubuntu 22.04 虛擬機。
 當我在虛擬機設置的cpu設置中開啓AMD-V的時候，Vmware提示如下錯誤：
-&lt;a class="lightgallery" href="https://travisbikkle.github.io/images/other/20231114_vmware_amdv_error.png?size=large" data-thumbnail="/images/other/20231114_vmware_amdv_error.png?size=small" data-sub-html="&lt;h2>2023-11-14-exec-gpedit.png&lt;/h2>">&lt;img loading="lazy" src="https://travisbikkle.github.io/images/other/20231114_vmware_amdv_error.png" alt="2023-11-14-exec-gpedit.png" srcset="https://travisbikkle.github.io/images/other/20231114_vmware_amdv_error.png?size=small, https://travisbikkle.github.io/images/other/20231114_vmware_amdv_error.png?size=medium 1.5x, https://travisbikkle.github.io/images/other/20231114_vmware_amdv_error.png?size=large 2x" data-title="2023-11-14-exec-gpedit.png" style="--width: 511px;--aspect-ratio: 511 / 190;background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/a>&lt;/p></description></item><item><title>Intellij Idea 啓動報錯</title><link>https://travisbikkle.github.io/zh-hant/2023/11/idea-start-error/</link><pubDate>Tue, 14 Nov 2023 11:24:23 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2023/11/idea-start-error/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/tips/">Tips</category><description>&lt;p>Intellij Idea 2023.2 啓動報錯：&lt;/p>
+&lt;img loading="lazy" src="https://travisbikkle.github.io/images/other/20231114_vmware_amdv_error.png" alt="2023-11-14-exec-gpedit.png" srcset="https://travisbikkle.github.io/images/other/20231114_vmware_amdv_error.png?size=small, https://travisbikkle.github.io/images/other/20231114_vmware_amdv_error.png?size=medium 1.5x, https://travisbikkle.github.io/images/other/20231114_vmware_amdv_error.png?size=large 2x" data-title="2023-11-14-exec-gpedit.png" style="--width: 511px;--aspect-ratio: 511 / 190;background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/p></description></item><item><title>Intellij Idea 啓動報錯</title><link>https://travisbikkle.github.io/zh-hant/2023/11/idea-start-error/</link><pubDate>Tue, 14 Nov 2023 11:24:23 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2023/11/idea-start-error/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/tips/">Tips</category><description>&lt;p>Intellij Idea 2023.2 啓動報錯：&lt;/p>
 &lt;style type="text/css">.notice{--root-color:#444;--root-background:#eff;--title-color:#fff;--title-background:#7bd;--warning-title:#c33;--warning-content:#fee;--info-title:#fb7;--info-content:#fec;--note-title:#6be;--note-content:#e7f2fa;--tip-title:#5a5;--tip-content:#efe}@media (prefers-color-scheme:dark){.notice{--root-color:#ddd;--root-background:#eff;--title-color:#fff;--title-background:#7bd;--warning-title:#800;--warning-content:#400;--info-title:#a50;--info-content:#420;--note-title:#069;--note-content:#023;--tip-title:#363;--tip-content:#121}}body.dark .notice{--root-color:#ddd;--root-background:#eff;--title-color:#fff;--title-background:#7bd;--warning-title:#800;--warning-content:#400;--info-title:#a50;--info-content:#420;--note-title:#069;--note-content:#023;--tip-title:#363;--tip-content:#121}.notice{padding:18px;line-height:24px;margin-bottom:24px;border-radius:4px;color:var(--root-color);background:var(--root-background)}.notice p:last-child{margin-bottom:0}.notice-title{margin:-18px -18px 12px;padding:4px 18px;border-radius:4px 4px 0 0;font-weight:700;color:var(--title-color);background:var(--title-background)}.notice.warning .notice-title{background:var(--warning-title)}.notice.warning{background:var(--warning-content)}.notice.info .notice-title{background:var(--info-title)}.notice.info{background:var(--info-content)}.notice.note .notice-title{background:var(--note-title)}.notice.note{background:var(--note-content)}.notice.tip .notice-title{background:var(--tip-title)}.notice.tip{background:var(--tip-content)}.icon-notice{display:inline-flex;align-self:center;margin-right:8px}.icon-notice img,.icon-notice svg{height:1em;width:1em;fill:currentColor}.icon-notice img,.icon-notice.baseline svg{top:.125em;position:relative}&lt;/style>&lt;div class="notice warning" >
 &lt;p class="first notice-title">&lt;span class="icon-notice baseline">&lt;/span>&lt;/p>&lt;p>Error while opening intellij &amp;ldquo;Cannot connect to already running IDE instance. Exception: Process 2,837 is still running&amp;rdquo;&lt;/p>&lt;/div>
 &lt;h4 id="youtrack-跟蹤" class="heading-element">&lt;span>youtrack 跟蹤&lt;/span>
@@ -861,57 +440,11 @@ Youtube上有很多更詳細直觀的教程，建議有條件有需要的同學�
  &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
  &lt;/a>
 &lt;/h4>&lt;p>&lt;a href="https://youtrack.jetbrains.com/issue/IDEA-330531"target="_blank" rel="external nofollow noopener noreferrer">https://youtrack.jetbrains.com/issue/IDEA-330531&lt;i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true">&lt;/i>&lt;/a>&lt;/p></description></item><item><title>Kubuntu 軟件源在哪裏修改</title><link>https://travisbikkle.github.io/zh-hant/2023/11/kubuntu2204-software-resources-bug/</link><pubDate>Wed, 08 Nov 2023 11:24:30 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2023/11/kubuntu2204-software-resources-bug/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/tips/">Tips</category><description>&lt;p>Kubuntu 22.04 的軟件源可以在 Discover 中的如下位置設置。
-&lt;a class="lightgallery" href="https://travisbikkle.github.io/images/other/20231108_discover_software_sources.png?size=large" data-thumbnail="/images/other/20231108_discover_software_sources.png?size=small" data-sub-html="&lt;h2>/images/other/20231108_discover_software_sources.png&lt;/h2>">&lt;img loading="lazy" src="https://travisbikkle.github.io/images/other/20231108_discover_software_sources.png" alt="/images/other/20231108_discover_software_sources.png" srcset="https://travisbikkle.github.io/images/other/20231108_discover_software_sources.png?size=small, https://travisbikkle.github.io/images/other/20231108_discover_software_sources.png?size=medium 1.5x, https://travisbikkle.github.io/images/other/20231108_discover_software_sources.png?size=large 2x" data-title="/images/other/20231108_discover_software_sources.png" style="--width: 2081px;--aspect-ratio: 2081 / 1484;background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/a>&lt;/p>
+&lt;img loading="lazy" src="https://travisbikkle.github.io/images/other/20231108_discover_software_sources.png" alt="/images/other/20231108_discover_software_sources.png" srcset="https://travisbikkle.github.io/images/other/20231108_discover_software_sources.png?size=small, https://travisbikkle.github.io/images/other/20231108_discover_software_sources.png?size=medium 1.5x, https://travisbikkle.github.io/images/other/20231108_discover_software_sources.png?size=large 2x" data-title="/images/other/20231108_discover_software_sources.png" style="--width: 2081px;--aspect-ratio: 2081 / 1484;background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/p>
 &lt;p>但是如果你的 Discover 不顯示以上界面，可以通過如下方法來修復。&lt;/p>
 &lt;ol>
 &lt;li>
-&lt;p>編輯如下文件&lt;/p>
-&lt;div class="highlight">&lt;div class="chroma">
-&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
-&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
-&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">vi /usr/share/applications/software-properties-qt.desktop&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
-&lt;/div>
-&lt;/div>&lt;/li>
-&lt;li>
-&lt;p>將以下內容替換到源文件&lt;/p>
-&lt;div class="highlight">&lt;div class="chroma">
-&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
-&lt;/span>&lt;span class="lnt"> 2
-&lt;/span>&lt;span class="lnt"> 3
-&lt;/span>&lt;span class="lnt"> 4
-&lt;/span>&lt;span class="lnt"> 5
-&lt;/span>&lt;span class="lnt"> 6
-&lt;/span>&lt;span class="lnt"> 7
-&lt;/span>&lt;span class="lnt"> 8
-&lt;/span>&lt;span class="lnt"> 9
-&lt;/span>&lt;span class="lnt">10
-&lt;/span>&lt;span class="lnt">11
-&lt;/span>&lt;span class="lnt">12
-&lt;/span>&lt;span class="lnt">13
-&lt;/span>&lt;span class="lnt">14
-&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
-&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-text" data-lang="text">&lt;span class="line">&lt;span class="cl">[Desktop Entry]
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Name=Software Sources
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">GenericName=Software Sources
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Comment=Configure the sources for installable software and updates
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Exec=pkexec env DISPLAY=$DISPLAY XAUTHORITY=$XAUTHORITY software-properties-qt
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Icon=applications-other
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">NoDisplay=false
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Terminal=false
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">X-MultipleArgs=false
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Type=Application
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Categories=System;Settings;
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">MimeType=text/x-apt-sources-list;
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">X-KDE-SubstituteUID=false
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">X-Ubuntu-Gettext-Domain=software-properties&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
-&lt;/div>
-&lt;/div>&lt;/li>
-&lt;/ol>
-&lt;p>如此，在 Discover可以顯示軟件源的界面，在菜單中也可以搜索到在其它發行版中常見的 &lt;em>軟件源&lt;/em> 菜單項。&lt;/p></description></item><item><title>Kubuntu 22.04 中文輸入法</title><link>https://travisbikkle.github.io/zh-hant/2023/11/kubuntu2204-chiness-im/</link><pubDate>Wed, 08 Nov 2023 11:24:29 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2023/11/kubuntu2204-chiness-im/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/tips/">Tips</category><description>&lt;h3 id="繼續使用-fcitx5推薦" class="heading-element">&lt;span>繼續使用 fcitx5（推薦）&lt;/span>
+&lt;p>編輯如下文件&lt;/p></description></item><item><title>Kubuntu 22.04 中文輸入法</title><link>https://travisbikkle.github.io/zh-hant/2023/11/kubuntu2204-chiness-im/</link><pubDate>Wed, 08 Nov 2023 11:24:29 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2023/11/kubuntu2204-chiness-im/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/tips/">Tips</category><description>&lt;h3 id="繼續使用-fcitx5推薦" class="heading-element">&lt;span>繼續使用 fcitx5（推薦）&lt;/span>
  &lt;a href="#%e7%b9%bc%e7%ba%8c%e4%bd%bf%e7%94%a8-fcitx5%e6%8e%a8%e8%96%a6" class="heading-mark">
  &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
  &lt;/a>
@@ -922,7 +455,7 @@ Youtube上有很多更詳細直觀的教程，建議有條件有需要的同學�
  &lt;a href="#%e6%95%88%e6%9e%9c%e5%b1%95%e7%a4%ba" class="heading-mark">
  &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
  &lt;/a>
-&lt;/h4>&lt;p>&lt;a class="lightgallery" href="https://travisbikkle.github.io/images/other/20231031_cygwin_demo.png?size=large" data-thumbnail="/images/other/20231031_cygwin_demo.png?size=small" data-sub-html="&lt;h2>/images/other/20231031_cygwin_demo.png&lt;/h2>">&lt;img loading="lazy" src="https://travisbikkle.github.io/images/other/20231031_cygwin_demo.png" alt="/images/other/20231031_cygwin_demo.png" srcset="https://travisbikkle.github.io/images/other/20231031_cygwin_demo.png?size=small, https://travisbikkle.github.io/images/other/20231031_cygwin_demo.png?size=medium 1.5x, https://travisbikkle.github.io/images/other/20231031_cygwin_demo.png?size=large 2x" data-title="/images/other/20231031_cygwin_demo.png" style="--width: 221px;--aspect-ratio: 221 / 241;background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/a>&lt;/p></description></item><item><title>Windows 常用命令</title><link>https://travisbikkle.github.io/zh-hant/2023/10/windows-common-commands/</link><pubDate>Tue, 31 Oct 2023 11:24:34 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2023/10/windows-common-commands/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/tips/">Tips</category><description>&lt;h4 id="在右鍵菜單中添加管理員獲得所有權" class="heading-element">&lt;span>在右鍵菜單中添加管理員獲得所有權&lt;/span>
+&lt;/h4>&lt;p>&lt;img loading="lazy" src="https://travisbikkle.github.io/images/other/20231031_cygwin_demo.png" alt="/images/other/20231031_cygwin_demo.png" srcset="https://travisbikkle.github.io/images/other/20231031_cygwin_demo.png?size=small, https://travisbikkle.github.io/images/other/20231031_cygwin_demo.png?size=medium 1.5x, https://travisbikkle.github.io/images/other/20231031_cygwin_demo.png?size=large 2x" data-title="/images/other/20231031_cygwin_demo.png" style="--width: 221px;--aspect-ratio: 221 / 241;background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/p></description></item><item><title>Windows 常用命令</title><link>https://travisbikkle.github.io/zh-hant/2023/10/windows-common-commands/</link><pubDate>Tue, 31 Oct 2023 11:24:34 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2023/10/windows-common-commands/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/tips/">Tips</category><description>&lt;h4 id="在右鍵菜單中添加管理員獲得所有權" class="heading-element">&lt;span>在右鍵菜單中添加管理員獲得所有權&lt;/span>
  &lt;a href="#%e5%9c%a8%e5%8f%b3%e9%8d%b5%e8%8f%9c%e5%96%ae%e4%b8%ad%e6%b7%bb%e5%8a%a0%e7%ae%a1%e7%90%86%e5%93%a1%e7%8d%b2%e5%be%97%e6%89%80%e6%9c%89%e6%ac%8a" class="heading-mark">
  &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
  &lt;/a>
@@ -985,12 +518,8 @@ Youtube上有很多更詳細直觀的教程，建議有條件有需要的同學�
 &lt;li>點擊 &lt;em>Additional Layout Options&lt;/em>&lt;/li>
 &lt;li>在彈出的窗口中，勾選 &lt;em>Ctrl position&lt;/em> 中的 &lt;em>Swap Ctrl and Caps Lock&lt;/em>&lt;/li>
 &lt;/ol>
-&lt;p>&lt;a class="lightgallery" href="https://travisbikkle.github.io/images/other/20231017_ubuntu_swap_keys.png?size=large" data-thumbnail="/images/other/20231017_ubuntu_swap_keys.png?size=small" data-sub-html="&lt;h2>ubuntu_swap_keys.png&lt;/h2>">&lt;img loading="lazy" src="https://travisbikkle.github.io/images/other/20231017_ubuntu_swap_keys.png" alt="ubuntu_swap_keys.png" srcset="https://travisbikkle.github.io/images/other/20231017_ubuntu_swap_keys.png?size=small, https://travisbikkle.github.io/images/other/20231017_ubuntu_swap_keys.png?size=medium 1.5x, https://travisbikkle.github.io/images/other/20231017_ubuntu_swap_keys.png?size=large 2x" data-title="ubuntu_swap_keys.png" style="--width: 895px;--aspect-ratio: 895 / 650;background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/a>&lt;/p>
-&lt;p>本文基於 Ubuntu 22.04 LTS 及 Gnome Tweaks 3.34.0 編寫。&lt;/p>
-&lt;blockquote>
-&lt;p>補充：使用kde更加的方便，該設置已經被集成到系統設置中，無需下載 Gnome Tweaks。&lt;/p>
-&lt;/blockquote>
-&lt;p>&lt;a class="lightgallery" href="https://travisbikkle.github.io/images/other/20231018_kde_swap_keys.png?size=large" data-thumbnail="/images/other/20231018_kde_swap_keys.png?size=small" data-sub-html="&lt;h2>kde_swap_keys.png&lt;/h2>">&lt;img loading="lazy" src="https://travisbikkle.github.io/images/other/20231018_kde_swap_keys.png" alt="kde_swap_keys.png" srcset="https://travisbikkle.github.io/images/other/20231018_kde_swap_keys.png?size=small, https://travisbikkle.github.io/images/other/20231018_kde_swap_keys.png?size=medium 1.5x, https://travisbikkle.github.io/images/other/20231018_kde_swap_keys.png?size=large 2x" data-title="kde_swap_keys.png" style="--width: 2018px;--aspect-ratio: 2018 / 1453;background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/a>&lt;/p></description></item><item><title>Code Server Nginx Ssl Error</title><link>https://travisbikkle.github.io/zh-hant/2023/10/code-server-nginx-ssl-error-1006/</link><pubDate>Tue, 17 Oct 2023 11:24:30 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2023/10/code-server-nginx-ssl-error-1006/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/tips/">Tips</category><description>&lt;div class="highlight">&lt;div class="chroma">
+&lt;p>&lt;img loading="lazy" src="https://travisbikkle.github.io/images/other/20231017_ubuntu_swap_keys.png" alt="ubuntu_swap_keys.png" srcset="https://travisbikkle.github.io/images/other/20231017_ubuntu_swap_keys.png?size=small, https://travisbikkle.github.io/images/other/20231017_ubuntu_swap_keys.png?size=medium 1.5x, https://travisbikkle.github.io/images/other/20231017_ubuntu_swap_keys.png?size=large 2x" data-title="ubuntu_swap_keys.png" style="--width: 895px;--aspect-ratio: 895 / 650;background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/p>
+&lt;p>本文基於 Ubuntu 22.04 LTS 及 Gnome Tweaks 3.34.0 編寫。&lt;/p></description></item><item><title>Code Server Nginx Ssl Error</title><link>https://travisbikkle.github.io/zh-hant/2023/10/code-server-nginx-ssl-error-1006/</link><pubDate>Tue, 17 Oct 2023 11:24:30 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2023/10/code-server-nginx-ssl-error-1006/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/tips/">Tips</category><description>&lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
 &lt;/span>&lt;span class="lnt">2
@@ -1000,7 +529,7 @@ Youtube上有很多更詳細直觀的教程，建議有條件有需要的同學�
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">The workbench failed to connect to the server (Error: WebSocket close with status code 1006)&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;p>Code server popped up a websocket error when I exposed code-server using a custom domain and a custom port via nginx.&lt;/p>
-&lt;p>&lt;a class="lightgallery" href="https://travisbikkle.github.io/images/other/20231017_code_server_nginx_error_1006.png?size=large" data-thumbnail="/images/other/20231017_code_server_nginx_error_1006.png?size=small" data-sub-html="&lt;h2>20231017_code_server_nginx_error_1006.png&lt;/h2>">&lt;img loading="lazy" src="https://travisbikkle.github.io/images/other/20231017_code_server_nginx_error_1006.png" alt="20231017_code_server_nginx_error_1006.png" srcset="https://travisbikkle.github.io/images/other/20231017_code_server_nginx_error_1006.png?size=small, https://travisbikkle.github.io/images/other/20231017_code_server_nginx_error_1006.png?size=medium 1.5x, https://travisbikkle.github.io/images/other/20231017_code_server_nginx_error_1006.png?size=large 2x" data-title="20231017_code_server_nginx_error_1006.png" style="--width: 1114px;--aspect-ratio: 1114 / 630;background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/a>&lt;/p></description></item><item><title>How to add samba entry in /etc/fstab</title><link>https://travisbikkle.github.io/zh-hant/2023/10/fatab-samba/</link><pubDate>Tue, 17 Oct 2023 11:24:29 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2023/10/fatab-samba/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/tips/">Tips</category><description>&lt;p>Configure Samba On Ubuntu&lt;/p>
+&lt;p>&lt;img loading="lazy" src="https://travisbikkle.github.io/images/other/20231017_code_server_nginx_error_1006.png" alt="20231017_code_server_nginx_error_1006.png" srcset="https://travisbikkle.github.io/images/other/20231017_code_server_nginx_error_1006.png?size=small, https://travisbikkle.github.io/images/other/20231017_code_server_nginx_error_1006.png?size=medium 1.5x, https://travisbikkle.github.io/images/other/20231017_code_server_nginx_error_1006.png?size=large 2x" data-title="20231017_code_server_nginx_error_1006.png" style="--width: 1114px;--aspect-ratio: 1114 / 630;background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/p></description></item><item><title>How to add samba entry in /etc/fstab</title><link>https://travisbikkle.github.io/zh-hant/2023/10/fatab-samba/</link><pubDate>Tue, 17 Oct 2023 11:24:29 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2023/10/fatab-samba/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/tips/">Tips</category><description>&lt;p>Configure Samba On Ubuntu&lt;/p>
 &lt;h4 id="1-install-necessary-tools" class="heading-element">&lt;span>1. install necessary tools&lt;/span>
  &lt;a href="#1-install-necessary-tools" class="heading-mark">
  &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
@@ -1088,102 +617,22 @@ Youtube上有很多更詳細直觀的教程，建議有條件有需要的同學�
 &lt;/div>
 &lt;/div>&lt;p>本文基於 Ubuntu 22.04 LTS 編寫。&lt;/p></description></item><item><title>使用 Adobe Premiere 製作 GIF 文件</title><link>https://travisbikkle.github.io/zh-hant/2023/05/adobe-premiere-gif/</link><pubDate>Wed, 31 May 2023 11:24:28 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2023/05/adobe-premiere-gif/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/tips/">Tips</category><description>&lt;ol>
 &lt;li>雙擊左下角媒體瀏覽器，將視頻素材導入
-&lt;a class="lightgallery" href="https://travisbikkle.github.io/images/other/20230531_premiere_1.png?size=large" data-thumbnail="/images/other/20230531_premiere_1.png?size=small" data-sub-html="&lt;h2>/images/other/20230531_premiere_1.png&lt;/h2>">&lt;img loading="lazy" src="https://travisbikkle.github.io/images/other/20230531_premiere_1.png" alt="/images/other/20230531_premiere_1.png" srcset="https://travisbikkle.github.io/images/other/20230531_premiere_1.png?size=small, https://travisbikkle.github.io/images/other/20230531_premiere_1.png?size=medium 1.5x, https://travisbikkle.github.io/images/other/20230531_premiere_1.png?size=large 2x" data-title="/images/other/20230531_premiere_1.png" style="--width: 1920px;--aspect-ratio: 1920 / 1031;background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/a>&lt;/li>
+&lt;img loading="lazy" src="https://travisbikkle.github.io/images/other/20230531_premiere_1.png" alt="/images/other/20230531_premiere_1.png" srcset="https://travisbikkle.github.io/images/other/20230531_premiere_1.png?size=small, https://travisbikkle.github.io/images/other/20230531_premiere_1.png?size=medium 1.5x, https://travisbikkle.github.io/images/other/20230531_premiere_1.png?size=large 2x" data-title="/images/other/20230531_premiere_1.png" style="--width: 1920px;--aspect-ratio: 1920 / 1031;background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/li>
 &lt;li>在左上角編輯窗口，點擊如圖所示按鈕，標記入點與出點（開始與結束）
-&lt;a class="lightgallery" href="https://travisbikkle.github.io/images/other/20230531_premiere_start_end.png?size=large" data-thumbnail="/images/other/20230531_premiere_start_end.png?size=small" data-sub-html="&lt;h2>/images/other/20230531_premiere_start_end.png&lt;/h2>">&lt;img loading="lazy" src="https://travisbikkle.github.io/images/other/20230531_premiere_start_end.png" alt="/images/other/20230531_premiere_start_end.png" srcset="https://travisbikkle.github.io/images/other/20230531_premiere_start_end.png?size=small, https://travisbikkle.github.io/images/other/20230531_premiere_start_end.png?size=medium 1.5x, https://travisbikkle.github.io/images/other/20230531_premiere_start_end.png?size=large 2x" data-title="/images/other/20230531_premiere_start_end.png" style="--width: 962px;--aspect-ratio: 962 / 540;background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/a>&lt;/li>
+&lt;img loading="lazy" src="https://travisbikkle.github.io/images/other/20230531_premiere_start_end.png" alt="/images/other/20230531_premiere_start_end.png" srcset="https://travisbikkle.github.io/images/other/20230531_premiere_start_end.png?size=small, https://travisbikkle.github.io/images/other/20230531_premiere_start_end.png?size=medium 1.5x, https://travisbikkle.github.io/images/other/20230531_premiere_start_end.png?size=large 2x" data-title="/images/other/20230531_premiere_start_end.png" style="--width: 962px;--aspect-ratio: 962 / 540;background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/li>
 &lt;li>將左上角的內容拖動到右下角時間軸內
-&lt;a class="lightgallery" href="https://travisbikkle.github.io/images/other/20230531_premiere_drap_and_drop.gif?size=large" data-thumbnail="/images/other/20230531_premiere_drap_and_drop.gif?size=small" data-sub-html="&lt;h2>/images/other/20230531_premiere_drap_and_drop.gif&lt;/h2>">&lt;img loading="lazy" src="https://travisbikkle.github.io/images/other/20230531_premiere_drap_and_drop.gif" alt="/images/other/20230531_premiere_drap_and_drop.gif" srcset="https://travisbikkle.github.io/images/other/20230531_premiere_drap_and_drop.gif?size=small, https://travisbikkle.github.io/images/other/20230531_premiere_drap_and_drop.gif?size=medium 1.5x, https://travisbikkle.github.io/images/other/20230531_premiere_drap_and_drop.gif?size=large 2x" data-title="/images/other/20230531_premiere_drap_and_drop.gif" style="--width: 512px;--aspect-ratio: 512 / 319;background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/a>&lt;/li>
+&lt;img loading="lazy" src="https://travisbikkle.github.io/images/other/20230531_premiere_drap_and_drop.gif" alt="/images/other/20230531_premiere_drap_and_drop.gif" srcset="https://travisbikkle.github.io/images/other/20230531_premiere_drap_and_drop.gif?size=small, https://travisbikkle.github.io/images/other/20230531_premiere_drap_and_drop.gif?size=medium 1.5x, https://travisbikkle.github.io/images/other/20230531_premiere_drap_and_drop.gif?size=large 2x" data-title="/images/other/20230531_premiere_drap_and_drop.gif" style="--width: 512px;--aspect-ratio: 512 / 319;background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/li>
 &lt;li>右鍵點擊時間軸內的波段，點擊取消鏈接，再次右鍵，選擇清除聲音軌道的波紋，以刪除聲音
-&lt;a class="lightgallery" href="https://travisbikkle.github.io/images/other/20230523_premiere_delete_voice.png?size=large" data-thumbnail="/images/other/20230523_premiere_delete_voice.png?size=small" data-sub-html="&lt;h2>/images/other/20230523_premiere_delete_voice.png&lt;/h2>">&lt;img loading="lazy" src="https://travisbikkle.github.io/images/other/20230523_premiere_delete_voice.png" alt="/images/other/20230523_premiere_delete_voice.png" srcset="https://travisbikkle.github.io/images/other/20230523_premiere_delete_voice.png?size=small, https://travisbikkle.github.io/images/other/20230523_premiere_delete_voice.png?size=medium 1.5x, https://travisbikkle.github.io/images/other/20230523_premiere_delete_voice.png?size=large 2x" data-title="/images/other/20230523_premiere_delete_voice.png" style="--width: 628px;--aspect-ratio: 628 / 740;background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/a>&lt;/li>
+&lt;img loading="lazy" src="https://travisbikkle.github.io/images/other/20230523_premiere_delete_voice.png" alt="/images/other/20230523_premiere_delete_voice.png" srcset="https://travisbikkle.github.io/images/other/20230523_premiere_delete_voice.png?size=small, https://travisbikkle.github.io/images/other/20230523_premiere_delete_voice.png?size=medium 1.5x, https://travisbikkle.github.io/images/other/20230523_premiere_delete_voice.png?size=large 2x" data-title="/images/other/20230523_premiere_delete_voice.png" style="--width: 628px;--aspect-ratio: 628 / 740;background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/li>
 &lt;li>選擇 文件-&amp;gt;導出-&amp;gt;媒體，選擇 &lt;strong>動畫GIF&lt;/strong> 格式，調整大小後導出
-&lt;a class="lightgallery" href="https://travisbikkle.github.io/images/other/20230523_premiere_export_gif.png?size=large" data-thumbnail="/images/other/20230523_premiere_export_gif.png?size=small" data-sub-html="&lt;h2>/images/other/20230523_premiere_export_gif.png&lt;/h2>">&lt;img loading="lazy" src="https://travisbikkle.github.io/images/other/20230523_premiere_export_gif.png" alt="/images/other/20230523_premiere_export_gif.png" srcset="https://travisbikkle.github.io/images/other/20230523_premiere_export_gif.png?size=small, https://travisbikkle.github.io/images/other/20230523_premiere_export_gif.png?size=medium 1.5x, https://travisbikkle.github.io/images/other/20230523_premiere_export_gif.png?size=large 2x" data-title="/images/other/20230523_premiere_export_gif.png" style="--width: 1914px;--aspect-ratio: 1914 / 965;background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/a>&lt;/li>
+&lt;img loading="lazy" src="https://travisbikkle.github.io/images/other/20230523_premiere_export_gif.png" alt="/images/other/20230523_premiere_export_gif.png" srcset="https://travisbikkle.github.io/images/other/20230523_premiere_export_gif.png?size=small, https://travisbikkle.github.io/images/other/20230523_premiere_export_gif.png?size=medium 1.5x, https://travisbikkle.github.io/images/other/20230523_premiere_export_gif.png?size=large 2x" data-title="/images/other/20230523_premiere_export_gif.png" style="--width: 1914px;--aspect-ratio: 1914 / 965;background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/li>
 &lt;/ol></description></item><item><title>Vuepress .x 使用 Pangu.js 實現中英文自動空格</title><link>https://travisbikkle.github.io/zh-hant/2023/05/vuepress-pangu/</link><pubDate>Thu, 25 May 2023 11:24:27 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2023/05/vuepress-pangu/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/tips/">Tips</category><description>&lt;h2 id="偏執狂的自述" class="heading-element">&lt;span>偏執狂的自述&lt;/span>
  &lt;a href="#%e5%81%8f%e5%9f%b7%e7%8b%82%e7%9a%84%e8%87%aa%e8%bf%b0" class="heading-mark">
  &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
  &lt;/a>
 &lt;/h2>&lt;blockquote>
 &lt;p>如果你跟我一樣，每次看到網頁上的中文字和英文、數字、符號擠在一塊，就會坐立難安，忍不住想在它們之間加個空格。這個外掛（支援 Chrome 和 Firefox）正是你在網路世界走跳所需要的東西，它會自動替你在網頁中所有的中文字和半形的英文、數字、符號之間插入空白。&lt;/p></description></item><item><title>Vuepress Algolia</title><link>https://travisbikkle.github.io/zh-hant/2023/05/vuepress-algolia/</link><pubDate>Wed, 24 May 2023 11:24:28 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2023/05/vuepress-algolia/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/tips/">Tips</category><description>&lt;p>Algolia 是一個優秀的靜態網站搜索插件，非常適用於沒有後臺的靜態網頁博客系統（比如github pages）。&lt;/p>
-&lt;p>經過一定的申請步驟後（見下文鏈接），Algolia 通過爬蟲定期爬取網站的數據將其存放到自己的數據庫中。用戶在網站上搜索的時候，就可以調用爬取的數據，顯示搜索結果。但是 Algolia 有個缺點：它不是開箱即用的。參考以下兩個鏈接，可以申請 Algolia 並在 VuePress 中做初步的配置。&lt;/p>
-&lt;p>&lt;a href="https://juejin.cn/post/7070109475419455519"target="_blank" rel="external nofollow noopener noreferrer">VuePress 博客優化之開啓 Algolia 全文搜索&lt;i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true">&lt;/i>&lt;/a>&lt;/p>
-&lt;p>&lt;a href="https://v2.VuePress.vuejs.org/zh/reference/plugin/docsearch.html"target="_blank" rel="external nofollow noopener noreferrer">VuePress 官網&lt;i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true">&lt;/i>&lt;/a>&lt;/p>
-&lt;p>但是每個人的環境、步驟可能都不一樣，尤其是如果你經歷過從 VuePress 1.x 遷移過 VuePress 2.x，可能你會發現無論如何都無法搜索出結果，並且無法從網絡上得到答案。&lt;/p>
-&lt;p>如果你遇到了這個問題，可以參考以下步驟進行排障：&lt;/p>
-&lt;ol>
-&lt;li>確定你的 VuePress 版本是 1.x 還是 2.x
-可以在你的博客代碼中的 package.json 中查看。&lt;/li>
-&lt;li>進入 &lt;a href="https://crawler.Algolia.com/admin/"target="_blank" rel="external nofollow noopener noreferrer">https://crawler.Algolia.com/admin/&lt;i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true">&lt;/i>&lt;/a> 編輯器檢查以下三處配置&lt;/li>
-&lt;/ol>
-&lt;ul>
-&lt;li>2.1 pathsToMatch 這一行默認帶了一級 docs，請確認你的網站是否包含，如果不包含請刪掉這裏的docs&lt;/li>
-&lt;li>2.2 確認 lvl0.selectors 這一行，是 &lt;code>.sidebar-heading.active&lt;/code> 還是 &lt;code>p.sidebar-heading.open&lt;/code>。前者對應的是 VuePress 2.x 版本，後者適配的是 VuePress 1.x 版本，如果錯用，在此界面點擊 URL Tester 的測試時將可以爬取到 URL 但是無法爬取到 index。如果確認錯配了，請在&lt;a href="https://docsearch.Algolia.com/docs/templates/"target="_blank" rel="external nofollow noopener noreferrer">該網站&lt;i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true">&lt;/i>&lt;/a>找到正確的示例代碼覆蓋（注意替換爲你的網站信息）&lt;/li>
-&lt;li>2.3 確認你的 appId，apiKey，indexName 等是否正確。
-以下是我的配置，基於 VuePress 2.x，請參考。
-&lt;div class="highlight">&lt;div class="chroma">
-&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
-&lt;/span>&lt;span class="lnt"> 2
-&lt;/span>&lt;span class="lnt"> 3
-&lt;/span>&lt;span class="lnt"> 4
-&lt;/span>&lt;span class="lnt"> 5
-&lt;/span>&lt;span class="lnt"> 6
-&lt;/span>&lt;span class="lnt"> 7
-&lt;/span>&lt;span class="lnt"> 8
-&lt;/span>&lt;span class="lnt"> 9
-&lt;/span>&lt;span class="lnt">10
-&lt;/span>&lt;span class="lnt">11
-&lt;/span>&lt;span class="lnt">12
-&lt;/span>&lt;span class="lnt">13
-&lt;/span>&lt;span class="lnt">14
-&lt;/span>&lt;span class="lnt">15
-&lt;/span>&lt;span class="lnt">16
-&lt;/span>&lt;span class="lnt">17
-&lt;/span>&lt;span class="lnt">18
-&lt;/span>&lt;span class="lnt">19
-&lt;/span>&lt;span class="lnt">20
-&lt;/span>&lt;span class="lnt">21
-&lt;/span>&lt;span class="lnt">22
-&lt;/span>&lt;span class="lnt">23
-&lt;/span>&lt;span class="lnt">24
-&lt;/span>&lt;span class="lnt">25
-&lt;/span>&lt;span class="lnt">26
-&lt;/span>&lt;span class="lnt">27
-&lt;/span>&lt;span class="lnt">28
-&lt;/span>&lt;span class="lnt">29
-&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
-&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-javascript" data-lang="javascript">&lt;span class="line">&lt;span class="cl">&lt;span class="k">new&lt;/span> &lt;span class="nx">Crawler&lt;/span>&lt;span class="p">({&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">appId&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="s2">&amp;#34;xxxxxx&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">apiKey&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="s2">&amp;#34;xxxxxx&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">rateLimit&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="mi">8&lt;/span>&lt;span class="p">,&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">maxDepth&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="mi">10&lt;/span>&lt;span class="p">,&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">startUrls&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="p">[&lt;/span>&lt;span class="s2">&amp;#34;https://travisbikkle.github.io/&amp;#34;&lt;/span>&lt;span class="p">],&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">sitemaps&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="p">[&lt;/span>&lt;span class="s2">&amp;#34;https://travisbikkle.github.io/sitemap.xml&amp;#34;&lt;/span>&lt;span class="p">],&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">ignoreCanonicalTo&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="kc">false&lt;/span>&lt;span class="p">,&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">discoveryPatterns&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="p">[&lt;/span>&lt;span class="s2">&amp;#34;https://travisbikkle.github.io/**&amp;#34;&lt;/span>&lt;span class="p">],&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">actions&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="p">[&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">indexName&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="s2">&amp;#34;snzhaoyuaio&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">pathsToMatch&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="p">[&lt;/span>&lt;span class="s2">&amp;#34;https://travisbikkle.github.io/**&amp;#34;&lt;/span>&lt;span class="p">],&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">recordExtractor&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="p">({&lt;/span> &lt;span class="nx">$&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">helpers&lt;/span> &lt;span class="p">})&lt;/span> &lt;span class="p">=&amp;gt;&lt;/span> &lt;span class="p">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="nx">helpers&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">docsearch&lt;/span>&lt;span class="p">({&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">recordProps&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="p">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">lvl0&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="p">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">selectors&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="s2">&amp;#34;.sidebar-heading.active&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">defaultValue&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="s2">&amp;#34;Documentation&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">},&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">lvl1&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="s2">&amp;#34;.theme-default-content h1&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">lvl2&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="s2">&amp;#34;.theme-default-content h2&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">lvl3&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="s2">&amp;#34;.theme-default-content h3&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">lvl4&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="s2">&amp;#34;.theme-default-content h4&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">lvl5&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="s2">&amp;#34;.theme-default-content h5&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">content&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="s2">&amp;#34;.theme-default-content p, .theme-default-content li&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">},&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">indexHeadings&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="kc">true&lt;/span>&lt;span class="p">,&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">aggregateContent&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="kc">true&lt;/span>&lt;span class="p">,&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
-&lt;/div>
-&lt;/div>&lt;/li>
-&lt;/ul>
-&lt;p>如果在 URL Tester 的調試界面看的以下信息（注意右下角的紅色記錄），證明問題解決，返回控制檯重新運行一次爬蟲（restart crawler）即可。&lt;/p></description></item><item><title>數據結構</title><link>https://travisbikkle.github.io/zh-hant/2023/05/data-structure/</link><pubDate>Mon, 01 May 2023 11:24:02 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2023/05/data-structure/</guid><description>&lt;h3 id="doubly-linked-list" class="heading-element">&lt;span>Doubly Linked List&lt;/span>
+&lt;p>經過一定的申請步驟後（見下文鏈接），Algolia 通過爬蟲定期爬取網站的數據將其存放到自己的數據庫中。用戶在網站上搜索的時候，就可以調用爬取的數據，顯示搜索結果。但是 Algolia 有個缺點：它不是開箱即用的。參考以下兩個鏈接，可以申請 Algolia 並在 VuePress 中做初步的配置。&lt;/p></description></item><item><title>數據結構</title><link>https://travisbikkle.github.io/zh-hant/2023/05/data-structure/</link><pubDate>Mon, 01 May 2023 11:24:02 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2023/05/data-structure/</guid><description>&lt;h3 id="doubly-linked-list" class="heading-element">&lt;span>Doubly Linked List&lt;/span>
  &lt;a href="#doubly-linked-list" class="heading-mark">
  &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
  &lt;/a>
@@ -1192,7 +641,7 @@ Youtube上有很多更詳細直觀的教程，建議有條件有需要的同學�
  &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
  &lt;/a>
 &lt;/h4>&lt;p>雙向鏈表是一種特殊的鏈表，其中的每個節點都包含前一個和後一個節點的引用。
-&lt;a class="lightgallery" href="https://media.geeksforgeeks.org/wp-content/cdn-uploads/gq/2014/03/DLL1.png?size=large" data-thumbnail="https://media.geeksforgeeks.org/wp-content/cdn-uploads/gq/2014/03/DLL1.png?size=small" data-sub-html="&lt;h2>https://media.geeksforgeeks.org/wp-content/cdn-uploads/gq/2014/03/DLL1.png&lt;/h2>">&lt;img loading="lazy" src="https://media.geeksforgeeks.org/wp-content/cdn-uploads/gq/2014/03/DLL1.png" alt="https://media.geeksforgeeks.org/wp-content/cdn-uploads/gq/2014/03/DLL1.png" srcset="https://media.geeksforgeeks.org/wp-content/cdn-uploads/gq/2014/03/DLL1.png?size=small, https://media.geeksforgeeks.org/wp-content/cdn-uploads/gq/2014/03/DLL1.png?size=medium 1.5x, https://media.geeksforgeeks.org/wp-content/cdn-uploads/gq/2014/03/DLL1.png?size=large 2x" data-title="https://media.geeksforgeeks.org/wp-content/cdn-uploads/gq/2014/03/DLL1.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/a>
+&lt;img loading="lazy" src="https://media.geeksforgeeks.org/wp-content/cdn-uploads/gq/2014/03/DLL1.png" alt="https://media.geeksforgeeks.org/wp-content/cdn-uploads/gq/2014/03/DLL1.png" srcset="https://media.geeksforgeeks.org/wp-content/cdn-uploads/gq/2014/03/DLL1.png?size=small, https://media.geeksforgeeks.org/wp-content/cdn-uploads/gq/2014/03/DLL1.png?size=medium 1.5x, https://media.geeksforgeeks.org/wp-content/cdn-uploads/gq/2014/03/DLL1.png?size=large 2x" data-title="https://media.geeksforgeeks.org/wp-content/cdn-uploads/gq/2014/03/DLL1.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>
 下面是一個雙向鏈表的簡單示例：&lt;/p></description></item><item><title>Ubuntu Vnc</title><link>https://travisbikkle.github.io/zh-hant/2023/04/ubuntu-vnc/</link><pubDate>Mon, 10 Apr 2023 11:24:31 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2023/04/ubuntu-vnc/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/tips/">Tips</category><description>&lt;p>本文基於 Ubuntu 20.04 編寫。&lt;/p>
 &lt;ol>
 &lt;li>安裝 vncserver 和要使用的桌面管理器 xfce
@@ -1263,12 +712,7 @@ Youtube上有很多更詳細直觀的教程，建議有條件有需要的同學�
  &lt;/a>
 &lt;/h4>&lt;blockquote>
 &lt;p>&lt;a href="https://linuxconfig.org/vnc-server-on-ubuntu-20-04-focal-fossa-linux"target="_blank" rel="external nofollow noopener noreferrer">https://linuxconfig.org/vnc-server-on-ubuntu-20-04-focal-fossa-linux&lt;i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true">&lt;/i>&lt;/a>&lt;/p></description></item><item><title>端口轉發的一些方法</title><link>https://travisbikkle.github.io/zh-hant/2023/02/port-forward/</link><pubDate>Wed, 01 Feb 2023 11:24:24 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2023/02/port-forward/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/tips/">Tips</category><description>&lt;p>在《如何抓包分析 vrrp 報文是否中斷》中我們使用了 iptables 進行指定協議的報文日誌記錄功能，此處新增一個好用的命令。&lt;/p>
-&lt;p>我們在開發過程中，可能經常需要經過堡壘機、跳板機等中轉一次，才能訪問到處於小網中的服務，如數據庫。使用以下命令，可以在不借助第三方軟件的情況下，完成端口轉發，實現直連小網服務。&lt;/p>
-&lt;h2 id="iptables" class="heading-element">&lt;span>iptables&lt;/span>
- &lt;a href="#iptables" class="heading-mark">
- &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
- &lt;/a>
-&lt;/h2>&lt;p>假設 192.168.1.3 是你的小網機器，端口是 15432&lt;/p></description></item><item><title>如何寫一個 K8s Operator</title><link>https://travisbikkle.github.io/zh-hant/2022/05/operator-dev/</link><pubDate>Thu, 26 May 2022 11:24:26 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2022/05/operator-dev/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/tips/">Tips</category><description>&lt;p>使用過 k8s 的同學可能執行過以下命令：&lt;/p>
+&lt;p>我們在開發過程中，可能經常需要經過堡壘機、跳板機等中轉一次，才能訪問到處於小網中的服務，如數據庫。使用以下命令，可以在不借助第三方軟件的情況下，完成端口轉發，實現直連小網服務。&lt;/p></description></item><item><title>如何寫一個 K8s Operator</title><link>https://travisbikkle.github.io/zh-hant/2022/05/operator-dev/</link><pubDate>Thu, 26 May 2022 11:24:26 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2022/05/operator-dev/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/tips/">Tips</category><description>&lt;p>使用過 k8s 的同學可能執行過以下命令：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
@@ -1278,68 +722,7 @@ Youtube上有很多更詳細直觀的教程，建議有條件有需要的同學�
 &lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">kubectl edit sts myapp &lt;span class="c1"># 編輯一個名稱爲 myapp 的 StatefulSet&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">kubectl describe sts myapp &lt;span class="c1"># 查看一個名稱爲 myapp 的 StatefulSet&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;p>StatefulSet 是 k8s 定義的一種資源，類似的還有 Deployment、Job、ConfigMap 等。當你執行 edit 命令編輯這些資源後，k8s 會通過不停輪詢的方式（核心概念：&lt;code>control loop&lt;/code>），將目標資源調整（核心概念：&lt;code>reconcile&lt;/code>）到你期望的狀態。&lt;/p>
-&lt;p>例如，你按了空調的遙控器，希望將房間的溫度下調到 20℃。空調的壓縮機開始工作，並且同時不停的檢測當前實際的溫度與你期望的溫度之間的差異，直到溫度達到20℃，這就是一個 control loop 的例子。&lt;/p>
-&lt;blockquote>
-&lt;p>很簡單，對吧？&lt;/p>
-&lt;/blockquote>
-&lt;p>設想一下如果不是這樣，你將一手拿着溫度計，然後不停的告訴空調溫度仍然很高，或者已經變得過低了。&lt;/p>
-&lt;p>這就是聲明式 API 的好處，用戶只需要告訴程序你的期望，剩下的交給程序來做（對於程序開發者來說是雷鋒行爲），而程序實現目標最省力的方式，就是採用 control loop 的方式，不停的對比期望與現實的差距。&lt;/p>
-&lt;h2 id="operator-是什麼" class="heading-element">&lt;span>Operator 是什麼&lt;/span>
- &lt;a href="#operator-%e6%98%af%e4%bb%80%e9%ba%bc" class="heading-mark">
- &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
- &lt;/a>
-&lt;/h2>&lt;p>試想我們不再滿足於 k8s 提供的默認的資源，我們想利用這種省心省力的方式，來管理我們自己的資源，如：數據庫的一個用戶。&lt;/p></description></item><item><title>vrrp 報文抓包的方法</title><link>https://travisbikkle.github.io/zh-hant/2022/02/vrrp-cap/</link><pubDate>Tue, 01 Feb 2022 11:24:24 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2022/02/vrrp-cap/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/tips/">Tips</category><description>&lt;p>keepalived 的主機和備機，會每隔3s通過單播，向對方發送 vrrp 報文，當備機在 &lt;code>3次*每次心跳間隔（keepalived.conf中的adver_int參數）&lt;/code> 都收不到主機的廣播，自己將會升主。&lt;/p>
-&lt;p>以下兩種可能都會存在：&lt;/p>
-&lt;ol>
-&lt;li>主機沒有發送廣播&lt;/li>
-&lt;li>主機發送了廣播，備機沒有收到
-因此，在主備都需要監控vrrp的發送（out）或接收（in）記錄。&lt;/li>
-&lt;/ol>
-&lt;p>使用以下兩種方式，都可以監控每次 vrrp 報文的內容，以便定位問題。&lt;/p>
-&lt;h2 id="iptables" class="heading-element">&lt;span>iptables&lt;/span>
- &lt;a href="#iptables" class="heading-mark">
- &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
- &lt;/a>
-&lt;/h2>&lt;ol>
-&lt;li>在主機和備機都添加監控vrrp發送和接收的iptables日誌（該規則僅抓取vrrp行爲，沒有其它副作用）
-&lt;div class="highlight">&lt;div class="chroma">
-&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
-&lt;/span>&lt;span class="lnt">2
-&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
-&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">iptables -t raw -A PREROUTING -p vrrp -j LOG --log-level &lt;span class="m">6&lt;/span> --log-prefix &lt;span class="s2">&amp;#34;VRRP: &amp;#34;&lt;/span> 
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">iptables -t raw -A OUTPUT -p vrrp -j LOG --log-level &lt;span class="m">6&lt;/span> --log-prefix &lt;span class="s2">&amp;#34;VRRP: &amp;#34;&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
-&lt;/div>
-&lt;/div>&lt;/li>
-&lt;li>使用以下命令檢測是否添加成功：
-&lt;div class="highlight">&lt;div class="chroma">
-&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
-&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
-&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">iptables -L -t raw -n&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
-&lt;/div>
-&lt;/div>&lt;/li>
-&lt;li>在/var/log/messages可以查看vrrp的記錄。如果是suse或其它操作系統，該日誌中沒有vrrp記錄的話，可以在dmesg或者/var/log/的目錄中grep VRRP查看。&lt;/li>
-&lt;li>定位完問題後，執行以下命令刪除添加的iptables規則
-&lt;div class="highlight">&lt;div class="chroma">
-&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
-&lt;/span>&lt;span class="lnt">2
-&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
-&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">iptables -t raw -D PREROUTING -p vrrp -j LOG --log-level &lt;span class="m">6&lt;/span> --log-prefix &lt;span class="s2">&amp;#34;VRRP: &amp;#34;&lt;/span> 
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">iptables -t raw -D OUTPUT -p vrrp -j LOG --log-level &lt;span class="m">6&lt;/span> --log-prefix &lt;span class="s2">&amp;#34;VRRP: &amp;#34;&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
-&lt;/div>
-&lt;/div>&lt;/li>
-&lt;/ol>
-&lt;h2 id="tcpdump-wireshark" class="heading-element">&lt;span>tcpdump wireshark&lt;/span>
- &lt;a href="#tcpdump-wireshark" class="heading-mark">
- &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
- &lt;/a>
-&lt;/h2>&lt;p>tcpdump 命令需要自行獲取，wireshark 需要自行下載，這部分僅記錄常用命令和注意點，由於在公司內網，圖片無法放上來。&lt;/p></description></item><item><title>一個數據庫主備頻繁切換案例</title><link>https://travisbikkle.github.io/zh-hant/2022/01/a-case-of-database-switch/</link><pubDate>Thu, 20 Jan 2022 11:24:25 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2022/01/a-case-of-database-switch/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/tips/">Tips</category><description>&lt;h2 id="問題現象" class="heading-element">&lt;span>問題現象&lt;/span>
+&lt;/div>&lt;p>StatefulSet 是 k8s 定義的一種資源，類似的還有 Deployment、Job、ConfigMap 等。當你執行 edit 命令編輯這些資源後，k8s 會通過不停輪詢的方式（核心概念：&lt;code>control loop&lt;/code>），將目標資源調整（核心概念：&lt;code>reconcile&lt;/code>）到你期望的狀態。&lt;/p></description></item><item><title>vrrp 報文抓包的方法</title><link>https://travisbikkle.github.io/zh-hant/2022/02/vrrp-cap/</link><pubDate>Tue, 01 Feb 2022 11:24:24 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2022/02/vrrp-cap/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/tips/">Tips</category><description>&lt;p>keepalived 的主機和備機，會每隔3s通過單播，向對方發送 vrrp 報文，當備機在 &lt;code>3次*每次心跳間隔（keepalived.conf中的adver_int參數）&lt;/code> 都收不到主機的廣播，自己將會升主。&lt;/p></description></item><item><title>一個數據庫主備頻繁切換案例</title><link>https://travisbikkle.github.io/zh-hant/2022/01/a-case-of-database-switch/</link><pubDate>Thu, 20 Jan 2022 11:24:25 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2022/01/a-case-of-database-switch/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/tips/">Tips</category><description>&lt;h2 id="問題現象" class="heading-element">&lt;span>問題現象&lt;/span>
  &lt;a href="#%e5%95%8f%e9%a1%8c%e7%8f%be%e8%b1%a1" class="heading-mark">
  &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
  &lt;/a>
@@ -1372,12 +755,7 @@ Youtube上有很多更詳細直觀的教程，建議有條件有需要的同學�
  &lt;/a>
 &lt;/h2>&lt;ol>
 &lt;li>
-&lt;p>diff 用於對比生成補丁&lt;/p></description></item><item><title>Blktrace</title><link>https://travisbikkle.github.io/zh-hant/2021/04/blktrace/</link><pubDate>Mon, 19 Apr 2021 11:24:25 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2021/04/blktrace/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/tips/">Tips</category><description>&lt;p>可以用來定位 I/O 性能問題的工具有很多。常見的有 fio, dd, atop, iotop, iostat, vmstat 等。vmstat 可以提供系統性能的一個概覽，一般可以看出來性能問題究竟是不是 I/O 的鍋。想要具體查看每個設備的 I/O 情況，如 average request size, reads or writes per second，可以使用 iostat。&lt;/p>
-&lt;h2 id="blktrace-介紹" class="heading-element">&lt;span>blktrace 介紹&lt;/span>
- &lt;a href="#blktrace-%e4%bb%8b%e7%b4%b9" class="heading-mark">
- &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
- &lt;/a>
-&lt;/h2>&lt;p>更細粒度的分析，可以使用 blktrace。 blktrace 可以記錄在 I/O 棧的多個階段分別耗時多少。blktrace 的輸出結果是二進制文件，可以用 blkparse 解析，但是它仍然很難讀，需要使用 btt 來進一步轉換成更易讀的形式。&lt;/p></description></item><item><title>mount磁盤被秒umount的一個問題</title><link>https://travisbikkle.github.io/zh-hant/2019/09/a-case-of-mount-disk/</link><pubDate>Wed, 18 Sep 2019 11:24:22 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2019/09/a-case-of-mount-disk/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/archived/">Archived</category><description>&lt;h2 id="問題描述" class="heading-element">&lt;span>問題描述&lt;/span>
+&lt;p>diff 用於對比生成補丁&lt;/p></description></item><item><title>Blktrace</title><link>https://travisbikkle.github.io/zh-hant/2021/04/blktrace/</link><pubDate>Mon, 19 Apr 2021 11:24:25 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2021/04/blktrace/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/tips/">Tips</category><description>&lt;p>可以用來定位 I/O 性能問題的工具有很多。常見的有 fio, dd, atop, iotop, iostat, vmstat 等。vmstat 可以提供系統性能的一個概覽，一般可以看出來性能問題究竟是不是 I/O 的鍋。想要具體查看每個設備的 I/O 情況，如 average request size, reads or writes per second，可以使用 iostat。&lt;/p></description></item><item><title>mount磁盤被秒umount的一個問題</title><link>https://travisbikkle.github.io/zh-hant/2019/09/a-case-of-mount-disk/</link><pubDate>Wed, 18 Sep 2019 11:24:22 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2019/09/a-case-of-mount-disk/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/archived/">Archived</category><description>&lt;h2 id="問題描述" class="heading-element">&lt;span>問題描述&lt;/span>
  &lt;a href="#%e5%95%8f%e9%a1%8c%e6%8f%8f%e8%bf%b0" class="heading-mark">
  &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
  &lt;/a>
@@ -1385,17 +763,7 @@ Youtube上有很多更詳細直觀的教程，建議有條件有需要的同學�
 這裏監聽的地址是 127.0.0.1，因此相當於是一個擺設。使用開源的 nginx
 可以代理該 url
 並暴露在一個可以訪問的網卡上，不過出於學習的目的，使用我們自己編譯的類似於
-nginx 的一個 NSP 來實現這個目的。&lt;/p>
-&lt;h2 id="着手" class="heading-element">&lt;span>着手&lt;/span>
- &lt;a href="#%e7%9d%80%e6%89%8b" class="heading-mark">
- &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
- &lt;/a>
-&lt;/h2>&lt;p>包地址在內網，無法提供。運行此包有三個限制：&lt;/p></description></item><item><title>一次ssh免密無法登錄的問題</title><link>https://travisbikkle.github.io/zh-hant/2019/08/ssh-cant-login/</link><pubDate>Sat, 10 Aug 2019 11:24:17 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2019/08/ssh-cant-login/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/archived/">Archived</category><description>&lt;p>自研數據庫升級的過程中，需要配置一次ssh免密登錄，以便在其中一臺機器，很方便的升級集羣所有服務器。但是在測試過程中，創建免密登錄的腳本失效了。&lt;/p>
-&lt;h2 id="問題定位" class="heading-element">&lt;span>問題定位&lt;/span>
- &lt;a href="#%e5%95%8f%e9%a1%8c%e5%ae%9a%e4%bd%8d" class="heading-mark">
- &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
- &lt;/a>
-&lt;/h2>&lt;p>通過手動創建公鑰，拷貝到其它機器的authrized_keys，發現仍然需要輸入密碼登錄；&lt;/p></description></item><item><title>使用 Shell 腳本計算 Ip 網段</title><link>https://travisbikkle.github.io/zh-hant/2019/06/shell-calculate-ip/</link><pubDate>Mon, 10 Jun 2019 11:24:11 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2019/06/shell-calculate-ip/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/archived/">Archived</category><description>&lt;h2 id="背景" class="heading-element">&lt;span>背景&lt;/span>
+nginx 的一個 NSP 來實現這個目的。&lt;/p></description></item><item><title>一次ssh免密無法登錄的問題</title><link>https://travisbikkle.github.io/zh-hant/2019/08/ssh-cant-login/</link><pubDate>Sat, 10 Aug 2019 11:24:17 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2019/08/ssh-cant-login/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/archived/">Archived</category><description>&lt;p>自研數據庫升級的過程中，需要配置一次ssh免密登錄，以便在其中一臺機器，很方便的升級集羣所有服務器。但是在測試過程中，創建免密登錄的腳本失效了。&lt;/p></description></item><item><title>使用 Shell 腳本計算 Ip 網段</title><link>https://travisbikkle.github.io/zh-hant/2019/06/shell-calculate-ip/</link><pubDate>Mon, 10 Jun 2019 11:24:11 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2019/06/shell-calculate-ip/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/archived/">Archived</category><description>&lt;h2 id="背景" class="heading-element">&lt;span>背景&lt;/span>
  &lt;a href="#%e8%83%8c%e6%99%af" class="heading-mark">
  &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
  &lt;/a>
@@ -1463,98 +831,7 @@ openssl pkcs12 -export -out server.pfx -inkey server.key -in server.crt -passin 
 以上，版本要求見https://www.apache.org/dist/httpd/Announcement2.4.html&lt;/p></description></item><item><title>Mysql 原廠檢查清單</title><link>https://travisbikkle.github.io/zh-hant/2019/04/mysql-check-list/</link><pubDate>Tue, 16 Apr 2019 11:24:03 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2019/04/mysql-check-list/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/archived/">Archived</category><description>&lt;p>1) MySQL配置文件 （my.cnf 或 my.ini）&lt;/p>
 &lt;p>2) MySQL完整的錯誤日誌文件 （error log
 file）.（如果文件太大，可以壓縮後上傳）&lt;/p>
-&lt;p>3) MySQL的 slow query log 文件 （如果已經配置收集的話）.&lt;/p>
-&lt;p>4)
-生成下面的mysql_output.txt文本文件（請在查詢性能低、響應慢時運行）：&lt;/p>
-&lt;pre>&lt;code>（請使用具有SUPER權限的MySQL用戶（如root）登錄MySQL命令行客戶端並運行）
-
-TEE mysql_output0416.txt;
-select now(),@@version,@@version_comment,@@hostname,@@port,@@basedir,@@datadir,@@tmpdir,@@log_error,
-@@slow_query_log_file,user(),current_user(),/*!50600 @@server_uuid,*/@@server_id\G
-SHOW GLOBAL VARIABLES;
-SHOW GLOBAL STATUS;
-SHOW ENGINES\G
-SHOW PLUGINS\G
-select benchmark(50000000,(1234*5678/37485-1298+8596^2)); #should take less than 20 seconds
-SELECT ENGINE, COUNT(*), SUM(DATA_LENGTH), SUM(INDEX_LENGTH) FROM information_schema.TABLES GROUP BY ENGINE;
-SHOW ENGINE INNODB STATUS;
-/*!50503 SHOW ENGINE performance_schema STATUS */;
-/*!50503 SELECT * FROM performance_schema.setup_instruments WHERE name LIKE 'wait/sync%' AND (enabled='yes' OR timed='yes')*/;
--- Info on transactions and locks
-SELECT r.trx_id waiting_trx_id, r.trx_mysql_thread_id waiting_thread, r.trx_query waiting_query,
-b.trx_id blocking_trx_id, b.trx_mysql_thread_id blocking_thread, b.trx_query blocking_query,
-bl.lock_id blocking_lock_id, bl.lock_mode blocking_lock_mode, bl.lock_type blocking_lock_type,
-bl.lock_table blocking_lock_table, bl.lock_index blocking_lock_index,
-rl.lock_id waiting_lock_id, rl.lock_mode waiting_lock_mode, rl.lock_type waiting_lock_type,
-rl.lock_table waiting_lock_table, rl.lock_index waiting_lock_index
-FROM information_schema.INNODB_LOCK_WAITS w
-INNER JOIN information_schema.INNODB_TRX b ON b.trx_id = w.blocking_trx_id
-INNER JOIN information_schema.INNODB_TRX r ON r.trx_id = w.requesting_trx_id
-INNER JOIN information_schema.INNODB_LOCKS bl ON bl.lock_id = w.blocking_lock_id
-INNER JOIN information_schema.INNODB_LOCKS rl ON rl.lock_id = w.requested_lock_id\G
-SHOW FULL PROCESSLIST;
-/*!50503 SELECT * FROM information_schema.innodb_trx */;
-/*!50503 SELECT * FROM performance_schema.threads */;
-/*!50708 SELECT * FROM sys.session */;
-SHOW OPEN TABLES;
-SHOW MASTER STATUS\G
-SHOW SLAVE STATUS\G
-/*!50602 SELECT * FROM MYSQL.SLAVE_MASTER_INFO */;
-/*!50602 SELECT * FROM MYSQL.SLAVE_RELAY_LOG_INFO */;
-/*!50602 SELECT * FROM MYSQL.SLAVE_WORKER_INFO */;
-SHOW MASTER LOGS;
-SELECT SLEEP(300);
-SHOW GLOBAL STATUS;
-SHOW ENGINE INNODB STATUS;
-/*!50503 SHOW ENGINE performance_schema STATUS */;
-/*!50503 SELECT * FROM performance_schema.setup_instruments WHERE name LIKE 'wait/sync%' AND (enabled='yes' OR timed='yes')*/;
--- Info on transactions and locks
-SELECT r.trx_id waiting_trx_id, r.trx_mysql_thread_id waiting_thread, r.trx_query waiting_query,
-b.trx_id blocking_trx_id, b.trx_mysql_thread_id blocking_thread, b.trx_query blocking_query,
-bl.lock_id blocking_lock_id, bl.lock_mode blocking_lock_mode, bl.lock_type blocking_lock_type,
-bl.lock_table blocking_lock_table, bl.lock_index blocking_lock_index,
-rl.lock_id waiting_lock_id, rl.lock_mode waiting_lock_mode, rl.lock_type waiting_lock_type,
-rl.lock_table waiting_lock_table, rl.lock_index waiting_lock_index
-FROM information_schema.INNODB_LOCK_WAITS w
-INNER JOIN information_schema.INNODB_TRX b ON b.trx_id = w.blocking_trx_id
-INNER JOIN information_schema.INNODB_TRX r ON r.trx_id = w.requesting_trx_id
-INNER JOIN information_schema.INNODB_LOCKS bl ON bl.lock_id = w.blocking_lock_id
-INNER JOIN information_schema.INNODB_LOCKS rl ON rl.lock_id = w.requested_lock_id\G
-SHOW FULL PROCESSLIST;
-/*!50503 SELECT * FROM information_schema.innodb_trx */;
-/*!50503 SELECT * FROM performance_schema.threads */;
-/*!50708 SELECT * FROM sys.session */;
-SHOW OPEN TABLES;
-SHOW MASTER STATUS\G
-SHOW SLAVE STATUS\G
-/*!50602 SELECT * FROM MYSQL.SLAVE_MASTER_INFO */;
-/*!50602 SELECT * FROM MYSQL.SLAVE_RELAY_LOG_INFO */;
-/*!50602 SELECT * FROM MYSQL.SLAVE_WORKER_INFO */;
-select * from information_schema.innodb_trx;
-select * from information_schema.innodb_locks;
-select * from information_schema.innodb_lock_waits;
-select * from performance_schema.events_waits_history;
-SHOW MASTER LOGS;
-
-SELECT
-t.TABLE_SCHEMA, t.TABLE_NAME, s.TABLE_NAME
-FROM
-information_schema.tables t
-LEFT OUTER JOIN
-information_schema.statistics s ON t.TABLE_SCHEMA = s.TABLE_SCHEMA
-AND t.TABLE_NAME = s.TABLE_NAME
-AND s.INDEX_NAME = 'PRIMARY'
-WHERE
-s.TABLE_NAME IS NULL
-AND t.TABLE_SCHEMA not in ('information_schema','mysql','performance_schema')
-AND t.TABLE_TYPE = 'BASE TABLE';
-
-\s
-NOTEE;
-
-（注意：SELECT SLEEP(300)會休眠300秒，請勿中斷運行！）
-&lt;/code>&lt;/pre>
-&lt;p>5) 生成下面的query.txt文本文件（請在查詢性能低、響應慢時運行）：&lt;/p></description></item><item><title>Mysql 問題與源碼</title><link>https://travisbikkle.github.io/zh-hant/2019/04/mysql-problem-and-source-code/</link><pubDate>Sat, 13 Apr 2019 11:24:17 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2019/04/mysql-problem-and-source-code/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/archived/">Archived</category><description>&lt;h2 id="問題1-連接數爲214-登錄經常報錯-too-many-connections" class="heading-element">&lt;span>問題1: 連接數爲214， 登錄經常報錯 too many connections&lt;/span>
+&lt;p>3) MySQL的 slow query log 文件 （如果已經配置收集的話）.&lt;/p></description></item><item><title>Mysql 問題與源碼</title><link>https://travisbikkle.github.io/zh-hant/2019/04/mysql-problem-and-source-code/</link><pubDate>Sat, 13 Apr 2019 11:24:17 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2019/04/mysql-problem-and-source-code/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/archived/">Archived</category><description>&lt;h2 id="問題1-連接數爲214-登錄經常報錯-too-many-connections" class="heading-element">&lt;span>問題1: 連接數爲214， 登錄經常報錯 too many connections&lt;/span>
  &lt;a href="#%e5%95%8f%e9%a1%8c1-%e9%80%a3%e6%8e%a5%e6%95%b8%e7%88%b2214-%e7%99%bb%e9%8c%84%e7%b6%93%e5%b8%b8%e5%a0%b1%e9%8c%af-too-many-connections" class="heading-mark">
  &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
  &lt;/a>
@@ -1626,16 +903,7 @@ echo &amp;quot;$lvPath ${PATHS} ext4 defaults 1 0&amp;quot; &amp;gt;&amp;gt; /et
 for table metadata
 lock狀態的查詢，其中包含T_APP_INFO、TBL_UM_USER、T_TICKET_BASICINFO等表，跟故障服務一致，確定故障原因是數據庫鎖表引起；
 業務自行導出所有的阻塞task，並按照阻塞時間排序，發現第一條引起阻塞的是一條來來自於localhost的
-由root用戶發起的批量鎖表語句，疑似是問題根因。&lt;/p>
-&lt;p>上面這段是業務說的，已經排查的比較深入了，給個贊。&lt;/p>
-&lt;p>我之前通過直接kill掉這個query線程，他們的業務就正常走下去了，因爲忙其他事情，所以就沒有再關注。後面他們又出現了這個問題，這次必須要解決了。所以記錄一下定位過程。&lt;/p>
-&lt;h2 id="定位思路" class="heading-element">&lt;span>定位思路&lt;/span>
- &lt;a href="#%e5%ae%9a%e4%bd%8d%e6%80%9d%e8%b7%af" class="heading-mark">
- &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
- &lt;/a>
-&lt;/h2>&lt;ol>
-&lt;li>
-&lt;p>&lt;strong>[WHAT]&lt;/strong> &lt;a href="mailto:root@localhost"target="_blank" rel="external nofollow noopener noreferrer">root@localhost&lt;i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true">&lt;/i>&lt;/a> 的進程在做什麼？&lt;/p></description></item><item><title>Vmware Centos 雙網卡平面設置</title><link>https://travisbikkle.github.io/zh-hant/2019/02/vmware-centos7-interfaces/</link><pubDate>Sun, 10 Feb 2019 11:24:05 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2019/02/vmware-centos7-interfaces/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/archived/">Archived</category><description>&lt;pre>&lt;code>[root@host1 ~]# ip a
+由root用戶發起的批量鎖表語句，疑似是問題根因。&lt;/p></description></item><item><title>Vmware Centos 雙網卡平面設置</title><link>https://travisbikkle.github.io/zh-hant/2019/02/vmware-centos7-interfaces/</link><pubDate>Sun, 10 Feb 2019 11:24:05 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2019/02/vmware-centos7-interfaces/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/archived/">Archived</category><description>&lt;pre>&lt;code>[root@host1 ~]# ip a
 1: lo: &amp;lt;LOOPBACK,UP,LOWER_UP&amp;gt; mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
  link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
  inet 127.0.0.1/8 scope host lo
@@ -1698,28 +966,11 @@ WHERE TRX_STATE = 'LOCK WAIT';
 show engine innodb status;
 &lt;/code>&lt;/pre></description></item><item><title>Mysql 遠程無法連接問題定位記錄</title><link>https://travisbikkle.github.io/zh-hant/2019/02/mysql-remote-connect-failed/</link><pubDate>Fri, 01 Feb 2019 11:24:09 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2019/02/mysql-remote-connect-failed/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/archived/">Archived</category><description>&lt;p>某業務通過Hibernate訪問mysql，後臺報錯 Access denied for user
 &lt;em>matexxx&lt;/em>@&lt;em>xxxx&lt;/em> (using password: YES);
-一般搞過開發的人都知道，這種問題不是密碼錯了，就是遠程連接未打開，這兩者其實都屬於一個問題，就是用戶的grant權限問題，但是此業務情況稍特殊。定位過程如下。&lt;/p>
-&lt;h2 id="查看用戶" class="heading-element">&lt;span>查看用戶&lt;/span>
- &lt;a href="#%e6%9f%a5%e7%9c%8b%e7%94%a8%e6%88%b6" class="heading-mark">
- &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
- &lt;/a>
-&lt;/h2>&lt;pre>&lt;code>SELECT USER,HOST FROM MYSQL.USER;
-&lt;/code>&lt;/pre>
-&lt;p>發現用戶matexxx對應的host爲
-%，說明遠程連接已經打開；詢問業務是否更改過密碼，引出問題背景：
-業務曾重裝過mysql，使用mysqldump將舊庫數據備份，並且只在新庫的master上執行了一次恢復操作。&lt;/p></description></item><item><title>使用 Systemd 託管的 Mysql 最大連接數問題</title><link>https://travisbikkle.github.io/zh-hant/2019/01/systemd-mysql-maxconnections/</link><pubDate>Sun, 20 Jan 2019 11:24:15 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2019/01/systemd-mysql-maxconnections/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/archived/">Archived</category><description>&lt;p>最大連接數問題&lt;/p>
+一般搞過開發的人都知道，這種問題不是密碼錯了，就是遠程連接未打開，這兩者其實都屬於一個問題，就是用戶的grant權限問題，但是此業務情況稍特殊。定位過程如下。&lt;/p></description></item><item><title>使用 Systemd 託管的 Mysql 最大連接數問題</title><link>https://travisbikkle.github.io/zh-hant/2019/01/systemd-mysql-maxconnections/</link><pubDate>Sun, 20 Jan 2019 11:24:15 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2019/01/systemd-mysql-maxconnections/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/archived/">Archived</category><description>&lt;p>最大連接數問題&lt;/p>
 &lt;p>背景： mysql 最大連接數在設置爲2000的情況下，併發始終只能達到480多；
 其它遇到過類似情況的項目組更改ulimit -s（stack
 size）到1024可以解決問題，但是我們經過測試無效；
-據說前期定位人員諮詢過mysql原廠的人，沒發現有什麼配置問題。&lt;/p>
-&lt;h2 id="測試工具" class="heading-element">&lt;span>測試工具&lt;/span>
- &lt;a href="#%e6%b8%ac%e8%a9%a6%e5%b7%a5%e5%85%b7" class="heading-mark">
- &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
- &lt;/a>
-&lt;/h2>&lt;p>mysqlslap -h127.0.0.1 -uroot -p123456789 &amp;ndash;concurrency=5000
-&amp;ndash;iterations=1 &amp;ndash;auto-generate-sql &amp;ndash;auto-generate-sql-load-type=mixed
-&amp;ndash;auto-generate-sql-add-autoincrement &amp;ndash;engine=innodb
-&amp;ndash;number-of-queries=1000000&lt;/p></description></item><item><title>Tcpdump 常用命令</title><link>https://travisbikkle.github.io/zh-hant/2019/01/tcpdump-common-commands/</link><pubDate>Sat, 12 Jan 2019 11:24:18 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2019/01/tcpdump-common-commands/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/archived/">Archived</category><description>&lt;ol>
+據說前期定位人員諮詢過mysql原廠的人，沒發現有什麼配置問題。&lt;/p></description></item><item><title>Tcpdump 常用命令</title><link>https://travisbikkle.github.io/zh-hant/2019/01/tcpdump-common-commands/</link><pubDate>Sat, 12 Jan 2019 11:24:18 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2019/01/tcpdump-common-commands/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/archived/">Archived</category><description>&lt;ol>
 &lt;li>
 &lt;p>man tcpdump&lt;/p>
 &lt;/li>
@@ -1751,76 +1002,7 @@ port 3306 || dst port 22) and dst host 100.107.166.116&lt;/em> ```&lt;/p></descr
 膨脹係數(50f100w)代表使用了50個字段100w行的數據進行測試。&lt;/p></description></item><item><title>在 Asciidoc 文檔中使用 Latex</title><link>https://travisbikkle.github.io/zh-hant/2018/11/asciidoc-latex/</link><pubDate>Tue, 06 Nov 2018 11:24:19 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2018/11/asciidoc-latex/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/archived/">Archived</category><description>&lt;p>本文基於 asciidoctor 1.5.7.13，其通過 mathjax 實現 LaTex
 字體的顯示，方法和 markdown 差不多，區別是
 markdown（不同差距實現方法不同）使用 &lt;code>$$&lt;/code> 或者 &lt;code>$``$&lt;/code> 包圍 LaTex
-語法，而 asciidoctor 使用 &lt;code>stem:[]&lt;/code> 包圍 LaTex 語法。&lt;/p>
-&lt;table>
-&lt;caption>單個符號對照表&lt;/caption>
-&lt;colgroup>
-&lt;col style="width: 50%" />
-&lt;col style="width: 50%" />
-&lt;/colgroup>
-&lt;tbody>
-&lt;tr class="odd">
-&lt;td>&lt;p>渲染後&lt;/p>&lt;/td>
-&lt;td>&lt;p>源碼&lt;/p>&lt;/td>
-&lt;/tr>
-&lt;tr class="even">
-&lt;td>&lt;p>stem:[\cdot]&lt;/p>&lt;/td>
-&lt;td>&lt;p>&lt;code>stem:[\cdot]&lt;/code>&lt;/p>&lt;/td>
-&lt;/tr>
-&lt;tr class="odd">
-&lt;td>&lt;p>stem:[\times]&lt;/p>&lt;/td>
-&lt;td>&lt;p>&lt;code>stem:[\times]&lt;/code>&lt;/p>&lt;/td>
-&lt;/tr>
-&lt;tr class="even">
-&lt;td>&lt;p>stem:[a^{prime} a]&lt;/p>&lt;/td>
-&lt;td>&lt;p>&lt;code>stem:[a^{prime} a]&lt;/code>&lt;/p>&lt;/td>
-&lt;/tr>
-&lt;tr class="odd">
-&lt;td>&lt;p>stem:[a’’]&lt;/p>&lt;/td>
-&lt;td>&lt;p>&lt;code>stem:[a’’]&lt;/code>&lt;/p>&lt;/td>
-&lt;/tr>
-&lt;tr class="even">
-&lt;td>&lt;/td>
-&lt;td>&lt;/td>
-&lt;/tr>
-&lt;tr class="odd">
-&lt;td>&lt;/td>
-&lt;td>&lt;/td>
-&lt;/tr>
-&lt;tr class="even">
-&lt;td>&lt;/td>
-&lt;td>&lt;/td>
-&lt;/tr>
-&lt;tr class="odd">
-&lt;td>&lt;/td>
-&lt;td>&lt;/td>
-&lt;/tr>
-&lt;tr class="even">
-&lt;td>&lt;/td>
-&lt;td>&lt;/td>
-&lt;/tr>
-&lt;tr class="odd">
-&lt;td>&lt;/td>
-&lt;td>&lt;/td>
-&lt;/tr>
-&lt;tr class="even">
-&lt;td>&lt;/td>
-&lt;td>&lt;/td>
-&lt;/tr>
-&lt;tr class="odd">
-&lt;td>&lt;/td>
-&lt;td>&lt;/td>
-&lt;/tr>
-&lt;tr class="even">
-&lt;td>&lt;/td>
-&lt;td>&lt;/td>
-&lt;/tr>
-&lt;tr class="odd">
-&lt;td>&lt;/td>
-&lt;td>&lt;/td>
-&lt;/tr>
-&lt;tr class="even">
-&lt;td>&lt;p>stem:[a’’’]&lt;/p></description></item><item><title>Btrace 使用教程</title><link>https://travisbikkle.github.io/zh-hant/2018/10/btrace-manual/</link><pubDate>Fri, 19 Oct 2018 11:24:06 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2018/10/btrace-manual/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/archived/">Archived</category><description>&lt;p>&lt;strong>BTrace&lt;/strong> 是 Java
+語法，而 asciidoctor 使用 &lt;code>stem:[]&lt;/code> 包圍 LaTex 語法。&lt;/p></description></item><item><title>Btrace 使用教程</title><link>https://travisbikkle.github.io/zh-hant/2018/10/btrace-manual/</link><pubDate>Fri, 19 Oct 2018 11:24:06 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2018/10/btrace-manual/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/archived/">Archived</category><description>&lt;p>&lt;strong>BTrace&lt;/strong> 是 Java
 的一個診斷工具，可以在不重啓應用的情況下，對應用進行時間耗費、參數及結果跟蹤、方法調用跟蹤等分析。&lt;/p>
 &lt;h2 id="btrace-術語" class="heading-element">&lt;span>BTrace 術語&lt;/span>
  &lt;a href="#btrace-%e8%a1%93%e8%aa%9e" class="heading-mark">
@@ -1933,35 +1115,7 @@ server，才能訪問 MySQL 參考：&lt;a href="https://cwiki.apache.org/conflu
 &lt;p>在 Id 一列可以看到分區類型爲``8e``
 ``83``等十進制數值，``8e``代表該分區由 Linux LVM
 管理，適用本文的擴容方法，如果你的分區類型爲``83``，代表其是 Linux
-Native Partion，可以參考link:[另一篇博文（尚未書寫）]。&lt;/p>
-&lt;p>我使用的是 VMware Workstation
-pro，在編輯虛擬機設置裏可以輕鬆增加磁盤大小（磁盤爲單個文件，而不是分割文件，如果你的硬盤是分割的多個文件，參考另一篇博文
-&lt;a href="">VMware 分割磁盤如何擴容(尚未編寫)&lt;/a>&lt;/p>
-&lt;pre>&lt;code>fdisk -l
-## 在 fdisk 輸出信息中，可以看到 Disk /dev/sda： 30 GB 類似的信息，證明磁盤增加成功，位置確認。
-
-## 以下命令爲交互式命令
-fdisk /dev/sda
-
-# 輸入 n 以創建新分區
-n
-# 輸入 p 以設置爲主分區
-p
-# 根據 fdisk -l 的信息，決定分區的編號，由於我的機器 fdisk -l 已經有 /dev/sda1 /dev/sda2 兩個，所以此處輸入 3
-3
-# 此處輸入兩次回車，以決定分區的開始和結束位置，默認使用剩餘全部未分配空間
-First cylinder.... 回車
-Last cylinder.... 回車
-# 此處輸入 t，並輸入 3 以選擇我們上面步驟剛剛創建的分區
-t
-3
-# 在 Hex code 的輸入步驟，輸入我們希望使用的 LVM 代碼符號：8e
-8e
-# 最後，輸入 w 以使上述所有更改生效
-w
-&lt;/code>&lt;/pre>
-&lt;p>在我的機器上，不需要重啓已經可以使用 &lt;code>fdisk -l&lt;/code> 查看到新創建的
-/dev/sda3，但是推薦你在此處先重啓一次，然後執行後續操作&lt;/p></description></item><item><title>使用 Ambari 安裝 Hdp 集羣</title><link>https://travisbikkle.github.io/zh-hant/2018/10/ambari-hdp-demo/</link><pubDate>Sat, 13 Oct 2018 11:24:08 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2018/10/ambari-hdp-demo/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/archived/">Archived</category><description>&lt;p>HDP 並不是 hadoop 的輔音簡稱，而是 Hortonworks 的產品 &lt;a href="https://community.hortonworks.com/questions/89821/difference-between-apache-hadoop-and-hdp.html"target="_blank" rel="external nofollow noopener noreferrer">Hortonworks Data
+Native Partion，可以參考link:[另一篇博文（尚未書寫）]。&lt;/p></description></item><item><title>使用 Ambari 安裝 Hdp 集羣</title><link>https://travisbikkle.github.io/zh-hant/2018/10/ambari-hdp-demo/</link><pubDate>Sat, 13 Oct 2018 11:24:08 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2018/10/ambari-hdp-demo/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/archived/">Archived</category><description>&lt;p>HDP 並不是 hadoop 的輔音簡稱，而是 Hortonworks 的產品 &lt;a href="https://community.hortonworks.com/questions/89821/difference-between-apache-hadoop-and-hdp.html"target="_blank" rel="external nofollow noopener noreferrer">Hortonworks Data
 Platform&lt;i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true">&lt;/i>&lt;/a>
 的簡稱，是包含 Hadoop 在內的一攬子解決方案。&lt;/p>
 &lt;h2 id="前置要求" class="heading-element">&lt;span>前置要求：&lt;/span>
@@ -1976,52 +1130,12 @@ Platform&lt;i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-seconda
 &lt;p>步驟：&lt;/p>
 &lt;ol>
 &lt;li>
-&lt;p>首先在 A 機器上生成密鑰對，一路回車&lt;/p>
-&lt;pre>&lt;code> ssh-keygen -t rsa
-&lt;/code>&lt;/pre>
-&lt;/li>
-&lt;li>
-&lt;p>在 A 機器上輸入，輸入 B 機器的密碼一次即可&lt;/p>
-&lt;pre>&lt;code> ssh-copy-id -i ~/.ssh/id_rsa.pub root@B
-&lt;/code>&lt;/pre>
-&lt;/li>
-&lt;/ol>
-&lt;p>所以同樣的操作，B機器上可能還要再操作一遍，如果機器多了，也是很煩，因此，更懶人的做法是：&lt;/p>
-&lt;ol>
-&lt;li>
-&lt;p>準備 xshell 5&lt;/p>
-&lt;/li>
-&lt;li>
-&lt;p>打開多個機器的 ssh 會話窗口&lt;/p>
-&lt;/li>
-&lt;li>
-&lt;p>配置好各個機器的 hostname&lt;/p>
-&lt;/li>
-&lt;li>
-&lt;p>在 xshell 底部，&amp;quot;&lt;code>發送命令到所有窗口&lt;/code>&amp;ldquo;這一行，依次輸入
-&lt;code>ssh-copy-id -i ~/.ssh/id_rsa.pub root@&amp;lt;主機名&amp;gt;&lt;/code> 即可。&lt;/p>
-&lt;/li>
-&lt;/ol></description></item><item><title>Vmware Clone Ubuntu. Ip 地址配置</title><link>https://travisbikkle.github.io/zh-hant/2018/10/vmware-clone-ubuntu18-ip-config/</link><pubDate>Sat, 13 Oct 2018 11:24:06 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2018/10/vmware-clone-ubuntu18-ip-config/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/archived/">Archived</category><description>&lt;p>在使用 VMware Workstation 克隆 Ubuntu Server 18.04
+&lt;p>首先在 A 機器上生成密鑰對，一路回車&lt;/p></description></item><item><title>Vmware Clone Ubuntu. Ip 地址配置</title><link>https://travisbikkle.github.io/zh-hant/2018/10/vmware-clone-ubuntu18-ip-config/</link><pubDate>Sat, 13 Oct 2018 11:24:06 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2018/10/vmware-clone-ubuntu18-ip-config/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/archived/">Archived</category><description>&lt;p>在使用 VMware Workstation 克隆 Ubuntu Server 18.04
 版本後，發現克隆前後的機器 IP 地址重複，
 且無論如何更改虛擬網絡設置（編輯-虛擬網絡編輯器）都無效。由於 Ubuntu
 18.04 採用 netplan (/etc/netplan) 而不是先前版本的
 /etc/network/interfaces 管理網卡設置，因此通過如下方法，將機器 IP
-地址更改爲靜態獲取，可以解決此問題。&lt;/p>
-&lt;p>&lt;strong>1. vi /etc/netplan/50-cloud-init.yaml (此文件名可能會變化).&lt;/strong>&lt;/p>
-&lt;pre>&lt;code>network:
- ethernets:
- ens33:
- dhcp4: no
- dhcp6: no
- addresses: [192.168.44.129/24,]
- gateway4: 192.168.44.1
- nameservers:
- addresses: [8.8.8.8, 8.8.4.4]
-&lt;/code>&lt;/pre>
-&lt;p>&lt;strong>2. 更改後，執行.&lt;/strong>&lt;/p>
-&lt;pre>&lt;code>&amp;gt;netplan apply
-&amp;gt;reboot
-&lt;/code>&lt;/pre></description></item><item><title>Ubuntu . 更改 Hostname</title><link>https://travisbikkle.github.io/zh-hant/2018/10/ubuntu18-hostname/</link><pubDate>Sat, 13 Oct 2018 11:24:04 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2018/10/ubuntu18-hostname/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/archived/">Archived</category><description>&lt;pre>&lt;code>vi /etc/cloud/cloud.cfg
+地址更改爲靜態獲取，可以解決此問題。&lt;/p></description></item><item><title>Ubuntu . 更改 Hostname</title><link>https://travisbikkle.github.io/zh-hant/2018/10/ubuntu18-hostname/</link><pubDate>Sat, 13 Oct 2018 11:24:04 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2018/10/ubuntu18-hostname/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/archived/">Archived</category><description>&lt;pre>&lt;code>vi /etc/cloud/cloud.cfg
 #preserve_hostname: false ---&amp;gt; 改成 true
 vi /etc/hostname
 reboot
