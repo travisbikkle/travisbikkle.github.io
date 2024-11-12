@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title/><link>https://travisbikkle.github.io/zh-hant/</link><description>独立开发者 Travis Bikkle 的个人博客</description><generator>Hugo 0.138.0 &amp; FixIt v0.3.15-fd15415b</generator><language>zh-hant</language><managingEditor>travisbikkle@proton.me (Travis Bikkle)</managingEditor><webMaster>travisbikkle@proton.me (Travis Bikkle)</webMaster><lastBuildDate>Mon, 11 Nov 2024 12:18:27 +0000</lastBuildDate><atom:link href="https://travisbikkle.github.io/zh-hant/index.xml" rel="self" type="application/rss+xml"/><item><title>SCWindow座標的一些轉換技巧</title><link>https://travisbikkle.github.io/zh-hant/2024/10/how-did-i-develop-mactoys-pin-window/</link><pubDate>Mon, 21 Oct 2024 11:24:35 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2024/10/how-did-i-develop-mactoys-pin-window/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/tips/">Tips</category><description>&lt;p>我們使用最多的是笛卡爾平面直角座標系，它以屏幕左下角爲原點，向上增加y座標，向右增加x座標。&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>奇風歲月</title><link>https://travisbikkle.github.io/zh-hant/</link><description>独立开发者 Travis Bikkle 的个人博客</description><generator>Hugo 0.138.0 &amp; FixIt v0.3.15-fd15415b</generator><language>zh-hant</language><managingEditor>travisbikkle@proton.me (Travis Bikkle)</managingEditor><webMaster>travisbikkle@proton.me (Travis Bikkle)</webMaster><lastBuildDate>Tue, 12 Nov 2024 09:56:00 +0800</lastBuildDate><atom:link href="https://travisbikkle.github.io/zh-hant/index.xml" rel="self" type="application/rss+xml"/><item><title>SCWindow座標的一些轉換技巧</title><link>https://travisbikkle.github.io/zh-hant/2024/10/how-did-i-develop-mactoys-pin-window/</link><pubDate>Mon, 21 Oct 2024 11:24:35 +0800</pubDate><author>travisbikkle@proton.me (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2024/10/how-did-i-develop-mactoys-pin-window/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/tips/">Tips</category><description>&lt;p>我們使用最多的是笛卡爾平面直角座標系，它以屏幕左下角爲原點，向上增加y座標，向右增加x座標。&lt;/p>
 &lt;p>SCWindow的座標則是以主屏幕左上角爲原點的翻轉座標，以下是一個簡單的對比圖：&lt;/p>
 &lt;p>&lt;a class="lightgallery" href="https://travisbikkle.github.io/images/posts/make-mactoys/flip-coordinate.png?size=large" data-thumbnail="/images/posts/make-mactoys/flip-coordinate.png?size=small" data-sub-html="&lt;h2>alt text&lt;/h2>">&lt;img loading="lazy" src="https://travisbikkle.github.io/images/posts/make-mactoys/flip-coordinate.png" alt="alt text" srcset="https://travisbikkle.github.io/images/posts/make-mactoys/flip-coordinate.png?size=small, https://travisbikkle.github.io/images/posts/make-mactoys/flip-coordinate.png?size=medium 1.5x, https://travisbikkle.github.io/images/posts/make-mactoys/flip-coordinate.png?size=large 2x" data-title="alt text" style="--width: 424px;--aspect-ratio: 424 / 848;background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/a>&lt;/p>
 &lt;p>在實際場景，尤其是多屏，在兩種座標系之間轉換，仍然不是一件容易的事情。&lt;/p>
@@ -98,7 +98,7 @@
 &lt;/li>
 &lt;li>
 &lt;p>好了，現在可以使用如下命令，測試 &lt;code>a.example.com&lt;/code> 是否被 Cloudflare 代理了&lt;/p>
-&lt;pre tabindex="0">&lt;code>dig a.example.com&lt;/code>&lt;/pre>&lt;/li>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">dig a.example.com&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/li>
 &lt;/ol>
 &lt;h2 id="阿里雲" class="heading-element">&lt;span>阿里雲&lt;/span>
  &lt;a href="#%e9%98%bf%e9%87%8c%e9%9b%b2" class="heading-mark">
@@ -143,7 +143,7 @@
 &lt;/li>
 &lt;li>
 &lt;p>好了，現在可以使用如下命令，測試 &lt;code>a.example.com&lt;/code> 是否被阿里雲代理了&lt;/p>
-&lt;pre tabindex="0">&lt;code>dig a.example.com&lt;/code>&lt;/pre>&lt;/li>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">dig a.example.com&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/li>
 &lt;li>
 &lt;p>如果你在訪問的時候，遇到503錯誤，請提工單。&lt;/p>
 &lt;/li>
@@ -190,7 +190,7 @@
 &lt;/li>
 &lt;li>
 &lt;p>好了，現在可以使用如下命令，測試 &lt;code>a.example.com&lt;/code> 是否被阿里雲代理了&lt;/p>
-&lt;pre tabindex="0">&lt;code>dig a.example.com&lt;/code>&lt;/pre>&lt;/li>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">dig a.example.com&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/li>
 &lt;/ol>
 &lt;h2 id="搭配多個cdn以便全球加速" class="heading-element">&lt;span>搭配多個CDN以便全球加速&lt;/span>
  &lt;a href="#%e6%90%ad%e9%85%8d%e5%a4%9a%e5%80%8bcdn%e4%bb%a5%e4%be%bf%e5%85%a8%e7%90%83%e5%8a%a0%e9%80%9f" class="heading-mark">
@@ -419,7 +419,7 @@ github 上有這樣的 action，你只需要填寫自己的鏡像源登錄憑證
 &lt;p>docker 配置起來也非常簡單，適合體驗。&lt;/p>
 &lt;p>如果你像我一樣將一臺商用服務器擺在家裏，並且還安裝了 pve，那你就選擇 pve。&lt;/p>
 &lt;p>這兩個 provider，我都已經放到了 registry.terraform.io 文件夾中，並映射到了鏡像如下位置：&lt;/p>
-&lt;pre tabindex="0">&lt;code>/home/coder/.terraform.d/plugins/registry.terraform.io&lt;/code>&lt;/pre>&lt;h3 id="創建-docker-開發環境" class="heading-element">&lt;span>創建 docker 開發環境&lt;/span>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl">/home/coder/.terraform.d/plugins/registry.terraform.io&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="創建-docker-開發環境" class="heading-element">&lt;span>創建 docker 開發環境&lt;/span>
  &lt;a href="#%e5%89%b5%e5%bb%ba-docker-%e9%96%8b%e7%99%bc%e7%92%b0%e5%a2%83" class="heading-mark">
  &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
  &lt;/a>
@@ -588,8 +588,8 @@ github 上有這樣的 action，你只需要填寫自己的鏡像源登錄憑證
  &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
  &lt;/a>
 &lt;/h2>&lt;p>普通的 web 開發，coder 可以幫助你通過 proxy 訪問頁面。舉例你在寫一個 docusaurus 的網站，監聽地址是 3000：&lt;/p>
-&lt;pre tabindex="0">&lt;code># 你應該將它啓動到全0監聽，否則將會顯示 connect ECONNREFUSED 0.0.0.0:3000
-npm run start -- --host 0.0.0.0&lt;/code>&lt;/pre>&lt;p>但是 flutter 這樣的開發，coder 可能就無能爲力了。&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="ln">1&lt;/span>&lt;span class="cl"># 你應該將它啓動到全0監聽，否則將會顯示 connect ECONNREFUSED 0.0.0.0:3000
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="ln">2&lt;/span>&lt;span class="cl">npm run start -- --host 0.0.0.0&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>但是 flutter 這樣的開發，coder 可能就無能爲力了。&lt;/p>
 &lt;p>不過這一切等待我測試後再下結論。&lt;/p>
 &lt;h2 id="不足之處" class="heading-element">&lt;span>不足之處&lt;/span>
  &lt;a href="#%e4%b8%8d%e8%b6%b3%e4%b9%8b%e8%99%95" class="heading-mark">
