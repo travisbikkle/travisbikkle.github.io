@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>奇風歲月</title><link>https://travisbikkle.github.io/zh-hant/</link><description>独立开发者 Travis Bikkle 的个人博客</description><generator>Hugo 0.139.0 &amp; FixIt v0.3.15-fd15415b</generator><language>zh-hant</language><managingEditor>zhaoyu025@gmail.com (Travis Bikkle)</managingEditor><webMaster>zhaoyu025@gmail.com (Travis Bikkle)</webMaster><lastBuildDate>Tue, 19 Nov 2024 12:45:29 +0000</lastBuildDate><atom:link href="https://travisbikkle.github.io/zh-hant/index.xml" rel="self" type="application/rss+xml"/><item><title>SCWindow座標的一些轉換技巧</title><link>https://travisbikkle.github.io/zh-hant/2024/10/how-did-i-develop-mactoys-pin-window/</link><pubDate>Mon, 21 Oct 2024 11:24:35 +0800</pubDate><author>zhaoyu025@gmail.com (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2024/10/how-did-i-develop-mactoys-pin-window/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/tips/">Tips</category><description>&lt;img src="https://travisbikkle.github.io/2024/10/how-did-i-develop-mactoys-pin-window/macos-always-on-top.png" alt="featured image" referrerpolicy="no-referrer">&lt;p>我們使用最多的是笛卡爾平面直角座標系，它以屏幕左下角爲原點，向上增加y座標，向右增加x座標。&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>奇風歲月</title><link>https://travisbikkle.github.io/zh-hant/</link><description>独立开发者 Travis Bikkle 的个人博客</description><generator>Hugo 0.139.0 &amp; FixIt v0.3.15-fd15415b</generator><language>zh-hant</language><managingEditor>zhaoyu025@gmail.com (Travis Bikkle)</managingEditor><webMaster>zhaoyu025@gmail.com (Travis Bikkle)</webMaster><lastBuildDate>Tue, 19 Nov 2024 14:42:26 +0000</lastBuildDate><atom:link href="https://travisbikkle.github.io/zh-hant/index.xml" rel="self" type="application/rss+xml"/><item><title>SCWindow座標的一些轉換技巧</title><link>https://travisbikkle.github.io/zh-hant/2024/10/how-did-i-develop-mactoys-pin-window/</link><pubDate>Mon, 21 Oct 2024 11:24:35 +0800</pubDate><author>zhaoyu025@gmail.com (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2024/10/how-did-i-develop-mactoys-pin-window/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/tips/">Tips</category><description>&lt;img src="https://travisbikkle.github.io/2024/10/how-did-i-develop-mactoys-pin-window/macos-always-on-top.png" alt="featured image" referrerpolicy="no-referrer">&lt;p>我們使用最多的是笛卡爾平面直角座標系，它以屏幕左下角爲原點，向上增加y座標，向右增加x座標。&lt;/p>
 &lt;p>SCWindow的座標則是以主屏幕左上角爲原點的翻轉座標，以下是一個簡單的對比圖：&lt;/p>
 &lt;p>&lt;img loading="lazy" src="https://travisbikkle.github.io/images/posts/make-mactoys/flip-coordinate.png" alt="alt text" srcset="https://travisbikkle.github.io/images/posts/make-mactoys/flip-coordinate.png?size=small, https://travisbikkle.github.io/images/posts/make-mactoys/flip-coordinate.png?size=medium 1.5x, https://travisbikkle.github.io/images/posts/make-mactoys/flip-coordinate.png?size=large 2x" data-title="alt text" style="--width: 424px;--aspect-ratio: 424 / 848;background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/p>
 &lt;p>在實際場景，尤其是多屏，在兩種座標系之間轉換，仍然不是一件容易的事情。&lt;/p>
@@ -510,19 +510,23 @@ github 上有這樣的 action，你只需要填寫自己的鏡像源登錄憑證
 &lt;/div>
 &lt;/div>&lt;/li>
 &lt;li>
-&lt;p>點擊上傳模板：
-&lt;img loading="lazy" src="https://travisbikkle.github.io/images/posts/coder/create_template.png" alt="img.png" srcset="https://travisbikkle.github.io/images/posts/coder/create_template.png?size=small, https://travisbikkle.github.io/images/posts/coder/create_template.png?size=medium 1.5x, https://travisbikkle.github.io/images/posts/coder/create_template.png?size=large 2x" data-title="img.png" style="--width: 1365px;--aspect-ratio: 1365 / 1085;background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/p>
+&lt;p>點擊上傳模板：&lt;/p>
+&lt;p>&lt;img loading="lazy" src="https://travisbikkle.github.io/images/posts/coder/create_template.png" alt="img.png" srcset="https://travisbikkle.github.io/images/posts/coder/create_template.png?size=small, https://travisbikkle.github.io/images/posts/coder/create_template.png?size=medium 1.5x, https://travisbikkle.github.io/images/posts/coder/create_template.png?size=large 2x" data-title="img.png" style="--width: 1365px;--aspect-ratio: 1365 / 1085;background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/p>
 &lt;/li>
 &lt;li>
-&lt;p>填寫模板信息
-&lt;img loading="lazy" src="https://travisbikkle.github.io/images/posts/coder/template-upload-success.png" alt="img.png" srcset="https://travisbikkle.github.io/images/posts/coder/template-upload-success.png?size=small, https://travisbikkle.github.io/images/posts/coder/template-upload-success.png?size=medium 1.5x, https://travisbikkle.github.io/images/posts/coder/template-upload-success.png?size=large 2x" data-title="img.png" style="--width: 1053px;--aspect-ratio: 1053 / 1085;background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/p>
+&lt;p>填寫模板信息&lt;/p>
+&lt;p>&lt;img loading="lazy" src="https://travisbikkle.github.io/images/posts/coder/template-upload-success.png" alt="img.png" srcset="https://travisbikkle.github.io/images/posts/coder/template-upload-success.png?size=small, https://travisbikkle.github.io/images/posts/coder/template-upload-success.png?size=medium 1.5x, https://travisbikkle.github.io/images/posts/coder/template-upload-success.png?size=large 2x" data-title="img.png" style="--width: 1053px;--aspect-ratio: 1053 / 1085;background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/p>
 &lt;p>建議選擇和我選擇的一樣的圖標，因爲你需要一點運氣。&lt;/p>
 &lt;p>如果你在這一步沒有報錯，那你有30%的概率是天命人。&lt;/p>
 &lt;/li>
 &lt;li>
-&lt;p>點擊 &lt;code>create workspace&lt;/code> 來試試創建一個 workspace 吧：
-&lt;style type="text/css">.notice{--root-color:#444;--root-background:#eff;--title-color:#fff;--title-background:#7bd;--warning-title:#c33;--warning-content:#fee;--info-title:#fb7;--info-content:#fec;--note-title:#6be;--note-content:#e7f2fa;--tip-title:#5a5;--tip-content:#efe}@media (prefers-color-scheme:dark){.notice{--root-color:#ddd;--root-background:#eff;--title-color:#fff;--title-background:#7bd;--warning-title:#800;--warning-content:#400;--info-title:#a50;--info-content:#420;--note-title:#069;--note-content:#023;--tip-title:#363;--tip-content:#121}}body.dark .notice{--root-color:#ddd;--root-background:#eff;--title-color:#fff;--title-background:#7bd;--warning-title:#800;--warning-content:#400;--info-title:#a50;--info-content:#420;--note-title:#069;--note-content:#023;--tip-title:#363;--tip-content:#121}.notice{padding:18px;line-height:24px;margin-bottom:24px;border-radius:4px;color:var(--root-color);background:var(--root-background)}.notice p:last-child{margin-bottom:0}.notice-title{margin:-18px -18px 12px;padding:4px 18px;border-radius:4px 4px 0 0;font-weight:700;color:var(--title-color);background:var(--title-background)}.notice.warning .notice-title{background:var(--warning-title)}.notice.warning{background:var(--warning-content)}.notice.info .notice-title{background:var(--info-title)}.notice.info{background:var(--info-content)}.notice.note .notice-title{background:var(--note-title)}.notice.note{background:var(--note-content)}.notice.tip .notice-title{background:var(--tip-title)}.notice.tip{background:var(--tip-content)}.icon-notice{display:inline-flex;align-self:center;margin-right:8px}.icon-notice img,.icon-notice svg{height:1em;width:1em;fill:currentColor}.icon-notice img,.icon-notice.baseline svg{top:.125em;position:relative}&lt;/style>&lt;div class="notice tip" >
-&lt;p class="first notice-title">&lt;span class="icon-notice baseline">&lt;/span>&lt;/p>&lt;p>在進行下一步創建 workspace 之前，爲了提升速度，減少遇到的錯誤，建議你先參考&lt;a href="#%e5%8f%af%e8%83%bd%e5%87%ba%e7%8f%be%e7%9a%84%e5%95%8f%e9%a1%8c">這裏&lt;/a> 構建出鏡像。&lt;/p>&lt;/div>&lt;/p>
+&lt;p>點擊 &lt;code>create workspace&lt;/code> 來試試創建一個 workspace 吧：&lt;/p>
+&lt;div class="details admonition tip open">
+ &lt;div class="details-summary admonition-title">&lt;i class="icon fa-fw fa-regular fa-lightbulb" aria-hidden="true">&lt;/i>提示&lt;i class="details-icon fa-solid fa-angle-right fa-fw" aria-hidden="true">&lt;/i>&lt;/div>
+ &lt;div class="details-content">
+ &lt;div class="admonition-content">在進行下一步創建 workspace 之前，爲了提升速度，減少遇到的錯誤，建議你先參考&lt;a href="#%e5%8f%af%e8%83%bd%e5%87%ba%e7%8f%be%e7%9a%84%e5%95%8f%e9%a1%8c">這裏&lt;/a> 構建出鏡像。&lt;/div>
+ &lt;/div>
+&lt;/div>
 &lt;p>&lt;img loading="lazy" src="https://travisbikkle.github.io/images/posts/coder/create-workspace.png" alt="img.png" srcset="https://travisbikkle.github.io/images/posts/coder/create-workspace.png?size=small, https://travisbikkle.github.io/images/posts/coder/create-workspace.png?size=medium 1.5x, https://travisbikkle.github.io/images/posts/coder/create-workspace.png?size=large 2x" data-title="img.png" style="--width: 1071px;--aspect-ratio: 1071 / 451;background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/p>
 &lt;/li>
 &lt;li>
@@ -530,8 +534,8 @@ github 上有這樣的 action，你只需要填寫自己的鏡像源登錄憑證
 &lt;p>&lt;img loading="lazy" src="https://travisbikkle.github.io/images/posts/coder/create-workspace-success.png" alt="img.png" srcset="https://travisbikkle.github.io/images/posts/coder/create-workspace-success.png?size=small, https://travisbikkle.github.io/images/posts/coder/create-workspace-success.png?size=medium 1.5x, https://travisbikkle.github.io/images/posts/coder/create-workspace-success.png?size=large 2x" data-title="img.png" style="--width: 1392px;--aspect-ratio: 1392 / 438;background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/p>
 &lt;/li>
 &lt;li>
-&lt;p>一些提示
-在 coder 界面右上角，點擊自己的頭像-Account-SSH KEYS，將公鑰添加到 GITHUB 等網站，即可直接下載代碼。&lt;/p>
+&lt;p>一些提示&lt;/p>
+&lt;p>在 coder 界面右上角，點擊自己的頭像-Account-SSH KEYS，將公鑰添加到 GITHUB 等網站，即可直接下載代碼。&lt;/p>
 &lt;p>注意在容器中使用的 git，是特製的，沒有使用 .ssh 文件夾。&lt;/p>
 &lt;/li>
 &lt;/ol>
@@ -542,8 +546,8 @@ github 上有這樣的 action，你只需要填寫自己的鏡像源登錄憑證
 &lt;/h4>&lt;p>整個過程中你可能遇到最多的問題，是網絡問題。&lt;/p>
 &lt;ol>
 &lt;li>
-&lt;p>如果你的 docker 鏡像無法構建成功
-你可以先手動在 coder 安裝的機器 build 好鏡像：&lt;/p>
+&lt;p>如果你的 docker 鏡像無法構建成功&lt;/p>
+&lt;p>你可以先手動在 coder 安裝的機器 build 好鏡像：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
@@ -563,8 +567,8 @@ github 上有這樣的 action，你只需要填寫自己的鏡像源登錄憑證
 安裝 code-server 的代碼在 main.tf 的 line 39-55&lt;/p>
 &lt;/li>
 &lt;li>
-&lt;p>如果你的 docker 鏡像可以構建成功，但是創建 workspace 卡住
-去 coder 所在的機器查看容器日誌吧：&lt;/p>
+&lt;p>如果你的 docker 鏡像可以構建成功，但是創建 workspace 卡住&lt;/p>
+&lt;p>去 coder 所在的機器查看容器日誌吧：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
@@ -578,8 +582,8 @@ github 上有這樣的 action，你只需要填寫自己的鏡像源登錄憑證
 &lt;img loading="lazy" src="https://travisbikkle.github.io/images/posts/coder/check-docker-logs.png" alt="img.png" srcset="https://travisbikkle.github.io/images/posts/coder/check-docker-logs.png?size=small, https://travisbikkle.github.io/images/posts/coder/check-docker-logs.png?size=medium 1.5x, https://travisbikkle.github.io/images/posts/coder/check-docker-logs.png?size=large 2x" data-title="img.png" style="--width: 1392px;--aspect-ratio: 1392 / 746;background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/p>
 &lt;/li>
 &lt;li>
-&lt;p>如果你的CODER_ACCESS_URL使用了https，並且使用了自簽名或者letsEncrypt證書，workspace將無法啓動
-容器將卡在下載 coder-agent 一步，並且vscode遠程將無法連接。&lt;/p>
+&lt;p>如果你的CODER_ACCESS_URL使用了https，並且使用了自簽名或者letsEncrypt證書，workspace將無法啓動&lt;/p>
+&lt;p>容器將卡在下載 coder-agent 一步，並且vscode遠程將無法連接。&lt;/p>
 &lt;p>自簽名就不說了，letsEncrypt也有問題，原理就是雖然瀏覽器信任了letsEncrypt，但是ubuntu和macos等os還是沒有信任它的。&lt;/p>
 &lt;p>將證書添加進系統信任列表即可（macos雙擊倉庫中 templates/docker/build/letsEncrypt.crt，linux執行以下命令）。&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
@@ -641,8 +645,8 @@ github 上有這樣的 action，你只需要填寫自己的鏡像源登錄憑證
 &lt;p>安裝成功後，在 pve 中將該 vm 轉換爲模板。&lt;/p>
 &lt;/li>
 &lt;li>
-&lt;p>修改 main.tf 中的變量
-在 main.tf 中搜索&amp;quot;請修改&amp;quot;字樣，請將這些字樣全部替換。&lt;/p>
+&lt;p>修改 main.tf 中的變量&lt;/p>
+&lt;p>在 main.tf 中搜索&amp;quot;請修改&amp;quot;字樣，請將這些字樣全部替換。&lt;/p>
 &lt;table>
  &lt;thead>
  &lt;tr>
@@ -704,8 +708,8 @@ github 上有這樣的 action，你只需要填寫自己的鏡像源登錄憑證
 &lt;/div>&lt;p>&lt;img loading="lazy" src="https://travisbikkle.github.io/images/posts/coder/upload-pve-template.png" alt="img.png" srcset="https://travisbikkle.github.io/images/posts/coder/upload-pve-template.png?size=small, https://travisbikkle.github.io/images/posts/coder/upload-pve-template.png?size=medium 1.5x, https://travisbikkle.github.io/images/posts/coder/upload-pve-template.png?size=large 2x" data-title="img.png" style="--width: 1392px;--aspect-ratio: 1392 / 800;background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/p>
 &lt;/li>
 &lt;li>
-&lt;p>創建 workspace
-這一次和 docker 不一樣，你必須要選擇 cpu，內存，硬盤大小。&lt;br>
+&lt;p>創建 workspace&lt;/p>
+&lt;p>這一次和 docker 不一樣，你必須要選擇 cpu，內存，硬盤大小。&lt;br>
 注意硬盤大小必須大於你在 pve 中創建 vm 時選擇的硬盤大小，否則將無法啓動。&lt;/p>
 &lt;/li>
 &lt;/ol>
@@ -736,14 +740,26 @@ github 上有這樣的 action，你只需要填寫自己的鏡像源登錄憑證
  &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
  &lt;/a>
 &lt;/h2>&lt;ol>
-&lt;li>錯誤提醒不夠明顯，比如上傳zip模板的時候，會一直卡住，後臺docker logs沒有任何輸出
-&lt;img loading="lazy" src="https://travisbikkle.github.io/images/posts/coder/stuck-when-uploading.png" alt="img.png" srcset="https://travisbikkle.github.io/images/posts/coder/stuck-when-uploading.png?size=small, https://travisbikkle.github.io/images/posts/coder/stuck-when-uploading.png?size=medium 1.5x, https://travisbikkle.github.io/images/posts/coder/stuck-when-uploading.png?size=large 2x" data-title="img.png" style="--width: 1053px;--aspect-ratio: 1053 / 1085;background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>
-又比如在創建 docker workspace 的時候，如果沒有事先 build 好 docker 鏡像，將只會看到 &lt;code>docker_image.main: Still creating... [3m30s elapsed]&lt;/code> 而看不到任何 docker build 信息。&lt;/li>
-&lt;li>沒有批量刪除 workspace 界面操作&lt;/li>
-&lt;li>沒有導出模板的功能&lt;/li>
-&lt;li>沒有明顯的命令行提示&lt;/li>
-&lt;li>沒有中文&lt;/li>
-&lt;li>界面功能很簡陋&lt;/li>
+&lt;li>
+&lt;p>錯誤提醒不夠明顯，比如上傳zip模板的時候，會一直卡住，後臺docker logs沒有任何輸出&lt;/p>
+&lt;p>&lt;img loading="lazy" src="https://travisbikkle.github.io/images/posts/coder/stuck-when-uploading.png" alt="img.png" srcset="https://travisbikkle.github.io/images/posts/coder/stuck-when-uploading.png?size=small, https://travisbikkle.github.io/images/posts/coder/stuck-when-uploading.png?size=medium 1.5x, https://travisbikkle.github.io/images/posts/coder/stuck-when-uploading.png?size=large 2x" data-title="img.png" style="--width: 1053px;--aspect-ratio: 1053 / 1085;background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>
+又比如在創建 docker workspace 的時候，如果沒有事先 build 好 docker 鏡像，將只會看到 &lt;code>docker_image.main: Still creating... [3m30s elapsed]&lt;/code> 而看不到任何 docker build 信息。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>沒有批量刪除 workspace 界面操作&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>沒有導出模板的功能&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>沒有明顯的命令行提示&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>沒有中文&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>界面功能很簡陋&lt;/p>
+&lt;/li>
 &lt;/ol>
 &lt;h2 id="我爲什麼寫這篇文章" class="heading-element">&lt;span>我爲什麼寫這篇文章&lt;/span>
  &lt;a href="#%e6%88%91%e7%88%b2%e4%bb%80%e9%ba%bc%e5%af%ab%e9%80%99%e7%af%87%e6%96%87%e7%ab%a0" class="heading-mark">
