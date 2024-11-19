@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Mock - 標籤 | 奇風歲月</title><link>https://travisbikkle.github.io/zh-hant/mock/</link><description>独立开发者 Travis Bikkle 的个人博客</description><generator>Hugo 0.139.0 &amp; FixIt v0.3.15-fd15415b</generator><language>zh-hant</language><managingEditor>zhaoyu025@gmail.com (Travis Bikkle)</managingEditor><webMaster>zhaoyu025@gmail.com (Travis Bikkle)</webMaster><lastBuildDate>Tue, 19 Nov 2024 14:42:26 +0000</lastBuildDate><atom:link href="https://travisbikkle.github.io/zh-hant/mock/index.xml" rel="self" type="application/rss+xml"/><item><title>webpack 5 mock 10分鐘快速配置</title><link>https://travisbikkle.github.io/zh-hant/2024/03/2024-03-15-webpack-react-mock/</link><pubDate>Fri, 15 Mar 2024 11:13:53 +0800</pubDate><author>zhaoyu025@gmail.com (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2024/03/2024-03-15-webpack-react-mock/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/front-end/">Front-End</category><description>&lt;p>不說廢話，直接開始。我使用 webpack 5.90.3，以下是我的配置。&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Mock - 標籤 | 奇風歲月</title><link>https://travisbikkle.github.io/zh-hant/mock/</link><description>独立开发者 Travis Bikkle 的个人博客</description><generator>Hugo 0.139.0 &amp; FixIt v0.3.15-fd15415b</generator><language>zh-hant</language><managingEditor>zhaoyu025@gmail.com (Travis Bikkle)</managingEditor><webMaster>zhaoyu025@gmail.com (Travis Bikkle)</webMaster><lastBuildDate>Tue, 19 Nov 2024 14:53:12 +0000</lastBuildDate><atom:link href="https://travisbikkle.github.io/zh-hant/mock/index.xml" rel="self" type="application/rss+xml"/><item><title>webpack 5 mock 10分鐘快速配置</title><link>https://travisbikkle.github.io/zh-hant/2024/03/2024-03-15-webpack-react-mock/</link><pubDate>Fri, 15 Mar 2024 11:13:53 +0800</pubDate><author>zhaoyu025@gmail.com (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2024/03/2024-03-15-webpack-react-mock/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/front-end/">Front-End</category><description>&lt;p>不說廢話，直接開始。我使用 webpack 5.90.3，以下是我的配置。&lt;/p>
 &lt;ol>
 &lt;li>
 &lt;p>文件結構&lt;/p>
@@ -20,5 +20,58 @@
 &lt;/div>&lt;/li>
 &lt;li>
 &lt;p>webpack.config.js&lt;/p>
-&lt;style type="text/css">.notice{--root-color:#444;--root-background:#eff;--title-color:#fff;--title-background:#7bd;--warning-title:#c33;--warning-content:#fee;--info-title:#fb7;--info-content:#fec;--note-title:#6be;--note-content:#e7f2fa;--tip-title:#5a5;--tip-content:#efe}@media (prefers-color-scheme:dark){.notice{--root-color:#ddd;--root-background:#eff;--title-color:#fff;--title-background:#7bd;--warning-title:#800;--warning-content:#400;--info-title:#a50;--info-content:#420;--note-title:#069;--note-content:#023;--tip-title:#363;--tip-content:#121}}body.dark .notice{--root-color:#ddd;--root-background:#eff;--title-color:#fff;--title-background:#7bd;--warning-title:#800;--warning-content:#400;--info-title:#a50;--info-content:#420;--note-title:#069;--note-content:#023;--tip-title:#363;--tip-content:#121}.notice{padding:18px;line-height:24px;margin-bottom:24px;border-radius:4px;color:var(--root-color);background:var(--root-background)}.notice p:last-child{margin-bottom:0}.notice-title{margin:-18px -18px 12px;padding:4px 18px;border-radius:4px 4px 0 0;font-weight:700;color:var(--title-color);background:var(--title-background)}.notice.warning .notice-title{background:var(--warning-title)}.notice.warning{background:var(--warning-content)}.notice.info .notice-title{background:var(--info-title)}.notice.info{background:var(--info-content)}.notice.note .notice-title{background:var(--note-title)}.notice.note{background:var(--note-content)}.notice.tip .notice-title{background:var(--tip-title)}.notice.tip{background:var(--tip-content)}.icon-notice{display:inline-flex;align-self:center;margin-right:8px}.icon-notice img,.icon-notice svg{height:1em;width:1em;fill:currentColor}.icon-notice img,.icon-notice.baseline svg{top:.125em;position:relative}&lt;/style>&lt;div class="notice tip" >
-&lt;p class="first notice-title">&lt;span class="icon-notice baseline">&lt;/span>&lt;/p></description></item></channel></rss>
+&lt;div class="details admonition tip open">
+ &lt;div class="details-summary admonition-title">&lt;i class="icon fa-fw fa-regular fa-lightbulb" aria-hidden="true">&lt;/i>提示&lt;i class="details-icon fa-solid fa-angle-right fa-fw" aria-hidden="true">&lt;/i>&lt;/div>
+ &lt;div class="details-content">
+ &lt;div class="admonition-content">因爲 express 現在不再附帶 body-parser，現在需要執行 &lt;code>npm i -D body-parser&lt;/code>。如果你希望讀取 request 裏面的內容，你會需要這個插件。&lt;/div>
+ &lt;/div>
+&lt;/div>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-javascript" data-lang="javascript">&lt;span class="line">&lt;span class="cl">&lt;span class="kr">const&lt;/span> &lt;span class="nx">webpack&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">require&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;webpack&amp;#34;&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kd">var&lt;/span> &lt;span class="nx">bodyParser&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">require&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s1">&amp;#39;body-parser&amp;#39;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kr">const&lt;/span> &lt;span class="nx">mockServer&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nx">require&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;./mockserver.js&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nx">module&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">exports&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="nx">env&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">argv&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">=&amp;gt;&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// ... some code
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="k">return&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">devServer&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">setupMiddlewares&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="nx">middlewares&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">devServer&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">=&amp;gt;&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="o">!&lt;/span>&lt;span class="nx">devServer&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">throw&lt;/span> &lt;span class="k">new&lt;/span> &lt;span class="nb">Error&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s1">&amp;#39;webpack-dev-server is not defined&amp;#39;&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">devServer&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">app&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">use&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">bodyParser&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">json&lt;/span>&lt;span class="p">())&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">devServer&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">app&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">use&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">mockServer&lt;/span>&lt;span class="p">());&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// don&amp;#39;t forget this line
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="k">return&lt;/span> &lt;span class="nx">middlewares&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">},&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">//... and so on
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
+&lt;li>
+&lt;p>mockserver.js&lt;/p></description></item></channel></rss>
