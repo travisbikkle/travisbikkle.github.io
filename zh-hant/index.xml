@@ -1,8 +1,8 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>奇風歲月</title><link>https://travisbikkle.github.io/zh-hant/</link><description>独立开发者 Travis Bikkle 的个人博客</description><generator>Hugo 0.139.3 &amp; FixIt v0.3.15-fd15415b</generator><language>zh-hant</language><managingEditor>zhaoyu025@gmail.com (Travis Bikkle)</managingEditor><webMaster>zhaoyu025@gmail.com (Travis Bikkle)</webMaster><lastBuildDate>Tue, 17 Dec 2024 13:38:44 +0800</lastBuildDate><atom:link href="https://travisbikkle.github.io/zh-hant/index.xml" rel="self" type="application/rss+xml"/><item><title>我是如何將 MagicToy(SwiftData) 的剪切板性能提升了將近100倍</title><link>https://travisbikkle.github.io/zh-hant/2024/12/how-i-made-magictoy-clipboard-100-times-faster/</link><pubDate>Wed, 04 Dec 2024 11:24:35 +0800</pubDate><author>zhaoyu025@gmail.com (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2024/12/how-i-made-magictoy-clipboard-100-times-faster/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/tips/">Tips</category><description>&lt;img src="https://travisbikkle.github.io/2024/12/how-i-made-magictoy-clipboard-100-times-faster/img/what_does_magic_clipboard_look_like.png" alt="featured image" referrerpolicy="no-referrer">&lt;p>&lt;a href="https://apps.apple.com/cn/app/magictoy/id6737158347"target="_blank" rel="external nofollow noopener noreferrer">MagicToy&lt;i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true">&lt;/i>&lt;/a> 的剪切板功能支持複製文字、帶有格式的代碼或表格、網頁、圖片等。&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>奇風歲月</title><link>https://travisbikkle.github.io/zh-hant/</link><description>独立开发者 Travis Bikkle 的个人博客</description><generator>Hugo 0.139.3 &amp; FixIt v0.3.15-fd15415b</generator><language>zh-hant</language><managingEditor>zhaoyu025@gmail.com (Travis Bikkle)</managingEditor><webMaster>zhaoyu025@gmail.com (Travis Bikkle)</webMaster><lastBuildDate>Tue, 17 Dec 2024 20:12:19 +0800</lastBuildDate><atom:link href="https://travisbikkle.github.io/zh-hant/index.xml" rel="self" type="application/rss+xml"/><item><title>我是如何將 MagicToy(SwiftData) 的剪切板性能提升了將近100倍</title><link>https://travisbikkle.github.io/zh-hant/2024/12/how-i-made-magictoy-clipboard-100-times-faster/</link><pubDate>Wed, 04 Dec 2024 11:24:35 +0800</pubDate><author>zhaoyu025@gmail.com (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2024/12/how-i-made-magictoy-clipboard-100-times-faster/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/tips/">Tips</category><description>&lt;img src="https://travisbikkle.github.io/2024/12/how-i-made-magictoy-clipboard-100-times-faster/img/what_does_magic_clipboard_look_like.png" alt="featured image" referrerpolicy="no-referrer">&lt;p>&lt;a href="https://apps.apple.com/cn/app/magictoy/id6737158347"target="_blank" rel="external nofollow noopener noreferrer">MagicToy&lt;i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true">&lt;/i>&lt;/a> 的剪切板功能支持複製文字、帶有格式的代碼或表格、網頁、圖片等。&lt;/p>
 &lt;p>當用戶複製了大量的圖片，或者圖片數量雖然不多，但是單個圖片的尺寸非常大，會造成剪切板非常卡頓。&lt;/p>
 &lt;p>MagicToy 致力於爲用戶提供好用的各種小工具，而一個卡頓的剪切板和“好用”離了十萬八千里。&lt;/p>
 &lt;p>趁着爲 MagicToy 添加&lt;code>直接粘貼到其它程序&lt;/code>功能的機會，我準備着手修復這個問題。經過非常小的修改，MagicToy 的剪切板加載10張5K圖片的性能提升了接近100倍（從1300ms變成了從15ms），想知道我是怎麼做的嗎？請繼續往下看。&lt;/p>
-&lt;p>&lt;figure>&lt;img loading="lazy" src="https://travisbikkle.github.io/2024/12/how-i-made-magictoy-clipboard-100-times-faster/img/MagicToy_directly_paste.gif" alt="直接粘貼到其它程序" srcset="https://travisbikkle.github.io/2024/12/how-i-made-magictoy-clipboard-100-times-faster/img/MagicToy_directly_paste.gif?size=small, https://travisbikkle.github.io/2024/12/how-i-made-magictoy-clipboard-100-times-faster/img/MagicToy_directly_paste.gif?size=medium 1.5x, https://travisbikkle.github.io/2024/12/how-i-made-magictoy-clipboard-100-times-faster/img/MagicToy_directly_paste.gif?size=large 2x" data-title="直接粘貼到其它程序" style="--width: 480px;--aspect-ratio: 480 / 312;background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;figcaption class="image-caption">直接粘貼到其它程序&lt;/figcaption>
+&lt;p>&lt;figure>&lt;img loading="lazy" src="https://s3.bmp.ovh/imgs/2024/12/04/c3d20193b45c5338.gif" alt="直接粘貼到其它程序" srcset="https://s3.bmp.ovh/imgs/2024/12/04/c3d20193b45c5338.gif?size=small, https://s3.bmp.ovh/imgs/2024/12/04/c3d20193b45c5338.gif?size=medium 1.5x, https://s3.bmp.ovh/imgs/2024/12/04/c3d20193b45c5338.gif?size=large 2x" data-title="直接粘貼到其它程序" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;figcaption class="image-caption">直接粘貼到其它程序&lt;/figcaption>
  &lt;/figure>&lt;/p>
 &lt;p>爲了更清楚地展示我是如何修復這個問題，最好向各位說明一下 MagicToy 的剪切板的界面、數據結構和業務邏輯。&lt;/p>
 &lt;h2 id="magictoy-的剪切板是什麼樣子" class="heading-element">&lt;span>MagicToy 的剪切板是什麼樣子&lt;/span>
@@ -13,14 +13,9 @@
 &lt;p>&lt;figure>&lt;img loading="lazy" src="https://travisbikkle.github.io/2024/12/how-i-made-magictoy-clipboard-100-times-faster/img/what_does_magic_clipboard_look_like.png" alt="what_does_magic_clipboard_look_like" srcset="https://travisbikkle.github.io/2024/12/how-i-made-magictoy-clipboard-100-times-faster/img/what_does_magic_clipboard_look_like.png?size=small, https://travisbikkle.github.io/2024/12/how-i-made-magictoy-clipboard-100-times-faster/img/what_does_magic_clipboard_look_like.png?size=medium 1.5x, https://travisbikkle.github.io/2024/12/how-i-made-magictoy-clipboard-100-times-faster/img/what_does_magic_clipboard_look_like.png?size=large 2x" data-title="MagicToy 的剪切板是什麼樣子" style="--width: 800px;--aspect-ratio: 800 / 491;background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;figcaption class="image-caption">what_does_magic_clipboard_look_like&lt;/figcaption>
  &lt;/figure>&lt;/p>
 &lt;p>如果你不喜歡它默認的樣子，你可以在十餘種精美的主題中選擇你喜歡的一個。你甚至可以自定義它的各個部分的顏色、字體、大小、邊框等等。&lt;/p>
-
-
- 
- &lt;div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
- &lt;iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="allowfullscreen" loading="eager" referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube.com/embed/9Q-vgpyLU0Y?autoplay=0&amp;controls=1&amp;end=0&amp;loop=0&amp;mute=0&amp;start=0" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" title="YouTube video"
- >&lt;/iframe>
- &lt;/div>
-
+&lt;div class="bilibili">
+ &lt;iframe src="//player.bilibili.com/player.html?bvid=BV1AVzRYcEKG&amp;page=1&amp;autoplay=false&amp;poster=true&amp;muted=false&amp;danmaku=true&amp;t=0" border="0" framespacing="0" allowfullscreen="true">&lt;/iframe>
+&lt;/div>
 &lt;p>但是最重要的，還是它是一款安全的剪切板。通過設置剪切板項目的最長保留時間，它將幫助您減少敏感信息的暴露時間，從而保護您的密碼、賬戶、錢包祕鑰或者助記詞等等。&lt;/p>
 &lt;p>此外，它還支持預覽代碼、文字、圖片、備註、搜索、收藏。&lt;/p>
 &lt;p>而今天我們要說的，就是這個支持顯示圖片以及預覽圖片的功能。&lt;/p>
@@ -235,7 +230,7 @@
 &lt;p>&lt;a href="https://apps.apple.com/cn/app/magictoy/id6737158347"target="_blank" rel="external nofollow noopener noreferrer">&lt;figure>&lt;img loading="lazy" src="https://s3.bmp.ovh/imgs/2024/12/04/03c806bd90f3f1e1.png" alt="MagicToy on AppStore" srcset="https://s3.bmp.ovh/imgs/2024/12/04/03c806bd90f3f1e1.png?size=small, https://s3.bmp.ovh/imgs/2024/12/04/03c806bd90f3f1e1.png?size=medium 1.5x, https://s3.bmp.ovh/imgs/2024/12/04/03c806bd90f3f1e1.png?size=large 2x" data-title="Markdown Logo" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;figcaption class="image-caption">MagicToy on AppStore&lt;/figcaption>
  &lt;/figure>&lt;i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true">&lt;/i>&lt;/a>&lt;/p></description></item><item><title>SCWindow座標的一些轉換技巧</title><link>https://travisbikkle.github.io/zh-hant/2024/10/how-did-i-develop-mactoys-pin-window/</link><pubDate>Mon, 21 Oct 2024 11:24:35 +0800</pubDate><author>zhaoyu025@gmail.com (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2024/10/how-did-i-develop-mactoys-pin-window/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/tips/">Tips</category><description>&lt;img src="https://travisbikkle.github.io/2024/10/how-did-i-develop-mactoys-pin-window/macos-always-on-top.png" alt="featured image" referrerpolicy="no-referrer">&lt;p>我們使用最多的是笛卡爾平面直角座標系，它以屏幕左下角爲原點，向上增加y座標，向右增加x座標。&lt;/p>
 &lt;p>SCWindow的座標則是以主屏幕左上角爲原點的翻轉座標，以下是一個簡單的對比圖：&lt;/p>
-&lt;p>&lt;figure>&lt;img loading="lazy" src="https://travisbikkle.github.io/images/posts/make-mactoys/flip-coordinate.png" alt="翻轉座標" srcset="https://travisbikkle.github.io/images/posts/make-mactoys/flip-coordinate.png?size=small, https://travisbikkle.github.io/images/posts/make-mactoys/flip-coordinate.png?size=medium 1.5x, https://travisbikkle.github.io/images/posts/make-mactoys/flip-coordinate.png?size=large 2x" data-title="翻轉座標" style="--width: 424px;--aspect-ratio: 424 / 848;background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;figcaption class="image-caption">翻轉座標&lt;/figcaption>
+&lt;p>&lt;figure>&lt;img loading="lazy" src="https://travisbikkle.github.io/images/posts/make-mactoys/flip-coordinate.png" alt="翻轉的座標系" srcset="https://travisbikkle.github.io/images/posts/make-mactoys/flip-coordinate.png?size=small, https://travisbikkle.github.io/images/posts/make-mactoys/flip-coordinate.png?size=medium 1.5x, https://travisbikkle.github.io/images/posts/make-mactoys/flip-coordinate.png?size=large 2x" data-title="翻轉的座標系" style="--width: 424px;--aspect-ratio: 424 / 848;background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;figcaption class="image-caption">翻轉的座標系&lt;/figcaption>
  &lt;/figure>&lt;/p>
 &lt;p>在實際場景，尤其是多屏，在兩種座標系之間轉換，仍然不是一件容易的事情。&lt;/p>
 &lt;p>假設有兩個顯示屏，如下圖所示排列：&lt;/p>
@@ -544,60 +539,7 @@
 &lt;p>功能測試完畢後，以此將底部蓋板，底殼，上殼裝回。&lt;/p>
 &lt;p>&lt;img loading="lazy" src="https://travisbikkle.github.io/images/posts/drone-fix/finished.jpg" alt="finished" srcset="https://travisbikkle.github.io/images/posts/drone-fix/finished.jpg?size=small, https://travisbikkle.github.io/images/posts/drone-fix/finished.jpg?size=medium 1.5x, https://travisbikkle.github.io/images/posts/drone-fix/finished.jpg?size=large 2x" data-title="finished" style="--width: 1707px;--aspect-ratio: 1707 / 1280;background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/p>
 &lt;/li>
-&lt;/ol></description></item><item><title>使用 Coder 打造自己的雲開發環境（在中國大陸）</title><link>https://travisbikkle.github.io/zh-hant/2024/08/coder-how-to/</link><pubDate>Fri, 30 Aug 2024 11:24:28 +0800</pubDate><author>zhaoyu025@gmail.com (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2024/08/coder-how-to/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/tips/">Tips</category><description>&lt;h2 id="使用場景" class="heading-element">&lt;span>使用場景&lt;/span>
- &lt;a href="#%e4%bd%bf%e7%94%a8%e5%a0%b4%e6%99%af" class="heading-mark">
- &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
- &lt;/a>
-&lt;/h2>&lt;ol>
-&lt;li>你需要在不同的開發環境中來回切換&lt;/li>
-&lt;li>你有很多臺電腦，你需要在這些電腦上安裝完全一樣的開發環境&lt;/li>
-&lt;li>你出去遊玩，手裏只有一臺平板電腦，但是你的項目出現問題需要緊急修改一部分代碼&lt;/li>
-&lt;li>你是一名開發體驗提升工程師（這個崗位是我編的，一般指大公司裏面那些專門爲開發人員開發工具的開發人員），需要幫助用戶隨時按需創建完整的開發環境&lt;/li>
-&lt;li>你希望瞭解類似於亞馬遜、騰訊雲是如何快速生成你需要的服務器或輕量服務器&lt;/li>
-&lt;li>你單純的喜歡折騰&lt;/li>
-&lt;/ol>
-&lt;h2 id="coder-是什麼" class="heading-element">&lt;span>Coder 是什麼&lt;/span>
- &lt;a href="#coder-%e6%98%af%e4%bb%80%e9%ba%bc" class="heading-mark">
- &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
- &lt;/a>
-&lt;/h2>&lt;p>Coder 基於 [Terraform][1]，但是聲稱不需要深入瞭解 Terraform 就可以使用 Coder。&lt;/p>
-&lt;p>&lt;img loading="lazy" src="https://travisbikkle.github.io/images/posts/coder/20240830-terraform.png" alt="img.png" srcset="https://travisbikkle.github.io/images/posts/coder/20240830-terraform.png?size=small, https://travisbikkle.github.io/images/posts/coder/20240830-terraform.png?size=medium 1.5x, https://travisbikkle.github.io/images/posts/coder/20240830-terraform.png?size=large 2x" data-title="img.png" style="--width: 745px;--aspect-ratio: 745 / 407;background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/p>
-&lt;p>Terraform 是什麼呢？它是一個使用少量配置文件就能在各種雲服務商（provider）生成節點的 Infrastructure as Code 工具。&lt;/p>
-&lt;p>它充當你和騰訊雲、亞馬遜雲之間的一箇中間人，你只需要提供配置（可複用，module），描述你需要什麼樣的節點，以及你的一些登錄憑證，它就能幫你創建實例。&lt;/p>
-&lt;p>在社區裏面有將近數百種種 provider，阿里雲、騰訊雲都在裏面。你也可以寫provider，對接任意服務商，包括本機部署的k8s或者僅僅一個docker也行，
-當然，少不了本文的重點proxmox（pve）。&lt;/p>
-&lt;h3 id="那我們爲什麼不去直接使用-terraform" class="heading-element">&lt;span>那我們爲什麼不去直接使用 Terraform？&lt;/span>
- &lt;a href="#%e9%82%a3%e6%88%91%e5%80%91%e7%88%b2%e4%bb%80%e9%ba%bc%e4%b8%8d%e5%8e%bb%e7%9b%b4%e6%8e%a5%e4%bd%bf%e7%94%a8-terraform" class="heading-mark">
- &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
- &lt;/a>
-&lt;/h3>&lt;p>Coder 在 terraform 基礎上做了一些對人類友好的工作，比如一個簡單的web界面（你可以通過配置文件自定義web界面的菜單、輸入窗口），
-一些用戶、權限管理（企業版支持）、一些&lt;a href="#Templates">模板&lt;/a>、一個&lt;a href="#Workspace">工作空間&lt;/a>管理界面，你還可以直接打開命令行窗口、code
-server（在線版的vscode）。&lt;/p>
-&lt;p>&lt;img loading="lazy" src="https://travisbikkle.github.io/images/posts/coder/240830-coder-showcase.png" alt="img.png" srcset="https://travisbikkle.github.io/images/posts/coder/240830-coder-showcase.png?size=small, https://travisbikkle.github.io/images/posts/coder/240830-coder-showcase.png?size=medium 1.5x, https://travisbikkle.github.io/images/posts/coder/240830-coder-showcase.png?size=large 2x" data-title="img.png" style="--width: 3814px;--aspect-ratio: 3814 / 2222;background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/p>
-&lt;h3 id="個人開發者爲什麼不選擇dev-containers" class="heading-element">&lt;span>個人開發者爲什麼不選擇dev containers？&lt;/span>
- &lt;a href="#%e5%80%8b%e4%ba%ba%e9%96%8b%e7%99%bc%e8%80%85%e7%88%b2%e4%bb%80%e9%ba%bc%e4%b8%8d%e9%81%b8%e6%93%87dev-containers" class="heading-mark">
- &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
- &lt;/a>
-&lt;/h3>&lt;p>首先，其實 coder 支持 dev containers。&lt;/p>
-&lt;p>其次，在一些你無法安裝 docker 的場景，或者你不希望在自己漂亮的 mac 或 win 系統中安裝docker，那麼 coder 就很適合你。&lt;/p>
-&lt;h3 id="coder-的概念" class="heading-element">&lt;span>Coder 的概念&lt;/span>
- &lt;a href="#coder-%e7%9a%84%e6%a6%82%e5%bf%b5" class="heading-mark">
- &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
- &lt;/a>
-&lt;/h3>&lt;p>你可以根據 Templates 創建 Workspace，Workspace 就是你的開發環境。&lt;/p>
-&lt;p>你在 Templates 中可以定義開發環境將部署在 aws 或是你的一臺 pve 上，並且還能定義參數，在創建 Workspace 的時候輸入 cpu
-個數或內存大小等。&lt;/p>
-&lt;p>甚至還能定義 Workspace 的健康狀態檢查，並顯示到前臺界面上。&lt;/p>
-&lt;h4 id="templates" class="heading-element">&lt;span>Templates&lt;/span>
- &lt;a href="#templates" class="heading-mark">
- &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
- &lt;/a>
-&lt;/h4>&lt;p>&lt;img loading="lazy" src="https://travisbikkle.github.io/images/posts/coder/templates.png" alt="img.png" srcset="https://travisbikkle.github.io/images/posts/coder/templates.png?size=small, https://travisbikkle.github.io/images/posts/coder/templates.png?size=medium 1.5x, https://travisbikkle.github.io/images/posts/coder/templates.png?size=large 2x" data-title="img.png" style="--width: 1392px;--aspect-ratio: 1392 / 746;background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/p>
-&lt;h4 id="workspace" class="heading-element">&lt;span>Workspace&lt;/span>
- &lt;a href="#workspace" class="heading-mark">
- &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
- &lt;/a>
-&lt;/h4>&lt;p>&lt;img loading="lazy" src="https://travisbikkle.github.io/images/posts/coder/workspace.png" alt="img.png" srcset="https://travisbikkle.github.io/images/posts/coder/workspace.png?size=small, https://travisbikkle.github.io/images/posts/coder/workspace.png?size=medium 1.5x, https://travisbikkle.github.io/images/posts/coder/workspace.png?size=large 2x" data-title="img.png" style="--width: 1802px;--aspect-ratio: 1802 / 613;background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/p>
+&lt;/ol></description></item><item><title>使用 Coder 打造自己的雲開發環境（在中國大陸）</title><link>https://travisbikkle.github.io/zh-hant/2024/08/coder-how-to/</link><pubDate>Fri, 30 Aug 2024 11:24:28 +0800</pubDate><author>zhaoyu025@gmail.com (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2024/08/coder-how-to/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/tips/">Tips</category><description>&lt;p>本文圖多，且沒有使用國內的CDN或圖牀，請使用科學上網工具瀏覽以獲得最佳體驗，&lt;/p>
 &lt;h2 id="結論在前" class="heading-element">&lt;span>結論在前&lt;/span>
  &lt;a href="#%e7%b5%90%e8%ab%96%e5%9c%a8%e5%89%8d" class="heading-mark">
  &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
@@ -605,31 +547,65 @@ server（在線版的vscode）。&lt;/p>
 &lt;/h2>&lt;ul>
 &lt;li>Coder 仍然有&lt;a href="#%e4%b8%8d%e8%b6%b3%e4%b9%8b%e8%99%95">很多不足&lt;/a>的地方。&lt;/li>
 &lt;li>Coder 在中國大陸使用比較困難（這也是本文主要要解決的問題），在中國有一些免費的替代品可供選擇，比如騰訊雲的 code studio，但是能夠自己搭建這樣的工具永遠是一個可靠的選擇。&lt;/li>
-&lt;li>Coder 適合中小型企業搭建安全可靠的私有云開發環境，僅適合部分有類似需求的個人開發者嘗試。&lt;/li>
+&lt;li>Coder 適合中小型企業或團隊搭建安全可靠的私有云開發環境，不適合大公司或者個人開發者嘗試。&lt;/li>
 &lt;/ul>
+&lt;h2 id="使用場景" class="heading-element">&lt;span>使用場景&lt;/span>
+ &lt;a href="#%e4%bd%bf%e7%94%a8%e5%a0%b4%e6%99%af" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h2>&lt;ol>
+&lt;li>你需要在不同的開發環境中來回切換&lt;/li>
+&lt;li>你有很多臺電腦，你需要在這些電腦上安裝完全一樣的開發環境&lt;/li>
+&lt;li>你出去遊玩，手裏只有一臺平板電腦或手機，但是你的項目出現問題需要緊急修改一部分代碼&lt;/li>
+&lt;li>你是一名開發體驗提升工程師（這個崗位是我編的，一般指大公司裏面那些專門爲開發人員開發工具的開發人員，有些公司也把他們包含到了DevOps工程師範圍內），需要一個系統，能夠幫助開發者隨時創建完整的開發環境&lt;/li>
+&lt;li>你希望瞭解類似於亞馬遜、騰訊雲是如何快速生成你需要的雲主機&lt;/li>
+&lt;li>你只是喜歡折騰&lt;/li>
+&lt;/ol>
+&lt;h2 id="coder-是什麼" class="heading-element">&lt;span>Coder 是什麼&lt;/span>
+ &lt;a href="#coder-%e6%98%af%e4%bb%80%e9%ba%bc" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h2>&lt;p>Coder是一個基於&lt;a href="https://www.terraform.io"target="_blank" rel="external nofollow noopener noreferrer">Terraform&lt;i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true">&lt;/i>&lt;/a>的雲開發環境部署工具，就像你在騰訊雲上購買主機後，選擇一臺Ubuntu主機一樣，在Coder裏你可以一樣，鼠標點一點，就創建出一臺安裝好各種你喜歡的SDK的雲主機（無論是Docker還是PVE中的虛擬機），搞壞環境直接刪除，數據還不會丟失，重新創建基本都在1分鐘以內。它在Terraform的基礎上做了一些易用性的改造，所以聲稱它的用戶並不需要深入瞭解Terraform，即可享受雲開發環境的便利（你再也聽不見“在我本地是好的”這樣的話）。&lt;/p>
+&lt;p>&lt;figure>&lt;img loading="lazy" src="https://travisbikkle.github.io/images/posts/coder/20240830-terraform.png" alt="Terraform是什麼" srcset="https://travisbikkle.github.io/images/posts/coder/20240830-terraform.png?size=small, https://travisbikkle.github.io/images/posts/coder/20240830-terraform.png?size=medium 1.5x, https://travisbikkle.github.io/images/posts/coder/20240830-terraform.png?size=large 2x" data-title="Terraform是什麼" style="--width: 745px;--aspect-ratio: 745 / 407;background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;figcaption class="image-caption">Terraform是什麼&lt;/figcaption>
+ &lt;/figure>&lt;/p>
+&lt;p>Terraform 是什麼呢？它是一個使用少量配置文件就能在各種雲服務商（provider）生成節點的 &lt;code>Infrastructure as Code&lt;/code> 工具。&lt;/p>
+&lt;p>它充當你和騰訊雲、亞馬遜雲之間的一箇中間人，你只需要提供配置（可複用，module），描述你需要什麼樣的節點，以及你的一些登錄憑證，它就能幫你創建實例。&lt;/p>
+&lt;p>在社區裏面有將近&lt;a href="https://registry.terraform.io/browse/providers"target="_blank" rel="external nofollow noopener noreferrer">數百種Provider&lt;i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true">&lt;/i>&lt;/a>，阿里雲、騰訊雲、微谷亞等都在裏面。你也可以寫自定義的provider，對接任意雲服務商、本地部署的k8s集羣或者僅僅一臺安裝了docker的雲主機，或者一臺安裝有proxmox（pve）的本地主機。&lt;/p>
+&lt;h3 id="爲什麼不去直接使用-terraform" class="heading-element">&lt;span>爲什麼不去直接使用 Terraform？&lt;/span>
+ &lt;a href="#%e7%88%b2%e4%bb%80%e9%ba%bc%e4%b8%8d%e5%8e%bb%e7%9b%b4%e6%8e%a5%e4%bd%bf%e7%94%a8-terraform" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h3>&lt;p>Coder進行了商業化包裝，它在Terraform基礎上做了一個簡單的web界面，包含用戶、權限管理（企業版支持）、&lt;a href="#Templates">模板&lt;/a>、&lt;a href="#Workspace">工作空間&lt;/a>界面，在工作空間中，你可以直接打開你本地的VSCode、命令行窗口、code server（在線版的vscode）、&lt;a href="https://coder.com/docs/user-guides/workspace-access/jetbrains"target="_blank" rel="external nofollow noopener noreferrer">你本地的JetBrains家族IDE&lt;i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true">&lt;/i>&lt;/a>，非常的方便。&lt;/p>
+&lt;p>&lt;figure>&lt;img loading="lazy" src="https://travisbikkle.github.io/images/posts/coder/240830-coder-showcase.png" alt="安裝好後的Coder" srcset="https://travisbikkle.github.io/images/posts/coder/240830-coder-showcase.png?size=small, https://travisbikkle.github.io/images/posts/coder/240830-coder-showcase.png?size=medium 1.5x, https://travisbikkle.github.io/images/posts/coder/240830-coder-showcase.png?size=large 2x" data-title="安裝好後的Coder" style="--width: 3814px;--aspect-ratio: 3814 / 2222;background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;figcaption class="image-caption">安裝好後的Coder&lt;/figcaption>
+ &lt;/figure>&lt;/p>
+&lt;h3 id="爲什麼不選擇dev-containers" class="heading-element">&lt;span>爲什麼不選擇dev containers？&lt;/span>
+ &lt;a href="#%e7%88%b2%e4%bb%80%e9%ba%bc%e4%b8%8d%e9%81%b8%e6%93%87dev-containers" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h3>&lt;p>其實 coder 也支持 &lt;a href="https://coder.com/docs/admin/templates/managing-templates/devcontainers"target="_blank" rel="external nofollow noopener noreferrer">dev containers&lt;i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true">&lt;/i>&lt;/a>。&lt;/p>
+&lt;p>其次，在一些你無法安裝 docker 的場景，或者你不希望在自己漂亮的 mac 或 win 系統中安裝docker，那麼 coder 就很適合你。&lt;/p>
 &lt;h2 id="如何安裝" class="heading-element">&lt;span>如何安裝&lt;/span>
  &lt;a href="#%e5%a6%82%e4%bd%95%e5%ae%89%e8%a3%9d" class="heading-mark">
  &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
  &lt;/a>
-&lt;/h2>&lt;p>Coder 包含一個執行文件，和一個 postgres 數據庫。&lt;/p>
-&lt;p>但是 Coder 開始編輯模板之後，需要下載一些 provider，而這些 provider 在中國是下載不下來的。&lt;/p>
+&lt;/h2>&lt;p>Coder 包含一個使用Go編寫的執行文件，和一個 postgres 數據庫，官網有很多安裝方式，也確實包含&lt;a href="https://coder.com/docs/install/docker"target="_blank" rel="external nofollow noopener noreferrer">基於Docker的安裝方式&lt;i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true">&lt;/i>&lt;/a>，但是在安裝後開始編輯模板之後，Coder需要下載一些 provider，而這些 provider 在中國是下載不下來的。&lt;/p>
 &lt;p>因此我建議用&lt;a href="https://github.com/dev-easily/coder-templates"target="_blank" rel="external nofollow noopener noreferrer">這個倉庫&lt;i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true">&lt;/i>&lt;/a>的 Dockerfile 和 docker-compose.yaml 文件來自己構建鏡像安裝。&lt;/p>
-&lt;p>那麼問題來了，在中國大陸 docker 根本不能用，怎麼辦呢？&lt;/p>
+&lt;p>另外還有一個如何在大陸使用Docker的問題要解決。&lt;/p>
 &lt;h3 id="如何在中國大陸使用-docker-的提示" class="heading-element">&lt;span>如何在中國大陸使用 docker 的提示&lt;/span>
  &lt;a href="#%e5%a6%82%e4%bd%95%e5%9c%a8%e4%b8%ad%e5%9c%8b%e5%a4%a7%e9%99%b8%e4%bd%bf%e7%94%a8-docker-%e7%9a%84%e6%8f%90%e7%a4%ba" class="heading-mark">
  &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
  &lt;/a>
 &lt;/h3>&lt;p>我只能給出一點提示，不能全盤托出，不然都沒得用，請注意看下面的每句話：&lt;/p>
 &lt;ol>
-&lt;li>docker 是一個下載、構建、上傳鏡像的軟件，它本身是免費的&lt;/li>
-&lt;li>它可以指向任何鏡像源，比如你在網上搜索到的各種大學、公司的鏡像源。當然，截止到2024年8月，這些鏡像應該全部不能用了&lt;/li>
-&lt;li>鏡像源可以私人部署，也可以搜搜看有服務商提供免費實例，可以上傳300個鏡像&lt;/li>
-&lt;li>使用 docker login 可以登錄到你自己的私有源，你可以用 docker push 將你常用的鏡像上傳上去&lt;/li>
+&lt;li>docker 是一個下載、構建、上傳鏡像的軟件，它本身是免費的，沒有被禁止的&lt;/li>
+&lt;li>它可以指向任何鏡像源，比如你在網上搜索到的各種大學、公司的公開全量鏡像源。當然，截止到2024年8月，這些鏡像應該全部不能用了&lt;/li>
+&lt;li>鏡像源可以私人部署，也可以搜搜看有服務商提供免費實例，可以上傳300個鏡像，需要用的時候，只需要 docker login 登錄到你自己的私有源&lt;/li>
 &lt;li>利用 github action，docker login，docker push 將外網鏡像&lt;strong>自動&lt;/strong>推送到你自己的鏡像源
 github 上有這樣的 action，你只需要填寫自己的鏡像源登錄憑證，在 issue 中按照固定格式寫 issue，就可以自動推送到你的鏡像源。然後你就可以在
 任何地方使用你自己的鏡像源了。
-並且 pull 下來鏡像之後，你可以通過 docker tag 改名，讓它假冒成從 docker hub 下載下來的鏡像。&lt;/li>
+並且 pull 下來鏡像之後，你可以通過 docker tag 改名，讓它假冒成從 docker hub 下載下來的鏡像，你的CI代碼不需要任何更改&lt;/li>
 &lt;/ol>
+&lt;p>就像&lt;a href="https://github.com/togettoyou/hub-mirror"target="_blank" rel="external nofollow noopener noreferrer">這個聰明的傢伙做的一樣&lt;i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true">&lt;/i>&lt;/a>&lt;/p>
 &lt;h3 id="開始安裝-coder" class="heading-element">&lt;span>開始安裝 Coder&lt;/span>
  &lt;a href="#%e9%96%8b%e5%a7%8b%e5%ae%89%e8%a3%9d-coder" class="heading-mark">
  &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
@@ -720,16 +696,33 @@ github 上有這樣的 action，你只需要填寫自己的鏡像源登錄憑證
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">docker compose -f ./docker-compose.yaml up -d&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;p>在瀏覽器訪問你配置的 CODER_ACCESS_URL 地址，設置一個你喜歡的用戶名，郵箱
-（有些模板會使用這兩個值作爲 git 的 user.name 和 user.email，你應該知道我在說什麼）和密碼即可。&lt;/p>
-&lt;h2 id="使用-docker-或-pve-provider" class="heading-element">&lt;span>使用 docker 或 pve provider&lt;/span>
- &lt;a href="#%e4%bd%bf%e7%94%a8-docker-%e6%88%96-pve-provider" class="heading-mark">
+&lt;/div>&lt;p>在瀏覽器訪問你配置的 CODER_ACCESS_URL 地址，設置一個你喜歡的用戶名，郵箱（有些模板會使用這兩個值作爲 git 的 user.name 和 user.email）和密碼即可。&lt;/p>
+&lt;h3 id="templates-和-workspace" class="heading-element">&lt;span>Templates 和 Workspace&lt;/span>
+ &lt;a href="#templates-%e5%92%8c-workspace" class="heading-mark">
  &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
  &lt;/a>
-&lt;/h2>&lt;p>推薦使用 docker，docker 鏡像構建完成後，下次啓動，速度會非常快。&lt;/p>
-&lt;p>docker 配置起來也非常簡單，適合體驗。&lt;/p>
-&lt;p>如果你像我一樣將一臺商用服務器擺在家裏，並且還安裝了 pve，那你就選擇 pve。&lt;/p>
-&lt;p>這兩個 provider，我都已經放到了 registry.terraform.io 文件夾中，並映射到了鏡像如下位置：&lt;/p>
+&lt;/h3>&lt;p>你可以根據 Templates 創建 Workspace，就像使用 Dockerfile 創建 Containers。&lt;/p>
+&lt;p>Templates 中可以定義選擇創建一個 docker 環境或是你的一臺 pve 虛擬機，自定義硬件的參數，執行初始化腳本，比如在創建 Workspace 的時候輸入 cpu
+個數或內存大小，或者是執行 git 的初始化操作等，還能定義 Workspace 的健康狀態檢查，並顯示到前臺界面上，就像上圖所示中的&lt;code>CPU使用率&lt;/code>那些綠色指標一樣。&lt;/p>
+&lt;h4 id="templates" class="heading-element">&lt;span>Templates&lt;/span>
+ &lt;a href="#templates" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h4>&lt;p>&lt;figure>&lt;img loading="lazy" src="https://travisbikkle.github.io/images/posts/coder/templates.png" alt="Templates" srcset="https://travisbikkle.github.io/images/posts/coder/templates.png?size=small, https://travisbikkle.github.io/images/posts/coder/templates.png?size=medium 1.5x, https://travisbikkle.github.io/images/posts/coder/templates.png?size=large 2x" data-title="Templates" style="--width: 1392px;--aspect-ratio: 1392 / 746;background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;figcaption class="image-caption">Templates&lt;/figcaption>
+ &lt;/figure>&lt;/p>
+&lt;h4 id="workspace" class="heading-element">&lt;span>Workspace&lt;/span>
+ &lt;a href="#workspace" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h4>&lt;p>&lt;figure>&lt;img loading="lazy" src="https://travisbikkle.github.io/images/posts/coder/workspace.png" alt="Workspace" srcset="https://travisbikkle.github.io/images/posts/coder/workspace.png?size=small, https://travisbikkle.github.io/images/posts/coder/workspace.png?size=medium 1.5x, https://travisbikkle.github.io/images/posts/coder/workspace.png?size=large 2x" data-title="Workspace" style="--width: 1802px;--aspect-ratio: 1802 / 613;background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;figcaption class="image-caption">Workspace&lt;/figcaption>
+ &lt;/figure>&lt;/p>
+&lt;h2 id="創建一個-docker-workspace" class="heading-element">&lt;span>創建一個 Docker Workspace&lt;/span>
+ &lt;a href="#%e5%89%b5%e5%bb%ba%e4%b8%80%e5%80%8b-docker-workspace" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h2>&lt;p>推薦使用 docker，docker 鏡像構建完成後，下次啓動，速度會非常快，docker 配置起來也非常簡單，開發一些前端應用性能也絕對夠用。&lt;/p>
+&lt;p>docker和pve的示例模板，我都已經放到了項目中的 registry.terraform.io 文件夾中，並映射到了Coder容器如下位置：&lt;/p>
+&lt;p>這裏先演示如何創建一個Docker的工作環境。&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
@@ -737,11 +730,7 @@ github 上有這樣的 action，你只需要填寫自己的鏡像源登錄憑證
 &lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">/home/coder/.terraform.d/plugins/registry.terraform.io&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h3 id="創建-docker-開發環境" class="heading-element">&lt;span>創建 docker 開發環境&lt;/span>
- &lt;a href="#%e5%89%b5%e5%bb%ba-docker-%e9%96%8b%e7%99%bc%e7%92%b0%e5%a2%83" class="heading-mark">
- &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
- &lt;/a>
-&lt;/h3>&lt;ol>
+&lt;/div>&lt;ol>
 &lt;li>
 &lt;p>將本倉庫的 docker 模板壓縮爲 tar 壓縮包。&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
@@ -761,8 +750,6 @@ github 上有這樣的 action，你只需要填寫自己的鏡像源登錄憑證
 &lt;li>
 &lt;p>填寫模板信息&lt;/p>
 &lt;p>&lt;img loading="lazy" src="https://travisbikkle.github.io/images/posts/coder/template-upload-success.png" alt="img.png" srcset="https://travisbikkle.github.io/images/posts/coder/template-upload-success.png?size=small, https://travisbikkle.github.io/images/posts/coder/template-upload-success.png?size=medium 1.5x, https://travisbikkle.github.io/images/posts/coder/template-upload-success.png?size=large 2x" data-title="img.png" style="--width: 1053px;--aspect-ratio: 1053 / 1085;background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/p>
-&lt;p>建議選擇和我選擇的一樣的圖標，因爲你需要一點運氣。&lt;/p>
-&lt;p>如果你在這一步沒有報錯，那你有30%的概率是天命人。&lt;/p>
 &lt;/li>
 &lt;li>
 &lt;p>點擊 &lt;code>create workspace&lt;/code> 來試試創建一個 workspace 吧：&lt;/p>
@@ -780,8 +767,8 @@ github 上有這樣的 action，你只需要填寫自己的鏡像源登錄憑證
 &lt;/li>
 &lt;li>
 &lt;p>一些提示&lt;/p>
-&lt;p>在 coder 界面右上角，點擊自己的頭像-Account-SSH KEYS，將公鑰添加到 GITHUB 等網站，即可直接下載代碼。&lt;/p>
-&lt;p>注意在容器中使用的 git，是特製的，沒有使用 .ssh 文件夾。&lt;/p>
+&lt;p>在 coder 界面右上角，點擊自己的&lt;code>頭像-Account-SSH KEYS&lt;/code>，將這個公鑰添加到 GitHub 等網站，即可直接下載代碼。&lt;/p>
+&lt;p>注意在容器中使用的 git 是經過魔改的，並沒有使用 &lt;code>~/.ssh&lt;/code> 文件夾，我也是試了很多次才發現。&lt;/p>
 &lt;/li>
 &lt;/ol>
 &lt;h4 id="可能出現的問題" class="heading-element">&lt;span>可能出現的問題&lt;/span>
@@ -801,15 +788,14 @@ github 上有這樣的 action，你只需要填寫自己的鏡像源登錄憑證
 &lt;/span>&lt;/code>&lt;/pre>&lt;/td>
 &lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">&lt;span class="nb">cd&lt;/span> templates/docker/build
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">docker build --build-arg &lt;span class="nv">USER&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;改成你的登錄用戶名&amp;#34;&lt;/span> .
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># docker build --build-arg USER=&amp;#34;改成你的登錄用戶名，如圖左上角我的用戶名是zhaoyu，那麼我應該執行以下一行代碼&amp;#34; .&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">docker build --build-arg &lt;span class="nv">USER&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;zhaoyu&amp;#34;&lt;/span> .&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;p>你也可以在安裝後登錄上這個 workspace 手動安裝 code-server
-&lt;img loading="lazy" src="https://travisbikkle.github.io/images/posts/coder/install-code-server-manually.png" alt="img.png" srcset="https://travisbikkle.github.io/images/posts/coder/install-code-server-manually.png?size=small, https://travisbikkle.github.io/images/posts/coder/install-code-server-manually.png?size=medium 1.5x, https://travisbikkle.github.io/images/posts/coder/install-code-server-manually.png?size=large 2x" data-title="img.png" style="--width: 1392px;--aspect-ratio: 1392 / 492;background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>
-記得端口改成和 main.tl 裏面的一樣，你可以搜索 &lt;code>13337&lt;/code>
-你也可以自己修改這個模板，修改完成後點擊 build，然後 publish
-&lt;img loading="lazy" src="https://travisbikkle.github.io/images/posts/coder/edit-template.png" alt="img.png" srcset="https://travisbikkle.github.io/images/posts/coder/edit-template.png?size=small, https://travisbikkle.github.io/images/posts/coder/edit-template.png?size=medium 1.5x, https://travisbikkle.github.io/images/posts/coder/edit-template.png?size=large 2x" data-title="img.png" style="--width: 1392px;--aspect-ratio: 1392 / 492;background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>
-安裝 code-server 的代碼在 main.tf 的 line 39-55&lt;/p>
+&lt;/div>&lt;p>如果有些東西實在無法下載下來，你也可以先刪掉它們（安裝 code-server 的代碼在 main.tf 的 line 39-55），然後在安裝後登錄上這個 workspace 手動安裝，比如 code-server&lt;/p>
+&lt;p>&lt;img loading="lazy" src="https://travisbikkle.github.io/images/posts/coder/install-code-server-manually.png" alt="img.png" srcset="https://travisbikkle.github.io/images/posts/coder/install-code-server-manually.png?size=small, https://travisbikkle.github.io/images/posts/coder/install-code-server-manually.png?size=medium 1.5x, https://travisbikkle.github.io/images/posts/coder/install-code-server-manually.png?size=large 2x" data-title="img.png" style="--width: 1392px;--aspect-ratio: 1392 / 492;background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/p>
+&lt;p>記得端口改成和 main.tl 裏面的一樣，你可以搜索 &lt;code>13337&lt;/code>&lt;/p>
+&lt;p>你也可以自己修改這個模板，修改完成後點擊 build，然後 publish&lt;/p>
+&lt;p>&lt;img loading="lazy" src="https://travisbikkle.github.io/images/posts/coder/edit-template.png" alt="img.png" srcset="https://travisbikkle.github.io/images/posts/coder/edit-template.png?size=small, https://travisbikkle.github.io/images/posts/coder/edit-template.png?size=medium 1.5x, https://travisbikkle.github.io/images/posts/coder/edit-template.png?size=large 2x" data-title="img.png" style="--width: 1392px;--aspect-ratio: 1392 / 492;background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/p>
 &lt;/li>
 &lt;li>
 &lt;p>如果你的 docker 鏡像可以構建成功，但是創建 workspace 卡住&lt;/p>
@@ -823,14 +809,15 @@ github 上有這樣的 action，你只需要填寫自己的鏡像源登錄憑證
 &lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">docker ps -a
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">docker logs -f coder-zhaoyu-1 &lt;span class="c1"># 更換爲你的容器名稱&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;p>這些日誌一看就是用 go 語言寫的：
-&lt;img loading="lazy" src="https://travisbikkle.github.io/images/posts/coder/check-docker-logs.png" alt="img.png" srcset="https://travisbikkle.github.io/images/posts/coder/check-docker-logs.png?size=small, https://travisbikkle.github.io/images/posts/coder/check-docker-logs.png?size=medium 1.5x, https://travisbikkle.github.io/images/posts/coder/check-docker-logs.png?size=large 2x" data-title="img.png" style="--width: 1392px;--aspect-ratio: 1392 / 746;background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/p>
+&lt;/div>&lt;p>&lt;img loading="lazy" src="https://travisbikkle.github.io/images/posts/coder/check-docker-logs.png" alt="img.png" srcset="https://travisbikkle.github.io/images/posts/coder/check-docker-logs.png?size=small, https://travisbikkle.github.io/images/posts/coder/check-docker-logs.png?size=medium 1.5x, https://travisbikkle.github.io/images/posts/coder/check-docker-logs.png?size=large 2x" data-title="img.png" style="--width: 1392px;--aspect-ratio: 1392 / 746;background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/p>
 &lt;/li>
 &lt;li>
 &lt;p>如果你的CODER_ACCESS_URL使用了https，並且使用了自簽名或者letsEncrypt證書，workspace將無法啓動&lt;/p>
 &lt;p>容器將卡在下載 coder-agent 一步，並且vscode遠程將無法連接。&lt;/p>
-&lt;p>自簽名就不說了，letsEncrypt也有問題，原理就是雖然瀏覽器信任了letsEncrypt，但是ubuntu和macos等os還是沒有信任它的。&lt;/p>
-&lt;p>將證書添加進系統信任列表即可（macos雙擊倉庫中 templates/docker/build/letsEncrypt.crt，linux執行以下命令）。&lt;/p>
+&lt;p>自簽名肯定沒法使用，使用letsEncrypt也有問題，原因是Ubuntu和macOSO移除了這個對這個證書的信任。&lt;/p>
+&lt;p>letsEncrypt的證書信任動作已經在模板中添加好，也就是容器或虛擬機中都不會有問題，但是你的電腦中也需要加入這個證書。&lt;/p>
+&lt;p>macOS可以雙擊倉庫中 templates/docker/build/letsEncrypt.crt 添加到系統鑰匙串。&lt;/p>
+&lt;p>Linux需要執行以下命令（自行查詢各個發行版如何添加證書）：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
@@ -839,13 +826,18 @@ github 上有這樣的 action，你只需要填寫自己的鏡像源登錄憑證
 &lt;/span>&lt;/code>&lt;/pre>&lt;/td>
 &lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">sudo mkdir -p /usr/local/share/ca-certificates/extra/
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">sudo cp /tmp/letsEncrypt.crt /usr/local/share/ca-certificates/extra/
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">sudo cp letsEncrypt.crt /usr/local/share/ca-certificates/extra/
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">sudo update-ca-certificates&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;/li>
 &lt;/ol>
-&lt;p>漂亮！現在你完成了 docker 開發環境快速配置！點一下 workspace 上的幾個按鈕試試？&lt;/p>
-&lt;p>&lt;img loading="lazy" src="https://travisbikkle.github.io/images/posts/coder/install-workspace-success.png" alt="img.png" srcset="https://travisbikkle.github.io/images/posts/coder/install-workspace-success.png?size=small, https://travisbikkle.github.io/images/posts/coder/install-workspace-success.png?size=medium 1.5x, https://travisbikkle.github.io/images/posts/coder/install-workspace-success.png?size=large 2x" data-title="img.png" style="--width: 1392px;--aspect-ratio: 1392 / 800;background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/p>
+&lt;h3 id="大功告成" class="heading-element">&lt;span>大功告成&lt;/span>
+ &lt;a href="#%e5%a4%a7%e5%8a%9f%e5%91%8a%e6%88%90" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h3>&lt;p>漂亮！現在你完成了 docker 開發環境快速配置！點一下 workspace 上的幾個按鈕試試？&lt;/p>
+&lt;p>&lt;figure>&lt;img loading="lazy" src="https://travisbikkle.github.io/images/posts/coder/install-workspace-success.png" alt="大功告成" srcset="https://travisbikkle.github.io/images/posts/coder/install-workspace-success.png?size=small, https://travisbikkle.github.io/images/posts/coder/install-workspace-success.png?size=medium 1.5x, https://travisbikkle.github.io/images/posts/coder/install-workspace-success.png?size=large 2x" data-title="大功告成" style="--width: 1392px;--aspect-ratio: 1392 / 800;background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;figcaption class="image-caption">大功告成&lt;/figcaption>
+ &lt;/figure>&lt;/p>
 &lt;h3 id="創建-pve-開發環境" class="heading-element">&lt;span>創建 pve 開發環境&lt;/span>
  &lt;a href="#%e5%89%b5%e5%bb%ba-pve-%e9%96%8b%e7%99%bc%e7%92%b0%e5%a2%83" class="heading-mark">
  &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
@@ -987,8 +979,8 @@ github 上有這樣的 action，你只需要填寫自己的鏡像源登錄憑證
 &lt;/h2>&lt;ol>
 &lt;li>
 &lt;p>錯誤提醒不夠明顯，比如上傳zip模板的時候，會一直卡住，後臺docker logs沒有任何輸出&lt;/p>
-&lt;p>&lt;img loading="lazy" src="https://travisbikkle.github.io/images/posts/coder/stuck-when-uploading.png" alt="img.png" srcset="https://travisbikkle.github.io/images/posts/coder/stuck-when-uploading.png?size=small, https://travisbikkle.github.io/images/posts/coder/stuck-when-uploading.png?size=medium 1.5x, https://travisbikkle.github.io/images/posts/coder/stuck-when-uploading.png?size=large 2x" data-title="img.png" style="--width: 1053px;--aspect-ratio: 1053 / 1085;background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>
-又比如在創建 docker workspace 的時候，如果沒有事先 build 好 docker 鏡像，將只會看到 &lt;code>docker_image.main: Still creating... [3m30s elapsed]&lt;/code> 而看不到任何 docker build 信息。&lt;/p>
+&lt;p>&lt;img loading="lazy" src="https://travisbikkle.github.io/images/posts/coder/stuck-when-uploading.png" alt="img.png" srcset="https://travisbikkle.github.io/images/posts/coder/stuck-when-uploading.png?size=small, https://travisbikkle.github.io/images/posts/coder/stuck-when-uploading.png?size=medium 1.5x, https://travisbikkle.github.io/images/posts/coder/stuck-when-uploading.png?size=large 2x" data-title="img.png" style="--width: 1053px;--aspect-ratio: 1053 / 1085;background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/p>
+&lt;p>又比如在創建 docker workspace 的時候，如果沒有事先 build 好 docker 鏡像，將只會看到 &lt;code>docker_image.main: Still creating... [3m30s elapsed]&lt;/code> 而看不到任何 docker build 信息。&lt;/p>
 &lt;/li>
 &lt;li>
 &lt;p>沒有批量刪除 workspace 界面操作&lt;/p>
@@ -1014,8 +1006,14 @@ github 上有這樣的 action，你只需要填寫自己的鏡像源登錄憑證
 每隔一段時間，中國程序員往往都要耗費一到兩天的時間解決下載問題，不過我們慶幸，總有路沒有被堵死。&lt;/p>
 &lt;p>coder 顯然還沒有中國大陸的用戶，因爲它的界面沒有中文，也沒有中文的文檔。&lt;/p>
 &lt;p>最重要的是使用過程中需要下載的各種依賴，在中國是無法下載的。本文旨在爲有興趣的個人開發者提供一個能夠跑通的示例，希望能有更多的人使用 coder。&lt;/p>
-&lt;p>我沒有從 coder 接受任何贊助，本文也不是一個嚴謹的指導文檔。&lt;/p>
-&lt;p>[1](&lt;a href="https://developer.hashicorp.com/terraform/tutorials/docker-get-started/infrastructure-as-code"target="_blank" rel="external nofollow noopener noreferrer">https://developer.hashicorp.com/terraform/tutorials/docker-get-started/infrastructure-as-code&lt;i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true">&lt;/i>&lt;/a>）&lt;/p></description></item><item><title>OS 開發備忘3</title><link>https://travisbikkle.github.io/zh-hant/2024/08/osdev-memo3/</link><pubDate>Fri, 23 Aug 2024 17:32:12 +0800</pubDate><author>zhaoyu025@gmail.com (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2024/08/osdev-memo3/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/os/">OS</category><description>&lt;h2 id="多任務" class="heading-element">&lt;span>多任務&lt;/span>
+&lt;p>我沒有從Coder接受任何贊助，本文也不是一個嚴謹的指導文檔，由於我沒有在國內外搜到任何關於Coder的趟坑文檔，因此我也算是第一個喫螃蟹的了，所幸Coder滿足了我的使用要求，沒有讓我失望。&lt;/p>
+&lt;p>本文參考了以下鏈接：&lt;/p>
+&lt;blockquote>
+&lt;p>&lt;a href="https://developer.hashicorp.com/terraform/tutorials/docker-get-started/infrastructure-as-code"target="_blank" rel="external nofollow noopener noreferrer">Terraform IaC&lt;i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true">&lt;/i>&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;blockquote>
+&lt;p>&lt;a href="https://coder.com/docs"target="_blank" rel="external nofollow noopener noreferrer">Coder docs&lt;i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true">&lt;/i>&lt;/a>&lt;/p>
+&lt;/blockquote></description></item><item><title>OS 開發備忘3</title><link>https://travisbikkle.github.io/zh-hant/2024/08/osdev-memo3/</link><pubDate>Fri, 23 Aug 2024 17:32:12 +0800</pubDate><author>zhaoyu025@gmail.com (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2024/08/osdev-memo3/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/os/">OS</category><description>&lt;h2 id="多任務" class="heading-element">&lt;span>多任務&lt;/span>
  &lt;a href="#%e5%a4%9a%e4%bb%bb%e5%8b%99" class="heading-mark">
  &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
  &lt;/a>

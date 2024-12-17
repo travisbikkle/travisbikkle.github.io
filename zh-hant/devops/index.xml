@@ -1,17 +1,27 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>DevOps - 標籤 | 奇風歲月</title><link>https://travisbikkle.github.io/zh-hant/devops/</link><description>独立开发者 Travis Bikkle 的个人博客</description><generator>Hugo 0.139.3 &amp; FixIt v0.3.15-fd15415b</generator><language>zh-hant</language><managingEditor>zhaoyu025@gmail.com (Travis Bikkle)</managingEditor><webMaster>zhaoyu025@gmail.com (Travis Bikkle)</webMaster><lastBuildDate>Tue, 17 Dec 2024 13:38:44 +0800</lastBuildDate><atom:link href="https://travisbikkle.github.io/zh-hant/devops/index.xml" rel="self" type="application/rss+xml"/><item><title>使用 Coder 打造自己的雲開發環境（在中國大陸）</title><link>https://travisbikkle.github.io/zh-hant/2024/08/coder-how-to/</link><pubDate>Fri, 30 Aug 2024 11:24:28 +0800</pubDate><author>zhaoyu025@gmail.com (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2024/08/coder-how-to/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/tips/">Tips</category><description>&lt;h2 id="使用場景" class="heading-element">&lt;span>使用場景&lt;/span>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>DevOps - 標籤 | 奇風歲月</title><link>https://travisbikkle.github.io/zh-hant/devops/</link><description>独立开发者 Travis Bikkle 的个人博客</description><generator>Hugo 0.139.3 &amp; FixIt v0.3.15-fd15415b</generator><language>zh-hant</language><managingEditor>zhaoyu025@gmail.com (Travis Bikkle)</managingEditor><webMaster>zhaoyu025@gmail.com (Travis Bikkle)</webMaster><lastBuildDate>Fri, 30 Aug 2024 11:24:28 +0800</lastBuildDate><atom:link href="https://travisbikkle.github.io/zh-hant/devops/index.xml" rel="self" type="application/rss+xml"/><item><title>使用 Coder 打造自己的雲開發環境（在中國大陸）</title><link>https://travisbikkle.github.io/zh-hant/2024/08/coder-how-to/</link><pubDate>Fri, 30 Aug 2024 11:24:28 +0800</pubDate><author>zhaoyu025@gmail.com (Travis Bikkle)</author><guid>https://travisbikkle.github.io/zh-hant/2024/08/coder-how-to/</guid><category domain="https://travisbikkle.github.io/zh-hant/categories/tips/">Tips</category><description>&lt;p>本文圖多，且沒有使用國內的CDN或圖牀，請使用科學上網工具瀏覽以獲得最佳體驗，&lt;/p>
+&lt;h2 id="結論在前" class="heading-element">&lt;span>結論在前&lt;/span>
+ &lt;a href="#%e7%b5%90%e8%ab%96%e5%9c%a8%e5%89%8d" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h2>&lt;ul>
+&lt;li>Coder 仍然有&lt;a href="#%e4%b8%8d%e8%b6%b3%e4%b9%8b%e8%99%95">很多不足&lt;/a>的地方。&lt;/li>
+&lt;li>Coder 在中國大陸使用比較困難（這也是本文主要要解決的問題），在中國有一些免費的替代品可供選擇，比如騰訊雲的 code studio，但是能夠自己搭建這樣的工具永遠是一個可靠的選擇。&lt;/li>
+&lt;li>Coder 適合中小型企業或團隊搭建安全可靠的私有云開發環境，不適合大公司或者個人開發者嘗試。&lt;/li>
+&lt;/ul>
+&lt;h2 id="使用場景" class="heading-element">&lt;span>使用場景&lt;/span>
  &lt;a href="#%e4%bd%bf%e7%94%a8%e5%a0%b4%e6%99%af" class="heading-mark">
  &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
  &lt;/a>
 &lt;/h2>&lt;ol>
 &lt;li>你需要在不同的開發環境中來回切換&lt;/li>
 &lt;li>你有很多臺電腦，你需要在這些電腦上安裝完全一樣的開發環境&lt;/li>
-&lt;li>你出去遊玩，手裏只有一臺平板電腦，但是你的項目出現問題需要緊急修改一部分代碼&lt;/li>
-&lt;li>你是一名開發體驗提升工程師（這個崗位是我編的，一般指大公司裏面那些專門爲開發人員開發工具的開發人員），需要幫助用戶隨時按需創建完整的開發環境&lt;/li>
-&lt;li>你希望瞭解類似於亞馬遜、騰訊雲是如何快速生成你需要的服務器或輕量服務器&lt;/li>
-&lt;li>你單純的喜歡折騰&lt;/li>
+&lt;li>你出去遊玩，手裏只有一臺平板電腦或手機，但是你的項目出現問題需要緊急修改一部分代碼&lt;/li>
+&lt;li>你是一名開發體驗提升工程師（這個崗位是我編的，一般指大公司裏面那些專門爲開發人員開發工具的開發人員，有些公司也把他們包含到了DevOps工程師範圍內），需要一個系統，能夠幫助開發者隨時創建完整的開發環境&lt;/li>
+&lt;li>你希望瞭解類似於亞馬遜、騰訊雲是如何快速生成你需要的雲主機&lt;/li>
+&lt;li>你只是喜歡折騰&lt;/li>
 &lt;/ol>
 &lt;h2 id="coder-是什麼" class="heading-element">&lt;span>Coder 是什麼&lt;/span>
  &lt;a href="#coder-%e6%98%af%e4%bb%80%e9%ba%bc" class="heading-mark">
  &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
  &lt;/a>
-&lt;/h2>&lt;p>Coder 基於 [Terraform][1]，但是聲稱不需要深入瞭解 Terraform 就可以使用 Coder。&lt;/p></description></item></channel></rss>
+&lt;/h2>&lt;p>Coder是一個基於&lt;a href="https://www.terraform.io"target="_blank" rel="external nofollow noopener noreferrer">Terraform&lt;i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true">&lt;/i>&lt;/a>的雲開發環境部署工具，就像你在騰訊雲上購買主機後，選擇一臺Ubuntu主機一樣，在Coder裏你可以一樣，鼠標點一點，就創建出一臺安裝好各種你喜歡的SDK的雲主機（無論是Docker還是PVE中的虛擬機），搞壞環境直接刪除，數據還不會丟失，重新創建基本都在1分鐘以內。它在Terraform的基礎上做了一些易用性的改造，所以聲稱它的用戶並不需要深入瞭解Terraform，即可享受雲開發環境的便利（你再也聽不見“在我本地是好的”這樣的話）。&lt;/p></description></item></channel></rss>
