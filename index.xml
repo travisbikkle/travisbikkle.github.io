@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>奇风岁月</title><link>https://travisbikkle.github.io/</link><description>独立开发者 Travis Bikkle 的个人博客</description><generator>Hugo 0.139.3 &amp; FixIt v0.3.15-fd15415b</generator><language>zh-hans</language><managingEditor>zhaoyu025@gmail.com (Travis Bikkle)</managingEditor><webMaster>zhaoyu025@gmail.com (Travis Bikkle)</webMaster><lastBuildDate>Tue, 17 Dec 2024 11:57:41 +0800</lastBuildDate><atom:link href="https://travisbikkle.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>我是如何将 MagicToy(SwiftData) 的剪切板性能提升了将近100倍</title><link>https://travisbikkle.github.io/2024/12/how-i-made-magictoy-clipboard-100-times-faster/</link><pubDate>Wed, 04 Dec 2024 11:24:35 +0800</pubDate><author>zhaoyu025@gmail.com (Travis Bikkle)</author><guid>https://travisbikkle.github.io/2024/12/how-i-made-magictoy-clipboard-100-times-faster/</guid><category domain="https://travisbikkle.github.io/categories/tips/">Tips</category><description>&lt;img src="https://travisbikkle.github.io/2024/12/how-i-made-magictoy-clipboard-100-times-faster/img/what_does_magic_clipboard_look_like.png" alt="featured image" referrerpolicy="no-referrer">&lt;p>&lt;a href="https://apps.apple.com/cn/app/magictoy/id6737158347"target="_blank" rel="external nofollow noopener noreferrer">MagicToy&lt;i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true">&lt;/i>&lt;/a> 的剪切板功能支持复制文字、带有格式的代码或表格、网页、图片等。&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>奇风岁月</title><link>https://travisbikkle.github.io/</link><description>独立开发者 Travis Bikkle 的个人博客</description><generator>Hugo 0.139.3 &amp; FixIt v0.3.15-fd15415b</generator><language>zh-hans</language><managingEditor>zhaoyu025@gmail.com (Travis Bikkle)</managingEditor><webMaster>zhaoyu025@gmail.com (Travis Bikkle)</webMaster><lastBuildDate>Tue, 17 Dec 2024 12:50:59 +0800</lastBuildDate><atom:link href="https://travisbikkle.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>我是如何将 MagicToy(SwiftData) 的剪切板性能提升了将近100倍</title><link>https://travisbikkle.github.io/2024/12/how-i-made-magictoy-clipboard-100-times-faster/</link><pubDate>Wed, 04 Dec 2024 11:24:35 +0800</pubDate><author>zhaoyu025@gmail.com (Travis Bikkle)</author><guid>https://travisbikkle.github.io/2024/12/how-i-made-magictoy-clipboard-100-times-faster/</guid><category domain="https://travisbikkle.github.io/categories/tips/">Tips</category><description>&lt;img src="https://travisbikkle.github.io/2024/12/how-i-made-magictoy-clipboard-100-times-faster/img/what_does_magic_clipboard_look_like.png" alt="featured image" referrerpolicy="no-referrer">&lt;p>&lt;a href="https://apps.apple.com/cn/app/magictoy/id6737158347"target="_blank" rel="external nofollow noopener noreferrer">MagicToy&lt;i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true">&lt;/i>&lt;/a> 的剪切板功能支持复制文字、带有格式的代码或表格、网页、图片等。&lt;/p>
 &lt;p>当用户复制了大量的图片，或者图片数量虽然不多，但是单个图片的尺寸非常大，会造成剪切板非常卡顿。&lt;/p>
 &lt;p>MagicToy 致力于为用户提供好用的各种小工具，而一个卡顿的剪切板和“好用”离了十万八千里。&lt;/p>
 &lt;p>趁着为 MagicToy 添加&lt;code>直接粘贴到其它程序&lt;/code>功能的机会，我准备着手修复这个问题。经过非常小的修改，MagicToy 的剪切板加载10张5K图片的性能提升了接近100倍（从1300ms变成了从15ms），想知道我是怎么做的吗？请继续往下看。&lt;/p>
@@ -539,7 +539,536 @@
 &lt;p>功能测试完毕后，以此将底部盖板，底壳，上壳装回。&lt;/p>
 &lt;p>&lt;img loading="lazy" src="https://travisbikkle.github.io/images/posts/drone-fix/finished.jpg" alt="finished" srcset="https://travisbikkle.github.io/images/posts/drone-fix/finished.jpg?size=small, https://travisbikkle.github.io/images/posts/drone-fix/finished.jpg?size=medium 1.5x, https://travisbikkle.github.io/images/posts/drone-fix/finished.jpg?size=large 2x" data-title="finished" style="--width: 1707px;--aspect-ratio: 1707 / 1280;background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/p>
 &lt;/li>
-&lt;/ol></description></item><item><title>使用 Coder 打造自己的云开发环境（在中国大陆）</title><link>https://travisbikkle.github.io/2024/08/coder-how-to/</link><pubDate>Fri, 30 Aug 2024 11:24:28 +0800</pubDate><author>zhaoyu025@gmail.com (Travis Bikkle)</author><guid>https://travisbikkle.github.io/2024/08/coder-how-to/</guid><category domain="https://travisbikkle.github.io/categories/tips/">Tips</category><description>&lt;h2 id="使用场景" class="heading-element">&lt;span>使用场景&lt;/span>
+&lt;/ol></description></item><item><title>在已有OAuth2的Spring项目中添加Open ID Connect支持</title><link>https://travisbikkle.github.io/2024/09/spring-oauth2-oidc/</link><pubDate>Mon, 02 Sep 2024 10:21:11 +0800</pubDate><author>zhaoyu025@gmail.com (Travis Bikkle)</author><guid>https://travisbikkle.github.io/2024/09/spring-oauth2-oidc/</guid><category domain="https://travisbikkle.github.io/categories/back-end/">Back-End</category><description>&lt;h2 id="本文在做什么" class="heading-element">&lt;span>本文在做什么：&lt;/span>
+ &lt;a href="#%e6%9c%ac%e6%96%87%e5%9c%a8%e5%81%9a%e4%bb%80%e4%b9%88" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h2>&lt;p>你可能见过很多网站，允许你使用 github、微信 等登录，于是有一天，你想自己也提供一种登录方式，例如：&lt;/p>
+&lt;p>&lt;img loading="lazy" src="https://travisbikkle.github.io/images/posts/oauth2/login_example.png" alt="img.png" srcset="https://travisbikkle.github.io/images/posts/oauth2/login_example.png?size=small, https://travisbikkle.github.io/images/posts/oauth2/login_example.png?size=medium 1.5x, https://travisbikkle.github.io/images/posts/oauth2/login_example.png?size=large 2x" data-title="img.png" style="--width: 934px;--aspect-ratio: 934 / 522;background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/p>
+&lt;p>本文不是实现像上图一样的登录界面，而是实现类似于 github 一样的身份认证服务提供者，让你可以在 gitea 等一众开源软件上，使用已有的账户登录。&lt;/p>
+&lt;p>就像国外如日中天的 okta，国内各自为战的众模仿者一样。&lt;/p>
+&lt;h2 id="声明在先" class="heading-element">&lt;span>声明在先&lt;/span>
+ &lt;a href="#%e5%a3%b0%e6%98%8e%e5%9c%a8%e5%85%88" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h2>&lt;p>我不认可动辄就阅读源码、深入底层原理，书名可以这么起，人可以要求自己这么做，在满足以下等同条件的时候，他也可以要求别人这么做：&lt;/p>
+&lt;ol>
+&lt;li>他是 spring 的核心贡献者，你们在讨论如何修改社区上的 issue&lt;/li>
+&lt;li>他一个人创造了 rust，或任意一个在开源社区上值得人们阅读源码或深入了解底层原理的项目，你希望加入他的项目贡献代码&lt;/li>
+&lt;li>不懂源码确实解决不了业务问题的地步（而这一般都是问题驱动的）
+否则，他不应该如此要求别人。阅读源码只是在构建求职壁垒以保护自己，又或者只是内卷的帮凶而已。&lt;/li>
+&lt;/ol>
+&lt;p>然而很遗憾，本文确实是一个问题驱动的产物，会贴不少源码：&lt;/p>
+&lt;ol>
+&lt;li>我在一个项目中需要实现一个统一的认证服务器，用于多个应用认证&lt;/li>
+&lt;li>我之前实现过了oauth2认证，现在需要OIDC支持&lt;/li>
+&lt;li>我已经忘记了如何将oauth2和redis、国内钟爱的手机短信验证、图片验证码、微软Authenticator等一系列结合起来从头做一个生产的项目，我不能再忘记OIDC，需要沉淀下来这块知识&lt;/li>
+&lt;/ol>
+&lt;p>大量的文档都是从0开始实现一个不能在生产中使用的示例，因此，这篇文章确实会有很多的源码，配置截图，以及DEBUG过程。&lt;/p>
+&lt;h2 id="前提条件" class="heading-element">&lt;span>前提条件&lt;/span>
+ &lt;a href="#%e5%89%8d%e6%8f%90%e6%9d%a1%e4%bb%b6" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h2>&lt;p>本文假设你已经基于 SpringSecurity 实现了 OAuth2 登录。&lt;/p>
+&lt;p>&lt;strong>如果你手头没有这样的项目&lt;/strong>，你可以在 github 上搜索 &lt;code>spring oauth2 demo&lt;/code>，或者 spring 官网的示例项目。&lt;/p>
+&lt;p>&lt;strong>你可以以国内开源的各种管理后台作为入门&lt;/strong>，比如若依，pig，不过它们一般都进行了深度的定制，作为不了解认证模块的你很有可能在一堆可能过度设计的代码中晕头转向，但是熟练的技术工人用它们作为脚手架很适合。&lt;/p>
+&lt;p>这篇文章，将基于 pig 的 springboot &lt;a href="https://github.com/pig-mesh/pig"target="_blank" rel="external nofollow noopener noreferrer">单体版本&lt;i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true">&lt;/i>&lt;/a>。&lt;/p>
+&lt;p>&lt;strong>如果你不了解 OAuth2 的一些基本概念&lt;/strong>，必须先看本文 &lt;a href="#%e9%99%84%e5%bd%95">附录&lt;/a> 部分，该部分将会介绍什么是RO，RS，AS，四种角色和四种授权模式。&lt;/p>
+&lt;p>本文将演示如何在此基础上，将授权服务器改造成一个 OpenID Provider（OP，就像 GitHub 那样），以便让更多开源软件，例如gitea，discourse，或我们自己开发的独立软件，使用一套用户资源实现统一认证。&lt;/p>
+&lt;p>从身份信息的消费者向生产者转变，一朝翻身做主人，做中国的okta，让阿里、腾讯无地自容：&lt;/p>
+&lt;p>&lt;strong>本文以密码模式为例&lt;/strong>，在其基础上添加 OIDC 支持，当然，添加OIDC支持，跟你使用何种模式无关，毕竟AS可以同时支持多种模式。&lt;/p>
+&lt;h2 id="原有的密码模式" class="heading-element">&lt;span>原有的密码模式&lt;/span>
+ &lt;a href="#%e5%8e%9f%e6%9c%89%e7%9a%84%e5%af%86%e7%a0%81%e6%a8%a1%e5%bc%8f" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h2>&lt;p>username: some_user&lt;br>
+password: some_password&lt;br>
+clientId: some_app&lt;/p>
+&lt;p>发出的请求&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">curl --location --request POST &lt;span class="s1">&amp;#39;http://127.0.0.1:8080/oauth2/token&amp;#39;&lt;/span> &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="se">&lt;/span>--header &lt;span class="s1">&amp;#39;User-Agent: Apifox/1.0.0 (https://apifox.com)&amp;#39;&lt;/span> &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="se">&lt;/span>&lt;span class="c1">## client id 在此处传入。由于实现不同，你可能直接在 url 中拼接，此处是加密的 client_id=my_client&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">--header &lt;span class="s1">&amp;#39;Authorization: Basic Z2FtZWJveGVsZWN0cm9uOmdhbWVib3hlbGVjdHJvbg==&amp;#39;&lt;/span> &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="se">&lt;/span>--header &lt;span class="s1">&amp;#39;Accept: */*&amp;#39;&lt;/span> &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="se">&lt;/span>--header &lt;span class="s1">&amp;#39;Host: 127.0.0.1:9999&amp;#39;&lt;/span> &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="se">&lt;/span>--header &lt;span class="s1">&amp;#39;Connection: keep-alive&amp;#39;&lt;/span> &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="se">&lt;/span>--header &lt;span class="s1">&amp;#39;Content-Type: application/x-www-form-urlencoded&amp;#39;&lt;/span> &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="se">&lt;/span>--data-urlencode &lt;span class="s1">&amp;#39;username=some_user&amp;#39;&lt;/span> &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="se">&lt;/span>&lt;span class="c1">## 密码实际上是加密的，此处简化了&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">--data-urlencode &lt;span class="s1">&amp;#39;password=some_password&amp;#39;&lt;/span> &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="se">&lt;/span>--data-urlencode &lt;span class="s1">&amp;#39;grant_type=password&amp;#39;&lt;/span> &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="se">&lt;/span>--data-urlencode &lt;span class="s1">&amp;#39;scope=server&amp;#39;&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>返回的响应&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;span class="lnt">24
+&lt;/span>&lt;span class="lnt">25
+&lt;/span>&lt;span class="lnt">26
+&lt;/span>&lt;span class="lnt">27
+&lt;/span>&lt;span class="lnt">28
+&lt;/span>&lt;span class="lnt">29
+&lt;/span>&lt;span class="lnt">30
+&lt;/span>&lt;span class="lnt">31
+&lt;/span>&lt;span class="lnt">32
+&lt;/span>&lt;span class="lnt">33
+&lt;/span>&lt;span class="lnt">34
+&lt;/span>&lt;span class="lnt">35
+&lt;/span>&lt;span class="lnt">36
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-json" data-lang="json">&lt;span class="line">&lt;span class="cl">&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;sub&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;some_user&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;clientId&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;some_app&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;iss&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;https://nobody.com&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;token_type&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;Bearer&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;access_token&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;bZkzkshj_fEUEspwIfttnqu-Zz-wdPU_kPds9fKOeHuJ_Ymvvl919nR9hlpqYaGHS6iKVneKqJoNIJfEvduz-PJJ7QVkSp7vvbz3jDdJYbmlsj8ThDcFH2G3siCIh_SM&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;refresh_token&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;NRMmnZPRX4f1kxVM-Btr9ZpBZYO0Tq45Su9eu1YhKAFogXKJ8NIkF0cbbBd8cWdasimYMZsD8NAvd9cHjXoocgpG2ebouHd9HFiJf3ufz0HNVwIXDypSVqnullsJpMfe&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;aud&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">[&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;some_app&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">],&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;license&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;https://nobody.com&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;nbf&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;2024-09-02T03:03:06.772697Z&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;user_info&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;password&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="kc">null&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;username&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;some_user&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;authorities&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">[],&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;accountNonExpired&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="kc">true&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;accountNonLocked&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="kc">true&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;credentialsNonExpired&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="kc">true&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;enabled&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="kc">true&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;attributes&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">{},&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;id&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;1807571269624586241&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;deptId&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="kc">null&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;phone&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="kc">null&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;name&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">},&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;user_id&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;1807571269624586241&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;scope&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">[&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;server&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">],&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;exp&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;2024-09-02T15:03:06.772697Z&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;expires_in&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;43199&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;iat&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;2024-09-02T03:03:06.772697Z&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;jti&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;9b7f2da7-31bc-4744-8984-cc0eeea7ea34&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;username&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;some_user&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="支持-openid-connect以下简称-oidc" class="heading-element">&lt;span>支持 OpenID Connect，以下简称 OIDC&lt;/span>
+ &lt;a href="#%e6%94%af%e6%8c%81-openid-connect%e4%bb%a5%e4%b8%8b%e7%ae%80%e7%a7%b0-oidc" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h2>&lt;p>图片来自 &lt;a href="https://www.cnblogs.com/zlt2000/p/15346177.html"target="_blank" rel="external nofollow noopener noreferrer">https://www.cnblogs.com/zlt2000/p/15346177.html&lt;i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true">&lt;/i>&lt;/a>&lt;/p>
+&lt;p>&lt;img loading="lazy" src="https://travisbikkle.github.io/images/posts/20240902-oidc-flow.png" alt="img.png" srcset="https://travisbikkle.github.io/images/posts/20240902-oidc-flow.png?size=small, https://travisbikkle.github.io/images/posts/20240902-oidc-flow.png?size=medium 1.5x, https://travisbikkle.github.io/images/posts/20240902-oidc-flow.png?size=large 2x" data-title="img.png" style="--width: 1256px;--aspect-ratio: 1256 / 1234;background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/p>
+&lt;p>TODO&lt;/p>
+&lt;h2 id="附录" class="heading-element">&lt;span>附录&lt;/span>
+ &lt;a href="#%e9%99%84%e5%bd%95" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h2>&lt;h3 id="oauth2-的四个角色httpswwwrfc-editororgrfcrfc6749section-11" class="heading-element">&lt;span>&lt;a href="https://www.rfc-editor.org/rfc/rfc6749#section-1.1"target="_blank" rel="external nofollow noopener noreferrer">OAuth2 的四个角色&lt;i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true">&lt;/i>&lt;/a>&lt;/span>
+ &lt;a href="#oauth2-%e7%9a%84%e5%9b%9b%e4%b8%aa%e8%a7%92%e8%89%b2httpswwwrfc-editororgrfcrfc6749section-11" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h3>&lt;p>以&lt;code>张三登录微博&lt;/code>举例：&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>resource owner（简称&lt;code>RO&lt;/code>）:&lt;/p>
+&lt;p>存在数据库中的用户信息（protected resource）不属于你，属于的是每个用户，这些用户就是 resource owner，他有权、有能力决定授权这些资源。&lt;/p>
+&lt;p>也就是&lt;code>张三&lt;/code>。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>resource server（简称&lt;code>RS&lt;/code>）:&lt;/p>
+&lt;p>包含各种 api 接口，但最重要的是能够接收 access_token，如果 token 正确，返回 protected resource。&lt;/p>
+&lt;p>也就是&lt;code>你登录微博后能看到的那些东西所在的服务器&lt;/code>。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>client:&lt;/p>
+&lt;p>代表用户 resource owner 请求这些信息的程序&lt;/p>
+&lt;p>也就是&lt;code>手机里的微博APP&lt;/code>。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>authorization server（简称&lt;code>AS&lt;/code>）:&lt;/p>
+&lt;p>用户认证后，发放 access_token 给客户端&lt;/p>
+&lt;p>也就是&lt;code>微博用户授权模块&lt;/code>。&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;h3 id="通用流程" class="heading-element">&lt;span>通用流程&lt;/span>
+ &lt;a href="#%e9%80%9a%e7%94%a8%e6%b5%81%e7%a8%8b" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h3>&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-text" data-lang="text">&lt;span class="line">&lt;span class="cl"> +--------+ +---------------+
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> | |--(A)---需要访问加密资源，请登录--&amp;gt;| Resource |
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> | | | Owner |
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> | |&amp;lt;-(B)--------- 同意 -----------| |
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> | | +---------------+
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> | |
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> | | +---------------+
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> | |--(C)---- 跳转授权服务器登录 ----&amp;gt;| Authorization |
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> | Client | | Server |
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> | |&amp;lt;-(D)------- 返回令牌 ----------| |
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> | | +---------------+
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> | |
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> | | +---------------+
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> | |--(E)-- 拿到令牌了，请求资源 ----&amp;gt;| Resource |
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> | | | Server |
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> | |&amp;lt;-(F)---------给你-------------| |
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> +--------+ +---------------+
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> 图表 1: 抽象流程&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ul>
+&lt;li>
+&lt;p>在 B C 这两步，上面的图是抽象的，抽象的意思，就是它只定义了框架，但是没有细节。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>D 步返回的令牌是什么？是授权码，还是access_token？&lt;/p>
+&lt;p>是access_token，因为这个图是抽象的，不涉及具体的实现模式。它只是告诉你，在这一步 client 和 Authorization Server 交互的最终目的，是为了拿到 access_token。&lt;/p>
+&lt;p>而所谓的授权码，是在 B C 两步之间的中间产物。&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;p>&lt;strong>关于 B C 两步的实现，有大家耳熟能详的四种grant_type，见下文&lt;/strong>&lt;/p>
+&lt;h3 id="细分-oauth2-的四种模式的流程httpswwwrfc-editororgrfcrfc6749section-12" class="heading-element">&lt;span>&lt;a href="https://www.rfc-editor.org/rfc/rfc6749#section-1.2"target="_blank" rel="external nofollow noopener noreferrer">细分 OAuth2 的四种模式的流程&lt;i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true">&lt;/i>&lt;/a>&lt;/span>
+ &lt;a href="#%e7%bb%86%e5%88%86-oauth2-%e7%9a%84%e5%9b%9b%e7%a7%8d%e6%a8%a1%e5%bc%8f%e7%9a%84%e6%b5%81%e7%a8%8bhttpswwwrfc-editororgrfcrfc6749section-12" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h3>&lt;h4 id="authorization-coderesponse_typecodehttpswwwrfc-editororgrfcrfc6749section-131" class="heading-element">&lt;span>&lt;a href="https://www.rfc-editor.org/rfc/rfc6749#section-1.3.1"target="_blank" rel="external nofollow noopener noreferrer">Authorization Code(response_type=code)&lt;i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true">&lt;/i>&lt;/a>&lt;/span>
+ &lt;a href="#authorization-coderesponse_typecodehttpswwwrfc-editororgrfcrfc6749section-131" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h4>&lt;p>以&lt;code>张三登录 IDEA&lt;/code>为例（如果你不使用JetBrains的产品，你可以类比VSCode中登录GitHub或微软账号。注意他们可能使用的是 Implicit 模式，但是不用在意这些细节，对于我们理解授权码模式没有影响），IDEA（Client）会打开一个网页（Authorization Server），让张三登录。&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>&lt;strong>步骤A&lt;/strong>: 在本例中，IDEA没有直接问张三要密码，而是打开 JetBrains 的网站要张三登录。&lt;/p>
+&lt;p>网站的地址形如：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">https://auth_server.com/oauth2/authorize?client_id=客户端ID&amp;amp;redirect_uri=客户端回调地址&amp;amp;response_type=code&amp;amp;scope=权限范围&amp;amp;state=一串随机字符串&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>一个 RS 的 SecurityFilterChain 很有可能写了这些代码：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-java" data-lang="java">&lt;span class="line">&lt;span class="cl">&lt;span class="n">http&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="na">authorizeHttpRequests&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">authorizeRequests&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">...)&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> 		&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="na">oauth2ResourceServer&lt;/span>&lt;span class="p">(...)&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> 		&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="na">exceptionHandling&lt;/span>&lt;span class="p">((&lt;/span>&lt;span class="n">e&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">e&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="na">defaultAuthenticationEntryPointFor&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="k">new&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">LoginUrlRedirectBuilder&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;/login&amp;#34;&lt;/span>&lt;span class="p">),&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">new&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">MediaTypeRequestMatcher&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">MediaType&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="na">TEXT_HTML&lt;/span>&lt;span class="p">)))&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>这段代码在请求资源但是其实没登录的时候，会将你重定向到登录界面。这个 LoginUrlRedirectBuilder 是我重写的，用于实现动态获取 client_id，你可以使用&lt;a href="https://docs.spring.io/spring-authorization-server/reference/getting-started.html#defining-required-components"target="_blank" rel="external nofollow noopener noreferrer">官网文档&lt;i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true">&lt;/i>&lt;/a>中的 &lt;code>LoginUrlAuthenticationEntryPoint&lt;/code>。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>步骤B+步骤C&lt;/strong>：张三成功登录，并且因为张三只在&lt;code>Authorization Server&lt;/code>输入了密码，Client感知不到，因此是安全的。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>仍然是步骤C&lt;/strong>: 登录成功后，&lt;code>Authorization Server&lt;/code>会给张三的 IDEA 发送一个授权码，所以这叫授权码模式。如果注册的客户端要求用户必须点同意授权才可以跳转，则会进入确认授权界面：
+代码来源：&lt;a href="https://github.com/spring-projects/spring-authorization-server/blob/5b7e81538e57bd92f8ccb7bb2af347489475a1fb/oauth2-authorization-server/src/main/java/org/springframework/security/oauth2/server/authorization/authentication/OAuth2AuthorizationCodeRequestAuthenticationProvider.java#L221"target="_blank" rel="external nofollow noopener noreferrer">OAuth2AuthorizationCodeRequestAuthenticationProvider.java&lt;i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true">&lt;/i>&lt;/a>&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-java" data-lang="java">&lt;span class="line">&lt;span class="cl">&lt;span class="w">	&lt;/span>&lt;span class="n">OAuth2AuthorizationConsent&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">currentAuthorizationConsent&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">this&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="na">authorizationConsentService&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="c1">// 一般会自己实现一个将用户同意信息放入 redis 的 authorizationConsentService&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> 		&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="na">findById&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">registeredClient&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="na">getId&lt;/span>&lt;span class="p">(),&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">principal&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="na">getName&lt;/span>&lt;span class="p">());&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> 	&lt;/span>&lt;span class="k">if&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">currentAuthorizationConsent&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">!=&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="kc">null&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">{&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> 		&lt;/span>&lt;span class="n">authenticationContextBuilder&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="na">authorizationConsent&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">currentAuthorizationConsent&lt;/span>&lt;span class="p">);&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> 	&lt;/span>&lt;span class="p">}&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> 	&lt;/span>&lt;span class="k">if&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="k">this&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="na">authorizationConsentRequired&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="na">test&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">authenticationContextBuilder&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="na">build&lt;/span>&lt;span class="p">()))&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">{&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="c1">// 判断是否需要显示同意授权界面&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> 		&lt;/span>&lt;span class="k">if&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">promptValues&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="na">contains&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">OidcPrompts&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="na">NONE&lt;/span>&lt;span class="p">))&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">{&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="c1">// OIDC 无需同意授权&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> 			&lt;/span>&lt;span class="c1">// Return an error instead of displaying the consent page&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> 			&lt;/span>&lt;span class="n">throwError&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;consent_required&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s">&amp;#34;prompt&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">authorizationCodeRequestAuthentication&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">registeredClient&lt;/span>&lt;span class="p">);&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> 		&lt;/span>&lt;span class="p">}&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>而同意授权界面的访问地址在你SecurityFilterChain中定义，如：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-java" data-lang="java">&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// @formatter:off&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="n">http&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="na">with&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">authorizationServerConfigurer&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> 				&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="na">authorizationEndpoint&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">authorizationEndpoint&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">authorizationEndpoint&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="na">consentPage&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;/authorize_confirm&amp;#34;&lt;/span>&lt;span class="p">)),&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">Customizer&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="na">withDefaults&lt;/span>&lt;span class="p">())&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="o">//&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nd">@formatter&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="n">on&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>仍然是步骤C&lt;/strong>：IDEA 拿到授权码，发送 rest 请求，带着授权码向 &lt;code>Authorization Server&lt;/code> 请求令牌，具体来讲，是access_token。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>此时才到步骤 D，返回令牌。&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;p>此时的流程变更为：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-text" data-lang="text">&lt;span class="line">&lt;span class="cl"> +--------+ +---------------+
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> | |--(A)----要用该功能，需要登录----&amp;gt;| Resource |
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> | | | Owner |
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> | |&amp;lt;-(B)-------- 去登录 -----------| |
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> | | +---------------+
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> | |
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> | | +---------------+
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> | |--(B)---- 跳转授权服务器 -----&amp;gt;| Authorization | b.com/oauth2/authorize...redirect_uri=a.com/callback
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> | Client |&amp;lt;-(C)-----登录成功返回授权码---- | Server | a.com/callback&amp;amp;code=xyz
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> | |--(C)---- 拿授权码获取令牌 ----&amp;gt;| |
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> | |&amp;lt;-(D)------- 返回令牌 --------- +---------------+
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> | |
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> | | +---------------+
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> | |--(E)-- 拿到令牌了，请求资源 ----&amp;gt;| Resource |
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> | | | Server |
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> | |&amp;lt;-(F)---------给你-------------| |
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> +--------+ +---------------+
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> 图表 2: 授权码的实现流程&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h5 id="请求-url-的构成" class="heading-element">&lt;span>请求 url 的构成&lt;/span>
+ &lt;a href="#%e8%af%b7%e6%b1%82-url-%e7%9a%84%e6%9e%84%e6%88%90" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h5>&lt;p>&lt;em>client_id&lt;/em> 会被用来在 Authorization Server 验证，是否是合法的客户端：你也不想你开发了一个认证服务器，所有人都可以用吧？你会选择只允许你自己心爱的 app 来用，不是吗？&lt;/p>
+&lt;p>至于如何验证是否是合法的客户端，这个随意。你可以在管理后台或数据库、application.yml、动态配置等中写好白名单，其它一概不允许访问。&lt;/p>
+&lt;p>&lt;code>scope&lt;/code>，就是本次客户端请求的权限。scope 容易和另外一个概念搞混，claim。这里先简单写一下，具体要到代码中见真章，只需要记住：&lt;/p>
+&lt;p>scope 一般长这样：&amp;ldquo;read:order&amp;rdquo;（允许读取订单）, &amp;ldquo;openid&amp;rdquo;（OIDC预留）, &amp;ldquo;only_allow_read_A&amp;rdquo;, &amp;ldquo;&amp;ldquo;only_allow_read_B&amp;rdquo; 等等，而 claim 会作为结果以键值对存在：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">&amp;#34;name&amp;#34;: &amp;#34;Travis Bikkle&amp;#34;,
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&amp;#34;nickname&amp;#34;: &amp;#34;tb&amp;#34;,
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&amp;#34;updated_at&amp;#34;: &amp;#34;2042-03-30T15:13:40.474Z&amp;#34;,
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&amp;#34;email&amp;#34;: &amp;#34;this_is_not_my@email.com&amp;#34;,&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>如果开发过 client，对接过 github 服务的同学，还会知道，你应该在 github 的开发者设置中，事先注册好自己的 client（OAuth App），除了生成 client_id，还要填写好这个 client 的回调地址。&lt;/p>
+&lt;p>&lt;img loading="lazy" src="https://travisbikkle.github.io/images/posts/oauth2/redirect_uri_on_github.png" alt="img_1.png" srcset="https://travisbikkle.github.io/images/posts/oauth2/redirect_uri_on_github.png?size=small, https://travisbikkle.github.io/images/posts/oauth2/redirect_uri_on_github.png?size=medium 1.5x, https://travisbikkle.github.io/images/posts/oauth2/redirect_uri_on_github.png?size=large 2x" data-title="img_1.png" style="--width: 1603px;--aspect-ratio: 1603 / 1005;background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/p>
+&lt;p>细心的同学可能会发现了，既然 client 发往 AS 的请求带着回调地址，为什么在 github 注册应用的时候，还要我提供回调地址呢？AS不能根据 client 提供的回调地址直接发授权码吗？&lt;/p>
+&lt;p>你看支付宝付款，它虽然也提到了回调地址，但是不填也没事啊？支付宝可以不填回调地址，一是因为收款结果你自己不要那随便你，二是它也提供了主动请求接口去查询支付结果。但是授权码可不一样。&lt;/p>
+&lt;h5 id="为什么要填两次回调地址" class="heading-element">&lt;span>为什么要填两次回调地址&lt;/span>
+ &lt;a href="#%e4%b8%ba%e4%bb%80%e4%b9%88%e8%a6%81%e5%a1%ab%e4%b8%a4%e6%ac%a1%e5%9b%9e%e8%b0%83%e5%9c%b0%e5%9d%80" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h5>&lt;p>看段代码：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-java" data-lang="java">&lt;span class="line">&lt;span class="cl">&lt;span class="k">if&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="o">!&lt;/span>&lt;span class="n">isLoopbackAddress&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">requestedRedirect&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="na">getHost&lt;/span>&lt;span class="p">()))&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">{&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">	&lt;/span>&lt;span class="k">if&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="o">!&lt;/span>&lt;span class="n">registeredClient&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="na">getRedirectUris&lt;/span>&lt;span class="p">().&lt;/span>&lt;span class="na">contains&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">requestedRedirectUri&lt;/span>&lt;span class="p">))&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">{&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">		&lt;/span>&lt;span class="n">throwError&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">OAuth2ErrorCodes&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="na">INVALID_REQUEST&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">OAuth2ParameterNames&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="na">REDIRECT_URI&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">				&lt;/span>&lt;span class="n">authorizationCodeRequestAuthentication&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">registeredClient&lt;/span>&lt;span class="p">);&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">	&lt;/span>&lt;span class="p">}&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>这段代码节选自&lt;a href="https://github.com/spring-projects/spring-authorization-server/blob/5b7e81538e57bd92f8ccb7bb2af347489475a1fb/oauth2-authorization-server/src/main/java/org/springframework/security/oauth2/server/authorization/authentication/OAuth2AuthorizationCodeRequestAuthenticationValidator.java#L130"target="_blank" rel="external nofollow noopener noreferrer">spring-projects/spring-authorization-server&lt;i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true">&lt;/i>&lt;/a>&lt;/p>
+&lt;p>看起来，在发放授权码之前，&lt;code>authorization-server&lt;/code>在核对以下两者：&lt;/p>
+&lt;ol>
+&lt;li>客户端请求中的回调地址&lt;/li>
+&lt;li>事先在&lt;code>authorization-server&lt;/code>中注册客户端的时候填的回调地址&lt;/li>
+&lt;/ol>
+&lt;p>并且，它是用&lt;code>注册的地址.contains(传过来的回调地址)&lt;/code>这种形式来判断。&lt;/p>
+&lt;p>那么为什么要核对这个地址呢，以及为什么必须要用这种方式核对？&lt;/p>
+&lt;p>这块在下面的三个链接中都有描述。&lt;/p>
+&lt;blockquote>
+&lt;p>&lt;a href="https://datatracker.ietf.org/doc/html/draft-ietf-oauth-security-topics-22#section-3"target="_blank" rel="external nofollow noopener noreferrer">如何攻击Authorization Server以及Authorization Server必须有哪些默认实现&lt;i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true">&lt;/i>&lt;/a>
+&lt;a href="https://datatracker.ietf.org/doc/html/draft-ietf-oauth-security-topics-22#section-4.1.1"target="_blank" rel="external nofollow noopener noreferrer">授权码服务器该如何校验回调地址以及为什么&lt;i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true">&lt;/i>&lt;/a>
+&lt;a href="https://datatracker.ietf.org/doc/html/draft-ietf-oauth-security-topics-22#section-4.1.3"target="_blank" rel="external nofollow noopener noreferrer">必须用完全匹配校验回调地址&lt;i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true">&lt;/i>&lt;/a>&lt;/p>
+&lt;/blockquote>
+&lt;p>这里面讲到，攻击者可以是A1,A2,A3,A4,A5种等级，等级越高，能控制的资源、角色（上面说到的四个角色）越多，越能更多地参与到整个认证流程中来。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">A1 控制一些服务器、浏览器、开发了一些网站、程序等，用户会访问它们，攻击者借此诱导用户；有些人也会揣测授权码的规律，然后自己去兑换令牌
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">A2 会监听、篡改、仿冒、阻止任意请求，但是破解不了 tls 传输的内容
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">高端玩家进场，（代理服务器、公共热点、电信运营商，国家自助的黑客等，此时 tls 传输已经无效了，因为用户的证书可能是他们提供的）：
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">A3 攻击者可以读但是不能修改authorization response，比如注册成同样 URI 的手机应用，等等，这就是我们这一节的答案，授权码会被传给任意回调地址的话，那么他就可能传给了攻击者。
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">A4 攻击者可以读但是不能修改authorization request。
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">A5 攻击者可以获取到令牌，他们可能已经黑进了RS，或者通过社会工程控制了RO的信息、设备&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>A3 A4 A5 通常伴随着 A1 和 A2 的行为。比如一个攻击者诱导用户跳转到恶意网站发起了一个请求：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">GET /authorize?response_type=code&amp;amp;client_id=s6BhdRkqt3&amp;amp;state=9ad67f13
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &amp;amp;redirect_uri=https%3A%2F%2Fattacker.example%2F.somesite.example
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> HTTP/1.1
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Host: server.somesite.example&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>他此时是 A1. 但是他在&lt;code>attacker.example&lt;/code>接收到授权码后，将会变成A3.&lt;/p>
+&lt;p>所以 AS 不仅要确保核对回调地址，还要精准校验回调地址，确保授权码不会泄露。所以，要判断注册到AS中的&lt;code>客户端地址&lt;/code>是否包含&lt;code>请求中的地址&lt;/code>，而不是反过来。&lt;/p>
+&lt;p>那么为什么不直接判断两个字符串是否equals呢？&lt;/p>
+&lt;p>因为请求中的地址，可能需要包含一些随机值，比如state，它用来防止csrf攻击：&lt;/p>
+&lt;p>它由client传给AS，AS再原样返回回来，关联起本次请求、RO和授权码，确保了你授权给了你自己，而不是别人。&lt;/p>
+&lt;p>这就是为什么只能用包含，而不能完全精准匹配。&lt;/p>
+&lt;h4 id="implicitresponse_typetokenhttpswwwrfc-editororgrfcrfc6749section-132" class="heading-element">&lt;span>&lt;a href="https://www.rfc-editor.org/rfc/rfc6749#section-1.3.2"target="_blank" rel="external nofollow noopener noreferrer">Implicit(response_type=token)&lt;i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true">&lt;/i>&lt;/a>&lt;/span>
+ &lt;a href="#implicitresponse_typetokenhttpswwwrfc-editororgrfcrfc6749section-132" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h4>&lt;p>我没有使用过 Implicit 模式，以下内容来自 rfc6749，请谨慎识别。&lt;/p>
+&lt;p>对于没有后端服务可以与 AS 交互的应用，如纯前端浏览器项目，会略过授权码，在用户同意后，AS 会直接向 client 发放令牌。&lt;/p>
+&lt;p>这种模式下，AS 不会校验客户端，因为是浏览器应用，令牌也可能会在 URI 的锚点中（redirect.com/callback#token=xxx） 中传输，会被暴露给 RO 或其它有权限访问 user agent 的程序，注意，这里的 user agent 不仅仅指那些浏览器，它可以是任意可以发起请求的程序。&lt;/p>
+&lt;p>你可能会想，暴露给RO也就是用户本人有什么问题？记住用户本人也可能是攻击者，按照&lt;a href="https://www.rfc-editor.org/rfc/rfc6749#section-10.3"target="_blank" rel="external nofollow noopener noreferrer">规范&lt;i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true">&lt;/i>&lt;/a>，access_token（和其它任何token）必须保密存储。&lt;/p>
+&lt;p>另外，客户端应该只请求最小权限（scope）的 token，AS 根据请求的客户端（可以通过redirect_uri地址来判断），来拒绝一部分 scope 的请求，只返回给它需要的那些。&lt;/p>
+&lt;h4 id="resource-owner-passwordresponse_typepassword" class="heading-element">&lt;span>&lt;a href="">resource owner password(response_type=password)&lt;/a>&lt;/span>
+ &lt;a href="#resource-owner-passwordresponse_typepassword" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h4>&lt;p>这个是大部分应用最常见的模式，拿用户名密码换取令牌。&lt;/p>
+&lt;p>客户端发起 rest 请求：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">https://authorization_server.com/oauth2/token?
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nv">grant_type&lt;/span>&lt;span class="o">=&lt;/span>password&lt;span class="p">&amp;amp;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nv">username&lt;/span>&lt;span class="o">=&lt;/span>USERNAME&lt;span class="p">&amp;amp;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nv">password&lt;/span>&lt;span class="o">=&lt;/span>PASSWORD&lt;span class="p">&amp;amp;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nv">client_id&lt;/span>&lt;span class="o">=&lt;/span>CLIENT_ID&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>服务端直接返回 access_token，非常简单。&lt;/p>
+&lt;p>用户必须充分信任客户端，才能将用户名和密码交给客户端。&lt;/p>
+&lt;h4 id="client-credentialsresponse_typeclient_credentialshttpswwwrfc-editororgrfcrfc6749section-134" class="heading-element">&lt;span>&lt;a href="https://www.rfc-editor.org/rfc/rfc6749#section-1.3.4"target="_blank" rel="external nofollow noopener noreferrer">client credentials(response_type=client_credentials)&lt;i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true">&lt;/i>&lt;/a>&lt;/span>
+ &lt;a href="#client-credentialsresponse_typeclient_credentialshttpswwwrfc-editororgrfcrfc6749section-134" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h4>&lt;p>这种模式我也没有使用过。&lt;/p>
+&lt;p>它适用于服务端平台和平台之间的认证，并且粒度是应用级别，并不是用户级别。&lt;/p>
+&lt;p>客户端只需要传递 client_id 和 client_secret，AS将会直接发放 access_token。&lt;/p></description></item><item><title>使用 Coder 打造自己的云开发环境（在中国大陆）</title><link>https://travisbikkle.github.io/2024/08/coder-how-to/</link><pubDate>Fri, 30 Aug 2024 11:24:28 +0800</pubDate><author>zhaoyu025@gmail.com (Travis Bikkle)</author><guid>https://travisbikkle.github.io/2024/08/coder-how-to/</guid><category domain="https://travisbikkle.github.io/categories/tips/">Tips</category><description>&lt;h2 id="使用场景" class="heading-element">&lt;span>使用场景&lt;/span>
  &lt;a href="#%e4%bd%bf%e7%94%a8%e5%9c%ba%e6%99%af" class="heading-mark">
  &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
  &lt;/a>
@@ -2414,130 +2943,4 @@ Access-Control-Allow-Origin 是一个响应头，在服务端设置。&lt;/p>
 &lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;/li>
-&lt;/ol></description></item><item><title>Tauri 使用 vue-devtools</title><link>https://travisbikkle.github.io/2024/08/2024-08-05-auri/</link><pubDate>Mon, 05 Aug 2024 16:07:11 +0800</pubDate><author>zhaoyu025@gmail.com (Travis Bikkle)</author><guid>https://travisbikkle.github.io/2024/08/2024-08-05-auri/</guid><category domain="https://travisbikkle.github.io/categories/front-end/">Front-End</category><description>&lt;p>Tauri 号称不强迫开发者（un-opinionated）、不依赖具体前端框架的（agnostic）桌面应用框架，Vue又以其简单易上手的特点在开发者中非常流行。&lt;/p>
-&lt;p>Vue Devtools 是一款可以在浏览器控制台中显示 vue 程序详情的小工具。&lt;/p>
-&lt;p>今天我们将它们结合起来，演示如何在一个新项目中配置 Vue Devtools.&lt;/p>
-&lt;h2 id="前提" class="heading-element">&lt;span>前提&lt;/span>
- &lt;a href="#%e5%89%8d%e6%8f%90" class="heading-mark">
- &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
- &lt;/a>
-&lt;/h2>&lt;p>使用脚手架命令创建应用。&lt;/p>
-&lt;div class="highlight">&lt;div class="chroma">
-&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
-&lt;/span>&lt;span class="lnt">2
-&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
-&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">cargo install create-tauri-app
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">cargo create-tauri-app --rc&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
-&lt;/div>
-&lt;/div>&lt;p>或&lt;/p>
-&lt;div class="highlight">&lt;div class="chroma">
-&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
-&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
-&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">pnpm create tauri-app --rc&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
-&lt;/div>
-&lt;/div>&lt;blockquote>
-&lt;p>&lt;a href="https://v2.tauri.app/start/create-project/"target="_blank" rel="external nofollow noopener noreferrer">https://v2.tauri.app/start/create-project/&lt;i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true">&lt;/i>&lt;/a>&lt;/p>
-&lt;/blockquote>
-&lt;h2 id="安装-vue-devtools" class="heading-element">&lt;span>安装 Vue Devtools&lt;/span>
- &lt;a href="#%e5%ae%89%e8%a3%85-vue-devtools" class="heading-mark">
- &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
- &lt;/a>
-&lt;/h2>&lt;p>windows&lt;/p>
-&lt;div class="highlight">&lt;div class="chroma">
-&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
-&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
-&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-powershell" data-lang="powershell">&lt;span class="line">&lt;span class="cl">&lt;span class="nv">$env:ELECTRON_CUSTOM_DIR&lt;/span>&lt;span class="p">=&lt;/span>&lt;span class="s2">&amp;#34;&amp;#34;&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="n">npm&lt;/span> &lt;span class="n">install&lt;/span> &lt;span class="n">-g&lt;/span> &lt;span class="nv">@vue&lt;/span>&lt;span class="p">/&lt;/span>&lt;span class="n">devtools&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
-&lt;/div>
-&lt;/div>&lt;p>linux or macos&lt;/p>
-&lt;div class="highlight">&lt;div class="chroma">
-&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
-&lt;/span>&lt;span class="lnt">2
-&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
-&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">&lt;span class="nb">export&lt;/span> &lt;span class="nv">ELECTRON_CUSTOM_DIR&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">npm install -g @vue/devtools&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
-&lt;/div>
-&lt;/div>&lt;h2 id="使用-vue-devtools" class="heading-element">&lt;span>使用 Vue Devtools&lt;/span>
- &lt;a href="#%e4%bd%bf%e7%94%a8-vue-devtools" class="heading-mark">
- &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
- &lt;/a>
-&lt;/h2>&lt;h3 id="启动-vue-devtools" class="heading-element">&lt;span>启动 Vue Devtools&lt;/span>
- &lt;a href="#%e5%90%af%e5%8a%a8-vue-devtools" class="heading-mark">
- &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
- &lt;/a>
-&lt;/h3>&lt;div class="highlight">&lt;div class="chroma">
-&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
-&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
-&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">vue-devtools&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
-&lt;/div>
-&lt;/div>&lt;p>或将该命令加入到 package.json 中&lt;/p>
-&lt;div class="highlight">&lt;div class="chroma">
-&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
-&lt;/span>&lt;span class="lnt">2
-&lt;/span>&lt;span class="lnt">3
-&lt;/span>&lt;span class="lnt">4
-&lt;/span>&lt;span class="lnt">5
-&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
-&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-json" data-lang="json">&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;scripts&amp;#34;&lt;/span>&lt;span class="err">:&lt;/span> &lt;span class="p">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="err">...&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;vue:dev-tools&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;vue-devtools&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="err">...&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
-&lt;/div>
-&lt;/div>&lt;h3 id="引入-vue-devtools" class="heading-element">&lt;span>引入 Vue Devtools&lt;/span>
- &lt;a href="#%e5%bc%95%e5%85%a5-vue-devtools" class="heading-mark">
- &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
- &lt;/a>
-&lt;/h3>&lt;p>在 index.html 中引入。&lt;/p>
-&lt;div class="highlight">&lt;div class="chroma">
-&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
-&lt;/span>&lt;span class="lnt"> 2
-&lt;/span>&lt;span class="lnt"> 3
-&lt;/span>&lt;span class="lnt"> 4
-&lt;/span>&lt;span class="lnt"> 5
-&lt;/span>&lt;span class="lnt"> 6
-&lt;/span>&lt;span class="lnt"> 7
-&lt;/span>&lt;span class="lnt"> 8
-&lt;/span>&lt;span class="lnt"> 9
-&lt;/span>&lt;span class="lnt">10
-&lt;/span>&lt;span class="lnt">11
-&lt;/span>&lt;span class="lnt">12
-&lt;/span>&lt;span class="lnt">13
-&lt;/span>&lt;span class="lnt">14
-&lt;/span>&lt;span class="lnt">15
-&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
-&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-html" data-lang="html">&lt;span class="line">&lt;span class="cl">&lt;span class="cp">&amp;lt;!doctype html&amp;gt;&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">html&lt;/span> &lt;span class="na">lang&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;en&amp;#34;&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">head&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">meta&lt;/span> &lt;span class="na">charset&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;UTF-8&amp;#34;&lt;/span> &lt;span class="p">/&amp;gt;&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">link&lt;/span> &lt;span class="na">rel&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;icon&amp;#34;&lt;/span> &lt;span class="na">type&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;image/svg+xml&amp;#34;&lt;/span> &lt;span class="na">href&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;/vite.svg&amp;#34;&lt;/span> &lt;span class="p">/&amp;gt;&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">meta&lt;/span> &lt;span class="na">name&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;viewport&amp;#34;&lt;/span> &lt;span class="na">content&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;width=device-width, initial-scale=1.0&amp;#34;&lt;/span> &lt;span class="p">/&amp;gt;&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">title&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>Tauri + Vue + Typescript App&lt;span class="p">&amp;lt;/&lt;/span>&lt;span class="nt">title&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;/&lt;/span>&lt;span class="nt">head&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">body&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">div&lt;/span> &lt;span class="na">id&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;app&amp;#34;&lt;/span>&lt;span class="p">&amp;gt;&amp;lt;/&lt;/span>&lt;span class="nt">div&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">script&lt;/span> &lt;span class="na">type&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;module&amp;#34;&lt;/span> &lt;span class="na">src&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;/src/main.ts&amp;#34;&lt;/span>&lt;span class="p">&amp;gt;&amp;lt;/&lt;/span>&lt;span class="nt">script&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;&lt;/span>&lt;span class="nt">script&lt;/span> &lt;span class="na">src&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s">&amp;#34;http://localhost:8098&amp;#34;&lt;/span>&lt;span class="p">&amp;gt;&amp;lt;/&lt;/span>&lt;span class="nt">script&lt;/span>&lt;span class="p">&amp;gt;&lt;/span> &lt;span class="c">&amp;lt;!-- 增加这一行 --&amp;gt;&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">&amp;lt;/&lt;/span>&lt;span class="nt">body&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">&amp;lt;/&lt;/span>&lt;span class="nt">html&lt;/span>&lt;span class="p">&amp;gt;&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
-&lt;/div>
-&lt;/div>&lt;h2 id="查看" class="heading-element">&lt;span>查看&lt;/span>
- &lt;a href="#%e6%9f%a5%e7%9c%8b" class="heading-mark">
- &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
- &lt;/a>
-&lt;/h2>&lt;p>此时，就可以在 tauri 中使用 vue-devtools 了。&lt;/p>
-&lt;p>&lt;img loading="lazy" src="https://travisbikkle.github.io/images/posts/20240805-check_vue_dev_tools.png" alt="check_vue_dev_tools.png" srcset="https://travisbikkle.github.io/images/posts/20240805-check_vue_dev_tools.png?size=small, https://travisbikkle.github.io/images/posts/20240805-check_vue_dev_tools.png?size=medium 1.5x, https://travisbikkle.github.io/images/posts/20240805-check_vue_dev_tools.png?size=large 2x" data-title="check_vue_dev_tools.png" style="--width: 2479px;--aspect-ratio: 2479 / 799;background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/p></description></item></channel></rss>
+&lt;/ol></description></item></channel></rss>
